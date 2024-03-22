@@ -6,7 +6,322 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 22 Mar 2024 20:27:09 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 22 Mar 2024 20:39:03 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>概率论</title>
+        <link>https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/</link>
+        <pubDate>Fri, 22 Mar 2024 20:39:03 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/cover.png" alt="Featured image of post 概率论" /&gt;&lt;p&gt;我们做&lt;strong&gt;随机实验(ramdom trial)&lt;/strong&gt;，记为 $E$ ，把实验的所有结果的集合叫作&lt;strong&gt;样本空间(sample sapce)&lt;/strong&gt;，记为 $\Omega$ 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;随机事件(random event)&lt;/strong&gt; 是样本空间的子集，简单称为&lt;strong&gt;事件&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;频率-p&#34;&gt;频率 $P$&lt;/h3&gt;
+&lt;p&gt;那么，我们假设在同一条件下进行了 $n$ 次实验，再假设随机事件 $A$ 在实验中发生了 $k$ 次，那么就事件的&lt;strong&gt;频率&lt;/strong&gt;为 :&lt;/p&gt;
+&lt;p&gt;$$
+f_n(A)=\frac{k}{n}
+$$&lt;/p&gt;
+&lt;p&gt;当 $n$ 很大的时候，频率 $\frac{k}{n}$ 趋于某一数值 $p$ ，则称 $p$ 为事件 $A$ 发生的&lt;strong&gt;概率&lt;/strong&gt;，记为：&lt;/p&gt;
+&lt;p&gt;$$
+P(A) = p
+$$&lt;/p&gt;
+&lt;p&gt;公理化的定义是说，$P(A)$ 满足以下公理：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;非负性：$P(A)\geq0$&lt;/li&gt;
+&lt;li&gt;规范性：$P(\Omega) = 1$&lt;/li&gt;
+&lt;li&gt;可数可加性： $P(\cup ^ {\infty} _ {n=1} A_n ) = \sum ^ {\infty} _ {n=1} P(A_n) $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;条件概率-pab--fracpabpb&#34;&gt;条件概率 $P(A|B) = \frac{P(AB)}{P(B)}$&lt;/h3&gt;
+&lt;p&gt;我们说，在事件 $B$ 发生的前提下，事件 $A$ 发生的&lt;strong&gt;条件概率&lt;/strong&gt;为:
+$$
+P(A|B) = \frac{P(AB)}{P(B)}
+$$
+条件概率 $P(A|B)$ 满足以下公理：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对任一事件 $A$ ，有 $P(A|B) \geq 0$&lt;/li&gt;
+&lt;li&gt;$P(\Omega|B) = 1$&lt;/li&gt;
+&lt;li&gt;$P( \cup ^ {\infty} _ {i=1} A_i|B) = \sum^{ \infty } _ {i=1} P(A_i|B)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;另外，&lt;strong&gt;乘法公式&lt;/strong&gt;是说，当 $P(B) &amp;gt; 0$ 时，则有：
+$$
+P(AB) = P(B)P(A|B)
+$$&lt;/p&gt;
+&lt;h3 id=&#34;全概率公式-pbsumn_i1pa_ipba_i&#34;&gt;全概率公式 $P(B)=\sum^{n}_{i=1}P(A_i)P(B|A_i)$&lt;/h3&gt;
+&lt;p&gt;我们定义 $A_1, A_2, &amp;hellip;, A_n$ 为样本空间 $\Omega$ 的一个&lt;strong&gt;划分&lt;/strong&gt;，它满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;划分中的任两个事件之间不相容&lt;/li&gt;
+&lt;li&gt;划分中的所有事件的总和构成样本空间&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么，这里我们认定事件 $B$ 为样本空间  $\Omega$  中的任意事件，因为 $P(B\Omega) = P(B) * P(\Omega) = P(B) * 1 = P(B) $，所以这里给出公式推理：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+P(B) &amp;amp;= P(B\Omega)= P(B(A_1 \cup A_2 \cup \cdots \cup A_n))\\
+&amp;amp;= P(BA_1 \cup BA_2 \cup \cdots \cup BA_n) \\
+&amp;amp;= P(BA_1) + P(BA_2) + \cdots + P(BA_n) \\
+&amp;amp;= P(A_1)P(B|A_1) + P(A_2)P(B|A_2) + \cdots + P(A_n)P(B|A_n)
+\end{aligned}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;贝叶斯公式-pa_ib--fracpba_ipa_isumn_j1pba_ipa_j&#34;&gt;贝叶斯公式 $P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_i)P(A_j)}$&lt;/h3&gt;
+&lt;p&gt;贝叶斯公式由条件概率和全概率公式组合而来，推理如下：
+$$
+\begin{aligned}
+P(A_i|B) &amp;amp;= \frac{P(A_iB)}{P(B)} = \frac{P(BA_i)}{P(B)}\
+&amp;amp;= \frac{P(B|A_i)P(A_i)}{P(B)} \
+&amp;amp;= \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_j)P(A_j)}
+\end{aligned}
+$$
+一般来说，我们将划分 $A_1,A_2,&amp;hellip;,A_n$ 作为已知的结果，是说我们通过实验或者以往的信息经验之类的得到了 $P(A_j)$ 的值，所以我们称 $P(A_j)$ 为&lt;strong&gt;先验概率&lt;/strong&gt;。此外，我们称 $P(A_i|B)$ 为&lt;strong&gt;后验概率&lt;/strong&gt;，因为 $P(A_i|B)$ 是说在事件 $B$ 发生后，$A_i$ 再发生的概率。&lt;/p&gt;
+&lt;p&gt;通俗来说，就是我们通过了那么多的事件 $A_1,A_2,&amp;hellip;,A_n$ 得到了结果，也就是事件 $B$ 的概率，但是我们还想要知道这个结果，也就是事件 $B$ 发生的情况下，某个 $A_j$ 发生的概率是多少这样。&lt;/p&gt;
+&lt;h3 id=&#34;分布函数-fxpx-leq-x-&#34;&gt;分布函数 $F(x)=P\{X \leq x \}$&lt;/h3&gt;
+&lt;p&gt;我们这里给出一个函数为：
+$$
+X = X(A)
+$$
+这里，我们把样本空间  $\Omega$ 中的每一个结果，或者说每一个事件都放入函数里，得到一个实数，比如 $X_1 = X(A_1),X_2=X(A_2),\dots,X_n=X(A_n)$ 。&lt;/p&gt;
+&lt;p&gt;这样做的好处是，我们将一些实验的结果用数字进行替代，比如，我们要在一个装有红、绿、蓝小球的箱子里摸球，我们可以用数字来替代红、绿、蓝的结果，$X(红)=1,X(绿)=2，X(蓝)=3$。&lt;/p&gt;
+&lt;p&gt;因为我们的函数 $X$ 的值会随着实验的不同结果而变化，所以我们称 $X$ 函数为&lt;strong&gt;随机变量(random variable)&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;当然，我们一般用区间对 $X$ 的值进行描述，因为有时候不能将每一个值都列出来，所以我们会说随机变量 $X$ 的取值落在区间 $(x_1,x_2]$ 的概率，就是要求 $P \{ x_1\leq X \leq x_2 \}$ 的值。&lt;/p&gt;
+&lt;p&gt;求 $P\{x_1\leq X \leq x_2\}$  的值就相当于要计算 $P\{X \leq x_2\} - P\{ X \leq x_1\}$ 的值，那么就很容易知道我们其实是要研究 $P\{X \leq x \}$ 的概率问题了。因为它的值也是随着不同的 $x$ 而变化的，所以我们叫 $P\{X \leq x \}$ 为$P\{X \leq x \}$ ，这里给出它的公式：
+$$
+F(x) = P \{X \leq x \}
+$$
+分布函数有以下特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$F(x_2) - F(x_1) = P \{x_1 &amp;lt; X \leq x_2 \} &amp;gt; 0$&lt;/li&gt;
+&lt;li&gt;$0 \leq F(x) \leq1 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我们在这里对随机变量有个区分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;离散型随机变量：随机变量的取值为有限个或者可数无穷多个&lt;/li&gt;
+&lt;li&gt;连续型随机变量：随机变量的取值连续地充满某个区间&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;离散型随机变量-两点分布-x-sim-0-1&#34;&gt;离散型随机变量-两点分布 $X \sim (0-1)$&lt;/h3&gt;
+&lt;p&gt;当随机变量 $X$ 的取值只有 $x_1$ 和 $x_2$ 这两个结果时，它的分布为：&lt;/p&gt;
+&lt;div&gt;
+    $$
+    \begin{aligned}
+P\{ X=x_1 \} &amp;= p \quad , \\
+P\{ X=x_2 \} &amp;= 1 - p \quad, \quad0 &lt; p &lt; 1 \\
+\end{aligned}
+    $$
+&lt;/div&gt;
+&lt;p&gt;我们称 $X$ 服从参数为 $p$ 的&lt;strong&gt;两点分布&lt;/strong&gt;，也叫 (0-1) 分布，记作 $X \sim (0-1)$。&lt;/p&gt;
+&lt;h3 id=&#34;离散型随机变量-二项分布-xsim-bn-p&#34;&gt;离散型随机变量-二项分布 $X\sim b(n, p)$&lt;/h3&gt;
+&lt;p&gt;当随机变量 $X$ 的分布满足：
+$$
+P\{X=k\} = C_n^k p ^k(1-p)^{n-k}
+$$
+则称 $X$ 为服从参数为 $n $ , $p$ 的&lt;strong&gt;二项分布(binomial distribution)&lt;/strong&gt;，记作 $X\sim b(n, p)$。&lt;/p&gt;
+&lt;p&gt;一般我们会使用 &lt;strong&gt;泊松(Posisson)定理&lt;/strong&gt; 来进行近似计算，这里做个简单介绍。&lt;/p&gt;
+&lt;p&gt;设 $np_n = \lambda$ ，对任意非负整数有：
+$$
+\lim\limits_{x\rightarrow\infty}C^k_np^k_n(1-p)^{n-k}=\frac{\lambda^ke^{-\lambda}}{k!}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;离散型随机变量-泊松分布-x-sim-plambda&#34;&gt;离散型随机变量-泊松分布 $X \sim P(\lambda)$&lt;/h3&gt;
+&lt;p&gt;当随机变量 $X$ 的分布满足：
+$$
+P\{X=k\} = \frac{\lambda^ke^{-\lambda}}{k!} \quad,\quad k=0,1,2,\dots,
+$$
+则称 $X$ 为服从参数为 $\lambda$ 的泊松分布(poisson distribution)，记作 $X \sim P(\lambda)$，其中 $\lambda$ 为常数。&lt;/p&gt;
+&lt;h3 id=&#34;概率密度函数-fx&#34;&gt;概率密度函数 $f(x)$&lt;/h3&gt;
+&lt;p&gt;这里介绍一个概念，&lt;strong&gt;概率密度函数(density sunction)&lt;/strong&gt;。它可以用来描述随机变量 $X$ 的分布函数 $F(x)$：
+$$
+F(x) = \int^x_{\infty}f(t)dx
+$$
+它有以下特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$f(x) \geq 0$&lt;/li&gt;
+&lt;li&gt;$\int^{{+\infty}}_{-\infty}f(x)dx = 1$&lt;/li&gt;
+&lt;li&gt;$P \{ x_1 &amp;lt; X &amp;lt;x_2 \} = F(x_2) - F(x_1) = \int^{x_2}_{x_1}f(t)dx$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;连续型随机变量-均匀分布-xsim-uab&#34;&gt;连续型随机变量-均匀分布 $X\sim U(a,b)$&lt;/h3&gt;
+&lt;p&gt;当随机变量 $X$ 具有概率密度：&lt;/p&gt;
+&lt;div&gt;
+$$
+f(x)=\left\{
+\begin{aligned}
+&amp; \frac{1}{b-a},&amp; a &lt; x&lt; b, \\\
+&amp;0,&amp; 其他.
+\end{aligned}
+\right.    
+$$    
+&lt;/div&gt;
+&lt;p&gt;则称 $X$ 在区间 $(a, b)$ 上服从&lt;strong&gt;均匀分布(unniform distribution)&lt;/strong&gt;，记作 $X\sim U(a,b)$&lt;/p&gt;
+&lt;p&gt;积分求得 $X$ 的分布函数：&lt;/p&gt;
+&lt;div&gt;
+    $$
+    F(x)=\left\{
+\begin{aligned}
+&amp; 0,&amp; x &lt; a, \\\
+&amp; \frac{x-a}{b-a},&amp;a \leq x &lt; b, \\\
+&amp; 1,&amp; x \geq b.
+\end{aligned}
+\right.
+    $$
+&lt;/div&gt;
+&lt;h3 id=&#34;连续型随机变量-指数分布-xsim-elambda&#34;&gt;连续型随机变量-指数分布 $X\sim E(\lambda)$&lt;/h3&gt;
+&lt;p&gt;当随机变量 $X$ 具有概率密度：&lt;/p&gt;
+&lt;div&gt;
+$$
+f(x)=\left\{
+\begin{aligned}
+&amp; \lambda e^{-\lambda x}, &amp;x &gt; 0, \\\
+&amp;0,&amp; x \leq 0.
+\end{aligned}
+\right.    
+$$    
+&lt;/div&gt;
+&lt;p&gt;则称 $X$ 服从 $\lambda$ 的&lt;strong&gt;指数分布(exponential distribution)&lt;/strong&gt;，记作 $X\sim E(\lambda)$，其中 $\lambda$ 为常数。&lt;/p&gt;
+&lt;p&gt;积分求得 $X$ 的分布函数：&lt;/p&gt;
+&lt;div&gt;
+$$
+F(x)=\left\{
+\begin{aligned}
+&amp; 1-e^{-\lambda x},&amp; x &gt; 0, \\
+&amp; 0,&amp;x \leq 0. 
+\end{aligned}
+\right.
+$$    
+&lt;/div&gt;
+&lt;h3 id=&#34;连续型随机变量-正态分布-x-sim-nmu-sigma2&#34;&gt;连续型随机变量-正态分布 $X \sim N(\mu, \sigma^2)$&lt;/h3&gt;
+&lt;p&gt;当随机变量 $X$ 具有概率密度：
+$$
+f(x)= \frac{1}{\sqrt{2\pi}\sigma}e^{- \frac{(x-\mu)^2}{2 \sigma^2}},-\infty&amp;lt;x&amp;lt;+\infty
+$$
+则称 $X$ 服从参数为 $\mu$ , $\sigma$ 的&lt;strong&gt;正态分布(normal distribution)&lt;/strong&gt;，记作 $X \sim N(\mu, \sigma^2)$， 其中 $\mu$ 和 $\sigma (\sigma&amp;gt;0)$ 为常数。&lt;/p&gt;
+&lt;p&gt;积分求得 $X$ 的分布函数：
+$$
+F(x) = \frac{1}{\sqrt{2\pi}\sigma}\int^x_{-\infty}e^{-\frac{(t-\mu)^2}{2 \sigma^2}}dt
+$$
+特别的，当 $\mu=0,\sigma=1$时，我们称 $X$ 服从标准正态分布 $N(0,1)$，这时它的概率密度表示为：&lt;/p&gt;
+&lt;p&gt;$$
+\varphi(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{x^2}{2}}
+$$&lt;/p&gt;
+&lt;p&gt;分布函数表示为：&lt;/p&gt;
+&lt;p&gt;$$
+\phi(x)=\frac{1}{\sqrt{2\pi}} \int ^x _{-\infty} e^{\frac{t^2}{2}}dt
+$$&lt;/p&gt;
+&lt;p&gt;一般地，若 $X \sim N(\mu, \sigma^2)$ ，那么 $\frac{X-\mu}{\sigma}\sim N(0, 1)$，我们可以通过正态函数表来计算正态分布：&lt;/p&gt;
+&lt;div&gt;
+$$
+\begin{aligned}
+P \{\mu- \sigma &lt; X &lt; \mu + \sigma \} = \phi(1) - \phi(-1) = 2\phi(1) -1 = 0.6826 \\
+P \{\mu-2 \sigma &lt; X &lt; \mu + 2 \sigma \} = \phi(2) - \phi(-2) = 2\phi(2) -1 = 0.9544 \\
+P \{\mu-3 \sigma &lt; X &lt; \mu + 3 \sigma \} = \phi(3) - \phi(-3) = 2\phi(3) -1 = 0.9974 
+\end{aligned}
+$$    
+&lt;/div&gt;
+&lt;h3 id=&#34;联合分布函数-fxy--p-x-leq-x-y-leq-y&#34;&gt;联合分布函数 $F(x,y) = P{ X \leq x, Y \leq y}$&lt;/h3&gt;
+&lt;p&gt;在这里，我们考虑两个随机变量 $X(e)$ 和 $Y(e)$ 的组合。我们把 $(X(e), Y(e))$ 称为&lt;strong&gt;二维随机向量(2-dimensional random vector)&lt;/strong&gt;，简单记作 $(X, Y)$。&lt;/p&gt;
+&lt;p&gt;显然，我们可以得到二维随机向量 $(X, Y)$ 的分布函数，或者说，随机变量 $X$ 和随机变量 $Y$ 的&lt;strong&gt;联合分布函数&lt;/strong&gt;：
+$$
+F(x,y) = P\{ X \leq x, Y \leq y\}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;边缘分布函数--f_xx-f_yy&#34;&gt;边缘分布函数  $F_X(x), F_Y(y)$&lt;/h3&gt;
+&lt;p&gt;我们说到联合分布函数是二维随机变量 $(X, Y)$ 的分布函数，自然随机变量 $X$ 和 $Y$ 是有分布函数的，那么我们通过联合分布函数来求得变量 $X$ 和 $Y$ 的分布函数，就可以得二维随机变量 $(X, Y)$ 关于 $X$ 和 $Y$ 的边缘分布函数(marginal distribution function)：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+F_X(x) &amp;amp;= P\{X \leq x \} = P\{X \leq x, Y &amp;lt; +\infty \} = F(x, +\infty) \\
+F_Y(y) &amp;amp;= P\{Y \leq y \} = P\{X &amp;lt; +\infty, Y \leq y \} = F(+\infty, y)
+\end{aligned}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;数学期望-ex&#34;&gt;数学期望 $E(X)$&lt;/h3&gt;
+&lt;p&gt;我们现在知道一个离散型变量 $X$ 的分布律为：&lt;/p&gt;
+&lt;p&gt;$$
+P\{X = x_k\} = p_k, k=1,2.\dots
+$$&lt;/p&gt;
+&lt;p&gt;如果满足条件 $\sum ^ {\infty} _ {k=1} x_kp_k$ 绝对收敛，那么有&lt;strong&gt;数学期望(mathematical expectation)&lt;/strong&gt;，记作 $E(X)$，即：
+$$
+E(X) =\sum^{\infty}_{k=1}x_kp_k
+$$&lt;/p&gt;
+&lt;p&gt;当然，如果是一个连续型的随机变量 $X$ 的话，我们就假设它有概率密度函数 $f(x)$ 。&lt;/p&gt;
+&lt;p&gt;如果满足积分 $\int^{+\infty}_{-\infty}xf(x)dx$ 绝对收敛，那么同样有数学期望为：&lt;/p&gt;
+&lt;p&gt;$$
+E(X) = \int^{+\infty}_{-\infty}xf(x)dx
+$$&lt;/p&gt;
+&lt;p&gt;数学期望有一些性质：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$E(c) = c$ ，其中 $c$ 为常数；&lt;/li&gt;
+&lt;li&gt;$E(cX) = cE(X)$；&lt;/li&gt;
+&lt;li&gt;$E(X+Y) = E(X) + E(Y)$；&lt;/li&gt;
+&lt;li&gt;$E(XY) = E(X)E(Y)$，其中 $X,Y$ 相互独立。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;$(0-1)$分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;二项分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;泊松分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;均匀分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;指数分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;正态分布&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ E(X) $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ p $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ np $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ \lambda $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ \frac{a+b}{2} $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ \frac{1}{\lambda} $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ \mu $&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;方差-dx&#34;&gt;方差 $D(X)$&lt;/h3&gt;
+&lt;p&gt;数学期望描述了随机变量取值的“平均数”，而 &lt;strong&gt;方差(variance)&lt;/strong&gt; 是用来度量随机变量取值的分散程度的，记作 $D(X)$，即：
+$$
+D(X) = E[X-E(X)]^2 = E(X^2) - [E(X)]^2
+$$&lt;/p&gt;
+&lt;p&gt;其中，我们称 $\sqrt{D(X)}$ 为随机变量 $X$ 的&lt;strong&gt;标准差(standard deviation)&lt;/strong&gt;，或&lt;strong&gt;均方差(mean square deviation)&lt;/strong&gt;，记作 $ \sigma(X)$。&lt;/p&gt;
+&lt;p&gt;方差有一些性质：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$D(c) = 0$，其中 $c$ 为常数；&lt;/li&gt;
+&lt;li&gt;$D(cX) = c^2D(X)$；&lt;/li&gt;
+&lt;li&gt;$D(X±Y) = D(X) + D(Y) ±2E[(X-E(X))(Y-E(Y))]$；&lt;/li&gt;
+&lt;li&gt;$D(X±Y) = D(X) + D(Y)$，其中 $X,Y$ 相互独立。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;$(0-1)$分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;二项分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;泊松分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;均匀分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;指数分布&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;正态分布&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ D(X) $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ p(1-p) $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ np(1-p) $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ \lambda $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ \frac{(a+b)^2}{12} $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ \frac{1}{\lambda^2} $&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;$ \sigma^2 $&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;协方差--covx-y&#34;&gt;协方差  $cov(X, Y)$&lt;/h3&gt;
+&lt;p&gt;数学期望和方差反映的都是随机变量自身的内容，这里我们考虑随机变量相互之间的影响，一般会使用&lt;strong&gt;协方差(convariance)&lt;/strong&gt; 来描述，即：&lt;/p&gt;
+&lt;p&gt;$$
+cov(X, Y) = E{[X-E(X)][Y-E(Y)]}
+$$
+其中，我们称  $\frac{cov(X, Y)}{\sqrt{D(X)}{\sqrt{D(Y)}}}$  为随机变量 $X,Y$ 的&lt;strong&gt;相关系数(correlation corfficient)&lt;/strong&gt;，或标准协方差(standard convariance)，记作 $\rho_{XY} $，即：&lt;/p&gt;
+&lt;p&gt;$$
+\rho_{XY}  =\frac{cov(X, Y)}{\sqrt{D(X)}{\sqrt{D(Y)}}}
+$$&lt;/p&gt;
+&lt;p&gt;一些实用的计算公式：&lt;/p&gt;
+&lt;p&gt;$$
+D(X±Y) = D(X) + D(Y) ± 2cov(X, Y) \\
+cov(X, Y) = E(XY) - E(X)E(Y)
+$$&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>MySQL</title>
         <link>https://yikuanzz.github.io/2024/mysql/</link>
         <pubDate>Fri, 22 Mar 2024 15:51:46 +0800</pubDate>

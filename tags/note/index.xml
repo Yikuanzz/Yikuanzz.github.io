@@ -6,8 +6,15 @@
     <description>Recent content in Note on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 22 Mar 2024 15:51:46 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 22 Mar 2024 20:39:03 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/tags/note/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>概率论</title>
+      <link>https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/</link>
+      <pubDate>Fri, 22 Mar 2024 20:39:03 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/</guid>
+      <description>我们做随机实验(ramdom trial)，记为 $E$ ，把实验的所有结果的集合叫作样本空间(sample sapce)，记为 $\Omega$ 。 随机事件(rando</description>
+    </item>
     <item>
       <title>MySQL</title>
       <link>https://yikuanzz.github.io/2024/mysql/</link>
