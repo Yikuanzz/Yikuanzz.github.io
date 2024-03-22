@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL on Yikuanzz</title>
+    <link>https://yikuanzz.github.io/tags/mysql/</link>
+    <description>Recent content in MySQL on Yikuanzz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Mar 2024 15:51:46 +0800</lastBuildDate>
+    <atom:link href="https://yikuanzz.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL</title>
+      <link>https://yikuanzz.github.io/2024/mysql/</link>
+      <pubDate>Fri, 22 Mar 2024 15:51:46 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/mysql/</guid>
+      <description>基础篇 MySQL概述 数据库相关概念 数据库（Data Base）：存储数据的仓库，并且是有组织的存储。 数据库管理系统（Data Base Management System）</description>
+    </item>
+  </channel>
+</rss>
