@@ -3,37 +3,18 @@
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<meta name='description' content='开发技术革新 CGI 通用网关接口 通用网关接口（Common Gateway Interface, CGI） 是一种Web服务器与外部应用程序之间进行数据交互的标准协议。 背景： 早期的We'><title>开发技术和模式</title>
 
-    
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<link rel='canonical' href='https://yikuanzz.github.io/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/'>
 
-    
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
-            ]
-        });
-    });
-</script>
-        <meta name='description' content='我们做随机实验(ramdom trial)，记为 $E$ ，把实验的所有结果的集合叫作样本空间(sample sapce)，记为 $\Omega$ 。 随机事件(rando'><title>概率论</title>
-
-<link rel='canonical' href='https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/'>
-
-<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='概率论'>
-<meta property='og:description' content='我们做随机实验(ramdom trial)，记为 $E$ ，把实验的所有结果的集合叫作样本空间(sample sapce)，记为 $\Omega$ 。 随机事件(rando'>
-<meta property='og:url' content='https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/'>
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='开发技术和模式'>
+<meta property='og:description' content='开发技术革新 CGI 通用网关接口 通用网关接口（Common Gateway Interface, CGI） 是一种Web服务器与外部应用程序之间进行数据交互的标准协议。 背景： 早期的We'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/'>
 <meta property='og:site_name' content='Yikuanzz'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='数学' /><meta property='article:tag' content='Note' /><meta property='article:published_time' content='2024-03-22T20:39:03&#43;08:00'/><meta property='article:modified_time' content='2024-03-22T20:39:03&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/cover.png' />
-<meta name="twitter:title" content="概率论">
-<meta name="twitter:description" content="我们做随机实验(ramdom trial)，记为 $E$ ，把实验的所有结果的集合叫作样本空间(sample sapce)，记为 $\Omega$ 。 随机事件(rando"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/cover.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='开发' /><meta property='article:published_time' content='2024-03-23T20:46:07&#43;08:00'/><meta property='article:modified_time' content='2024-03-23T20:46:07&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/cover.png' />
+<meta name="twitter:title" content="开发技术和模式">
+<meta name="twitter:description" content="开发技术革新 CGI 通用网关接口 通用网关接口（Common Gateway Interface, CGI） 是一种Web服务器与外部应用程序之间进行数据交互的标准协议。 背景： 早期的We"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/cover.png' />
     <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
 <style>
     :root {
@@ -323,13 +304,13 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/">
-                <img src="/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/cover_hu8470374154b02d0cb208d1f67de517c1_1238996_800x0_resize_box_3.png"
-                        srcset="/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/cover_hu8470374154b02d0cb208d1f67de517c1_1238996_800x0_resize_box_3.png 800w, /2024/%E6%A6%82%E7%8E%87%E8%AE%BA/cover_hu8470374154b02d0cb208d1f67de517c1_1238996_1600x0_resize_box_3.png 1600w"
+            <a href="/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/">
+                <img src="/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/cover_hu7d4fceec4d5a30dfc826354c0be764cc_547485_800x0_resize_box_3.png"
+                        srcset="/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/cover_hu7d4fceec4d5a30dfc826354c0be764cc_547485_800x0_resize_box_3.png 800w, /2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/cover_hu7d4fceec4d5a30dfc826354c0be764cc_547485_1600x0_resize_box_3.png 1600w"
                         width="800" 
                         height="420" 
                         loading="lazy"
-                        alt="Featured image of post 概率论" />
+                        alt="Featured image of post 开发技术和模式" />
                 
             </a>
         </div>
@@ -339,15 +320,15 @@
     
     <header class="article-category">
         
-            <a href="/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" style="background-color: #e13d3d; color: #fff;">
-                数学与物理
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" style="background-color: #FF8C00; color: #fff;">
+                技术与效率
             </a>
         
     </header>
     
 
     <h2 class="article-title">
-        <a href="/2024/%E6%A6%82%E7%8E%87%E8%AE%BA/">概率论</a>
+        <a href="/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/">开发技术和模式</a>
     </h2>
 
     
@@ -365,7 +346,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Mar 22, 2024</time>
+                <time class="article-time--published">Mar 23, 2024</time>
             </div>
         
 
@@ -380,7 +361,7 @@
 
 
                 <time class="article-words">
-                    3246字
+                    3181字
                 </time>
             </div>
         
@@ -392,313 +373,236 @@
     <section class="article-content">
     
     
-    <p>我们做<strong>随机实验(ramdom trial)</strong>，记为 $E$ ，把实验的所有结果的集合叫作<strong>样本空间(sample sapce)</strong>，记为 $\Omega$ 。</p>
-<p><strong>随机事件(random event)</strong> 是样本空间的子集，简单称为<strong>事件</strong>。</p>
-<h3 id="频率-p">频率 $P$</h3>
-<p>那么，我们假设在同一条件下进行了 $n$ 次实验，再假设随机事件 $A$ 在实验中发生了 $k$ 次，那么就事件的<strong>频率</strong>为 :</p>
-<p>$$
-f_n(A)=\frac{k}{n}
-$$</p>
-<p>当 $n$ 很大的时候，频率 $\frac{k}{n}$ 趋于某一数值 $p$ ，则称 $p$ 为事件 $A$ 发生的<strong>概率</strong>，记为：</p>
-<p>$$
-P(A) = p
-$$</p>
-<p>公理化的定义是说，$P(A)$ 满足以下公理：</p>
+    <h2 id="开发技术革新">开发技术革新</h2>
+<h3 id="cgi-通用网关接口">CGI 通用网关接口</h3>
+<p><strong>通用网关接口（Common Gateway Interface, CGI）</strong> 是一种Web服务器与外部应用程序之间进行数据交互的标准协议。</p>
+<ol>
+<li><strong>背景</strong>：
 <ul>
-<li>非负性：$P(A)\geq0$</li>
-<li>规范性：$P(\Omega) = 1$</li>
-<li>可数可加性： $P(\cup ^ {\infty} _ {n=1} A_n ) = \sum ^ {\infty} _ {n=1} P(A_n) $</li>
+<li>早期的Web服务器只能响应浏览器发来的HTTP静态资源请求，并将存储在服务器中的静态资源返回给浏览器。</li>
+<li>随着Web技术的发展，动态技术逐渐出现，但Web服务器不能直接运行动态脚本。</li>
+<li>为了解决Web服务器与外部应用程序（即CGI程序）之间的数据互通问题，CGI（通用网关接口）应运而生。</li>
 </ul>
-<h3 id="条件概率-pab--fracpabpb">条件概率 $P(A|B) = \frac{P(AB)}{P(B)}$</h3>
-<p>我们说，在事件 $B$ 发生的前提下，事件 $A$ 发生的<strong>条件概率</strong>为:
-$$
-P(A|B) = \frac{P(AB)}{P(B)}
-$$
-条件概率 $P(A|B)$ 满足以下公理：</p>
+</li>
+<li><strong>工作原理</strong>：
 <ul>
-<li>对任一事件 $A$ ，有 $P(A|B) \geq 0$</li>
-<li>$P(\Omega|B) = 1$</li>
-<li>$P( \cup ^ {\infty} _ {i=1} A_i|B) = \sum^{ \infty } _ {i=1} P(A_i|B)$</li>
-</ul>
-<p>另外，<strong>乘法公式</strong>是说，当 $P(B) &gt; 0$ 时，则有：
-$$
-P(AB) = P(B)P(A|B)
-$$</p>
-<h3 id="全概率公式-pbsumn_i1pa_ipba_i">全概率公式 $P(B)=\sum^{n}_{i=1}P(A_i)P(B|A_i)$</h3>
-<p>我们定义 $A_1, A_2, &hellip;, A_n$ 为样本空间 $\Omega$ 的一个<strong>划分</strong>，它满足：</p>
+<li>CGI允许Web服务器获取客户端提交的信息，并将其传递给服务端的CGI程序进行处理，然后将结果返回给客户端。</li>
+<li>CGI通信系统由两部分组成:
 <ul>
-<li>划分中的任两个事件之间不相容</li>
-<li>划分中的所有事件的总和构成样本空间</li>
+<li><strong>HTML页面</strong>：显示在用户浏览器上的页面。</li>
+<li><strong>运行在服务器上的CGI程序</strong>：处理客户端提交的数据。</li>
 </ul>
-<p>那么，这里我们认定事件 $B$ 为样本空间  $\Omega$  中的任意事件，因为 $P(B\Omega) = P(B) * P(\Omega) = P(B) * 1 = P(B) $，所以这里给出公式推理：</p>
-<p>$$
-\begin{aligned}
-P(B) &amp;= P(B\Omega)= P(B(A_1 \cup A_2 \cup \cdots \cup A_n))\\
-&amp;= P(BA_1 \cup BA_2 \cup \cdots \cup BA_n) \\
-&amp;= P(BA_1) + P(BA_2) + \cdots + P(BA_n) \\
-&amp;= P(A_1)P(B|A_1) + P(A_2)P(B|A_2) + \cdots + P(A_n)P(B|A_n)
-\end{aligned}
-$$</p>
-<h3 id="贝叶斯公式-pa_ib--fracpba_ipa_isumn_j1pba_ipa_j">贝叶斯公式 $P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_i)P(A_j)}$</h3>
-<p>贝叶斯公式由条件概率和全概率公式组合而来，推理如下：
-$$
-\begin{aligned}
-P(A_i|B) &amp;= \frac{P(A_iB)}{P(B)} = \frac{P(BA_i)}{P(B)}\
-&amp;= \frac{P(B|A_i)P(A_i)}{P(B)} \
-&amp;= \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_j)P(A_j)}
-\end{aligned}
-$$
-一般来说，我们将划分 $A_1,A_2,&hellip;,A_n$ 作为已知的结果，是说我们通过实验或者以往的信息经验之类的得到了 $P(A_j)$ 的值，所以我们称 $P(A_j)$ 为<strong>先验概率</strong>。此外，我们称 $P(A_i|B)$ 为<strong>后验概率</strong>，因为 $P(A_i|B)$ 是说在事件 $B$ 发生后，$A_i$ 再发生的概率。</p>
-<p>通俗来说，就是我们通过了那么多的事件 $A_1,A_2,&hellip;,A_n$ 得到了结果，也就是事件 $B$ 的概率，但是我们还想要知道这个结果，也就是事件 $B$ 发生的情况下，某个 $A_j$ 发生的概率是多少这样。</p>
-<h3 id="分布函数-fxpx-leq-x-">分布函数 $F(x)=P\{X \leq x \}$</h3>
-<p>我们这里给出一个函数为：
-$$
-X = X(A)
-$$
-这里，我们把样本空间  $\Omega$ 中的每一个结果，或者说每一个事件都放入函数里，得到一个实数，比如 $X_1 = X(A_1),X_2=X(A_2),\dots,X_n=X(A_n)$ 。</p>
-<p>这样做的好处是，我们将一些实验的结果用数字进行替代，比如，我们要在一个装有红、绿、蓝小球的箱子里摸球，我们可以用数字来替代红、绿、蓝的结果，$X(红)=1,X(绿)=2，X(蓝)=3$。</p>
-<p>因为我们的函数 $X$ 的值会随着实验的不同结果而变化，所以我们称 $X$ 函数为<strong>随机变量(random variable)</strong>。</p>
-<p>当然，我们一般用区间对 $X$ 的值进行描述，因为有时候不能将每一个值都列出来，所以我们会说随机变量 $X$ 的取值落在区间 $(x_1,x_2]$ 的概率，就是要求 $P \{ x_1\leq X \leq x_2 \}$ 的值。</p>
-<p>求 $P\{x_1\leq X \leq x_2\}$  的值就相当于要计算 $P\{X \leq x_2\} - P\{ X \leq x_1\}$ 的值，那么就很容易知道我们其实是要研究 $P\{X \leq x \}$ 的概率问题了。因为它的值也是随着不同的 $x$ 而变化的，所以我们叫 $P\{X \leq x \}$ 为$P\{X \leq x \}$ ，这里给出它的公式：
-$$
-F(x) = P \{X \leq x \}
-$$
-分布函数有以下特点：</p>
+</li>
+<li>一次网页请求与响应的过程如下：
 <ul>
-<li>$F(x_2) - F(x_1) = P \{x_1 &lt; X \leq x_2 \} &gt; 0$</li>
-<li>$0 \leq F(x) \leq1 $</li>
+<li>浏览器通过URL请求一个网页，服务器返回该网页文件。</li>
+<li>通常我们看到的网页是动态生成的，比如PHP/JSP网页，根据请求参数不同返回不同内容。</li>
+<li>类似地，请求一个CGI程序时，CGI程序解析前端传递的参数，理解意图并返回数据，如HTML、XML或JSON等。</li>
 </ul>
-<p>我们在这里对随机变量有个区分：</p>
+</li>
+</ul>
+</li>
+<li><strong>前端知识</strong>：
 <ul>
-<li>离散型随机变量：随机变量的取值为有限个或者可数无穷多个</li>
-<li>连续型随机变量：随机变量的取值连续地充满某个区间</li>
-</ul>
-<h3 id="离散型随机变量-两点分布-x-sim-0-1">离散型随机变量-两点分布 $X \sim (0-1)$</h3>
-<p>当随机变量 $X$ 的取值只有 $x_1$ 和 $x_2$ 这两个结果时，它的分布为：</p>
-<div>
-    $$
-    \begin{aligned}
-P\{ X=x_1 \} &= p \quad , \\
-P\{ X=x_2 \} &= 1 - p \quad, \quad0 < p < 1 \\
-\end{aligned}
-    $$
-</div>
-<p>我们称 $X$ 服从参数为 $p$ 的<strong>两点分布</strong>，也叫 (0-1) 分布，记作 $X \sim (0-1)$。</p>
-<h3 id="离散型随机变量-二项分布-xsim-bn-p">离散型随机变量-二项分布 $X\sim b(n, p)$</h3>
-<p>当随机变量 $X$ 的分布满足：
-$$
-P\{X=k\} = C_n^k p ^k(1-p)^{n-k}
-$$
-则称 $X$ 为服从参数为 $n $ , $p$ 的<strong>二项分布(binomial distribution)</strong>，记作 $X\sim b(n, p)$。</p>
-<p>一般我们会使用 <strong>泊松(Posisson)定理</strong> 来进行近似计算，这里做个简单介绍。</p>
-<p>设 $np_n = \lambda$ ，对任意非负整数有：
-$$
-\lim\limits_{x\rightarrow\infty}C^k_np^k_n(1-p)^{n-k}=\frac{\lambda^ke^{-\lambda}}{k!}
-$$</p>
-<h3 id="离散型随机变量-泊松分布-x-sim-plambda">离散型随机变量-泊松分布 $X \sim P(\lambda)$</h3>
-<p>当随机变量 $X$ 的分布满足：
-$$
-P\{X=k\} = \frac{\lambda^ke^{-\lambda}}{k!} \quad,\quad k=0,1,2,\dots,
-$$
-则称 $X$ 为服从参数为 $\lambda$ 的泊松分布(poisson distribution)，记作 $X \sim P(\lambda)$，其中 $\lambda$ 为常数。</p>
-<h3 id="概率密度函数-fx">概率密度函数 $f(x)$</h3>
-<p>这里介绍一个概念，<strong>概率密度函数(density sunction)</strong>。它可以用来描述随机变量 $X$ 的分布函数 $F(x)$：
-$$
-F(x) = \int^x_{\infty}f(t)dx
-$$
-它有以下特点：</p>
+<li>前端页面发送数据的方式包括：
 <ul>
-<li>$f(x) \geq 0$</li>
-<li>$\int^{{+\infty}}_{-\infty}f(x)dx = 1$</li>
-<li>$P \{ x_1 &lt; X &lt;x_2 \} = F(x_2) - F(x_1) = \int^{x_2}_{x_1}f(t)dx$</li>
+<li>表单提交（HTML原生）。</li>
+<li>JavaScript操作表单提交。</li>
+<li>JavaScript通过Ajax请求数据。</li>
 </ul>
-<h3 id="连续型随机变量-均匀分布-xsim-uab">连续型随机变量-均匀分布 $X\sim U(a,b)$</h3>
-<p>当随机变量 $X$ 具有概率密度：</p>
-<div>
-$$
-f(x)=\left\{
-\begin{aligned}
-& \frac{1}{b-a},& a < x< b, \\\
-&0,& 其他.
-\end{aligned}
-\right.    
-$$    
-</div>
-<p>则称 $X$ 在区间 $(a, b)$ 上服从<strong>均匀分布(unniform distribution)</strong>，记作 $X\sim U(a,b)$</p>
-<p>积分求得 $X$ 的分布函数：</p>
-<div>
-    $$
-    F(x)=\left\{
-\begin{aligned}
-& 0,& x < a, \\\
-& \frac{x-a}{b-a},&a \leq x < b, \\\
-& 1,& x \geq b.
-\end{aligned}
-\right.
-    $$
-</div>
-<h3 id="连续型随机变量-指数分布-xsim-elambda">连续型随机变量-指数分布 $X\sim E(\lambda)$</h3>
-<p>当随机变量 $X$ 具有概率密度：</p>
-<div>
-$$
-f(x)=\left\{
-\begin{aligned}
-& \lambda e^{-\lambda x}, &x > 0, \\\
-&0,& x \leq 0.
-\end{aligned}
-\right.    
-$$    
-</div>
-<p>则称 $X$ 服从 $\lambda$ 的<strong>指数分布(exponential distribution)</strong>，记作 $X\sim E(\lambda)$，其中 $\lambda$ 为常数。</p>
-<p>积分求得 $X$ 的分布函数：</p>
-<div>
-$$
-F(x)=\left\{
-\begin{aligned}
-& 1-e^{-\lambda x},& x > 0, \\
-& 0,&x \leq 0. 
-\end{aligned}
-\right.
-$$    
-</div>
-<h3 id="连续型随机变量-正态分布-x-sim-nmu-sigma2">连续型随机变量-正态分布 $X \sim N(\mu, \sigma^2)$</h3>
-<p>当随机变量 $X$ 具有概率密度：
-$$
-f(x)= \frac{1}{\sqrt{2\pi}\sigma}e^{- \frac{(x-\mu)^2}{2 \sigma^2}},-\infty&lt;x&lt;+\infty
-$$
-则称 $X$ 服从参数为 $\mu$ , $\sigma$ 的<strong>正态分布(normal distribution)</strong>，记作 $X \sim N(\mu, \sigma^2)$， 其中 $\mu$ 和 $\sigma (\sigma&gt;0)$ 为常数。</p>
-<p>积分求得 $X$ 的分布函数：
-$$
-F(x) = \frac{1}{\sqrt{2\pi}\sigma}\int^x_{-\infty}e^{-\frac{(t-\mu)^2}{2 \sigma^2}}dt
-$$
-特别的，当 $\mu=0,\sigma=1$时，我们称 $X$ 服从标准正态分布 $N(0,1)$，这时它的概率密度表示为：</p>
-<p>$$
-\varphi(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{x^2}{2}}
-$$</p>
-<p>分布函数表示为：</p>
-<p>$$
-\phi(x)=\frac{1}{\sqrt{2\pi}} \int ^x _{-\infty} e^{\frac{t^2}{2}}dt
-$$</p>
-<p>一般地，若 $X \sim N(\mu, \sigma^2)$ ，那么 $\frac{X-\mu}{\sigma}\sim N(0, 1)$，我们可以通过正态函数表来计算正态分布：</p>
-<div>
-$$
-\begin{aligned}
-P \{\mu- \sigma < X < \mu + \sigma \} = \phi(1) - \phi(-1) = 2\phi(1) -1 = 0.6826 \\
-P \{\mu-2 \sigma < X < \mu + 2 \sigma \} = \phi(2) - \phi(-2) = 2\phi(2) -1 = 0.9544 \\
-P \{\mu-3 \sigma < X < \mu + 3 \sigma \} = \phi(3) - \phi(-3) = 2\phi(3) -1 = 0.9974 
-\end{aligned}
-$$    
-</div>
-<h3 id="联合分布函数-fxy--p-x-leq-x-y-leq-y">联合分布函数 $F(x,y) = P{ X \leq x, Y \leq y}$</h3>
-<p>在这里，我们考虑两个随机变量 $X(e)$ 和 $Y(e)$ 的组合。我们把 $(X(e), Y(e))$ 称为<strong>二维随机向量(2-dimensional random vector)</strong>，简单记作 $(X, Y)$。</p>
-<p>显然，我们可以得到二维随机向量 $(X, Y)$ 的分布函数，或者说，随机变量 $X$ 和随机变量 $Y$ 的<strong>联合分布函数</strong>：
-$$
-F(x,y) = P\{ X \leq x, Y \leq y\}
-$$</p>
-<h3 id="边缘分布函数--f_xx-f_yy">边缘分布函数  $F_X(x), F_Y(y)$</h3>
-<p>我们说到联合分布函数是二维随机变量 $(X, Y)$ 的分布函数，自然随机变量 $X$ 和 $Y$ 是有分布函数的，那么我们通过联合分布函数来求得变量 $X$ 和 $Y$ 的分布函数，就可以得二维随机变量 $(X, Y)$ 关于 $X$ 和 $Y$ 的边缘分布函数(marginal distribution function)：</p>
-<p>$$
-\begin{aligned}
-F_X(x) &amp;= P\{X \leq x \} = P\{X \leq x, Y &lt; +\infty \} = F(x, +\infty) \\
-F_Y(y) &amp;= P\{Y \leq y \} = P\{X &lt; +\infty, Y \leq y \} = F(+\infty, y)
-\end{aligned}
-$$</p>
-<h3 id="数学期望-ex">数学期望 $E(X)$</h3>
-<p>我们现在知道一个离散型变量 $X$ 的分布律为：</p>
-<p>$$
-P\{X = x_k\} = p_k, k=1,2.\dots
-$$</p>
-<p>如果满足条件 $\sum ^ {\infty} _ {k=1} x_kp_k$ 绝对收敛，那么有<strong>数学期望(mathematical expectation)</strong>，记作 $E(X)$，即：
-$$
-E(X) =\sum^{\infty}_{k=1}x_kp_k
-$$</p>
-<p>当然，如果是一个连续型的随机变量 $X$ 的话，我们就假设它有概率密度函数 $f(x)$ 。</p>
-<p>如果满足积分 $\int^{+\infty}_{-\infty}xf(x)dx$ 绝对收敛，那么同样有数学期望为：</p>
-<p>$$
-E(X) = \int^{+\infty}_{-\infty}xf(x)dx
-$$</p>
-<p>数学期望有一些性质：</p>
+</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#7f848e">&lt;!-- 用户访问时就会访问，cgi-bin 下对应对的脚本 --&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#e06c75">form</span> <span style="color:#e06c75">action</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;/cgi-bin/hello.cgi&#34;</span> <span style="color:#e06c75">method</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;get&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#e06c75">table</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#e06c75">tr</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#e06c75">td</span>&gt;用户名：&lt;/<span style="color:#e06c75">td</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#e06c75">td</span>&gt;&lt;<span style="color:#e06c75">input</span> <span style="color:#e06c75">name</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;username&#34;</span>/&gt;&lt;/<span style="color:#e06c75">td</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#e06c75">tr</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#e06c75">tr</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#e06c75">td</span>&gt;密码：&lt;/<span style="color:#e06c75">td</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#e06c75">td</span>&gt;&lt;<span style="color:#e06c75">input</span> <span style="color:#e06c75">name</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;password&#34;</span>/&gt;&lt;/<span style="color:#e06c75">td</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#e06c75">tr</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#e06c75">tr</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#e06c75">td</span>&gt;&lt;<span style="color:#e06c75">input</span> <span style="color:#e06c75">type</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;submit&#34;</span> <span style="color:#e06c75">value</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;OK&#34;</span>/&gt;&lt;/<span style="color:#e06c75">td</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#e06c75">tr</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#e06c75">table</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#e06c75">form</span>&gt;
+</span></span></code></pre></div><h3 id="mvc-model-view-controller">MVC （Model-View-Controller）</h3>
+<p><strong>MVC（Model-View-Controller）</strong> 是一种常见的软件架构模式，广泛应用于Web应用程序和桌面应用程序的开发。在这种模式下，应用程序被分为三个不同的部分：</p>
+<ol>
+<li><strong>模型（Model）</strong>：
 <ul>
-<li>$E(c) = c$ ，其中 $c$ 为常数；</li>
-<li>$E(cX) = cE(X)$；</li>
-<li>$E(X+Y) = E(X) + E(Y)$；</li>
-<li>$E(XY) = E(X)E(Y)$，其中 $X,Y$ 相互独立。</li>
+<li>负责处理应用程序的业务逻辑和数据。</li>
+<li>模型不包含与数据显示相关的代码，只关注数据的处理和业务规则的执行。</li>
 </ul>
-<div class="table-wrapper"><table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center">$(0-1)$分布</th>
-<th style="text-align:center">二项分布</th>
-<th style="text-align:center">泊松分布</th>
-<th style="text-align:center">均匀分布</th>
-<th style="text-align:center">指数分布</th>
-<th style="text-align:center">正态分布</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">$ E(X) $</td>
-<td style="text-align:center">$ p $</td>
-<td style="text-align:center">$ np $</td>
-<td style="text-align:center">$ \lambda $</td>
-<td style="text-align:center">$ \frac{a+b}{2} $</td>
-<td style="text-align:center">$ \frac{1}{\lambda} $</td>
-<td style="text-align:center">$ \mu $</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="方差-dx">方差 $D(X)$</h3>
-<p>数学期望描述了随机变量取值的“平均数”，而 <strong>方差(variance)</strong> 是用来度量随机变量取值的分散程度的，记作 $D(X)$，即：
-$$
-D(X) = E[X-E(X)]^2 = E(X^2) - [E(X)]^2
-$$</p>
-<p>其中，我们称 $\sqrt{D(X)}$ 为随机变量 $X$ 的<strong>标准差(standard deviation)</strong>，或<strong>均方差(mean square deviation)</strong>，记作 $ \sigma(X)$。</p>
-<p>方差有一些性质：</p>
+</li>
+<li><strong>视图（View）</strong>：
 <ul>
-<li>$D(c) = 0$，其中 $c$ 为常数；</li>
-<li>$D(cX) = c^2D(X)$；</li>
-<li>$D(X±Y) = D(X) + D(Y) ±2E[(X-E(X))(Y-E(Y))]$；</li>
-<li>$D(X±Y) = D(X) + D(Y)$，其中 $X,Y$ 相互独立。</li>
+<li>负责显示数据给用户，以及与用户的交互功能，例如表单、网页等。</li>
+<li>视图是应用程序的外观，通常由HTML、JSP等实现。</li>
 </ul>
-<div class="table-wrapper"><table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center">$(0-1)$分布</th>
-<th style="text-align:center">二项分布</th>
-<th style="text-align:center">泊松分布</th>
-<th style="text-align:center">均匀分布</th>
-<th style="text-align:center">指数分布</th>
-<th style="text-align:center">正态分布</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">$ D(X) $</td>
-<td style="text-align:center">$ p(1-p) $</td>
-<td style="text-align:center">$ np(1-p) $</td>
-<td style="text-align:center">$ \lambda $</td>
-<td style="text-align:center">$ \frac{(a+b)^2}{12} $</td>
-<td style="text-align:center">$ \frac{1}{\lambda^2} $</td>
-<td style="text-align:center">$ \sigma^2 $</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="协方差--covx-y">协方差  $cov(X, Y)$</h3>
-<p>数学期望和方差反映的都是随机变量自身的内容，这里我们考虑随机变量相互之间的影响，一般会使用<strong>协方差(convariance)</strong> 来描述，即：</p>
-<p>$$
-cov(X, Y) = E{[X-E(X)][Y-E(Y)]}
-$$
-其中，我们称  $\frac{cov(X, Y)}{\sqrt{D(X)}{\sqrt{D(Y)}}}$  为随机变量 $X,Y$ 的<strong>相关系数(correlation corfficient)</strong>，或标准协方差(standard convariance)，记作 $\rho_{XY} $，即：</p>
-<p>$$
-\rho_{XY}  =\frac{cov(X, Y)}{\sqrt{D(X)}{\sqrt{D(Y)}}}
-$$</p>
-<p>一些实用的计算公式：</p>
-<p>$$
-D(X±Y) = D(X) + D(Y) ± 2cov(X, Y) \\
-cov(X, Y) = E(XY) - E(X)E(Y)
-$$</p>
+</li>
+<li><strong>控制器（Controller）</strong>：
+<ul>
+<li>类似于一个分发器，用来决定对于视图发来的请求，需要用哪一个模型来处理，以及处理完后需要跳回到哪一个视图。</li>
+<li>控制器连接视图和模型，协调它们之间的交互。</li>
+</ul>
+</li>
+</ol>
+<p>MVC模式的流程如下：</p>
+<ol>
+<li>浏览器通过视图向控制器发出请求。</li>
+<li>控制器接收请求，选择合适的模型进行处理。</li>
+<li>处理完请求后，控制器再转发到视图，进行视图界面的渲染并做出最终响应。</li>
+</ol>
+<p>在MVC模式中，视图可以用JSP、HTML、CSS实现，模型可以用JavaBean实现，而控制器通常使用Servlet来实现。这种分层架构使得应用程序更易于维护、扩展和重用。</p>
+<p>另外，还有一个与MVC类似的架构模式叫做<strong>三层架构</strong>，它将应用程序分为表示层、业务逻辑层和数据访问层。这三层各自负责不同的功能，也有助于代码的分层和复用。</p>
+<h3 id="后台服务化与前端一致化">后台服务化与前端一致化</h3>
+<p><strong>后台服务化</strong>和<strong>前端一致化架构</strong>是现代软件开发中的两个关键概念。</p>
+<ol>
+<li><strong>后台服务化</strong>：
+<ul>
+<li>在传统的软件架构中，前端和后端是分离的。前端专注于页面渲染，而后台则处理业务逻辑。前后端之间最常见的交互方式是通过接口实现的。</li>
+<li>后台服务化的架构将后端业务逻辑进一步拆分成独立的服务。每个服务负责特定的功能，例如用户管理、订单处理、支付等。</li>
+<li>这种架构有助于提高系统的可维护性、扩展性和性能。它允许不同的团队并行开发不同的服务，而无需相互干扰。</li>
+</ul>
+</li>
+<li><strong>前端一致化架构</strong>：
+<ul>
+<li>前端一致化架构旨在解决前端开发中的一些痛点。</li>
+<li>传统的前端开发模式中，前端工程师负责将设计图切成 HTML 页面，而后端工程师负责将 HTML 转换为 JSP 页面并处理逻辑和数据展示。</li>
+<li>这种模式导致了人员分工不明、效率低下以及不利于项目迭代等问题。</li>
+<li>前端一致化架构通过前后端分离，让前端专注于页面展示，后端只提供接口数据。这样可以降低耦合度，提高开发效率，同时满足多端应用开发的需求。</li>
+</ul>
+</li>
+</ol>
+<h2 id="开发模式革新">开发模式革新</h2>
+<h3 id="瀑布开发">瀑布开发</h3>
+<p><strong>瀑布模型</strong>（也称为<strong>Waterfall Model</strong>）是一种软件生命周期模型，其开发过程按照一系列阶段的顺序展开，从系统需求分析开始，直到产品发布和维护。这个模型的名称来源于项目开发进程从一个阶段“流动”到下一个阶段，就像瀑布流水逐级下落。</p>
+<p>瀑布模型的核心思想是将问题分解为工序，将功能的实现与设计分开，以便于分工协作。它将软件生命周期划分为以下六个基本活动，并规定了它们自上而下、相互衔接的固定次序：</p>
+<ol>
+<li><strong>制定计划</strong>：确定项目的范围、时间和资源。</li>
+<li><strong>需求分析</strong>：收集、分析和定义系统需求。</li>
+<li><strong>软件设计</strong>：设计系统的架构、模块和接口。</li>
+<li><strong>程序编写</strong>：根据设计规范编写代码。</li>
+<li><strong>软件测试</strong>：验证系统是否满足需求并修复错误。</li>
+<li><strong>运行维护</strong>：发布产品并进行后续维护。</li>
+</ol>
+<p>瀑布模型的优点和缺点如下：</p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>强制开发人员采用规范的方法（如结构化技术）。</li>
+<li>严格规定每个阶段必须提交的文档。</li>
+<li>要求所有产品都必须经过质量保证小组的仔细验证。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>瀑布模型依赖于书面的规格说明，用户只能通过文档来了解产品。</li>
+<li>可能导致最终开发出的软件产品不能真正满足用户的需求。</li>
+<li>不适合需求模糊的系统。</li>
+</ul>
+</li>
+</ul>
+<p>此外，还有一种加入迭代过程的瀑布模型，用于解决传统瀑布模型过于理想化的问题。在这种模型中，当后续阶段发现前面阶段的错误时，需要返回前面的阶段进行修改，以确保产品质量。</p>
+<p>总之，瀑布模型在软件开发中曾经广泛采用，但现在更多的团队倾向于使用敏捷方法，以更灵活和迭代的方式开发软件。</p>
+<h3 id="敏捷开发">敏捷开发</h3>
+<p><strong>敏捷开发</strong>是一种高效的软件开发方法，起源于美国。许多大型公司为了提高产品的开发效率，已经开始运用敏捷开发。让我用通俗易懂的语言解释一下：</p>
+<ol>
+<li><strong>迭代开发</strong>：
+<ul>
+<li>敏捷开发的核心是<strong>迭代开发</strong>。</li>
+<li>迭代开发通过短期增量（通常称为<strong>冲刺</strong>）的方式来完成工作，从而缩短开发周期。</li>
+<li>每个冲刺通常为一到四周。</li>
+<li>在敏捷开发中，软件项目被切分成多个子项目，每个子项目都经过测试，具备可视、可集成和可运行的特征。</li>
+<li>换言之，就是把一个大项目分成多个相互联系、但也可独立运行的小项目，并分别完成。在此过程中，软件一直处于可使用状态。</li>
+</ul>
+</li>
+<li><strong>优势和不足</strong>：
+<ul>
+<li>优势：
+<ul>
+<li>敏捷开发将一艘大船变成许多条小船，每条小船各司其职，分配小目标，所有的小目标合起来就能完成大目标。</li>
+<li>效率高，每个人职责分明。</li>
+</ul>
+</li>
+<li>不足：
+<ul>
+<li>小团队难以拥有开阔的视野，看不到全局。</li>
+<li>对于不可分割的大需求，敏捷开发不再合适。</li>
+<li>敏捷开发适用于成熟的应用做高效的版本迭代，对于初创型或快速增长的公司不适合。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>混合式开发</strong>：
+<ul>
+<li>对于大需求，可以采用传统的瀑布式开发。</li>
+<li>对于小优化和小迭代，可以采用敏捷开发。</li>
+<li>现在很多大型公司结合了两者的优势。</li>
+</ul>
+</li>
+<li><strong>产品经理在敏捷开发团队中的不同</strong>：
+<ul>
+<li>敏捷开发中，产品经理有更多时间思考产品细节，不用花太多时间在沟通和传递需求上。</li>
+<li>敏捷开发让产品经理更专注于大方向的事务。</li>
+</ul>
+</li>
+</ol>
+<p>总之，敏捷开发是一种高效、迭代式的开发方法，适用于成熟的应用做版本迭代。</p>
+<p>​</p>
+<h3 id="精益开发">精益开发</h3>
+<p><strong>精益开发</strong>是一种用于开发产品和服务的方法论，旨在缩短产品开发周期，并快速发现产品创意构思是否可行。它通过采用商业假设驱动的实验、迭代产品发布和验证学习的组合来实现。</p>
+<p>让我们深入了解一下精益开发的核心思想和原则：</p>
+<ol>
+<li><strong>杜绝浪费</strong>：
+<ul>
+<li>将所有的时间花在能够增加客户价值的事情上。</li>
+<li>除去不必要的环节，专注于创造价值的活动。</li>
+</ul>
+</li>
+<li><strong>推迟决策</strong>：
+<ul>
+<li>保持可选方案的开放性，但时间不能过长。</li>
+<li>尽可能多地提出可行方案，但不要拖延决策。</li>
+</ul>
+</li>
+<li><strong>加强学习</strong>：
+<ul>
+<li>使用科学的学习方法。</li>
+<li>培养有战斗力的团队，持续学习和改进。</li>
+</ul>
+</li>
+<li><strong>快速交付</strong>：
+<ul>
+<li>当客户索取价值时应立即交付价值。</li>
+<li>缩短迭代周期，提供稳定可运行且有价值的软件。</li>
+</ul>
+</li>
+<li><strong>打造精品</strong>：
+<ul>
+<li>使用恰当的方法确保质量。</li>
+<li>追求完美，不断改进产品。</li>
+</ul>
+</li>
+<li><strong>授权团队</strong>：
+<ul>
+<li>让创造增值的员工充分发挥自己的潜力。</li>
+<li>培养健康的团队，不被琐碎的细节束缚。</li>
+</ul>
+</li>
+<li><strong>优化整体</strong>：
+<ul>
+<li>防止以损害整体为代价而优化部分的倾向。</li>
+<li>考虑局部优化对整体利益的影响。</li>
+</ul>
+</li>
+</ol>
+<p>总之，精益开发是一种追求尽善尽美、注重价值创造和持续改进的方法，适用于不同行业和产品开发领域。</p>
 
 </section>
 
@@ -707,9 +611,7 @@ $$</p>
     
     <section class="article-tags">
         
-            <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
-        
-            <a href="/tags/note/">Note</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91/">开发</a>
         
     </section>
 
@@ -962,25 +864,18 @@ document.getElementById('days').innerHTML = number_of_days;
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li>
+    <li><a href="#开发技术革新">开发技术革新</a>
       <ol>
-        <li><a href="#频率-p">频率 $P$</a></li>
-        <li><a href="#条件概率-pab--fracpabpb">条件概率 $P(A|B) = \frac{P(AB)}{P(B)}$</a></li>
-        <li><a href="#全概率公式-pbsumn_i1pa_ipba_i">全概率公式 $P(B)=\sum^{n}_{i=1}P(A_i)P(B|A_i)$</a></li>
-        <li><a href="#贝叶斯公式-pa_ib--fracpba_ipa_isumn_j1pba_ipa_j">贝叶斯公式 $P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_i)P(A_j)}$</a></li>
-        <li><a href="#分布函数-fxpx-leq-x-">分布函数 $F(x)=P\{X \leq x \}$</a></li>
-        <li><a href="#离散型随机变量-两点分布-x-sim-0-1">离散型随机变量-两点分布 $X \sim (0-1)$</a></li>
-        <li><a href="#离散型随机变量-二项分布-xsim-bn-p">离散型随机变量-二项分布 $X\sim b(n, p)$</a></li>
-        <li><a href="#离散型随机变量-泊松分布-x-sim-plambda">离散型随机变量-泊松分布 $X \sim P(\lambda)$</a></li>
-        <li><a href="#概率密度函数-fx">概率密度函数 $f(x)$</a></li>
-        <li><a href="#连续型随机变量-均匀分布-xsim-uab">连续型随机变量-均匀分布 $X\sim U(a,b)$</a></li>
-        <li><a href="#连续型随机变量-指数分布-xsim-elambda">连续型随机变量-指数分布 $X\sim E(\lambda)$</a></li>
-        <li><a href="#连续型随机变量-正态分布-x-sim-nmu-sigma2">连续型随机变量-正态分布 $X \sim N(\mu, \sigma^2)$</a></li>
-        <li><a href="#联合分布函数-fxy--p-x-leq-x-y-leq-y">联合分布函数 $F(x,y) = P{ X \leq x, Y \leq y}$</a></li>
-        <li><a href="#边缘分布函数--f_xx-f_yy">边缘分布函数  $F_X(x), F_Y(y)$</a></li>
-        <li><a href="#数学期望-ex">数学期望 $E(X)$</a></li>
-        <li><a href="#方差-dx">方差 $D(X)$</a></li>
-        <li><a href="#协方差--covx-y">协方差  $cov(X, Y)$</a></li>
+        <li><a href="#cgi-通用网关接口">CGI 通用网关接口</a></li>
+        <li><a href="#mvc-model-view-controller">MVC （Model-View-Controller）</a></li>
+        <li><a href="#后台服务化与前端一致化">后台服务化与前端一致化</a></li>
+      </ol>
+    </li>
+    <li><a href="#开发模式革新">开发模式革新</a>
+      <ol>
+        <li><a href="#瀑布开发">瀑布开发</a></li>
+        <li><a href="#敏捷开发">敏捷开发</a></li>
+        <li><a href="#精益开发">精益开发</a></li>
       </ol>
     </li>
   </ol>
