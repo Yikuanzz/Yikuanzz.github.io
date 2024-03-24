@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<meta name='description' content='程序的基本概念 程序和编程语言 程序（Program） 是由一系列指令（Instruction）组成，它告诉计算机应如何完成一个计算任务。 这些指令'><title>Linux C（一）入门</title>
+
+<link rel='canonical' href='https://yikuanzz.github.io/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='Linux C（一）入门'>
+<meta property='og:description' content='程序的基本概念 程序和编程语言 程序（Program） 是由一系列指令（Instruction）组成，它告诉计算机应如何完成一个计算任务。 这些指令'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='C' /><meta property='article:tag' content='Linux' /><meta property='article:published_time' content='2024-03-24T14:37:07&#43;08:00'/><meta property='article:modified_time' content='2024-03-24T14:37:07&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/cover.png' />
+<meta name="twitter:title" content="Linux C（一）入门">
+<meta name="twitter:description" content="程序的基本概念 程序和编程语言 程序（Program） 是由一系列指令（Instruction）组成，它告诉计算机应如何完成一个计算任务。 这些指令"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/cover.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://yikuanzz.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/gossip' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+  <path d="M9 8h6" />
+</svg>
+                
+                <span>杂谈</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/">
+                <img src="/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/cover_huc77e13b628f6c253544f486e9b91b9b1_1927448_800x0_resize_box_3.png"
+                        srcset="/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/cover_huc77e13b628f6c253544f486e9b91b9b1_1927448_800x0_resize_box_3.png 800w, /2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/cover_huc77e13b628f6c253544f486e9b91b9b1_1927448_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post Linux C（一）入门" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" style="background-color: #2a9d8f; color: #fff;">
+                开发运维技术
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/">Linux C（一）入门</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 24, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    7040字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="程序的基本概念">程序的基本概念</h2>
+<h3 id="程序和编程语言">程序和编程语言</h3>
+<p><strong>程序（Program）</strong> 是由一系列指令（Instruction）组成，它告诉计算机应如何完成一个计算任务。</p>
+<p>这些指令通常会有：输入（从输入设备中获取数据）、输出（在输出设备中输出数据）、基本运算（例如数学上的四则运算）、流程控制（条件分支或者循环其他指令）。</p>
+<p><strong>编写程序就是将指令进行组合，来完成复杂任务。</strong></p>
+<p>编程语言（Programming Language）分为低级语言（Low-level Language）和高级语言（High-level Language）。</p>
+<p>机器语言（Machine Language）和汇编语言（Assembly Language）属于低级语言，直接用计算机指令编写程序。而C、C++、Java、Python等属于高级语言，它们用语句（Statement）来编写程序，语句是计算机指令的抽象表示。</p>
+<p>编译器（Compiler）将C语言的语句编译（Compile）成汇编或机器指令，计算机才能执行。</p>
+<p>虽然说编译需要花费一些时间，但是这样会使编程变得更加容易。</p>
+<hr>
+<p>C语言是 <strong>可移植的（Portable）</strong> 的，为什么这么说呢。</p>
+<p>因为不同的计算机体系是有不同的指令集（Instruction Set）的，那么能识别到机器指令格式也不同。如果不同机器上都有C语言的编译器，那么我们就可以将C语言编译成不同机器都能识别的机器指令。</p>
+<p>那么，程序执行的流程就是：源码通过编译生成可执行文件，然后在操作系统上加载运行这个可执行程序。</p>
+<p>当然，如果是脚本语言，比如：Shell、Python等等，则省去编译的这个过程。</p>
+<h3 id="程序的调试">程序的调试</h3>
+<p>程序的编写通常没有那么容易，程序中错误叫做 BUG，修正 BUG 的过程叫做 <strong>调试（Debug）</strong> ，程序中的 BUG 通常有这么几类：</p>
+<ul>
+<li>编译时错误，例如一些语法错误。</li>
+<li>运行时错误，可以编译成可执行文件，但是在执行时程序会崩溃。</li>
+<li>逻辑错误和语义错误，编译和执行都很顺利，但是没有按期望去执行。</li>
+</ul>
+<h3 id="第一个程序">第一个程序</h3>
+<p>我们将 C语言程序写在 <code>main.c</code> 的文件里。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">pritf</span>(<span style="color:#98c379">&#34;Hello, World!</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们通过 <code>gcc</code> 对 C语言进行编译，它会将我们的 <code>main.c</code> 源代码编译生成可执行文件 <code>a.out</code> ，当然我们也可以指定其生成的文件名。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>gcc -Wall main.c -o main
+</span></span><span style="display:flex;"><span>./main		<span style="color:#7f848e"># Hello, World!</span>
+</span></span></code></pre></div><p>一个好的习惯是打开 <code>gcc</code> 的 <code>-Wall</code> 选项，也就是让 <code>gcc</code> 提示所有的警告信息，不管是严重的还是不严重的，然后把这些问题从代码中全部消灭。</p>
+<h2 id="常量变量和表达式">常量、变量和表达式</h2>
+<h3 id="简单的规则">简单的规则</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 单行注释
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">	多行注释
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;注释不会影响编译！&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>除了注释，我们用到了由双引号（Double Quote）引起来的一串字符，它称为 <strong>字符串字面值（String Literal）</strong> 或者字符串。</p>
+<p>打印的时候，我们并不会打印双引号，因为它是字符串字面值的界定符号。</p>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Hello, world.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Goodbye, &#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;cruel world!</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面的代码中，我们用到了 <strong>转义序列（Escape Sequence）</strong> ，它们代表着一些特殊的意义。</p>
+<ul>
+<li><code>\n</code>：换行符号。</li>
+<li><code>\t</code>：制表符号。</li>
+<li><code>\b</code>：回退符号。</li>
+</ul>
+<h3 id="常量">常量</h3>
+<p><strong>常量（Constant）</strong> 是程序中最基本的元素，有字符（Character）常量、整数（Integer）常量、浮点数（Floating Point）常量和枚举常量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;character: %c</span><span style="color:#98c379">\n</span><span style="color:#98c379">integer: %d</span><span style="color:#98c379">\n</span><span style="color:#98c379">floating point: %f</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#98c379">&#39;}&#39;</span>, <span style="color:#d19a66">34</span>, <span style="color:#d19a66">3.14</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这里需要注意的是，计算机中整数和小数点内部表达方式不同，这是因为它们的基本存储方法不同。</p>
+<p>其中，<code>%c</code>、<code>%f</code>、<code>%d</code> 是字符类型的转换说明，这种用法通常叫做占位符（Placeholder），只是在打印输出的时候改变显示的内容，但不是对实际的内容进行修改。</p>
+<h3 id="变量">变量</h3>
+<p><strong>变量（Variable）</strong> 是编程语言最重要的概念之一，变量是计算机存储器中的一块命名的空间，可以在里面存储一个值（Value）。</p>
+<p>C语言规定必须以字母或下划线_（Underscore）开头，后面可以跟若干个字母、数字、下划线，但不能有其它字符。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 变量声明
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">cc</span>;	<span style="color:#7f848e">// 字符型变量
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">bb</span>;		<span style="color:#7f848e">// 整型变量
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">float</span> <span style="color:#e06c75">ss</span>;	<span style="color:#7f848e">// 单精度浮点数
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">double</span> <span style="color:#e06c75">tom</span>;		<span style="color:#7f848e">// 双精度浮点数
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>C语言中的声明（Declaration）有变量声明、函数声明和类型声明三种。如果一个变量或函数的声明要求编译器为它分配存储空间，那么也可以称为定义（Definition），因此定义是声明的一种。</p>
+<h3 id="赋值">赋值</h3>
+<p>声明或定义了变量之后，我们要把值存到它们所表示的存储空间里，可以用赋值（Assignment）语句。</p>
+<p>变量的定义和赋值也可以一步完成，这称为变量的 <strong>初始化（Initialization）</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 变量赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">firstletter</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">hour</span>, <span style="color:#e06c75">minute</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">firstletter</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;a&#39;</span>;   <span style="color:#7f848e">/* give firstletter the value &#39;a&#39; */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">hour</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">11</span>;           <span style="color:#7f848e">/* assign the value 11 to hour */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">minute</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">59</span>;         <span style="color:#7f848e">/* set minute to 59 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>注意变量一定要先声明后使用，它们代表着各自的存储空间，编译器必须先看到变量声明，才知道怎么对变量进行读写。</p>
+<h3 id="表达式">表达式</h3>
+<p>常量和变量都可以参与加减乘除运算，比如 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code> 就代表着四则运算的符号，就叫运算符（Operator），参与运算的变量叫操作数（Operand）比如 <code> a + b</code> ，<code>a</code> 和 <code>b</code> 就是操作数，而 <code>a + b</code>  这一整个式子，就是表达式（Expression）</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">total_minute</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">total_minute</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">hour</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">60</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">minute</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="字符类型和字符编码">字符类型和字符编码</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;%c</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#98c379">&#39;a&#39;</span><span style="color:#56b6c2">+</span><span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在计算机内，每个符号都有对应的整数来进行表示，我们称为 <strong>字符编码（Character Encoding）</strong> ，最常用的字符编码规则就是 ASCII码（American Standard Code for Information Interchange，美国信息交换标准码）。</p>
+<h2 id="简单函数">简单函数</h2>
+<h3 id="数学函数">数学函数</h3>
+<p>在数学中我们用过sin和ln这样的函数，例如sin(π/2)=1，ln1=0等等，在C语言中也可以使用这些函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;math.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">double</span> <span style="color:#e06c75">pi</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">3.1416</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;sin(pi/2)=%f</span><span style="color:#98c379">\n</span><span style="color:#98c379">ln1=%f</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#61afef;font-weight:bold">sin</span>(<span style="color:#e06c75">pi</span><span style="color:#56b6c2">/</span><span style="color:#d19a66">2</span>), <span style="color:#61afef;font-weight:bold">log</span>(<span style="color:#d19a66">1.0</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们编译运行这个程序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>gcc main.c
+</span></span><span style="display:flex;"><span>./a.out		<span style="color:#7f848e"># sin(pi/2)=1.000000 	ln1=0.000000</span>
+</span></span></code></pre></div><p>上面的代码中，<code>log</code> 我们叫它 <strong>函数（Function）</strong> <code>log(1.0) </code> 我们叫函数调用（Function Call），这些函数就放在 <code>math.h</code> 的这个文件内，所以要使用这些函数就要导入这个文件。</p>
+<p>其实，我们已经接触过函数了，就是我们的 <code>main</code> 函数，它前面的 <code>int</code> 是指函数运行完毕后返回的值类型是一个整数，<code>return</code> 语句负责函数的返回。</p>
+<h3 id="自定义函数">自定义函数</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">newline</span>(<span style="color:#e5c07b">void</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">threeline</span>(<span style="color:#e5c07b">void</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">newline</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">newline</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">newline</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Three lines:</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">threeline</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Another three lines.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">threeline</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上述代码说明了几个事情，就是函数的调用只需要写它的函数名和圆括号就行了，除非它有要求参数，不然就不用进行参数传递。</p>
+<p>此外，如果函数没返回值，那么在定义的时候写上 <code>void</code>，这样函数就不用写 <code>return </code> 语句了。</p>
+<p>最后，同一个函数是可以被多次调用的，但是要在调用前进行定义。</p>
+<h3 id="形参和实参">形参和实参</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">print_time</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">hour</span>, <span style="color:#e5c07b">int</span> <span style="color:#e06c75">minute</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;%d:%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">hour</span>, <span style="color:#e06c75">minute</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">print_time</span>(<span style="color:#d19a66">23</span>, <span style="color:#d19a66">59</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>形参相当于函数中定义的变量，调用函数传递参数的过程相当于定义形参变量并且用实参的值来初始化，如果我们对形参进行修改，结果并不会影响到实际参数。</p>
+<p>其实就是相当于将实际参数复制了一份给函数内部进行使用，使用完后，形式参数就会被回收。</p>
+<h3 id="全局变量局部变量">全局变量、局部变量</h3>
+<p>我们把函数中定义的变量称为 <strong>局部变量（Local Variable）</strong> 。它的含义是，函数中定义的变量不能被其他函数使用，每次调用函数的时候会创建新的局部变量，它们的存储空间是不同的。</p>
+<p>全局变量（Global Variable），全局变量定义在所有的函数体之外，它们在程序开始运行时分配存储空间，在程序结束时释放存储空间，在任何函数中都可以访问全局变量。</p>
+<h2 id="分支语句">分支语句</h2>
+<h3 id="if-语句">if 语句</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">x</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">12</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">x</span> <span style="color:#56b6c2">!=</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;x is nonzero.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中，<code>!=</code> 表示不等于的意思，<code>x != 0</code>这个表达式称为 <strong>控制表达式（Controlling Expression）</strong>，如果条件成立，那么 <code>{}</code> 里面的语句就会执行，否则就不执行。</p>
+<p><code>!=</code> 是关系运算符，此外还有 <code>==</code> 表示相等的关系运算符，自然还有其他的关系运算符，这里就按下不表了。</p>
+<h3 id="ifelse-语句">if/else 语句</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">x</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">7</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// if - else
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">x</span> <span style="color:#56b6c2">%</span> <span style="color:#d19a66">2</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;x is even.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;x is odd.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// if - else if - else
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">x</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;x is positive.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">x</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;x is negative.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;x is zero.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>通常 <code>if</code> 语句与 <code>else</code> 语句搭配使用，要解释一下的是 <code>%</code> ，它是取模（Modulo）运算符，计算余数用的。</p>
+<h3 id="布尔代数">布尔代数</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">a</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>, <span style="color:#e06c75">b</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">2</span>, <span style="color:#e06c75">c</span> <span style="color:#56b6c2">=</span><span style="color:#d19a66">3</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">a</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">b</span> <span style="color:#56b6c2">&amp;&amp;</span> <span style="color:#e06c75">b</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">c</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;b is between a and c.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中 <code>&amp;&amp;</code> 是逻辑运算符号，叫做逻辑与（Logical AND），仅仅当左右两边的条件成立时才为真。此外，还有逻辑或（Logical OR）<code>||</code>，仅有一个条件成立就为真。逻辑非（Logical NOT）<code>!</code> ，直接取反条件。</p>
+<h3 id="swtich-语句">swtich 语句</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">print_day</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">day</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">switch</span> (<span style="color:#e06c75">day</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">case</span> <span style="color:#d19a66">1</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">case</span> <span style="color:#d19a66">2</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">case</span> <span style="color:#d19a66">3</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">case</span> <span style="color:#d19a66">4</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">case</span> <span style="color:#d19a66">5</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Work Day！&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">case</span> <span style="color:#d19a66">6</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">case</span> <span style="color:#d19a66">7</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Weekend!&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">default</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Illegal Day Number!&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">break</span>;
+</span></span><span style="display:flex;"><span>           
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf_day</span>(<span style="color:#d19a66">2</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="深入理解函数">深入理解函数</h3>
+<h3 id="return-语句">return 语句</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">absolute_value</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">x</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">if</span> (<span style="color:#e06c75">x</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">return</span> <span style="color:#56b6c2">-</span><span style="color:#e06c75">x</span>;
+</span></span><span style="display:flex;"><span>	} <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">x</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">return</span> <span style="color:#e06c75">x</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#61afef;font-weight:bold">absolute_value</span>(<span style="color:#56b6c2">-</span><span style="color:#d19a66">10</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>函数返回一个值相当于定义一个和返回值类型相同的临时变量并用 <code>return</code> 后面的表达式来初始化。</p>
+<h3 id="增量式开发">增量式开发</h3>
+<p><strong>增量式（Incremental）</strong> 开发的思路就是将大的问题分成小的问题，然后再让小问题分成更小的问题，这个过程在代码中的体现就是函数的分层设计（Stratify）。</p>
+<blockquote>
+<p>编写一个程序求圆的面积，圆的半径以两个端点的座标(x1, y1)和(x2, y2)给出。</p>
+</blockquote>
+<ul>
+<li>1、根据两点坐标求出圆的半径。</li>
+<li>2、根据半径求出圆的面积。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">double</span> <span style="color:#61afef;font-weight:bold">distance</span>(<span style="color:#e5c07b">double</span> <span style="color:#e06c75">x1</span>, <span style="color:#e5c07b">double</span> <span style="color:#e06c75">y1</span>, <span style="color:#e5c07b">double</span> <span style="color:#e06c75">x2</span>, <span style="color:#e5c07b">double</span> <span style="color:#e06c75">y2</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">sqrt</span>((<span style="color:#e06c75">x1</span><span style="color:#56b6c2">-</span><span style="color:#e06c75">x2</span>)<span style="color:#56b6c2">*</span>(<span style="color:#e06c75">x1</span><span style="color:#56b6c2">-</span><span style="color:#e06c75">x2</span>) <span style="color:#56b6c2">+</span> (<span style="color:#e06c75">y1</span><span style="color:#56b6c2">-</span><span style="color:#e06c75">y2</span>)<span style="color:#56b6c2">*</span>(<span style="color:#e06c75">y1</span><span style="color:#56b6c2">-</span><span style="color:#e06c75">y2</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">double</span> <span style="color:#61afef;font-weight:bold">area</span>(<span style="color:#e5c07b">double</span> <span style="color:#e06c75">r</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">r</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">r</span><span style="color:#56b6c2">*</span><span style="color:#d19a66">3.1416</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#61afef;font-weight:bold">are</span>(<span style="color:#61afef;font-weight:bold">distance</span>(<span style="color:#d19a66">1.0</span>, <span style="color:#d19a66">2.0</span>, <span style="color:#d19a66">4.0</span>, <span style="color:#d19a66">6.0</span>)));
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="递归">递归</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">n</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">n</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#e06c75">n</span><span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>)<span style="color:#56b6c2">*</span><span style="color:#e06c75">n</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">Fibonacci</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">n</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">n</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span> <span style="color:#56b6c2">||</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">1</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#e06c75">n</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">Fibonacci</span>(<span style="color:#e06c75">n</span><span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>) <span style="color:#56b6c2">+</span> <span style="color:#61afef;font-weight:bold">Fibonacci</span>(<span style="color:#e06c75">n</span><span style="color:#56b6c2">-</span><span style="color:#d19a66">2</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 阶乘
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;10的阶乘是：%d&#34;</span>, <span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#d19a66">10</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 斐波那契
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;第10项的斐波那契数是：%d&#34;</span>, <span style="color:#61afef;font-weight:bold">Fibonacci</span>(<span style="color:#d19a66">10</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="循环语句">循环语句</h2>
+<h3 id="while-语句">while 语句</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">n</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">result</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">while</span> (<span style="color:#e06c75">n</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">result</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">result</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">n</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">-</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">result</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#d19a66">10</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="do-while-语句">do while 语句</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">n</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">result</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">do</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">result</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">result</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">+</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>	} <span style="color:#c678dd">while</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;=</span> <span style="color:#e06c75">n</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">result</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#d19a66">10</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="for-语句">for 语句</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">n</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">result</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span>(<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;=</span> <span style="color:#e06c75">n</span>; <span style="color:#56b6c2">++</span><span style="color:#e06c75">i</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">result</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">result</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">result</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#61afef;font-weight:bold">factorial</span>(<span style="color:#d19a66">10</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="break-和-continue">break 和 continue</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">is_prime</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">n</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">2</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">n</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">if</span> (<span style="color:#e06c75">n</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#c678dd">break</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">if</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">==</span> <span style="color:#e06c75">n</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">return</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;=</span> <span style="color:#d19a66">100</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">if</span> (<span style="color:#56b6c2">!</span><span style="color:#61afef;font-weight:bold">is_prime</span>(<span style="color:#e06c75">i</span>))
+</span></span><span style="display:flex;"><span>			<span style="color:#c678dd">continue</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">i</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="结构体">结构体</h2>
+<h3 id="复合类型与结构体">复合类型与结构体</h3>
+<p>根据语法规则由基本类型组合而成的类型称为 <strong>复合类型（Compound Type）</strong>，例如字符串是由很多字符组成的。</p>
+<p>现在，我们用 C语言来表示一个复数：从直角坐标系来看，复数由实部和虚部组成；从极座标系来看，复数由模和辐角组成，两种座标系可以相互转换。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">double</span> <span style="color:#e06c75">x</span>, <span style="color:#e06c75">y</span>;
+</span></span><span style="display:flex;"><span>}<span style="color:#e06c75">z1</span>, <span style="color:#e06c75">z2</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>   	<span style="color:#7f848e">// 结构体字段赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">z1</span>.<span style="color:#e06c75">x</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">3.0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">z1</span>.<span style="color:#e06c75">y</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">4.0</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span> 	<span style="color:#7f848e">// 结构体的初始化
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>   	<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z3</span> <span style="color:#56b6c2">=</span> {<span style="color:#d19a66">0</span>};
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="数据抽象">数据抽象</h3>
+<p>用 C 语言实现一个完整的复数运算程序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;math.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">double</span> <span style="color:#e06c75">x</span>, <span style="color:#e06c75">y</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">double</span> <span style="color:#61afef;font-weight:bold">real_part</span>(<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">z</span>.<span style="color:#e06c75">x</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">double</span> <span style="color:#61afef;font-weight:bold">img_part</span>(<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">z</span>.<span style="color:#e06c75">y</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">double</span> <span style="color:#61afef;font-weight:bold">magnitude</span>(<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">sqrt</span>(<span style="color:#e06c75">z</span>.<span style="color:#e06c75">x</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">z</span>.<span style="color:#e06c75">x</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">z</span>.<span style="color:#e06c75">y</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">z</span>.<span style="color:#e06c75">y</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">double</span> <span style="color:#61afef;font-weight:bold">angle</span>(<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">atan2</span>(<span style="color:#e06c75">z</span>.<span style="color:#e06c75">y</span>, <span style="color:#e06c75">z</span>.<span style="color:#e06c75">x</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#61afef;font-weight:bold">make_from_real_img</span>(<span style="color:#e5c07b">double</span> <span style="color:#e06c75">x</span>, <span style="color:#e5c07b">double</span> <span style="color:#e06c75">y</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">z</span>.<span style="color:#e06c75">x</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">x</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">z</span>.<span style="color:#e06c75">y</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">y</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">z</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#61afef;font-weight:bold">make_from_mag_ang</span>(<span style="color:#e5c07b">double</span> <span style="color:#e06c75">r</span>, <span style="color:#e5c07b">double</span> <span style="color:#e06c75">A</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">z</span>.<span style="color:#e06c75">x</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">r</span> <span style="color:#56b6c2">*</span> <span style="color:#61afef;font-weight:bold">cos</span>(<span style="color:#e06c75">A</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">z</span>.<span style="color:#e06c75">y</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">r</span> <span style="color:#56b6c2">*</span> <span style="color:#61afef;font-weight:bold">sin</span>(<span style="color:#e06c75">A</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">z</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#61afef;font-weight:bold">add_complex</span>(<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z1</span>, <span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z2</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">make_from_real_img</span>(<span style="color:#61afef;font-weight:bold">real_part</span>(<span style="color:#e06c75">z1</span>) <span style="color:#56b6c2">+</span> <span style="color:#61afef;font-weight:bold">real_part</span>(<span style="color:#e06c75">z2</span>),
+</span></span><span style="display:flex;"><span>				  <span style="color:#61afef;font-weight:bold">img_part</span>(<span style="color:#e06c75">z1</span>) <span style="color:#56b6c2">+</span> <span style="color:#61afef;font-weight:bold">img_part</span>(<span style="color:#e06c75">z2</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#61afef;font-weight:bold">sub_complex</span>(<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z1</span>, <span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z2</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">make_from_real_img</span>(<span style="color:#61afef;font-weight:bold">real_part</span>(<span style="color:#e06c75">z1</span>) <span style="color:#56b6c2">-</span> <span style="color:#61afef;font-weight:bold">real_part</span>(<span style="color:#e06c75">z2</span>),
+</span></span><span style="display:flex;"><span>				  <span style="color:#61afef;font-weight:bold">img_part</span>(<span style="color:#e06c75">z1</span>) <span style="color:#56b6c2">-</span> <span style="color:#61afef;font-weight:bold">img_part</span>(<span style="color:#e06c75">z2</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#61afef;font-weight:bold">mul_complex</span>(<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z1</span>, <span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z2</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">make_from_mag_ang</span>(<span style="color:#61afef;font-weight:bold">magnitude</span>(<span style="color:#e06c75">z1</span>) <span style="color:#56b6c2">*</span> <span style="color:#61afef;font-weight:bold">magnitude</span>(<span style="color:#e06c75">z2</span>),
+</span></span><span style="display:flex;"><span>				 <span style="color:#61afef;font-weight:bold">angle</span>(<span style="color:#e06c75">z1</span>) <span style="color:#56b6c2">+</span> <span style="color:#61afef;font-weight:bold">angle</span>(<span style="color:#e06c75">z2</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#61afef;font-weight:bold">div_complex</span>(<span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z1</span>, <span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> <span style="color:#e06c75">z2</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">make_from_mag_ang</span>(<span style="color:#61afef;font-weight:bold">magnitude</span>(<span style="color:#e06c75">z1</span>) <span style="color:#56b6c2">/</span> <span style="color:#61afef;font-weight:bold">magnitude</span>(<span style="color:#e06c75">z2</span>),
+</span></span><span style="display:flex;"><span>				 <span style="color:#61afef;font-weight:bold">angle</span>(<span style="color:#e06c75">z1</span>) <span style="color:#56b6c2">-</span> <span style="color:#61afef;font-weight:bold">angle</span>(<span style="color:#e06c75">z2</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="数据类型标志">数据类型标志</h3>
+<p>通过枚举类型，定义复数的类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">enum</span> <span style="color:#e06c75">coordinate_type</span> { <span style="color:#e06c75">RECTANGULAR</span>, <span style="color:#e06c75">POLAR</span> };
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">complex_struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">enum</span> <span style="color:#e06c75">coordinate_type</span> <span style="color:#e06c75">t</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">double</span> <span style="color:#e06c75">a</span>, <span style="color:#e06c75">b</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="数组">数组</h2>
+<h3 id="数组的基本概念">数组的基本概念</h3>
+<p><strong>数组（Array）</strong> 也是一种复合数据类型，它由一系列相同类型的元素（Element）组成。它的特点就是这些元素是相邻存储的，并且其中的每个元素可以通过下标索引进行访问。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">count</span>[<span style="color:#d19a66">4</span>] <span style="color:#56b6c2">=</span> { <span style="color:#d19a66">3</span>, <span style="color:#d19a66">2</span>, }, <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">4</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;count[%d]=%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">i</span>, <span style="color:#e06c75">count</span>[<span style="color:#e06c75">i</span>]);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们做一个案例：要求成一列0~9的随机数保存在数组中，然后统计其中每个数字出现的次数并打印，检查这些数字的随机性如何。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdlib.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># define N 10000
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#e06c75">a</span>[<span style="color:#e06c75">N</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">gen_random</span> (<span style="color:#e5c07b">int</span> <span style="color:#e06c75">upper_bound</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span> ;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">N</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">a</span>[<span style="color:#e06c75">i</span>] <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">rand</span>() <span style="color:#56b6c2">%</span> <span style="color:#e06c75">upper_bound</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">print_random</span>(){
+</span></span><span style="display:flex;"><span>   <span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">N</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;%d &#34;</span>, <span style="color:#e06c75">a</span>[<span style="color:#e06c75">i</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">howmany</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">value</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">count</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>, <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">N</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">if</span> (<span style="color:#e06c75">a</span>[<span style="color:#e06c75">i</span>] <span style="color:#56b6c2">==</span> <span style="color:#e06c75">value</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#56b6c2">++</span><span style="color:#e06c75">count</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">count</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">gen_random</span>(<span style="color:#d19a66">10</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;value</span><span style="color:#98c379">\t</span><span style="color:#98c379">how many</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">10</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;%d</span><span style="color:#98c379">\t</span><span style="color:#98c379">%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">i</span>, <span style="color:#61afef;font-weight:bold">howmany</span>(<span style="color:#e06c75">i</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>然后我们使用 <code>-E</code> 可以看到预处理（Preprocess）阶段之后、编译之前的程序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>gcc -E main.c
+</span></span></code></pre></div><p>这里预处理器做了两件事情，一是把头文件 <code>stdio.h</code> 和 <code>stdlib.h</code> 在代码中展开，二是把 <code>#define</code> 定义的标识符 <code>N</code> 替换成它的定义20。</p>
+<h3 id="字符串">字符串</h3>
+<p>字符串可以看作一个数组，它的每个元素是字符型的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 通过下标获取字符串的字符
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">c</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;Hello, world.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>[<span style="color:#d19a66">0</span>];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 字符数组存储字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">str1</span>[<span style="color:#d19a66">10</span>] <span style="color:#56b6c2">=</span> { <span style="color:#98c379">&#39;H&#39;</span>, <span style="color:#98c379">&#39;e&#39;</span>, <span style="color:#98c379">&#39;l&#39;</span>, <span style="color:#98c379">&#39;l&#39;</span>, <span style="color:#98c379">&#39;o&#39;</span>, <span style="color:#98c379">&#39;\0&#39;</span> };
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">str2</span>[<span style="color:#d19a66">10</span>] <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;Hello, world.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">str3</span>[] <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;Hello, world.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">print</span>(<span style="color:#98c379">&#34;字符是：%c&#34;</span>, <span style="color:#e06c75">c</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">print</span>(<span style="color:#98c379">&#34;字符串是：%s&#34;</span>, <span style="color:#e06c75">str3</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>数组后面元素没有指定，就会自动初始化为 0，就是 <code>Null</code> 字符。当然，以 <code>\0</code> 为结尾的也叫字符串，所以只要是 <code>Null</code> 字符结尾，那么就是字符串。</p>
+<h3 id="多维数组">多维数组</h3>
+<p><strong>多维数组（Multi-dimensional Array）</strong> 就是在数组里面嵌套数组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// a -&gt; a[0]、a[1]、a[2]
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">a</span>[<span style="color:#d19a66">3</span>][<span style="color:#d19a66">2</span>] <span style="color:#56b6c2">=</span> { <span style="color:#d19a66">1</span>, <span style="color:#d19a66">2</span>, <span style="color:#d19a66">3</span>, <span style="color:#d19a66">4</span>, <span style="color:#d19a66">5</span>};
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">b</span>[][<span style="color:#d19a66">2</span>] <span style="color:#56b6c2">=</span> { { <span style="color:#d19a66">1</span>, <span style="color:#d19a66">2</span> },
+</span></span><span style="display:flex;"><span>		{ <span style="color:#d19a66">3</span>, <span style="color:#d19a66">4</span> },
+</span></span><span style="display:flex;"><span>		{ <span style="color:#d19a66">5</span>, } };
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>简单的小游戏 - 剪刀石头布</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdlib.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;time.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">gesture</span>[<span style="color:#d19a66">3</span>][<span style="color:#d19a66">10</span>] <span style="color:#56b6c2">=</span> {<span style="color:#98c379">&#34;剪刀&#34;</span>, <span style="color:#98c379">&#34;石头&#34;</span>, <span style="color:#98c379">&#34;布&#34;</span>};
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">man</span>, <span style="color:#e06c75">computer</span>, <span style="color:#e06c75">result</span>, <span style="color:#e06c75">ret</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">srand</span>(<span style="color:#61afef;font-weight:bold">time</span>(<span style="color:#e5c07b">NULL</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;现在开始剪刀石头布游戏！</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> (<span style="color:#d19a66">1</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">computer</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">rand</span>() <span style="color:#56b6c2">%</span> <span style="color:#d19a66">3</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;请选择(剪刀-0，石头-1，布-2)：&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">ret</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">scanf</span>(<span style="color:#98c379">&#34;%d&#34;</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">man</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>       	<span style="color:#c678dd">if</span> (<span style="color:#e06c75">ret</span> <span style="color:#56b6c2">!=</span> <span style="color:#d19a66">1</span> <span style="color:#56b6c2">||</span> <span style="color:#e06c75">man</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">0</span> <span style="color:#56b6c2">||</span> <span style="color:#e06c75">man</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">2</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;无效输入! 请输入 0, 1 或 2.</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">sleep</span>(<span style="color:#d19a66">3</span>);
+</span></span><span style="display:flex;"><span>        	<span style="color:#61afef;font-weight:bold">system</span>(<span style="color:#98c379">&#34;clear&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#c678dd">continue</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>		<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;你出了: %s</span><span style="color:#98c379">\t</span><span style="color:#98c379">电脑出了: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, 
+</span></span><span style="display:flex;"><span>			<span style="color:#e06c75">gesture</span>[<span style="color:#e06c75">man</span>], <span style="color:#e06c75">gesture</span>[<span style="color:#e06c75">computer</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">result</span> <span style="color:#56b6c2">=</span> (<span style="color:#e06c75">man</span> <span style="color:#56b6c2">-</span> <span style="color:#e06c75">computer</span> <span style="color:#56b6c2">+</span> <span style="color:#d19a66">4</span>) <span style="color:#56b6c2">%</span> <span style="color:#d19a66">3</span> <span style="color:#56b6c2">-</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">if</span> (<span style="color:#e06c75">result</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;你赢了!</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">result</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;平局!</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;你输了!</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">sleep</span>(<span style="color:#d19a66">3</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">system</span>(<span style="color:#98c379">&#34;clear&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="gdb调试">GDB调试</h2>
+<p>调试工具 <code>gdb</code>，可以完全操控程序的运行。</p>
+<p>调试的基本思想就是“分析现象-&gt;假设错误原因-&gt;产生新的现象去验证假设”这样一个循环。</p>
+<h3 id="单步执行和跟踪函数调用">单步执行和跟踪函数调用</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">add_range</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">low</span>, <span style="color:#e5c07b">int</span> <span style="color:#e06c75">high</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span>, <span style="color:#e06c75">sum</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">low</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;=</span> <span style="color:#e06c75">high</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">i</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">sum</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">void</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">result</span>[<span style="color:#d19a66">100</span>];
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">result</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">add_range</span>(<span style="color:#d19a66">1</span>, <span style="color:#d19a66">10</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">result</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">add_range</span>(<span style="color:#d19a66">1</span>, <span style="color:#d19a66">100</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;result[0]=%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">result[1]=%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">result</span>[<span style="color:#d19a66">0</span>], <span style="color:#e06c75">result</span>[<span style="color:#d19a66">1</span>]);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在编译时要加上 <code>-g</code> 选项，生成的可执行文件才能用 <code>gdb</code> 进行源码级调试：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>gcc -g main.c -o main
+</span></span></code></pre></div><p>通过 <code>gdb</code> 命令进入调试：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>gdb main
+</span></span></code></pre></div><p>这里要说明的是，<code>gdb</code> 并不是将源码嵌入到可执行文件中的，它也是从外部获取源码来进行调试分析的。</p>
+<p>我们通过 <code>start</code> 命令开始调试，<code>gdb</code> 会停在变量定义后的第一条语句等待我们的命令，可以使用 <code>next</code> 进行下一步语句：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> start
+</span></span><span style="display:flex;"><span>Temporary breakpoint <span style="color:#d19a66">1</span> at 0x400568: file zz2.c, line 14.
+</span></span><span style="display:flex;"><span>Starting program: /root/testdir/zz2 
+</span></span><span style="display:flex;"><span>Temporary breakpoint 1, main <span style="color:#56b6c2">()</span> at zz2.c:14
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">14</span>          result<span style="color:#56b6c2">[</span>0<span style="color:#56b6c2">]</span> <span style="color:#56b6c2">=</span> add_range<span style="color:#56b6c2">(</span>1, 10<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> next
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">15</span>          result<span style="color:#56b6c2">[</span>1<span style="color:#56b6c2">]</span> <span style="color:#56b6c2">=</span> add_range<span style="color:#56b6c2">(</span>1, 100<span style="color:#56b6c2">)</span>;
+</span></span></code></pre></div><p>此外，我们还可以通过 <code>step</code> 命令就进入到函数的执行中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> start
+</span></span><span style="display:flex;"><span>The program being debugged has been started already.
+</span></span><span style="display:flex;"><span>Start it from the beginning? <span style="color:#56b6c2">(</span>y or n<span style="color:#56b6c2">)</span> y
+</span></span><span style="display:flex;"><span>Temporary breakpoint <span style="color:#d19a66">2</span> at 0x400568: file zz2.c, line 14.
+</span></span><span style="display:flex;"><span>Starting program: /root/testdir/zz2 
+</span></span><span style="display:flex;"><span>Temporary breakpoint 2, main <span style="color:#56b6c2">()</span> at zz2.c:14
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">14</span>          result<span style="color:#56b6c2">[</span>0<span style="color:#56b6c2">]</span> <span style="color:#56b6c2">=</span> add_range<span style="color:#56b6c2">(</span>1, 10<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> step
+</span></span><span style="display:flex;"><span>add_range <span style="color:#56b6c2">(</span><span style="color:#e06c75">low</span><span style="color:#56b6c2">=</span>1, <span style="color:#e06c75">high</span><span style="color:#56b6c2">=</span>10<span style="color:#56b6c2">)</span> at zz2.c:5
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">5</span>           int i, <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> 0;
+</span></span></code></pre></div><p>使用 <code>backtrace</code> 命令可以查看函数调用的栈帧：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> backtrace
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">#0  add_range (low=1, high=10) at zz2.c:5</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">#1  0x0000000000400577 in main () at zz2.c:14</span>
+</span></span></code></pre></div><p>可见当前的 <code>add_range</code> 函数是被 <code>main</code> 函数调用的，<code>main</code> 传进来的参数是 <code>low=1, high=10</code>。<code>main</code> 函数的栈帧编号为1，<code>add_range</code> 的栈帧编号为 0 。现在可以用 <code>info</code> 命令查看 <code>add_range</code> 函数局部变量的值：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> info locals
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">32767</span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> -138851417
+</span></span></code></pre></div><p>如果初始化有错误，我们也可以直接修改初始化变量：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> <span style="color:#e5c07b">set</span> <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> info locals
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">32767</span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>
+</span></span></code></pre></div><p>如果想查看 <code>main</code> 函数当前局部变量的值也可以做到，先用 <code>frame</code> 命令选择 1 号栈帧然后再查看局部变量：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> frame <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">#1  0x0000000000400570 in main () at zz2.c:14</span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">14</span>          result<span style="color:#56b6c2">[</span>0<span style="color:#56b6c2">]</span> <span style="color:#56b6c2">=</span> add_range<span style="color:#56b6c2">(</span>1, 10<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> info locals
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">result</span> <span style="color:#56b6c2">=</span> <span style="color:#56b6c2">{</span>0, 0, 4, 0, 0, 0, -8264, 32767, -8304, 32767, 0, 0, -8208, 32767, -134223256, 32767, -134224160, 32767, -136425313, 32767, 0, 0, 
+</span></span><span style="display:flex;"><span>  -8208, 32767, 0, 0, 0, 0, 0, 832, -134224160, 32767, 960, 1472, 2496, 2496, 2496, 2496, 2496, 2496, 0, 0, -134223256, 32767, -8448, 32767, 
+</span></span><span style="display:flex;"><span>  -8464, 32767, 1700966438, 0, -138851417, 32767, 11538501, 0, -140227432, 32767, -8368, 32767, -138865760, 32767, 256, 64, 118, 0, -8368, 
+</span></span><span style="display:flex;"><span>  32767, 194, 0, -8272, 32767, -8256, 32767, 9, 0, -139772531, 32767, 118, 0, 0, 0, 0, 0, 15775231, 0, 1, 0, 4195837, 0, -8272, 32767, 0, 0, 
+</span></span><span style="display:flex;"><span>  4195760, 0, 4195392, 0, -8048, 32767, 0, 0<span style="color:#56b6c2">}</span>
+</span></span></code></pre></div><p>通过 <code>print</code> 命令还可以直接打印变量的值：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> print sum
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">$1</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>
+</span></span></code></pre></div><p>最后，可以使用 <code>finish</code> 函数让程序运行到从当前函数返回为止：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> finish
+</span></span><span style="display:flex;"><span>Run till <span style="color:#e5c07b">exit</span> from <span style="color:#7f848e">#0  add_range (low=1, high=10) at zz2.c:7</span>
+</span></span><span style="display:flex;"><span>0x0000000000400577 in main <span style="color:#56b6c2">()</span> at zz2.c:14
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">14</span>          result<span style="color:#56b6c2">[</span>0<span style="color:#56b6c2">]</span> <span style="color:#56b6c2">=</span> add_range<span style="color:#56b6c2">(</span>1, 10<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>Value returned is <span style="color:#e06c75">$2</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">55</span>
+</span></span></code></pre></div><h3 id="断点">断点</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e">#include &lt;stdio.h&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>int main<span style="color:#56b6c2">(</span>void<span style="color:#56b6c2">){</span>
+</span></span><span style="display:flex;"><span>	int <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> 0, <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> 0;
+</span></span><span style="display:flex;"><span>	char input<span style="color:#56b6c2">[</span>5<span style="color:#56b6c2">]</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">while</span> <span style="color:#56b6c2">(</span>1<span style="color:#56b6c2">)</span> <span style="color:#56b6c2">{</span>
+</span></span><span style="display:flex;"><span>		scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%s&#34;</span>, input<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">for</span> <span style="color:#56b6c2">(</span><span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> 0; input<span style="color:#56b6c2">[</span>i<span style="color:#56b6c2">]</span> !<span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;\0&#39;</span>; i++<span style="color:#56b6c2">)</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> sum*10 + input<span style="color:#56b6c2">[</span>i<span style="color:#56b6c2">]</span> - <span style="color:#98c379">&#39;0&#39;</span>;
+</span></span><span style="display:flex;"><span>		printf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;input=%d\n&#34;</span>, sum<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#56b6c2">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> 0;
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">}</span>
+</span></span></code></pre></div><p>程序的作用是：首先从键盘读入一串数字存到字符数组 <code>input</code> 中，然后转换成整型存到 <code>sum</code> 中，然后打印出来，一直这样循环下去。</p>
+<p>例如输入是 <code>&quot;2345&quot;</code> ，则循环累加的过程是 <code>(((0*10+2)*10+3)*10+4)*10+5=2345</code>。</p>
+<p>我们可以用 <code>display</code> 命令使得每次停下来的时候都显示当前<code>sum</code>的值，然后继续往下走：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> display sum
+</span></span><span style="display:flex;"><span>1: <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> next
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">10</span>              scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%s&#34;</span>, input<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>1: <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>
+</span></span></code></pre></div><p><code>undisplay</code> 命令可以取消跟踪显示，变量 <code>sum</code> 的编号是1，可以用 <code>undisplay 1</code> 命令取消它的跟踪显示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> n
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">10</span>              scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%s&#34;</span>, input<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>1: <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">123345</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> undisplay <span style="color:#d19a66">1</span>
+</span></span></code></pre></div><p>通过 <code>break</code> 命令在第 10 行打个断点，然后用 <code>continue</code> 连续运行到达断点：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> list <span style="color:#d19a66">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">5</span>           int <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> 0, <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> 0;
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">6</span>           char input<span style="color:#56b6c2">[</span>5<span style="color:#56b6c2">]</span>;
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">7</span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">8</span>           <span style="color:#c678dd">while</span> <span style="color:#56b6c2">(</span>1<span style="color:#56b6c2">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">9</span>           <span style="color:#56b6c2">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">10</span>              scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%s&#34;</span>, input<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">11</span>              <span style="color:#c678dd">for</span> <span style="color:#56b6c2">(</span><span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> 0; input<span style="color:#56b6c2">[</span>i<span style="color:#56b6c2">]</span> !<span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;\0&#39;</span>; i++<span style="color:#56b6c2">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">12</span>                  <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> sum * <span style="color:#d19a66">10</span> + input<span style="color:#56b6c2">[</span>i<span style="color:#56b6c2">]</span> - <span style="color:#98c379">&#39;0&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">13</span>              printf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;input=%d\n&#34;</span>, sum<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">14</span>          <span style="color:#56b6c2">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> <span style="color:#e5c07b">break</span> <span style="color:#d19a66">10</span>
+</span></span><span style="display:flex;"><span>Breakpoint <span style="color:#d19a66">2</span> at 0x4005b3: file zz3.c, line 10.
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> <span style="color:#c678dd">continue</span>
+</span></span><span style="display:flex;"><span>Continuing.
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">123</span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">input</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">123345123</span>
+</span></span><span style="display:flex;"><span>Breakpoint 2, main <span style="color:#56b6c2">()</span> at zz3.c:10
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">10</span>              scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%s&#34;</span>, input<span style="color:#56b6c2">)</span>;
+</span></span></code></pre></div><p>我们可以用 <code>info</code> 命令查看断点情况：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> info breakpoint
+</span></span><span style="display:flex;"><span>Num     Type           Disp Enb Address            What
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">2</span>       breakpoint     keep y   0x00000000004005b3 in main at zz3.c:10
+</span></span><span style="display:flex;"><span>        breakpoint already hit <span style="color:#d19a66">2</span> <span style="color:#e5c07b">times</span>
+</span></span></code></pre></div><p>我们可以用 <code>disable</code> 命令禁用断点，用 <code>enable</code> 重新启用断点，用 <code>delete</code> 删除断点：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> disable breakpoints <span style="color:#d19a66">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> info breakpoints
+</span></span><span style="display:flex;"><span>Num     Type           Disp Enb Address            What
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">2</span>       breakpoint     keep n   0x00000000004005b3 in main at zz3.c:10
+</span></span><span style="display:flex;"><span>        breakpoint already hit <span style="color:#d19a66">2</span> <span style="color:#e5c07b">times</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> <span style="color:#e5c07b">enable</span> <span style="color:#d19a66">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> info breakpoints
+</span></span><span style="display:flex;"><span>Num     Type           Disp Enb Address            What
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">2</span>       breakpoint     keep y   0x00000000004005b3 in main at zz3.c:10
+</span></span><span style="display:flex;"><span>        breakpoint already hit <span style="color:#d19a66">2</span> <span style="color:#e5c07b">times</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> delete breakpoints
+</span></span><span style="display:flex;"><span>Delete all breakpoints? <span style="color:#56b6c2">(</span>y or n<span style="color:#56b6c2">)</span> t
+</span></span><span style="display:flex;"><span>Please answer y or n.
+</span></span><span style="display:flex;"><span>Delete all breakpoints? <span style="color:#56b6c2">(</span>y or n<span style="color:#56b6c2">)</span> y
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> info breakpoints
+</span></span><span style="display:flex;"><span>No breakpoints or watchpoints.        
+</span></span></code></pre></div><p><code>gdb</code> 的断点功能非常灵活，还可以设置断点在满足某个条件时才激活，例如我们仍然在循环开头设置断点，但是仅当<code>sum</code>不等于0时才中断，然后用 <code>run</code> 命令重新从程序开头连续运行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> <span style="color:#e5c07b">break</span> <span style="color:#d19a66">10</span> <span style="color:#c678dd">if</span> sum !<span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>
+</span></span><span style="display:flex;"><span>Breakpoint <span style="color:#d19a66">3</span> at 0x4005b3: file zz3.c, line 10.
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> i breakpoints
+</span></span><span style="display:flex;"><span>Num     Type           Disp Enb Address            What
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">3</span>       breakpoint     keep y   0x00000000004005b3 in main at zz3.c:10
+</span></span><span style="display:flex;"><span>        stop only <span style="color:#c678dd">if</span> sum !<span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> run
+</span></span><span style="display:flex;"><span>The program being debugged has been started already.
+</span></span><span style="display:flex;"><span>Start it from the beginning? <span style="color:#56b6c2">(</span>y or n<span style="color:#56b6c2">)</span> y
+</span></span><span style="display:flex;"><span>Starting program: /root/testdir/zz3 
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">123</span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">input</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">123</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Breakpoint 3, main <span style="color:#56b6c2">()</span> at zz3.c:10
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">10</span>              scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%s&#34;</span>, input<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>2: <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">123</span>        
+</span></span></code></pre></div><p>想要退出 <code>gbd</code> 调试的话，只需要输入 <code>quit</code> 就可以了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> quit
+</span></span><span style="display:flex;"><span>A debugging session is active.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Inferior <span style="color:#d19a66">1</span> <span style="color:#56b6c2">[</span>process 14749<span style="color:#56b6c2">]</span> will be killed.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Quit anyway? <span style="color:#56b6c2">(</span>y or n<span style="color:#56b6c2">)</span> y
+</span></span></code></pre></div><h3 id="观察点">观察点</h3>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e">#include &lt;stdio.h&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>int main<span style="color:#56b6c2">(</span>void<span style="color:#56b6c2">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">{</span>
+</span></span><span style="display:flex;"><span>	int <span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> 0, <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> 0;
+</span></span><span style="display:flex;"><span>	char input<span style="color:#56b6c2">[</span>5<span style="color:#56b6c2">]</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">while</span> <span style="color:#56b6c2">(</span>1<span style="color:#56b6c2">)</span> <span style="color:#56b6c2">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> 0;
+</span></span><span style="display:flex;"><span>		scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%s&#34;</span>, input<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">for</span> <span style="color:#56b6c2">(</span><span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> 0; input<span style="color:#56b6c2">[</span>i<span style="color:#56b6c2">]</span> !<span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;\0&#39;</span>; i++<span style="color:#56b6c2">)</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#e06c75">sum</span> <span style="color:#56b6c2">=</span> sum*10 + input<span style="color:#56b6c2">[</span>i<span style="color:#56b6c2">]</span> - <span style="color:#98c379">&#39;0&#39;</span>;
+</span></span><span style="display:flex;"><span>		printf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;input=%d\n&#34;</span>, sum<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#56b6c2">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> 0;
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">}</span>
+</span></span></code></pre></div><p>如果我们想查看某个数的输出可以用 <code>x</code> 来输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> n
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">11</span>              scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%s&#34;</span>, input<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> n
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">12345</span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">12</span>              <span style="color:#c678dd">for</span> <span style="color:#56b6c2">(</span><span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> 0; input<span style="color:#56b6c2">[</span>i<span style="color:#56b6c2">]</span> !<span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;\0&#39;</span>; i++<span style="color:#56b6c2">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> x/8b input
+</span></span><span style="display:flex;"><span>0x7fffffffdfa0: 0x31    0x32    0x33    0x34    0x35    0x00    0x00    0x00
+</span></span></code></pre></div><p>如果我们想观察某个值的变化，可以用 <code>watch</code> 来设置观察点：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> watch input<span style="color:#56b6c2">[</span>0<span style="color:#56b6c2">]</span>
+</span></span><span style="display:flex;"><span>Hardware watchpoint 4: input<span style="color:#56b6c2">[</span>0<span style="color:#56b6c2">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> c
+</span></span><span style="display:flex;"><span>Continuing.
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">input</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">12345</span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">234</span>
+</span></span><span style="display:flex;"><span>Hardware watchpoint 4: input<span style="color:#56b6c2">[</span>0<span style="color:#56b6c2">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Old <span style="color:#e06c75">value</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">49</span> <span style="color:#98c379">&#39;1&#39;</span>
+</span></span><span style="display:flex;"><span>New <span style="color:#e06c75">value</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">50</span> <span style="color:#98c379">&#39;2&#39;</span>
+</span></span><span style="display:flex;"><span>0x00007ffff7a68382 in __GI__IO_vfscanf <span style="color:#56b6c2">()</span> from /lib64/libc.so.6
+</span></span></code></pre></div><h3 id="段错误">段错误</h3>
+<p>如果程序运行时出现段错误，用 <code>gdb</code> 可以很容易定位到究竟是哪一行引发的段错误：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e">#include &lt;stdio.h&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>int main<span style="color:#56b6c2">(</span>void<span style="color:#56b6c2">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">{</span>
+</span></span><span style="display:flex;"><span>	int <span style="color:#e06c75">man</span> <span style="color:#56b6c2">=</span> 0;
+</span></span><span style="display:flex;"><span>	scanf<span style="color:#56b6c2">(</span><span style="color:#98c379">&#34;%d&#34;</span>, man<span style="color:#56b6c2">)</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> 0;
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">}</span>
+</span></span></code></pre></div><p>然后我们用 <code>gdb</code> 调试这段程序：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> run
+</span></span><span style="display:flex;"><span>Starting program: /root/testdir/zz5 
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">123</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Program received signal SIGSEGV, Segmentation fault.
+</span></span><span style="display:flex;"><span>0x00007ffff7a69341 in __GI__IO_vfscanf <span style="color:#56b6c2">()</span> from /lib64/libc.so.6
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">(</span>gdb<span style="color:#56b6c2">)</span> backtrace
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">#0  0x00007ffff7a69341 in __GI__IO_vfscanf () from /lib64/libc.so.6</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">#1  0x00007ffff7a790b9 in __isoc99_scanf () from /lib64/libc.so.6</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">#2  0x0000000000400580 in main () at zz5.c:6</span>
+</span></span></code></pre></div><p><code>gdb</code> 显示段错误出现在 <code>_IO_vfscanf</code> 函数中，用 <code>bt</code> 命令可以看到这个函数是被我们的 <code>scanf</code> 函数调用的，所以是 <code>scanf</code> 这一行代码引发的段错误。仔细观察程序发现是 <code>man</code> 前面少了个 <code>&amp;</code>。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/c/">C</a>
+        
+            <a href="/tags/linux/">Linux</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了31.5k字·共 4篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#程序的基本概念">程序的基本概念</a>
+      <ol>
+        <li><a href="#程序和编程语言">程序和编程语言</a></li>
+        <li><a href="#程序的调试">程序的调试</a></li>
+        <li><a href="#第一个程序">第一个程序</a></li>
+      </ol>
+    </li>
+    <li><a href="#常量变量和表达式">常量、变量和表达式</a>
+      <ol>
+        <li><a href="#简单的规则">简单的规则</a></li>
+        <li><a href="#常量">常量</a></li>
+        <li><a href="#变量">变量</a></li>
+        <li><a href="#赋值">赋值</a></li>
+        <li><a href="#表达式">表达式</a></li>
+        <li><a href="#字符类型和字符编码">字符类型和字符编码</a></li>
+      </ol>
+    </li>
+    <li><a href="#简单函数">简单函数</a>
+      <ol>
+        <li><a href="#数学函数">数学函数</a></li>
+        <li><a href="#自定义函数">自定义函数</a></li>
+        <li><a href="#形参和实参">形参和实参</a></li>
+        <li><a href="#全局变量局部变量">全局变量、局部变量</a></li>
+      </ol>
+    </li>
+    <li><a href="#分支语句">分支语句</a>
+      <ol>
+        <li><a href="#if-语句">if 语句</a></li>
+        <li><a href="#ifelse-语句">if/else 语句</a></li>
+        <li><a href="#布尔代数">布尔代数</a></li>
+        <li><a href="#swtich-语句">swtich 语句</a></li>
+        <li><a href="#深入理解函数">深入理解函数</a></li>
+        <li><a href="#return-语句">return 语句</a></li>
+        <li><a href="#增量式开发">增量式开发</a></li>
+        <li><a href="#递归">递归</a></li>
+      </ol>
+    </li>
+    <li><a href="#循环语句">循环语句</a>
+      <ol>
+        <li><a href="#while-语句">while 语句</a></li>
+        <li><a href="#do-while-语句">do while 语句</a></li>
+        <li><a href="#for-语句">for 语句</a></li>
+        <li><a href="#break-和-continue">break 和 continue</a></li>
+      </ol>
+    </li>
+    <li><a href="#结构体">结构体</a>
+      <ol>
+        <li><a href="#复合类型与结构体">复合类型与结构体</a></li>
+        <li><a href="#数据抽象">数据抽象</a></li>
+        <li><a href="#数据类型标志">数据类型标志</a></li>
+      </ol>
+    </li>
+    <li><a href="#数组">数组</a>
+      <ol>
+        <li><a href="#数组的基本概念">数组的基本概念</a></li>
+        <li><a href="#字符串">字符串</a></li>
+        <li><a href="#多维数组">多维数组</a></li>
+      </ol>
+    </li>
+    <li><a href="#gdb调试">GDB调试</a>
+      <ol>
+        <li><a href="#单步执行和跟踪函数调用">单步执行和跟踪函数调用</a></li>
+        <li><a href="#断点">断点</a></li>
+        <li><a href="#观察点">观察点</a></li>
+        <li><a href="#段错误">段错误</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">4</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_2">
+                Note
+            </a>
+        
+            <a href="/tags/c/" class="font_size_1">
+                C
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_1">
+                Linux
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/%E5%BC%80%E5%8F%91/" class="font_size_1">
+                开发
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E5%AD%A6/" class="font_size_1">
+                数学
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
