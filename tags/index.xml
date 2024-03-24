@@ -6,22 +6,8 @@
     <description>Recent content in Tags on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Mar 2024 15:00:14 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 24 Mar 2024 14:37:07 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Linux</title>
-      <link>https://yikuanzz.github.io/tags/linux/</link>
-      <pubDate>Sun, 24 Mar 2024 15:00:14 +0800</pubDate>
-      <guid>https://yikuanzz.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Note</title>
-      <link>https://yikuanzz.github.io/tags/note/</link>
-      <pubDate>Sun, 24 Mar 2024 15:00:14 +0800</pubDate>
-      <guid>https://yikuanzz.github.io/tags/note/</guid>
-      <description></description>
-    </item>
     <item>
       <title>C</title>
       <link>https://yikuanzz.github.io/tags/c/</link>
@@ -30,10 +16,24 @@
       <description></description>
     </item>
     <item>
+      <title>Linux</title>
+      <link>https://yikuanzz.github.io/tags/linux/</link>
+      <pubDate>Sun, 24 Mar 2024 14:37:07 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>开发</title>
       <link>https://yikuanzz.github.io/tags/%E5%BC%80%E5%8F%91/</link>
       <pubDate>Sat, 23 Mar 2024 20:46:07 +0800</pubDate>
       <guid>https://yikuanzz.github.io/tags/%E5%BC%80%E5%8F%91/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Note</title>
+      <link>https://yikuanzz.github.io/tags/note/</link>
+      <pubDate>Fri, 22 Mar 2024 20:39:03 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/tags/note/</guid>
       <description></description>
     </item>
     <item>

@@ -7,17 +7,6 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <lastBuildDate>Sun, 24 Mar 2024 15:00:14 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Linux-基础</title>
-        <link>https://yikuanzz.github.io/2024/linux-%E5%9F%BA%E7%A1%80/</link>
-        <pubDate>Sun, 24 Mar 2024 15:00:14 +0800</pubDate>
-        
-        <guid>https://yikuanzz.github.io/2024/linux-%E5%9F%BA%E7%A1%80/</guid>
-        <description>&lt;img src="https://yikuanzz.github.io/2024/linux-%E5%9F%BA%E7%A1%80/cover.png" alt="Featured image of post Linux-基础" /&gt;&lt;h3 id=&#34;linux-文件管理&#34;&gt;Linux 文件管理&lt;/h3&gt;
-&lt;h3 id=&#34;linux-权限管理&#34;&gt;Linux 权限管理&lt;/h3&gt;
-&lt;h3 id=&#34;linux-系统管理&#34;&gt;Linux 系统管理&lt;/h3&gt;
-</description>
-        </item>
-        <item>
         <title>Linux C（一）入门</title>
         <link>https://yikuanzz.github.io/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/</link>
         <pubDate>Sun, 24 Mar 2024 14:37:07 +0800</pubDate>
