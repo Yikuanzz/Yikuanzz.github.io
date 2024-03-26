@@ -6,8 +6,15 @@
     <description>Recent content in 开发运维技术 on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Mar 2024 14:37:07 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 27 Mar 2024 00:20:54 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python - 基础</title>
+      <link>https://yikuanzz.github.io/2024/python-%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Wed, 27 Mar 2024 00:20:54 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/python-%E5%9F%BA%E7%A1%80/</guid>
+      <description>Python 计算 数字 # 加减乘除 print(2 + 2) # 4 print(4 - 3) # 1 print(6 * 2) # 12 print(17 / 3) # 5.666667 # 去掉小数点 print(17 // 3) # 5 # 取模运算 print(17 % 3) # 2 # 幂运算 print(3 ** 2) # 9 # 变量赋值 tax = 12.5 / 100</description>
+    </item>
     <item>
       <title>Linux C（一）入门</title>
       <link>https://yikuanzz.github.io/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/</link>
