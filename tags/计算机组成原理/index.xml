@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>计算机组成原理 on Yikuanzz</title>
+    <link>https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/</link>
+    <description>Recent content in 计算机组成原理 on Yikuanzz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 25 Mar 2024 10:55:32 +0800</lastBuildDate>
+    <atom:link href="https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>计组-计算机算术</title>
+      <link>https://yikuanzz.github.io/2024/%E8%AE%A1%E7%BB%84-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AE%97%E6%9C%AF/</link>
+      <pubDate>Mon, 25 Mar 2024 10:55:32 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/%E8%AE%A1%E7%BB%84-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AE%97%E6%9C%AF/</guid>
+      <description>计算机内可以存储各种各样的数据，例如：文本数据、图片数据、音频数据、视频数据等等。 这些数据都会以 位（bit，或比特） 的形式储存在计算机内，并</description>
+    </item>
+  </channel>
+</rss>
