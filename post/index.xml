@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 Mar 2024 00:20:54 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 01 Apr 2024 02:38:04 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>数组</title>
+      <link>https://yikuanzz.github.io/2024/%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Mon, 01 Apr 2024 02:38:04 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/%E6%95%B0%E7%BB%84/</guid>
+      <description>数组基础 数据简介 数组（Array）：一种线性表数据结构。它使用一组连续的内存空间，来存储一组具有相同类型的数据。 内存地址： 1000 1004 1008 1012 1016 1020 1024 数据</description>
+    </item>
     <item>
       <title>Python - 基础</title>
       <link>https://yikuanzz.github.io/2024/python-%E5%9F%BA%E7%A1%80/</link>
