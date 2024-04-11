@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Apr 2024 02:38:04 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 11 Apr 2024 19:05:18 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android开发笔记（未完）</title>
+      <link>https://yikuanzz.github.io/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0%E6%9C%AA%E5%AE%8C/</link>
+      <pubDate>Thu, 11 Apr 2024 19:05:18 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0%E6%9C%AA%E5%AE%8C/</guid>
+      <description>Android 介绍 Android 系统架构 Linux内核层，为 Android 设备各种硬件停供底层驱动。 系统运行库层，通过一些 C/C++ 库为 Android 系统提供主要的特性支持。 应用框架层，构建程序的</description>
+    </item>
     <item>
       <title>数组</title>
       <link>https://yikuanzz.github.io/2024/%E6%95%B0%E7%BB%84/</link>
