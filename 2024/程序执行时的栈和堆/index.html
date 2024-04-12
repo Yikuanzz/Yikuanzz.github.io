@@ -3,17 +3,18 @@
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-<meta name='description' content=''><title>Home</title>
+<meta name='description' content='在 C语言中，程序运行时会存在 栈 和 堆 两种不同的内存分配方式。 接下来，我们从 内存分配方式 、内存地址增长 和 碎片 三个方面来对比 栈 和 堆。 内存分配方式 栈'><title>程序执行时的栈和堆</title>
 
-<link rel='canonical' href='https://yikuanzz.github.io/home/'>
+<link rel='canonical' href='https://yikuanzz.github.io/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/'>
 
-<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='Home'>
-<meta property='og:description' content=''>
-<meta property='og:url' content='https://yikuanzz.github.io/home/'>
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='程序执行时的栈和堆'>
+<meta property='og:description' content='在 C语言中，程序运行时会存在 栈 和 堆 两种不同的内存分配方式。 接下来，我们从 内存分配方式 、内存地址增长 和 碎片 三个方面来对比 栈 和 堆。 内存分配方式 栈'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/'>
 <meta property='og:site_name' content='Yikuanzz'>
-<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2024-03-22T15:46:40&#43;08:00'/><meta property='article:modified_time' content='2024-03-22T15:46:40&#43;08:00'/>
-<meta name="twitter:title" content="Home">
-<meta name="twitter:description" content="">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='计算机组成原理' /><meta property='article:published_time' content='2024-04-12T18:57:08&#43;08:00'/><meta property='article:modified_time' content='2024-04-12T18:57:08&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/cover.png' />
+<meta name="twitter:title" content="程序执行时的栈和堆">
+<meta name="twitter:description" content="在 C语言中，程序运行时会存在 栈 和 堆 两种不同的内存分配方式。 接下来，我们从 内存分配方式 、内存地址增长 和 碎片 三个方面来对比 栈 和 堆。 内存分配方式 栈"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/cover.png' />
     <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
 <style>
     :root {
@@ -60,7 +61,7 @@
 </script>
 <div class="container main-container flex 
     <!-- 
-        on-phone--column extended
+        extended
      -->
     on-phone--column extended
 ">
@@ -318,18 +319,34 @@
 </aside>
 
 <main class="main full-width">
-    <article class="main-article">
+    <article class="has-image main-article">
     <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/">
+                <img src="/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/cover_hu37587a8bd83b25334c034dc21edbfba1_1013347_800x0_resize_box_3.png"
+                        srcset="/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/cover_hu37587a8bd83b25334c034dc21edbfba1_1013347_800x0_resize_box_3.png 800w, /2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/cover_hu37587a8bd83b25334c034dc21edbfba1_1013347_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post 程序执行时的栈和堆" />
+                
+            </a>
+        </div>
+    
 
     <div class="article-details">
     
     <header class="article-category">
         
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" style="background-color: #FF8C00; color: #fff;">
+                技术与效率
+            </a>
+        
     </header>
     
 
     <h2 class="article-title">
-        <a href="/home/">Home</a>
+        <a href="/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/">程序执行时的栈和堆</a>
     </h2>
 
     
@@ -347,7 +364,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Mar 22, 2024</time>
+                <time class="article-time--published">Apr 12, 2024</time>
             </div>
         
 
@@ -362,7 +379,7 @@
 
 
                 <time class="article-words">
-                    0字
+                    647字
                 </time>
             </div>
         
@@ -374,13 +391,68 @@
     <section class="article-content">
     
     
-    
+    <p>在 C语言中，程序运行时会存在 <strong>栈</strong> 和 <strong>堆</strong> 两种不同的内存分配方式。</p>
+<p>接下来，我们从 <strong>内存分配方式</strong> 、<strong>内存地址增长</strong> 和 <strong>碎片</strong> 三个方面来对比 <strong>栈</strong> 和 <strong>堆</strong>。</p>
+<h2 id="内存分配方式">内存分配方式</h2>
+<p><strong>栈</strong>：系统自动分配和释放，主要存放程序中的实际参数和局部变量。</p>
+<p><strong>堆</strong>：程序员自己分配和释放，可以动态拓展和搜索的内存空间，程序调用 malloc、new、free 之类的函数堆大小会变化。</p>
+<h2 id="内存地址增长">内存地址增长</h2>
+<p><strong>栈</strong>：向着内存地址减小的方向增长，由内存的高地址向低地址方向增长。</p>
+<p><strong>堆</strong>：向着内存地址增长方向增长，从内存地址的低地址向高地址方向增长。</p>
+<h2 id="碎片">碎片</h2>
+<p><strong>栈</strong>：因为是连续分配的空间，所以没有碎片问题。</p>
+<p><strong>堆</strong>：频繁的 malloc 或 free 会造成内存空间的不连续。</p>
+<h2 id="示例">示例</h2>
+<p>下面是一个 C++ 代码的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">stack_example</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">stack_var</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">10</span>;		<span style="color:#7f848e">// 局部变量，在栈中分配内存
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34;Stack variable: &#34;</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">stack_var</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">endl</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">heap_example</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">heap_var</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">new</span> <span style="color:#e5c07b">int</span>(<span style="color:#d19a66">20</span>);		<span style="color:#7f848e">// new，在堆中分配内存
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34;Heap variable：&#34;</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">heap_var</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">endl</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">delete</span> <span style="color:#e06c75">heap_var</span>;		<span style="color:#7f848e">// 释放堆内存
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">stack_example</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">heap_example</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>注意，当你在堆上分配内存时，需要使用完成后进行释放，否则可能会导致内存泄露的问题。</p>
+<p>内存泄露就是指，你向程序申请内存后没有归还给系统，那么这个对象就会一直占用这块内存。</p>
+<h2 id="拓展静态变量">拓展：静态变量</h2>
+<p>全局静态变量和局部静态变量都是存储在静态存储区之中的。</p>
+<p>区别就是，局部静态变量会在函数销毁时依旧驻留在内存中，直到程序结束。</p>
+<p>但是，如果是动态分配的静态变量，它需要在多个内存之间共享并保存值，就会存放在堆区，这样它的生命周期会伴随程序的整个过程。</p>
+<p>比如，我们可以看一个 C++ 的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">allocate_static</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">static</span> <span style="color:#e5c07b">int</span><span style="color:#56b6c2">*</span> <span style="color:#e06c75">heap_var</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">new</span> <span style="color:#e5c07b">int</span>(<span style="color:#d19a66">20</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34;Heap variable：&#34;</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">heap_var</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">endl</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">allocate_static</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
 </section>
 
 
     <footer class="article-footer">
     
     <section class="article-tags">
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a>
         
     </section>
 
@@ -434,25 +506,70 @@
             <div class="flex article-list--tile">
                 
                     
-<article class="">
-    <a href="/gossip/%E6%9C%80%E8%BF%91%E7%9C%8B%E8%AE%B2%E5%BA%A7%E5%90%8E%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/">
+<article class="has-image">
+    <a href="/2024/%E8%AE%A1%E7%BB%84-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AE%97%E6%9C%AF/">
         
+        
+            <div class="article-image">
+                <img src="/2024/%E8%AE%A1%E7%BB%84-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AE%97%E6%9C%AF/cover.675a34a3aa527cf500abbc3df268e788_hu2a12c6b4de696aee97ce970a68d98a3e_1194101_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 计组-计算机算术"
+                        data-key="计组-计算机算术" 
+                        data-hash="md5-Z1o0o6pSfPUAq7w98mjniA==">
+                
+            </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">最近看讲座后的一些感想</h2>
+            <h2 class="article-title">计组-计算机算术</h2>
         </div>
     </a>
 </article>
                 
                     
-<article class="">
-    <a href="/gossip/firsttime/">
+<article class="has-image">
+    <a href="/2024/%E6%B5%85%E8%81%8A%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
         
+        
+            <div class="article-image">
+                <img src="/2024/%E6%B5%85%E8%81%8A%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/cover.5b913d465fe9557e6a6afbfec39e6073_hu7463b4b34524b427fe5ff8175328084d_847514_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 浅聊操作系统"
+                        data-key="浅聊操作系统" 
+                        data-hash="md5-W5E9Rl/pVX5qavv&#43;w55gcw==">
+                
+            </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">FirstTime</h2>
+            <h2 class="article-title">浅聊操作系统</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF%E5%92%8C%E6%A8%A1%E5%BC%8F/cover.bde00b4c44ca64cb01b05d4993b04bbe_hu7d4fceec4d5a30dfc826354c0be764cc_547485_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 开发技术和模式"
+                        data-key="开发技术和模式" 
+                        data-hash="md5-veALTETKZMsBsF1Jk7BLvg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">开发技术和模式</h2>
         </div>
     </a>
 </article>
@@ -662,6 +779,34 @@ document.getElementById('days').innerHTML = number_of_days;
     </form>
         
             
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#内存分配方式">内存分配方式</a></li>
+    <li><a href="#内存地址增长">内存地址增长</a></li>
+    <li><a href="#碎片">碎片</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#拓展静态变量">拓展：静态变量</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
         
             <section class="widget categories">
         <div class="widget-icon">

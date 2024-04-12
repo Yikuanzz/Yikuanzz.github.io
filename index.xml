@@ -6,7 +6,68 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Thu, 11 Apr 2024 19:05:18 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 12 Apr 2024 18:57:08 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>程序执行时的栈和堆</title>
+        <link>https://yikuanzz.github.io/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/</link>
+        <pubDate>Fri, 12 Apr 2024 18:57:08 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/cover.png" alt="Featured image of post 程序执行时的栈和堆" /&gt;&lt;p&gt;在 C语言中，程序运行时会存在 &lt;strong&gt;栈&lt;/strong&gt; 和 &lt;strong&gt;堆&lt;/strong&gt; 两种不同的内存分配方式。&lt;/p&gt;
+&lt;p&gt;接下来，我们从 &lt;strong&gt;内存分配方式&lt;/strong&gt; 、&lt;strong&gt;内存地址增长&lt;/strong&gt; 和 &lt;strong&gt;碎片&lt;/strong&gt; 三个方面来对比 &lt;strong&gt;栈&lt;/strong&gt; 和 &lt;strong&gt;堆&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;内存分配方式&#34;&gt;内存分配方式&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;栈&lt;/strong&gt;：系统自动分配和释放，主要存放程序中的实际参数和局部变量。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;堆&lt;/strong&gt;：程序员自己分配和释放，可以动态拓展和搜索的内存空间，程序调用 malloc、new、free 之类的函数堆大小会变化。&lt;/p&gt;
+&lt;h2 id=&#34;内存地址增长&#34;&gt;内存地址增长&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;栈&lt;/strong&gt;：向着内存地址减小的方向增长，由内存的高地址向低地址方向增长。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;堆&lt;/strong&gt;：向着内存地址增长方向增长，从内存地址的低地址向高地址方向增长。&lt;/p&gt;
+&lt;h2 id=&#34;碎片&#34;&gt;碎片&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;栈&lt;/strong&gt;：因为是连续分配的空间，所以没有碎片问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;堆&lt;/strong&gt;：频繁的 malloc 或 free 会造成内存空间的不连续。&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;p&gt;下面是一个 C++ 代码的例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;stack_example&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stack_var&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 局部变量，在栈中分配内存
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Stack variable: &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stack_var&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;endl&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;heap_example&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;heap_var&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// new，在堆中分配内存
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Heap variable：&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;heap_var&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;endl&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;delete&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;heap_var&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 释放堆内存
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;stack_example&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;heap_example&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注意，当你在堆上分配内存时，需要使用完成后进行释放，否则可能会导致内存泄露的问题。&lt;/p&gt;
+&lt;p&gt;内存泄露就是指，你向程序申请内存后没有归还给系统，那么这个对象就会一直占用这块内存。&lt;/p&gt;
+&lt;h2 id=&#34;拓展静态变量&#34;&gt;拓展：静态变量&lt;/h2&gt;
+&lt;p&gt;全局静态变量和局部静态变量都是存储在静态存储区之中的。&lt;/p&gt;
+&lt;p&gt;区别就是，局部静态变量会在函数销毁时依旧驻留在内存中，直到程序结束。&lt;/p&gt;
+&lt;p&gt;但是，如果是动态分配的静态变量，它需要在多个内存之间共享并保存值，就会存放在堆区，这样它的生命周期会伴随程序的整个过程。&lt;/p&gt;
+&lt;p&gt;比如，我们可以看一个 C++ 的例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;allocate_static&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;heap_var&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Heap variable：&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;heap_var&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;endl&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;allocate_static&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        <item>
         <title>Android开发笔记（未完）</title>
         <link>https://yikuanzz.github.io/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0%E6%9C%AA%E5%AE%8C/</link>
         <pubDate>Thu, 11 Apr 2024 19:05:18 +0800</pubDate>
