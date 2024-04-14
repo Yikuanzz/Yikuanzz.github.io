@@ -6,7 +6,83 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 12 Apr 2024 18:57:08 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 15 Apr 2024 01:49:05 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>跨域问题</title>
+        <link>https://yikuanzz.github.io/2024/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</link>
+        <pubDate>Mon, 15 Apr 2024 01:49:05 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/cover.png" alt="Featured image of post 跨域问题" /&gt;&lt;h2 id=&#34;跨域&#34;&gt;跨域&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;跨域问题&lt;/strong&gt;是前端开发常见的一个问题，就是当一个网页或脚本试图请求另一个来源（域名、协议或端口）的资源时会产生的问题。&lt;/p&gt;
+&lt;p&gt;原因是：浏览的&lt;strong&gt;同源策略&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;同源策略规定了浏览器可进行的操作，如果不同源的网页或脚本没有授权，则无法读取或写入资源。&lt;/p&gt;
+&lt;p&gt;一般来说，当以下三个条件同时满足的时候，才会发生跨域问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、浏览器限制，而不是服务端限制。&lt;/li&gt;
+&lt;li&gt;2、请求地址的域名或端口和当前访问的域名或端口不一样。&lt;/li&gt;
+&lt;li&gt;3、发送的是 XHR （XMLHttpRequest）请求。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;jsonp&#34;&gt;JSONP&lt;/h2&gt;
+&lt;p&gt;JSONP（JSON with Padding）的思想是通过页面上动态创建 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 标签，从另一个域加载包含 JSON 数据的外部脚本文件，然后将数据包裹在一个函数调用中返回给客户端。&lt;/p&gt;
+&lt;p&gt;具体工作流程是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、客户端定义一个回调函数，将其名称作为参数传递给服务端。&lt;/li&gt;
+&lt;li&gt;2、服务端收到请求后，将数据包装在回调函数中。&lt;/li&gt;
+&lt;li&gt;3、服务端将回调函数返回给客户端。&lt;/li&gt;
+&lt;li&gt;4、客户端执行回调函数，从而获取服务端的回调函数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义回调函数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;handleResponse&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;response&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Received data: &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;response&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个新的&amp;lt;script&amp;gt;元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;script&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;document&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;createElement&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;script&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 设置src属性，其中myCallback是服务端期望的回调函数名
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;script&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;src&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;https://example.com/data?callback=handleResponse&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 将&amp;lt;script&amp;gt;元素插入到页面中，这将导致浏览器发送请求
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;document&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;head&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;appendChild&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;script&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;cors&#34;&gt;CORS&lt;/h2&gt;
+&lt;p&gt;**CORS（Cross-Origin Resource Sharing，跨资源共享）**允许服务器标识除自己以外的其他源，使得浏览器允许这些资源访问加载自己的资源。&lt;/p&gt;
+&lt;p&gt;它的一个核心机制是&lt;strong&gt;预检&lt;/strong&gt;。预检请求是浏览器正式发送跨域请求之前，向服务器发起的一个预先询问的请求，就是询问服务器是否允许它进行跨域请求。&lt;/p&gt;
+&lt;p&gt;预检请求报文中 ：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Access-Control-Request-Method&lt;/code&gt; 告诉服务器所请求的的 HTTP 方法。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Access-Control-Request-Headers&lt;/code&gt; 告诉服务器实际请求携带的自定义首部字段。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Access-COntrol-Allow-Methods&lt;/code&gt; 告诉服务器所有允许的请求方法。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// JavaScript代码，使用Fetch API发起跨域请求
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;fetch&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;https://example.com/data&amp;#39;&lt;/span&gt;, {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;method&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#7f848e&#34;&gt;// 或者 &amp;#39;POST&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;headers&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;application/json&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    },
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;then&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;response&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#e06c75&#34;&gt;response&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;json&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;then&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#c678dd&#34;&gt;catch&lt;/span&gt;((&lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;Error:&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// Java代码，使用Spring框架设置响应头&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;org.springframework.web.bind.annotation.CrossOrigin&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;org.springframework.web.bind.annotation.GetMapping&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;org.springframework.web.bind.annotation.RestController&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#61afef&#34;&gt;@RestController&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;MyController&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef&#34;&gt;@CrossOrigin&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;origins&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;http://localhost:3000&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef&#34;&gt;@GetMapping&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;/data&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;getData&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#7f848e&#34;&gt;// 返回一些数据&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Hello, CORS!&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        <item>
         <title>程序执行时的栈和堆</title>
         <link>https://yikuanzz.github.io/2024/%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E6%A0%88%E5%92%8C%E5%A0%86/</link>
         <pubDate>Fri, 12 Apr 2024 18:57:08 +0800</pubDate>

@@ -6,6 +6,14 @@
     <description>Recent content in Web on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Mon, 15 Apr 2024 01:49:05 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/tags/web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>跨域问题</title>
+      <link>https://yikuanzz.github.io/2024/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Mon, 15 Apr 2024 01:49:05 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</guid>
+      <description>跨域 跨域问题是前端开发常见的一个问题，就是当一个网页或脚本试图请求另一个来源（域名、协议或端口）的资源时会产生的问题。 原因是：浏览的同源策略</description>
+    </item>
   </channel>
 </rss>
