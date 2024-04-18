@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<meta name='description' content='基础技术 问题： 1、电脑浏览器是如何打开百度的？ 2、游戏客户端是如何连接服务器的？ 3、购物节，电商服务器是如何顶住压力的？ 网络设备 交换机：电脑'><title>网络数通入门</title>
+
+<link rel='canonical' href='https://yikuanzz.github.io/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='网络数通入门'>
+<meta property='og:description' content='基础技术 问题： 1、电脑浏览器是如何打开百度的？ 2、游戏客户端是如何连接服务器的？ 3、购物节，电商服务器是如何顶住压力的？ 网络设备 交换机：电脑'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Note' /><meta property='article:tag' content='计算机网络' /><meta property='article:published_time' content='2024-04-18T20:05:05&#43;08:00'/><meta property='article:modified_time' content='2024-04-18T20:05:05&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/cover.png' />
+<meta name="twitter:title" content="网络数通入门">
+<meta name="twitter:description" content="基础技术 问题： 1、电脑浏览器是如何打开百度的？ 2、游戏客户端是如何连接服务器的？ 3、购物节，电商服务器是如何顶住压力的？ 网络设备 交换机：电脑"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/cover.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://yikuanzz.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://leetcode.cn/u/yikuanzz/'
+                            target="_blank"
+                            title="Leetcode"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-leetcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M12 13h7.5" />
+  <path d="M9.424 7.268l4.999 -4.999" />
+  <path d="M16.633 16.644l-2.402 2.415a3.189 3.189 0 0 1 -4.524 0l-3.77 -3.787a3.223 3.223 0 0 1 0 -4.544l3.77 -3.787a3.189 3.189 0 0 1 4.524 0l2.302 2.313" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/gossip' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+  <path d="M9 8h6" />
+</svg>
+                
+                <span>杂谈</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/">
+                <img src="/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/cover_hud6534069964b1be15513fb0788602e96_1276815_800x0_resize_box_3.png"
+                        srcset="/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/cover_hud6534069964b1be15513fb0788602e96_1276815_800x0_resize_box_3.png 800w, /2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/cover_hud6534069964b1be15513fb0788602e96_1276815_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post 网络数通入门" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" style="background-color: #FF8C00; color: #fff;">
+                技术与效率
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/">网络数通入门</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 18, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    4612字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="基础技术">基础技术</h2>
+<blockquote>
+<p>问题：</p>
+<p>1、电脑浏览器是如何打开百度的？</p>
+<p>2、游戏客户端是如何连接服务器的？</p>
+<p>3、购物节，电商服务器是如何顶住压力的？</p>
+</blockquote>
+<h3 id="网络设备">网络设备</h3>
+<p><strong>交换机</strong>：电脑之间相互通信，移动终端与电脑之间通信。</p>
+<blockquote>
+<p>网络AP，全称为无线接入点（Wireless Access Point），是无线网络中的核心设备。它的主要作用是将各个无线网络客户端连接到一起，然后将无线网络接入以太网，从而达到网络无线覆盖的目的。</p>
+<p>AP可以分为胖AP和瘦AP：</p>
+<ul>
+<li><strong>胖AP</strong>：也称为无线路由器，除无线接入功能外，一般具备WAN、LAN两个接口，支持地址转换（NAT）功能，多支持DHCP服务器、DNS，以及VPN接入、防火墙等安全功能。</li>
+<li><strong>瘦AP</strong>：也称无线网桥、无线网关，此无线设备的传输机制相当于有线网络中的集线器，在无线局域网中不停地接收和传送数据；任何一台装有无线网卡的PC或者移动终端均可通过AP来使用有线局域网络甚至广域网络的资源。</li>
+</ul>
+</blockquote>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/09/nhJf8jYt1Ku7emp.png" >
+		<img src="https://s2.loli.net/2024/04/09/nhJf8jYt1Ku7emp.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/09/zY3ACcQvkqmrgdB.png" >
+		<img src="https://s2.loli.net/2024/04/09/zY3ACcQvkqmrgdB.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<p><strong>路由器</strong>：连接不同网络。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/09/lByeg7Nsr1q35Vx.png" >
+		<img src="https://s2.loli.net/2024/04/09/lByeg7Nsr1q35Vx.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="ip-地址">IP 地址</h3>
+<p><strong>IP地址</strong>：用于 IP 报文在网络中的寻址，也用于标识一个节点。</p>
+<p>IP 地址 = 网络位 + 主机位。例如：<code>192.168.1.1</code>，该 IP 地址的网络位是 <code>192.168.1</code> 也就是它的网段。</p>
+<p><strong>子网掩码</strong> 决定了 网络位 的长度。例如：<code>192.168.1.1</code> 的子网掩码为 <code>255.255.255.0</code> 就代表前面的三段为网络位。</p>
+<p><strong>DHCP</strong>：自动给设备配置 IP 地址。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/09/o9CipfBbatUQZnJ.png" >
+		<img src="https://s2.loli.net/2024/04/09/o9CipfBbatUQZnJ.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/09/t4EoFeWdqjksOiB.png" >
+		<img src="https://s2.loli.net/2024/04/09/t4EoFeWdqjksOiB.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="tcp-和-udp">TCP 和 UDP</h3>
+<p><strong>TCP</strong>（传输控制协议）和 <strong>UDP</strong>（用户数据报协议）的区别：</p>
+<p>1、<strong>连接</strong>：</p>
+<ul>
+<li>TCP 面向连接的传输层协议，传输数据前要建立连接。</li>
+<li>UDP 无连接，可以传输数据。</li>
+</ul>
+<p>2、<strong>服务对象</strong>：</p>
+<ul>
+<li>TCP 一对一的两点服务。</li>
+<li>UDP 支持一对一、一对多、多对多的交互通信。</li>
+</ul>
+<p>3、<strong>可靠性</strong>：</p>
+<ul>
+<li>TCP  可靠交付数据，数据可以误差错、不丢失、不重复、按需到达。</li>
+<li>UDP 尽最大努力交付，不保证可靠交付数据。</li>
+</ul>
+<p>4、<strong>拥塞控制和流量控制</strong>：</p>
+<ul>
+<li>TCP 有拥塞控制和流量控制，保证数据传输的安全性。</li>
+<li>UDP 网络拥堵也不会影响其发送速率。</li>
+</ul>
+<p>5、<strong>首部开销</strong>：</p>
+<ul>
+<li>TCP 首部长，开销大。</li>
+<li>UDP 首部为 8 字节，固定不变，开销小。</li>
+</ul>
+<p>6、<strong>传输方式</strong>：</p>
+<ul>
+<li>TCP 流式传输，没有边界，但保证顺序和可靠。</li>
+<li>UDP 一个包和一个包的发送，有边界，但可能丢包和乱序。</li>
+</ul>
+<p>7、<strong>分片不同</strong>：</p>
+<ul>
+<li>TCP 数据大于 MSS 大小，就会在传输层切片，目标主机收到后再组装。</li>
+<li>UDP 数据大于 MTU 就会在 IP 层切片，目标主机收到后再组装。</li>
+</ul>
+<blockquote>
+<p><strong>MSS(最大分段大小)</strong>：TCP 报文段中 TCP 数据字段的最大大小，它的值为 MSS 值减去 IPv4 Header(20 Btye) 和 TCP header(20 Btye) 得到。能被装入 MTU 中。</p>
+<p><strong>MTU(最大传输单元)</strong>：数据链路层传输的帧大小，也就是网络链路中能够传输的最大数据包大小。</p>
+</blockquote>
+<h3 id="cdn">CDN</h3>
+<p>**CDN（Content Delivery Network，内容分发网络）**是一个分布在不同地理位置的服务器群，用于缓存靠近最终用户的内容。CDN 可以快速传输加载互联网内容所需的资产，包括 HTML网页、JavaScript文件、样式表、图像和视频。</p>
+<p>CDN 的工作步骤是这样的：</p>
+<p>1、<strong>缓存内容</strong>：CDN 将源站的资源缓存到位于全国各地的 CDN 节点上。</p>
+<p>2、<strong>用户请求资源</strong>：当用户请求某个网站或服务的资源时，请求会被路由到最近的 CDN 节点。</p>
+<p>3、<strong>返回缓存资源</strong>：如果 CDN 节点有用户请求的资源缓存，就会返回缓存的资源给用户。</p>
+<p>4、<strong>负载均衡</strong>：CDN 会将用户的请求分发到不同的服务器。</p>
+<p>5、<strong>安全保护</strong>：CDN 提供 DDos 防护、改善安全证书及其他优化。</p>
+<h3 id="案例配置-ip-地址">案例：配置 IP 地址</h3>
+<p>配置两台路由器的 IP 地址，让其可以进行通信。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/10/d4W7r6yKu3wFZtf.png" >
+		<img src="https://s2.loli.net/2024/04/10/d4W7r6yKu3wFZtf.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<p>我们在 eNSP 中选择路由器 AR2220 和 电线，让两个路由器的 GE 0/0/0 端口相连。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/10/QCIfy7puqxsib4L.png" >
+		<img src="https://s2.loli.net/2024/04/10/QCIfy7puqxsib4L.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>输入系统视图命令后，才能对设备进行配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>system-view
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/10/xZNzUF8eCY94ylO.png" >
+		<img src="https://s2.loli.net/2024/04/10/xZNzUF8eCY94ylO.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>然后我们进入端口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>interface GigabitEthernet 0/0/0
+</span></span></code></pre></div><p>之后就可以配置地址了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ip address 192.168.1.1 255.255.255.0
+</span></span></code></pre></div><p>这样我们就把 RTA 路由 0/0/0 端口的 IP 地址配置完成了。</p>
+<p>RTB 路由的配置就是镜像操作了。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/10/kQN7Bph5DjdFJzH.png" >
+		<img src="https://s2.loli.net/2024/04/10/kQN7Bph5DjdFJzH.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来我们测试一下它们是否连接上：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ping 192.168.1.2
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/10/kr7UMTQD8PwLlsF.png" >
+		<img src="https://s2.loli.net/2024/04/10/kr7UMTQD8PwLlsF.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<h4 id="dhcp">DHCP</h4>
+<p>我们可以用 DHCP 来进行网络 IP 地址的自动配置。</p>
+<blockquote>
+<p><strong>DHCP</strong> 是动态主机配置协议（Dynamic Host Configuration Protocol）的缩写。它是一种网络协议，用于自动为计算机或设备分配 IP 地址、子网掩码、默认网关以及其他网络配置。开启 DHCP 意味着网络中的设备可以自动获取 IP 地址和其他网络配置，而不需要手动配置。这样，网络管理变得更加简化和自动化，减少了出错的可能性，并且减轻了网络管理员的工作负担。</p>
+</blockquote>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/11/lxDrC8wt9621NdB.png" >
+		<img src="https://s2.loli.net/2024/04/11/lxDrC8wt9621NdB.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>我们给路由器配上地址：<code>192.168.1.1</code>。</p>
+<p>然后我们点开 PC 机设置 DHCP 自动配置地址，但是因为我们没有开启 DHCP 的功能，所以事实上主机并没有分配有地址。</p>
+<p>我们要做的是，将路由器视为服务器让它为主机们分配 IP 地址。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/11/fhzgIvkXWcOAQH8.png" >
+		<img src="https://s2.loli.net/2024/04/11/fhzgIvkXWcOAQH8.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>我们在路由器中输入命令，打开 DHCP 的功能：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>dhcp <span style="color:#e5c07b">enable</span>
+</span></span></code></pre></div><p>然后我们需要指定路由器的哪些接口要实现 DHCP 功能。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/11/jrPeB5vxNQJ9TWd.png" >
+		<img src="https://s2.loli.net/2024/04/11/jrPeB5vxNQJ9TWd.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/11/k3sgfBSaecvWzqy.png" >
+		<img src="https://s2.loli.net/2024/04/11/k3sgfBSaecvWzqy.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<h4 id="dns">DNS</h4>
+<p>这里，如果我们想要 ping 通网络域名的话，就需要 DNS 服务器来实现域名解析，将网址变成 IP 地址。</p>
+<blockquote>
+<p>DNS (Domain Name System，域名系统）将域名解析为 IP 地址的系统。</p>
+</blockquote>
+<p>我们在 eNSP 中使用 Server 让它实现 DNS 服务，当它接入网络的时候也要给它配置地址，我们配置它的地址为 <code>192.168.1.100</code>。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/11/YcCOSWkEde4sPND.png" >
+		<img src="https://s2.loli.net/2024/04/11/YcCOSWkEde4sPND.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>这时候，我们还要给路由器指定 DNS 服务器:</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>dhcp server dns-list 192.168.100
+</span></span></code></pre></div><p>现在我们的 PC 机就有 DNS 服务器地址了</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/11/5HrJoKUe6OZpzcM.png" >
+		<img src="https://s2.loli.net/2024/04/11/5HrJoKUe6OZpzcM.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<h4 id="gateway">Gateway</h4>
+<p>顺这这个案例，我们看一下网关。</p>
+<blockquote>
+<p>网关（Gateway）用于连接不同网络或协议之间进行数据转发和处理。</p>
+</blockquote>
+<p>首先，我们让路由器连接一个主机，并配置主机 IP 为：<code>100.100.100.100</code>，网关为：<code>100.100.100.1</code>。</p>
+<p>因为 PC 之间所在的网段不同，所以需要路由器作为网关连接这两个网段。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/13/PbtxjswhfORBCuW.png" >
+		<img src="https://s2.loli.net/2024/04/13/PbtxjswhfORBCuW.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接下来，我们给路由器配置 <code>100.100.100.1</code> 的地址，这样我们不同网段之间的电脑就能 ping 通了。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/13/OVkLC4jFdael6pU.png" >
+		<img src="https://s2.loli.net/2024/04/13/OVkLC4jFdael6pU.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>而路由器能实现不同网段之间的相连，主要依赖路由器中的路由表，它记录去往不同地址的接口。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 查看 ip 路由表</span>
+</span></span><span style="display:flex;"><span>display ip routing-table
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 查看目标 ip</span>
+</span></span><span style="display:flex;"><span>display ip routing-table 100.100.100.100 
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/13/W6DGsLzOUKgJxe5.png" >
+		<img src="https://s2.loli.net/2024/04/13/W6DGsLzOUKgJxe5.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="案例配置静态路由">案例：配置静态路由</h3>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/14/nLjitfr4gXszoTC.png" >
+		<img src="https://s2.loli.net/2024/04/14/nLjitfr4gXszoTC.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>当我们配置好 IP 地址后，发现无法从 PC1 连通到 Server 1。</p>
+<p>因为，我们发现 AR1 的路由表上没有去往 <code>192.168.3.10</code> 的接口位置。</p>
+<p>为了让数据能够成功转发，所以我们手动添加路由的接口位置。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 通过 192.168.2.10 去往 192.168.3.0 这个网段的路由 </span>
+</span></span><span style="display:flex;"><span>ip route-static 192.168.3.0	255.255.255.0 192.168.2.10
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 通过 192.168.2.1 去往 192.168.1.0 这个网段的路由</span>
+</span></span><span style="display:flex;"><span>ip route-static 192.168.1.0	255.255.255.0 192.168.2.1
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/14/NI4EWmoHegwyJ6U.png" >
+		<img src="https://s2.loli.net/2024/04/14/NI4EWmoHegwyJ6U.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="网安技术">网安技术</h2>
+<h3 id="vlan-虚拟局域网">VLAN 虚拟局域网</h3>
+<p>VLAN（Virtual Local Area Network） 就是虚拟局域网，它将一个物理的局域网在逻辑上划分成多个广播域。它的目的是为了提高安全性、控制流量和简化网络架构，。</p>
+<hr>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/14/D7x86r3kK9PmVvG.png" >
+		<img src="https://s2.loli.net/2024/04/14/D7x86r3kK9PmVvG.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>我们让这两台电脑放入不同的 VLAN 中，实现隔离，就需要配置交换机。</p>
+<p>步骤就是创建 VLAN，然后再将这两台电脑放入不同的 VLAN 之中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 创建 VLAN 10</span>
+</span></span><span style="display:flex;"><span>VLAN <span style="color:#d19a66">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 创建 VALN 20</span>
+</span></span><span style="display:flex;"><span>VLAN <span style="color:#d19a66">20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 查看交换机上的 VLAN</span>
+</span></span><span style="display:flex;"><span>display vlan
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/14/Xw6brqn4N2zSsjl.png" >
+		<img src="https://s2.loli.net/2024/04/14/Xw6brqn4N2zSsjl.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>所有机器开机时，都默认存在于 VLAN1 中，VLAN10 和 VLAN20 都是我们后来创建的。</p>
+<p>接下来，我们就要将对应的接口放入 VLAN 中就好了。</p>
+<blockquote>
+<p><strong>交换机的接口模式：</strong></p>
+<p>1、<strong>Access模式</strong>：只能属于一个 VLAN，当交换机收到来自某个端口的数据帧时，他会自动地添加一个 VLAN 标签，然后转发。</p>
+<p>2、<strong>Trunk模式</strong>：允许多个 VLAN 通过，用于交换机与交换机之间连接。当交换机收到某个端口的数据帧时，不会添加 VLAN标签，而是检查数据帧是否包含 VLAN，没有就要手动配置。</p>
+<p>3、<strong>Hybrid模式</strong>：允许多个 VLAN 通过，既可用于交换机连接和用户计算机之间的连接。允许多个 VLAN 的报文不打标签，只允许省却 VLAN 报文不打标签。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 将 0/0/1 接口放入 VLAN10</span>
+</span></span><span style="display:flex;"><span>port link-type access
+</span></span><span style="display:flex;"><span>port default vlan <span style="color:#d19a66">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 将 0/0/2 接口放入 VLAN20</span>
+</span></span><span style="display:flex;"><span>port link-type access
+</span></span><span style="display:flex;"><span>port default vlan <span style="color:#d19a66">20</span>
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/14/Beqytb1S7UL29RG.png" >
+		<img src="https://s2.loli.net/2024/04/14/Beqytb1S7UL29RG.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<p>接下来，我们再看一下 Trunk 模式下的案例。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/14/pWTNP8YyMaCJIzB.png" >
+		<img src="https://s2.loli.net/2024/04/14/pWTNP8YyMaCJIzB.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>我们给第一个交换机的 0/0/3 接口配置 Trunk 模式。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>port link-type trunk
+</span></span><span style="display:flex;"><span>port trunk allow-pass vlan all
+</span></span></code></pre></div><p>然后再给第二个交换机的 0/0/1 接口配置 Trunk 模式。</p>
+<p>最后，再给其他端口配置虚拟局域网就可以了。</p>
+<hr>
+<h4 id="三层交换技术">三层交换技术</h4>
+<p>接下来，我们需要了解的技术是三层交换技术，它能让 VLAN 之间相互通信。</p>
+<p>它的原理是，在二层交换机上配置网关，让机器通过网关转发信息到另外一个机器上。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/15/FGLAUrv5xImPHE2.png" >
+		<img src="https://s2.loli.net/2024/04/15/FGLAUrv5xImPHE2.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>首先就是在 LSW1 交换机中，配置 VLAN10 和 VLAN 20，并且更改接口的 VLAN。</p>
+<p>当然，每个 VLAN 要配置好网关，VLAN10 配置网关为 <code>1.1.1.254</code> 而 VLAN 20 配置网关为 <code>2.2.2.254</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 配置 VLAN10 网关</span>
+</span></span><span style="display:flex;"><span>interface Vlanif <span style="color:#d19a66">10</span>
+</span></span><span style="display:flex;"><span>ip address 1.1.1.254 255.255.255.0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 配置 VLAN20 网关</span>
+</span></span><span style="display:flex;"><span>interface Vlanif <span style="color:#d19a66">20</span>
+</span></span><span style="display:flex;"><span>ip address 2.2.2.254 255.255.255.0
+</span></span></code></pre></div><hr>
+<h4 id="单臂路由技术">单臂路由技术</h4>
+<p>除了，三层交换技术以外，单臂路由技术也能实现 VLAN 之间的相互通信。</p>
+<p>单臂路由就是用一台路由器实现两个 VLAN 之间的通信。其原理就是将路由器的一个接口分为多个子接口作为 VLAN 的网关。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/17/Xd4yAjaCKFUgWpB.png" >
+		<img src="https://s2.loli.net/2024/04/17/Xd4yAjaCKFUgWpB.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 将路由器物理接口变成子接口</span>
+</span></span><span style="display:flex;"><span>int g 0/0/0.10
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 让 VLAN 跟子接口相关联</span>
+</span></span><span style="display:flex;"><span>dot1q termination vid <span style="color:#d19a66">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 并允许 ARP 的广播</span>
+</span></span><span style="display:flex;"><span>arp broadcast <span style="color:#e5c07b">enable</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 配置网关地址</span>
+</span></span><span style="display:flex;"><span>ip address 1.1.1.254
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 查看当前接口下的命令</span>
+</span></span><span style="display:flex;"><span>dis this
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/17/tg92xEIHubMr1Bv.png" >
+		<img src="https://s2.loli.net/2024/04/17/tg92xEIHubMr1Bv.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="acl-访问控制列表">ACL 访问控制列表</h3>
+<p>访问控制列表（Access Control List，ACL）是网络安全机制，用于定义和实施对网络资源或系统对象的访问权限。ACL 可以精确控制哪些主题能够对待客体执行何种操作。</p>
+<p>我们做一个小例子，就是有三个 VLAN ，分别是 VLAN10、VLAN20 和 VLAN 30。我们通过 ACL 让 VLAN20 能访问 VLAN 30，而 VLAN 10 不能访问 VLAN 30。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/17/hlUNI1GmfJO7cFo.png" >
+		<img src="https://s2.loli.net/2024/04/17/hlUNI1GmfJO7cFo.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>步骤一：创建访问控制规则；</p>
+<p>步骤二：调用这个规则。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 创建规则并使用高级 ACL</span>
+</span></span><span style="display:flex;"><span>acl name <span style="color:#e5c07b">test</span> advance
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 基于IP地址拒绝访问</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 注意：ACL 的掩码要反着写</span>
+</span></span><span style="display:flex;"><span>rule deny ip <span style="color:#e5c07b">source</span> 192.168.10.0 0.0.0.255 destination 192.168.30.0 0.0.0.255
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 允许其他数据包的发送</span>
+</span></span><span style="display:flex;"><span>rule permit ip <span style="color:#e5c07b">source</span> any destination any
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 在数据包必经过的接口调用规则</span>
+</span></span><span style="display:flex;"><span>int g 0/0/1
+</span></span><span style="display:flex;"><span>traffic-filter inbound acl name <span style="color:#e5c07b">test</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 查看规则</span>
+</span></span><span style="display:flex;"><span>display acl all
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/17/V1SsoF6wij8G92J.png" >
+		<img src="https://s2.loli.net/2024/04/17/V1SsoF6wij8G92J.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="进阶技术">进阶技术</h2>
+<h3 id="nat-转换">NAT 转换</h3>
+<p>如何连接互联网？</p>
+<ul>
+<li>1、写省却路由。</li>
+<li>2、NAT 网络地址转换。</li>
+</ul>
+<blockquote>
+<p><strong>省却路由</strong>：被称为默认路由，是路由表中一种特殊的静态路由。它的网络地址和掩码都是 0，可以匹配任意目标网络前缀。</p>
+</blockquote>
+<blockquote>
+<p><strong>NAT 网络地址转换</strong>：它是一种 IP 数据报文头中的 IP 地址转换为另一个 IP 地址的过程，用于实现内部网络（私有IP）访问外部网络（公有IP）的功能。</p>
+</blockquote>
+<p>我们常见的私网地址有：<code>192.168.x.x</code>、<code>10.x.x.x</code>、<code>172.16.x.x ~ 172.31.x.x</code>。</p>
+<p>我们的做个小例子，就是让私网的电脑通过 NAT 地址转换能访问公网的路由器。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/17/1YoOFV6eq8PBIzR.png" >
+		<img src="https://s2.loli.net/2024/04/17/1YoOFV6eq8PBIzR.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 查看路由表</span>
+</span></span><span style="display:flex;"><span>display ip routing-table
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 选择数据包做地址转换</span>
+</span></span><span style="display:flex;"><span>acl name neiwang basic
+</span></span><span style="display:flex;"><span>rule permit <span style="color:#e5c07b">source</span> 192.168.1.0	0.0.0.255
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 查看 ACL 编号</span>
+</span></span><span style="display:flex;"><span>dis acl all
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 建立 NAT 地址</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 用 64.1.1.2 ~ 64.1.1.6 公网 IP 进行访问</span>
+</span></span><span style="display:flex;"><span>nat address-group <span style="color:#d19a66">1</span> 64.1.1.2 64.1.1.6
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 在出口调用 NAT 规则</span>
+</span></span><span style="display:flex;"><span>int g 0/0/1
+</span></span><span style="display:flex;"><span>nat outbound <span style="color:#d19a66">2999</span> address-group <span style="color:#d19a66">1</span>
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/17/qj2cAo8YTQHVywX.png" >
+		<img src="https://s2.loli.net/2024/04/17/qj2cAo8YTQHVywX.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/17/9gPkzbuYBQmRfv4.png" >
+		<img src="https://s2.loli.net/2024/04/17/9gPkzbuYBQmRfv4.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<p>上述的例子，是 NAT 动态分配地址。接下来，我们看一下静态 NAT 分配地址。</p>
+<p>如果有一台电脑想从外网访问内网中的一台服务器，就需要给这台服务器配置静态的地址。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/18/J7tOI6NfhDi4Bm1.png" >
+		<img src="https://s2.loli.net/2024/04/18/J7tOI6NfhDi4Bm1.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 配置路由</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># AR1</span>
+</span></span><span style="display:flex;"><span>ip route-static 200.200.200.0 255.255.255.0 119.1.1.2
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># AR2</span>
+</span></span><span style="display:flex;"><span>ip route-static 172.16.0.0 255.255.255.0 119.1.1.1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 配置静态 NAT</span>
+</span></span><span style="display:flex;"><span>int g 0/0/1
+</span></span><span style="display:flex;"><span>nat server global 119.1.1.123 inside 172.16.0.1
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/18/kJLmOxAByESQGa6.png" >
+		<img src="https://s2.loli.net/2024/04/18/kJLmOxAByESQGa6.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="telnet-协议">Telnet 协议</h3>
+<p>如何远程管理远程设备？</p>
+<ul>
+<li>通过 Telnet 远程管理设备。</li>
+</ul>
+<blockquote>
+<p><strong>Telnel</strong> 是一种应用层协议，用于互联网和局域网汇中，使用虚拟终端的形式提供双向、以文本字符串为主的命令行界面交互。</p>
+</blockquote>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/18/6tPATmqVEDjJCfM.png" >
+		<img src="https://s2.loli.net/2024/04/18/6tPATmqVEDjJCfM.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>其中，Cloud1 为我们的本地主机，而 AR1 为远程路由器。</p>
+<p>我们需要配置一下 Cloud1 的信息和我们的网卡地址。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/18/ZVmMaW1XqisCJOD.png" >
+		<img src="https://s2.loli.net/2024/04/18/ZVmMaW1XqisCJOD.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>可以看到我们为选择了 VMnet8 作为主机的网卡，接下来我们给 VMnet8 配置一个地址为 <code>100.1.1.1</code>，掩码为 <code>255.0.0.0</code>。</p>
+<p>然后，给路由器接口配置地址为 <code>100.100.100.100</code>，掩码为 <code>255.0.0.0</code>。</p>
+<p>这样，我们的主机就已经可以 ping 通路由器了。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/18/teRXdS6BZ7qUisa.png" >
+		<img src="https://s2.loli.net/2024/04/18/teRXdS6BZ7qUisa.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>接着，我们要在路由器中启动 telnet 服务。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#7f848e"># 开启 5 个虚拟连接 意味着有 5 个用户可以同时连接</span>
+</span></span><span style="display:flex;"><span>user-interface vty <span style="color:#d19a66">0</span> <span style="color:#d19a66">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 添加验证模式</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># aaa: 用户名 + 密码		password: 密码</span>
+</span></span><span style="display:flex;"><span>authentication-mode aaa
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 设置用户名和密码</span>
+</span></span><span style="display:flex;"><span>aaa
+</span></span><span style="display:flex;"><span>local-user testuser password cipher <span style="color:#d19a66">123456</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 给用户设置权限</span>
+</span></span><span style="display:flex;"><span>local-user testuser privilege level <span style="color:#d19a66">15</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 给用户设置用途</span>
+</span></span><span style="display:flex;"><span>local-user testuser service-type telnet
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># 允许启动 telnet</span>
+</span></span><span style="display:flex;"><span>telnet server <span style="color:#e5c07b">enable</span>
+</span></span></code></pre></div><h2 id="综合实践">综合实践</h2>
+<h3 id="项目简述">项目简述</h3>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/04/18/scbMfBVA9xdWteD.png" >
+		<img src="https://s2.loli.net/2024/04/18/scbMfBVA9xdWteD.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>1、网络中有三个不同部分，可以自动获取地址。
+2、各个部分可以相互访问，也可以访问服务器。
+3、PC1 不能访问互联网，PC2 和 PC3 可以。
+4、内网服务器对外地址是 <code>www.yikuanzz.com</code> ，所有电脑可以访问。</p>
+<h3 id="项目实践">项目实践</h3>
+<p>1、对于 PC2 和 PC3 分别为它们创建 VLAN 10 和 VLAN 20，并将接口放入对应的 VLAN 中，然后也要将另外一个接口设置为 trunk 模式。</p>
+<p>2、在三层交换机上，配置 VLAN 的网关，让 VLAN 之间能够相互进行访问，同时我们打开 DHCP 功能。</p>
+<p>3、我们给内网的 DNS 服务器配置好地址和网关，并加入网址的域名解析。</p>
+<p>4、给三层交换机与路由器的接口配置地址，让它们可以进行通信，但注意要新建一个 VLAN ，将地址配置到这个 VLAN 上去。</p>
+<p>5、给三层交换机配置到外网的静态路由，当然也要给路由器写下一跳的静态路由。</p>
+<p>6、在路由器上配置 NAT 地址转换，这样内网主机就能 ping 通外网了。</p>
+<p>7、这里最后配置一些 ACL 规则，拒绝 PC1 所在的 VLAN1 请求就可以了。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/note/">Note</a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2024/%E6%B5%85%E8%81%8A%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/%E6%B5%85%E8%81%8A%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/cover.5b913d465fe9557e6a6afbfec39e6073_hu7463b4b34524b427fe5ff8175328084d_847514_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 浅聊操作系统"
+                        data-key="浅聊操作系统" 
+                        data-hash="md5-W5E9Rl/pVX5qavv&#43;w55gcw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">浅聊操作系统</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/rpc-%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/rpc-%E5%AD%A6%E4%B9%A0/cover.342139740505623d4076e36655cd2501_hu6b9a47690eec077c155fc2fdb333230e_963914_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post RPC 学习"
+                        data-key="RPC 学习" 
+                        data-hash="md5-NCE5dAUFYj1AduNmVc0lAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">RPC 学习</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/cover.66d457a55c5c40de01442ccafca1c478_hu894dda1344dfe8f4bf15f793c519770f_1399068_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 跨域问题"
+                        data-key="跨域问题" 
+                        data-hash="md5-ZtRXpVxcQN4BRCzK/KHEeA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">跨域问题</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了83.8k字·共 13篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#基础技术">基础技术</a>
+      <ol>
+        <li><a href="#网络设备">网络设备</a></li>
+        <li><a href="#ip-地址">IP 地址</a></li>
+        <li><a href="#tcp-和-udp">TCP 和 UDP</a></li>
+        <li><a href="#cdn">CDN</a></li>
+        <li><a href="#案例配置-ip-地址">案例：配置 IP 地址</a>
+          <ol>
+            <li><a href="#dhcp">DHCP</a></li>
+            <li><a href="#dns">DNS</a></li>
+            <li><a href="#gateway">Gateway</a></li>
+          </ol>
+        </li>
+        <li><a href="#案例配置静态路由">案例：配置静态路由</a></li>
+      </ol>
+    </li>
+    <li><a href="#网安技术">网安技术</a>
+      <ol>
+        <li><a href="#vlan-虚拟局域网">VLAN 虚拟局域网</a>
+          <ol>
+            <li><a href="#三层交换技术">三层交换技术</a></li>
+            <li><a href="#单臂路由技术">单臂路由技术</a></li>
+          </ol>
+        </li>
+        <li><a href="#acl-访问控制列表">ACL 访问控制列表</a></li>
+      </ol>
+    </li>
+    <li><a href="#进阶技术">进阶技术</a>
+      <ol>
+        <li><a href="#nat-转换">NAT 转换</a></li>
+        <li><a href="#telnet-协议">Telnet 协议</a></li>
+      </ol>
+    </li>
+    <li><a href="#综合实践">综合实践</a>
+      <ol>
+        <li><a href="#项目简述">项目简述</a></li>
+        <li><a href="#项目实践">项目实践</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">3</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">7</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">1</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">13</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_5">
+                Note
+            </a>
+        
+            <a href="/tags/web/" class="font_size_2">
+                Web
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
+            </a>
+        
+            <a href="/tags/c/" class="font_size_1">
+                C
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_1">
+                Linux
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/python/" class="font_size_1">
+                Python
+            </a>
+        
+            <a href="/tags/%E5%BC%80%E5%8F%91/" class="font_size_1">
+                开发
+            </a>
+        
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="font_size_1">
+                操作系统
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E5%AD%A6/" class="font_size_1">
+                数学
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

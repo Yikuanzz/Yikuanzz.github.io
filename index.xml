@@ -6,7 +6,796 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Tue, 16 Apr 2024 19:31:08 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 18 Apr 2024 20:05:05 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络数通入门</title>
+        <link>https://yikuanzz.github.io/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/</link>
+        <pubDate>Thu, 18 Apr 2024 20:05:05 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/cover.png" alt="Featured image of post 网络数通入门" /&gt;&lt;h2 id=&#34;基础技术&#34;&gt;基础技术&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;问题：&lt;/p&gt;
+&lt;p&gt;1、电脑浏览器是如何打开百度的？&lt;/p&gt;
+&lt;p&gt;2、游戏客户端是如何连接服务器的？&lt;/p&gt;
+&lt;p&gt;3、购物节，电商服务器是如何顶住压力的？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;网络设备&#34;&gt;网络设备&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;交换机&lt;/strong&gt;：电脑之间相互通信，移动终端与电脑之间通信。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;网络AP，全称为无线接入点（Wireless Access Point），是无线网络中的核心设备。它的主要作用是将各个无线网络客户端连接到一起，然后将无线网络接入以太网，从而达到网络无线覆盖的目的。&lt;/p&gt;
+&lt;p&gt;AP可以分为胖AP和瘦AP：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;胖AP&lt;/strong&gt;：也称为无线路由器，除无线接入功能外，一般具备WAN、LAN两个接口，支持地址转换（NAT）功能，多支持DHCP服务器、DNS，以及VPN接入、防火墙等安全功能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;瘦AP&lt;/strong&gt;：也称无线网桥、无线网关，此无线设备的传输机制相当于有线网络中的集线器，在无线局域网中不停地接收和传送数据；任何一台装有无线网卡的PC或者移动终端均可通过AP来使用有线局域网络甚至广域网络的资源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/09/nhJf8jYt1Ku7emp.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/09/nhJf8jYt1Ku7emp.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/09/zY3ACcQvkqmrgdB.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/09/zY3ACcQvkqmrgdB.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;路由器&lt;/strong&gt;：连接不同网络。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/09/lByeg7Nsr1q35Vx.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/09/lByeg7Nsr1q35Vx.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;ip-地址&#34;&gt;IP 地址&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;IP地址&lt;/strong&gt;：用于 IP 报文在网络中的寻址，也用于标识一个节点。&lt;/p&gt;
+&lt;p&gt;IP 地址 = 网络位 + 主机位。例如：&lt;code&gt;192.168.1.1&lt;/code&gt;，该 IP 地址的网络位是 &lt;code&gt;192.168.1&lt;/code&gt; 也就是它的网段。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;子网掩码&lt;/strong&gt; 决定了 网络位 的长度。例如：&lt;code&gt;192.168.1.1&lt;/code&gt; 的子网掩码为 &lt;code&gt;255.255.255.0&lt;/code&gt; 就代表前面的三段为网络位。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DHCP&lt;/strong&gt;：自动给设备配置 IP 地址。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/09/o9CipfBbatUQZnJ.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/09/o9CipfBbatUQZnJ.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/09/t4EoFeWdqjksOiB.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/09/t4EoFeWdqjksOiB.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;tcp-和-udp&#34;&gt;TCP 和 UDP&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;TCP&lt;/strong&gt;（传输控制协议）和 &lt;strong&gt;UDP&lt;/strong&gt;（用户数据报协议）的区别：&lt;/p&gt;
+&lt;p&gt;1、&lt;strong&gt;连接&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TCP 面向连接的传输层协议，传输数据前要建立连接。&lt;/li&gt;
+&lt;li&gt;UDP 无连接，可以传输数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;2、&lt;strong&gt;服务对象&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TCP 一对一的两点服务。&lt;/li&gt;
+&lt;li&gt;UDP 支持一对一、一对多、多对多的交互通信。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;3、&lt;strong&gt;可靠性&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TCP  可靠交付数据，数据可以误差错、不丢失、不重复、按需到达。&lt;/li&gt;
+&lt;li&gt;UDP 尽最大努力交付，不保证可靠交付数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;4、&lt;strong&gt;拥塞控制和流量控制&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TCP 有拥塞控制和流量控制，保证数据传输的安全性。&lt;/li&gt;
+&lt;li&gt;UDP 网络拥堵也不会影响其发送速率。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;5、&lt;strong&gt;首部开销&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TCP 首部长，开销大。&lt;/li&gt;
+&lt;li&gt;UDP 首部为 8 字节，固定不变，开销小。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;6、&lt;strong&gt;传输方式&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TCP 流式传输，没有边界，但保证顺序和可靠。&lt;/li&gt;
+&lt;li&gt;UDP 一个包和一个包的发送，有边界，但可能丢包和乱序。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;7、&lt;strong&gt;分片不同&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TCP 数据大于 MSS 大小，就会在传输层切片，目标主机收到后再组装。&lt;/li&gt;
+&lt;li&gt;UDP 数据大于 MTU 就会在 IP 层切片，目标主机收到后再组装。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;MSS(最大分段大小)&lt;/strong&gt;：TCP 报文段中 TCP 数据字段的最大大小，它的值为 MSS 值减去 IPv4 Header(20 Btye) 和 TCP header(20 Btye) 得到。能被装入 MTU 中。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MTU(最大传输单元)&lt;/strong&gt;：数据链路层传输的帧大小，也就是网络链路中能够传输的最大数据包大小。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;cdn&#34;&gt;CDN&lt;/h3&gt;
+&lt;p&gt;**CDN（Content Delivery Network，内容分发网络）**是一个分布在不同地理位置的服务器群，用于缓存靠近最终用户的内容。CDN 可以快速传输加载互联网内容所需的资产，包括 HTML网页、JavaScript文件、样式表、图像和视频。&lt;/p&gt;
+&lt;p&gt;CDN 的工作步骤是这样的：&lt;/p&gt;
+&lt;p&gt;1、&lt;strong&gt;缓存内容&lt;/strong&gt;：CDN 将源站的资源缓存到位于全国各地的 CDN 节点上。&lt;/p&gt;
+&lt;p&gt;2、&lt;strong&gt;用户请求资源&lt;/strong&gt;：当用户请求某个网站或服务的资源时，请求会被路由到最近的 CDN 节点。&lt;/p&gt;
+&lt;p&gt;3、&lt;strong&gt;返回缓存资源&lt;/strong&gt;：如果 CDN 节点有用户请求的资源缓存，就会返回缓存的资源给用户。&lt;/p&gt;
+&lt;p&gt;4、&lt;strong&gt;负载均衡&lt;/strong&gt;：CDN 会将用户的请求分发到不同的服务器。&lt;/p&gt;
+&lt;p&gt;5、&lt;strong&gt;安全保护&lt;/strong&gt;：CDN 提供 DDos 防护、改善安全证书及其他优化。&lt;/p&gt;
+&lt;h3 id=&#34;案例配置-ip-地址&#34;&gt;案例：配置 IP 地址&lt;/h3&gt;
+&lt;p&gt;配置两台路由器的 IP 地址，让其可以进行通信。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/10/d4W7r6yKu3wFZtf.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/10/d4W7r6yKu3wFZtf.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;我们在 eNSP 中选择路由器 AR2220 和 电线，让两个路由器的 GE 0/0/0 端口相连。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/10/QCIfy7puqxsib4L.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/10/QCIfy7puqxsib4L.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;输入系统视图命令后，才能对设备进行配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;system-view
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/10/xZNzUF8eCY94ylO.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/10/xZNzUF8eCY94ylO.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;然后我们进入端口：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;interface GigabitEthernet 0/0/0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以配置地址了：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip address 192.168.1.1 255.255.255.0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样我们就把 RTA 路由 0/0/0 端口的 IP 地址配置完成了。&lt;/p&gt;
+&lt;p&gt;RTB 路由的配置就是镜像操作了。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/10/kQN7Bph5DjdFJzH.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/10/kQN7Bph5DjdFJzH.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;接下来我们测试一下它们是否连接上：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ping 192.168.1.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/10/kr7UMTQD8PwLlsF.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/10/kr7UMTQD8PwLlsF.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;dhcp&#34;&gt;DHCP&lt;/h4&gt;
+&lt;p&gt;我们可以用 DHCP 来进行网络 IP 地址的自动配置。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;DHCP&lt;/strong&gt; 是动态主机配置协议（Dynamic Host Configuration Protocol）的缩写。它是一种网络协议，用于自动为计算机或设备分配 IP 地址、子网掩码、默认网关以及其他网络配置。开启 DHCP 意味着网络中的设备可以自动获取 IP 地址和其他网络配置，而不需要手动配置。这样，网络管理变得更加简化和自动化，减少了出错的可能性，并且减轻了网络管理员的工作负担。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/11/lxDrC8wt9621NdB.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/11/lxDrC8wt9621NdB.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我们给路由器配上地址：&lt;code&gt;192.168.1.1&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;然后我们点开 PC 机设置 DHCP 自动配置地址，但是因为我们没有开启 DHCP 的功能，所以事实上主机并没有分配有地址。&lt;/p&gt;
+&lt;p&gt;我们要做的是，将路由器视为服务器让它为主机们分配 IP 地址。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/11/fhzgIvkXWcOAQH8.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/11/fhzgIvkXWcOAQH8.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我们在路由器中输入命令，打开 DHCP 的功能：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dhcp &lt;span style=&#34;color:#e5c07b&#34;&gt;enable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后我们需要指定路由器的哪些接口要实现 DHCP 功能。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/11/jrPeB5vxNQJ9TWd.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/11/jrPeB5vxNQJ9TWd.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/11/k3sgfBSaecvWzqy.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/11/k3sgfBSaecvWzqy.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;dns&#34;&gt;DNS&lt;/h4&gt;
+&lt;p&gt;这里，如果我们想要 ping 通网络域名的话，就需要 DNS 服务器来实现域名解析，将网址变成 IP 地址。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;DNS (Domain Name System，域名系统）将域名解析为 IP 地址的系统。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们在 eNSP 中使用 Server 让它实现 DNS 服务，当它接入网络的时候也要给它配置地址，我们配置它的地址为 &lt;code&gt;192.168.1.100&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/11/YcCOSWkEde4sPND.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/11/YcCOSWkEde4sPND.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;这时候，我们还要给路由器指定 DNS 服务器:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dhcp server dns-list 192.168.100
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;现在我们的 PC 机就有 DNS 服务器地址了&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/11/5HrJoKUe6OZpzcM.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/11/5HrJoKUe6OZpzcM.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;gateway&#34;&gt;Gateway&lt;/h4&gt;
+&lt;p&gt;顺这这个案例，我们看一下网关。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;网关（Gateway）用于连接不同网络或协议之间进行数据转发和处理。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;首先，我们让路由器连接一个主机，并配置主机 IP 为：&lt;code&gt;100.100.100.100&lt;/code&gt;，网关为：&lt;code&gt;100.100.100.1&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;因为 PC 之间所在的网段不同，所以需要路由器作为网关连接这两个网段。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/13/PbtxjswhfORBCuW.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/13/PbtxjswhfORBCuW.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;接下来，我们给路由器配置 &lt;code&gt;100.100.100.1&lt;/code&gt; 的地址，这样我们不同网段之间的电脑就能 ping 通了。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/13/OVkLC4jFdael6pU.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/13/OVkLC4jFdael6pU.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;而路由器能实现不同网段之间的相连，主要依赖路由器中的路由表，它记录去往不同地址的接口。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 查看 ip 路由表&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;display ip routing-table
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 查看目标 ip&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;display ip routing-table 100.100.100.100 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/13/W6DGsLzOUKgJxe5.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/13/W6DGsLzOUKgJxe5.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;案例配置静态路由&#34;&gt;案例：配置静态路由&lt;/h3&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/14/nLjitfr4gXszoTC.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/14/nLjitfr4gXszoTC.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;当我们配置好 IP 地址后，发现无法从 PC1 连通到 Server 1。&lt;/p&gt;
+&lt;p&gt;因为，我们发现 AR1 的路由表上没有去往 &lt;code&gt;192.168.3.10&lt;/code&gt; 的接口位置。&lt;/p&gt;
+&lt;p&gt;为了让数据能够成功转发，所以我们手动添加路由的接口位置。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 通过 192.168.2.10 去往 192.168.3.0 这个网段的路由 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip route-static 192.168.3.0	255.255.255.0 192.168.2.10
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 通过 192.168.2.1 去往 192.168.1.0 这个网段的路由&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip route-static 192.168.1.0	255.255.255.0 192.168.2.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/14/NI4EWmoHegwyJ6U.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/14/NI4EWmoHegwyJ6U.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;网安技术&#34;&gt;网安技术&lt;/h2&gt;
+&lt;h3 id=&#34;vlan-虚拟局域网&#34;&gt;VLAN 虚拟局域网&lt;/h3&gt;
+&lt;p&gt;VLAN（Virtual Local Area Network） 就是虚拟局域网，它将一个物理的局域网在逻辑上划分成多个广播域。它的目的是为了提高安全性、控制流量和简化网络架构，。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/14/D7x86r3kK9PmVvG.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/14/D7x86r3kK9PmVvG.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我们让这两台电脑放入不同的 VLAN 中，实现隔离，就需要配置交换机。&lt;/p&gt;
+&lt;p&gt;步骤就是创建 VLAN，然后再将这两台电脑放入不同的 VLAN 之中。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 创建 VLAN 10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;VLAN &lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 创建 VALN 20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;VLAN &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 查看交换机上的 VLAN&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;display vlan
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/14/Xw6brqn4N2zSsjl.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/14/Xw6brqn4N2zSsjl.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;所有机器开机时，都默认存在于 VLAN1 中，VLAN10 和 VLAN20 都是我们后来创建的。&lt;/p&gt;
+&lt;p&gt;接下来，我们就要将对应的接口放入 VLAN 中就好了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;交换机的接口模式：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1、&lt;strong&gt;Access模式&lt;/strong&gt;：只能属于一个 VLAN，当交换机收到来自某个端口的数据帧时，他会自动地添加一个 VLAN 标签，然后转发。&lt;/p&gt;
+&lt;p&gt;2、&lt;strong&gt;Trunk模式&lt;/strong&gt;：允许多个 VLAN 通过，用于交换机与交换机之间连接。当交换机收到某个端口的数据帧时，不会添加 VLAN标签，而是检查数据帧是否包含 VLAN，没有就要手动配置。&lt;/p&gt;
+&lt;p&gt;3、&lt;strong&gt;Hybrid模式&lt;/strong&gt;：允许多个 VLAN 通过，既可用于交换机连接和用户计算机之间的连接。允许多个 VLAN 的报文不打标签，只允许省却 VLAN 报文不打标签。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 将 0/0/1 接口放入 VLAN10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;port link-type access
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;port default vlan &lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 将 0/0/2 接口放入 VLAN20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;port link-type access
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;port default vlan &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/14/Beqytb1S7UL29RG.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/14/Beqytb1S7UL29RG.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;接下来，我们再看一下 Trunk 模式下的案例。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/14/pWTNP8YyMaCJIzB.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/14/pWTNP8YyMaCJIzB.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我们给第一个交换机的 0/0/3 接口配置 Trunk 模式。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;port link-type trunk
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;port trunk allow-pass vlan all
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后再给第二个交换机的 0/0/1 接口配置 Trunk 模式。&lt;/p&gt;
+&lt;p&gt;最后，再给其他端口配置虚拟局域网就可以了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;三层交换技术&#34;&gt;三层交换技术&lt;/h4&gt;
+&lt;p&gt;接下来，我们需要了解的技术是三层交换技术，它能让 VLAN 之间相互通信。&lt;/p&gt;
+&lt;p&gt;它的原理是，在二层交换机上配置网关，让机器通过网关转发信息到另外一个机器上。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/15/FGLAUrv5xImPHE2.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/15/FGLAUrv5xImPHE2.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;首先就是在 LSW1 交换机中，配置 VLAN10 和 VLAN 20，并且更改接口的 VLAN。&lt;/p&gt;
+&lt;p&gt;当然，每个 VLAN 要配置好网关，VLAN10 配置网关为 &lt;code&gt;1.1.1.254&lt;/code&gt; 而 VLAN 20 配置网关为 &lt;code&gt;2.2.2.254&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 配置 VLAN10 网关&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;interface Vlanif &lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip address 1.1.1.254 255.255.255.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 配置 VLAN20 网关&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;interface Vlanif &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip address 2.2.2.254 255.255.255.0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h4 id=&#34;单臂路由技术&#34;&gt;单臂路由技术&lt;/h4&gt;
+&lt;p&gt;除了，三层交换技术以外，单臂路由技术也能实现 VLAN 之间的相互通信。&lt;/p&gt;
+&lt;p&gt;单臂路由就是用一台路由器实现两个 VLAN 之间的通信。其原理就是将路由器的一个接口分为多个子接口作为 VLAN 的网关。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/17/Xd4yAjaCKFUgWpB.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/17/Xd4yAjaCKFUgWpB.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 将路由器物理接口变成子接口&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;int g 0/0/0.10
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 让 VLAN 跟子接口相关联&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dot1q termination vid &lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 并允许 ARP 的广播&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;arp broadcast &lt;span style=&#34;color:#e5c07b&#34;&gt;enable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 配置网关地址&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip address 1.1.1.254
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 查看当前接口下的命令&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dis this
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/17/tg92xEIHubMr1Bv.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/17/tg92xEIHubMr1Bv.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;acl-访问控制列表&#34;&gt;ACL 访问控制列表&lt;/h3&gt;
+&lt;p&gt;访问控制列表（Access Control List，ACL）是网络安全机制，用于定义和实施对网络资源或系统对象的访问权限。ACL 可以精确控制哪些主题能够对待客体执行何种操作。&lt;/p&gt;
+&lt;p&gt;我们做一个小例子，就是有三个 VLAN ，分别是 VLAN10、VLAN20 和 VLAN 30。我们通过 ACL 让 VLAN20 能访问 VLAN 30，而 VLAN 10 不能访问 VLAN 30。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/17/hlUNI1GmfJO7cFo.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/17/hlUNI1GmfJO7cFo.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;步骤一：创建访问控制规则；&lt;/p&gt;
+&lt;p&gt;步骤二：调用这个规则。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 创建规则并使用高级 ACL&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;acl name &lt;span style=&#34;color:#e5c07b&#34;&gt;test&lt;/span&gt; advance
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 基于IP地址拒绝访问&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 注意：ACL 的掩码要反着写&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;rule deny ip &lt;span style=&#34;color:#e5c07b&#34;&gt;source&lt;/span&gt; 192.168.10.0 0.0.0.255 destination 192.168.30.0 0.0.0.255
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 允许其他数据包的发送&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;rule permit ip &lt;span style=&#34;color:#e5c07b&#34;&gt;source&lt;/span&gt; any destination any
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 在数据包必经过的接口调用规则&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;int g 0/0/1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;traffic-filter inbound acl name &lt;span style=&#34;color:#e5c07b&#34;&gt;test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 查看规则&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;display acl all
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/17/V1SsoF6wij8G92J.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/17/V1SsoF6wij8G92J.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;进阶技术&#34;&gt;进阶技术&lt;/h2&gt;
+&lt;h3 id=&#34;nat-转换&#34;&gt;NAT 转换&lt;/h3&gt;
+&lt;p&gt;如何连接互联网？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、写省却路由。&lt;/li&gt;
+&lt;li&gt;2、NAT 网络地址转换。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;省却路由&lt;/strong&gt;：被称为默认路由，是路由表中一种特殊的静态路由。它的网络地址和掩码都是 0，可以匹配任意目标网络前缀。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NAT 网络地址转换&lt;/strong&gt;：它是一种 IP 数据报文头中的 IP 地址转换为另一个 IP 地址的过程，用于实现内部网络（私有IP）访问外部网络（公有IP）的功能。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们常见的私网地址有：&lt;code&gt;192.168.x.x&lt;/code&gt;、&lt;code&gt;10.x.x.x&lt;/code&gt;、&lt;code&gt;172.16.x.x ~ 172.31.x.x&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;我们的做个小例子，就是让私网的电脑通过 NAT 地址转换能访问公网的路由器。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/17/1YoOFV6eq8PBIzR.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/17/1YoOFV6eq8PBIzR.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 查看路由表&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;display ip routing-table
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 选择数据包做地址转换&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;acl name neiwang basic
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;rule permit &lt;span style=&#34;color:#e5c07b&#34;&gt;source&lt;/span&gt; 192.168.1.0	0.0.0.255
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 查看 ACL 编号&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dis acl all
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 建立 NAT 地址&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 用 64.1.1.2 ~ 64.1.1.6 公网 IP 进行访问&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nat address-group &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt; 64.1.1.2 64.1.1.6
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 在出口调用 NAT 规则&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;int g 0/0/1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nat outbound &lt;span style=&#34;color:#d19a66&#34;&gt;2999&lt;/span&gt; address-group &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/17/qj2cAo8YTQHVywX.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/17/qj2cAo8YTQHVywX.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/17/9gPkzbuYBQmRfv4.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/17/9gPkzbuYBQmRfv4.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;上述的例子，是 NAT 动态分配地址。接下来，我们看一下静态 NAT 分配地址。&lt;/p&gt;
+&lt;p&gt;如果有一台电脑想从外网访问内网中的一台服务器，就需要给这台服务器配置静态的地址。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/18/J7tOI6NfhDi4Bm1.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/18/J7tOI6NfhDi4Bm1.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 配置路由&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# AR1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip route-static 200.200.200.0 255.255.255.0 119.1.1.2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# AR2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip route-static 172.16.0.0 255.255.255.0 119.1.1.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 配置静态 NAT&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;int g 0/0/1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nat server global 119.1.1.123 inside 172.16.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/18/kJLmOxAByESQGa6.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/18/kJLmOxAByESQGa6.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;telnet-协议&#34;&gt;Telnet 协议&lt;/h3&gt;
+&lt;p&gt;如何远程管理远程设备？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过 Telnet 远程管理设备。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Telnel&lt;/strong&gt; 是一种应用层协议，用于互联网和局域网汇中，使用虚拟终端的形式提供双向、以文本字符串为主的命令行界面交互。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/18/6tPATmqVEDjJCfM.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/18/6tPATmqVEDjJCfM.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;其中，Cloud1 为我们的本地主机，而 AR1 为远程路由器。&lt;/p&gt;
+&lt;p&gt;我们需要配置一下 Cloud1 的信息和我们的网卡地址。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/18/ZVmMaW1XqisCJOD.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/18/ZVmMaW1XqisCJOD.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;可以看到我们为选择了 VMnet8 作为主机的网卡，接下来我们给 VMnet8 配置一个地址为 &lt;code&gt;100.1.1.1&lt;/code&gt;，掩码为 &lt;code&gt;255.0.0.0&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;然后，给路由器接口配置地址为 &lt;code&gt;100.100.100.100&lt;/code&gt;，掩码为 &lt;code&gt;255.0.0.0&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;这样，我们的主机就已经可以 ping 通路由器了。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/18/teRXdS6BZ7qUisa.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/18/teRXdS6BZ7qUisa.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;接着，我们要在路由器中启动 telnet 服务。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 开启 5 个虚拟连接 意味着有 5 个用户可以同时连接&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;user-interface vty &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 添加验证模式&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# aaa: 用户名 + 密码		password: 密码&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;authentication-mode aaa
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 设置用户名和密码&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;aaa
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;local-user testuser password cipher &lt;span style=&#34;color:#d19a66&#34;&gt;123456&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 给用户设置权限&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;local-user testuser privilege level &lt;span style=&#34;color:#d19a66&#34;&gt;15&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 给用户设置用途&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;local-user testuser service-type telnet
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 允许启动 telnet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;telnet server &lt;span style=&#34;color:#e5c07b&#34;&gt;enable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;综合实践&#34;&gt;综合实践&lt;/h2&gt;
+&lt;h3 id=&#34;项目简述&#34;&gt;项目简述&lt;/h3&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/04/18/scbMfBVA9xdWteD.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/04/18/scbMfBVA9xdWteD.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;1、网络中有三个不同部分，可以自动获取地址。
+2、各个部分可以相互访问，也可以访问服务器。
+3、PC1 不能访问互联网，PC2 和 PC3 可以。
+4、内网服务器对外地址是 &lt;code&gt;www.yikuanzz.com&lt;/code&gt; ，所有电脑可以访问。&lt;/p&gt;
+&lt;h3 id=&#34;项目实践&#34;&gt;项目实践&lt;/h3&gt;
+&lt;p&gt;1、对于 PC2 和 PC3 分别为它们创建 VLAN 10 和 VLAN 20，并将接口放入对应的 VLAN 中，然后也要将另外一个接口设置为 trunk 模式。&lt;/p&gt;
+&lt;p&gt;2、在三层交换机上，配置 VLAN 的网关，让 VLAN 之间能够相互进行访问，同时我们打开 DHCP 功能。&lt;/p&gt;
+&lt;p&gt;3、我们给内网的 DNS 服务器配置好地址和网关，并加入网址的域名解析。&lt;/p&gt;
+&lt;p&gt;4、给三层交换机与路由器的接口配置地址，让它们可以进行通信，但注意要新建一个 VLAN ，将地址配置到这个 VLAN 上去。&lt;/p&gt;
+&lt;p&gt;5、给三层交换机配置到外网的静态路由，当然也要给路由器写下一跳的静态路由。&lt;/p&gt;
+&lt;p&gt;6、在路由器上配置 NAT 地址转换，这样内网主机就能 ping 通外网了。&lt;/p&gt;
+&lt;p&gt;7、这里最后配置一些 ACL 规则，拒绝 PC1 所在的 VLAN1 请求就可以了。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>RPC 学习</title>
         <link>https://yikuanzz.github.io/2024/rpc-%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Tue, 16 Apr 2024 19:31:08 +0800</pubDate>
