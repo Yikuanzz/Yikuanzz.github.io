@@ -6,7 +6,92 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Thu, 18 Apr 2024 20:05:05 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 19 Apr 2024 10:10:04 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>消息队列学习</title>
+        <link>https://yikuanzz.github.io/2024/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Fri, 19 Apr 2024 10:10:04 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/cover.png" alt="Featured image of post 消息队列学习" /&gt;&lt;h2 id=&#34;消息队列介绍&#34;&gt;消息队列介绍&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;消息总线（Message Queue）&lt;/strong&gt; ，是一种跨进程的通信机制，就是用于在应用程序之间传递消息的中间件。它把消息存储在一个队列中，发送方将消息添加到队列中，而接收方从队列中获取消息。&lt;/p&gt;
+&lt;p&gt;在互联网架构中，消息队列是一种常见的上下游”逻辑结构+物理解藕“的消息通信服务。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;消息发送上游&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;--&amp;gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;消息队列&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;--&amp;gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;消息接收下游&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;优点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、解藕：降低系统各部分之间的依赖，使得系统更易于扩展和维护。&lt;/li&gt;
+&lt;li&gt;2、异步处理：提高系统性能，减少相应时间。&lt;/li&gt;
+&lt;li&gt;3、削峰：在高并发情况下，消息队列可以暂存大量的请求。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、系统复杂性提高：需要考虑消息的重复消费、消息丢失、消息传递的顺序性等等问题。&lt;/li&gt;
+&lt;li&gt;2、系统可用性降低：需要额外去保证消息队列的高可用。&lt;/li&gt;
+&lt;li&gt;3、一致性问题：如果消息的真正消费者并没有正确消费消息，可能导致数据不一致的情况。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;消息队列场景&#34;&gt;消息队列场景&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;【场景一：数据驱动的任务依赖】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;比如，互联网公司需要进行一些数据统计任务，这些任务有一些依赖关系：&lt;/p&gt;
+&lt;p&gt;（1）task3 需要使用 task2 的输出作为输入。&lt;/p&gt;
+&lt;p&gt;（2）task2 需要使用 task1 的输出作为输入。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;传统方法&lt;/strong&gt;：根据经验给每个任务预留执行时间，依次执行。但是这样做的话，如果有个任务超过了预留的时间就会很麻烦。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;消息队列方法&lt;/strong&gt;：在任务一执行完后发送消息，让任务二订阅这个消息，当收到任务一执行完的消息后执行任务二，以此类推。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;【场景二：上游不关心执行结果】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;比如，58同城的很多下游需要关注“用户发布帖子”这个事件，比如招聘用户发布帖子后，招聘业务要奖励58豆，房产用户发布帖子后，房产业务要送2个置顶，二手用户发布帖子后，二手业务要修改用户统计数据。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;传统方法&lt;/strong&gt;：帖子发布服务执行完成之后，调用下游招聘业务、房产业务、二手业务，来完成消息的通知，但事实上，这个通知是否正常正确的执行，帖子发布服务根本不关注。这样不仅帖子发布流程的执行时间增加了，并且上下游依赖严重。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;消息队列方法&lt;/strong&gt;：帖子发布成功后，给消息队列发送一个消息，然后下游关注”帖子发送成功“的消息，主动去消息队列订阅。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;【场景三：上游关注执行结果，但执行时间很长】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;比如：微信支付，跨公网调用微信的接口，执行时间会比较长，但调用方又非常关注执行结果。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;传统方法&lt;/strong&gt;：上游调用微信接口就进入阻塞，等待响应结果的返回。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;消息队列方法&lt;/strong&gt;：上游发送请求给微信接口，当请求收到后立马返回调用成功信息。在请求中写入回调网关，让微信接口将结果返回给网关，然后将消息给到消息队列，然后上游再去订阅。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;常用消息队列&#34;&gt;常用消息队列&lt;/h2&gt;
+&lt;p&gt;RabbitMQ、ActiveMQ、RocketMQ 和 Kafka 的主要特性、优点和缺点的总结：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;RabbitMQ&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;主要特性：异步通信，解耦，削峰，支持多种消息广播类型。&lt;/li&gt;
+&lt;li&gt;优点：性能较好，高并发；吞吐量到万级，MQ 功能比较完备；健壮、稳定、易用、跨平台、支持多种语言、文档齐全；开源提供的管理界面非常棒，用起来很好用；社区活跃度高。&lt;/li&gt;
+&lt;li&gt;缺点：erlang 开发，很难去看懂源码，基本职能依赖于开源社区的快速维护和修复 bug，不利于做二次开发和维护；吞吐量会低一些，这是因为他做的实现机制比较重；需要学习比较复杂的接口和协议，学习和维护成本较高。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ActiveMQ&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;主要特性：支持任何消息传递用例的能力和灵活性。&lt;/li&gt;
+&lt;li&gt;优点：单机吞吐量万级，时效性 ms 级，可用性高，基于主从架构实现高可用性，消息可靠性有较低的概率丢失数据。&lt;/li&gt;
+&lt;li&gt;缺点：官方社区现在对ActiveMQ 5.x维护越来越少，高吞吐量场景较少使用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RocketMQ&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;主要特性：高吞吐量、低延迟，适用于大规模分布式系统的消息通信。&lt;/li&gt;
+&lt;li&gt;优点：性能好，高吞吐量，稳定可靠，有活跃的中文社区。&lt;/li&gt;
+&lt;li&gt;缺点：兼容性上不是太好，社区相对较小，MQ功能简单，消息可能会重复消费影响数据精确度。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kafka&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;主要特性：高吞吐量、低延迟，适用于大规模分布式系统的消息通信。&lt;/li&gt;
+&lt;li&gt;优点：高吞吐量和低延迟，适用于对性能要求较高的场景；支持分布式部署和扩展，具备较好的可扩展性；提供了丰富的消息模式和功能，如事务消息、顺序消息等。&lt;/li&gt;
+&lt;li&gt;缺点：复杂性高，需要配置和管理多个节点；由于 Kafka 持久化消息到磁盘，因此它需要占用较多的存储空间，可能导致存储成本的增加；为了确保 Kafka 集群的正常运行，需要进行适当的配置和监控。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
         <title>网络数通入门</title>
         <link>https://yikuanzz.github.io/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/</link>
         <pubDate>Thu, 18 Apr 2024 20:05:05 +0800</pubDate>
@@ -140,7 +225,7 @@
 &lt;p&gt;&lt;strong&gt;MTU(最大传输单元)&lt;/strong&gt;：数据链路层传输的帧大小，也就是网络链路中能够传输的最大数据包大小。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3 id=&#34;cdn&#34;&gt;CDN&lt;/h3&gt;
-&lt;p&gt;**CDN（Content Delivery Network，内容分发网络）**是一个分布在不同地理位置的服务器群，用于缓存靠近最终用户的内容。CDN 可以快速传输加载互联网内容所需的资产，包括 HTML网页、JavaScript文件、样式表、图像和视频。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CDN（Content Delivery Network，内容分发网络）&lt;/strong&gt; 是一个分布在不同地理位置的服务器群，用于缓存靠近最终用户的内容。CDN 可以快速传输加载互联网内容所需的资产，包括 HTML网页、JavaScript文件、样式表、图像和视频。&lt;/p&gt;
 &lt;p&gt;CDN 的工作步骤是这样的：&lt;/p&gt;
 &lt;p&gt;1、&lt;strong&gt;缓存内容&lt;/strong&gt;：CDN 将源站的资源缓存到位于全国各地的 CDN 节点上。&lt;/p&gt;
 &lt;p&gt;2、&lt;strong&gt;用户请求资源&lt;/strong&gt;：当用户请求某个网站或服务的资源时，请求会被路由到最近的 CDN 节点。&lt;/p&gt;
@@ -317,7 +402,7 @@
 &lt;/figure&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h4 id=&#34;gateway&#34;&gt;Gateway&lt;/h4&gt;
-&lt;p&gt;顺这这个案例，我们看一下网关。&lt;/p&gt;
+&lt;p&gt;顺着这个案例，我们看一下网关。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;网关（Gateway）用于连接不同网络或协议之间进行数据转发和处理。&lt;/p&gt;
 &lt;/blockquote&gt;
