@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<meta name='description' content='异步 IO 在实际执行 IO 操作的时候，我们的程序会进入阻塞去等待 IO 操作的完成。这样会带来的后果是，要花费大量的时间来等待，浪费了 CPU 的执行效率。 所以，'><title>Python - 进阶</title>
+
+<link rel='canonical' href='http://localhost:1313/2024/python-%E8%BF%9B%E9%98%B6/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='Python - 进阶'>
+<meta property='og:description' content='异步 IO 在实际执行 IO 操作的时候，我们的程序会进入阻塞去等待 IO 操作的完成。这样会带来的后果是，要花费大量的时间来等待，浪费了 CPU 的执行效率。 所以，'>
+<meta property='og:url' content='http://localhost:1313/2024/python-%E8%BF%9B%E9%98%B6/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Python' /><meta property='article:published_time' content='2024-04-19T12:03:20&#43;08:00'/><meta property='article:modified_time' content='2024-04-19T12:03:20&#43;08:00'/><meta property='og:image' content='http://localhost:1313/2024/python-%E8%BF%9B%E9%98%B6/cover.png' />
+<meta name="twitter:title" content="Python - 进阶">
+<meta name="twitter:description" content="异步 IO 在实际执行 IO 操作的时候，我们的程序会进入阻塞去等待 IO 操作的完成。这样会带来的后果是，要花费大量的时间来等待，浪费了 CPU 的执行效率。 所以，"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/2024/python-%E8%BF%9B%E9%98%B6/cover.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="http://localhost:1313/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://leetcode.cn/u/yikuanzz/'
+                            target="_blank"
+                            title="Leetcode"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-leetcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M12 13h7.5" />
+  <path d="M9.424 7.268l4.999 -4.999" />
+  <path d="M16.633 16.644l-2.402 2.415a3.189 3.189 0 0 1 -4.524 0l-3.77 -3.787a3.223 3.223 0 0 1 0 -4.544l3.77 -3.787a3.189 3.189 0 0 1 4.524 0l2.302 2.313" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/gossip' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+  <path d="M9 8h6" />
+</svg>
+                
+                <span>杂谈</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/python-%E8%BF%9B%E9%98%B6/">
+                <img src="/2024/python-%E8%BF%9B%E9%98%B6/cover_hu4147fedafd2ce795835dfa20789c7376_1545194_800x0_resize_box_3.png"
+                        srcset="/2024/python-%E8%BF%9B%E9%98%B6/cover_hu4147fedafd2ce795835dfa20789c7376_1545194_800x0_resize_box_3.png 800w, /2024/python-%E8%BF%9B%E9%98%B6/cover_hu4147fedafd2ce795835dfa20789c7376_1545194_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post Python - 进阶" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" style="background-color: #228B22; color: #fff;">
+                开发运维技术
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/python-%E8%BF%9B%E9%98%B6/">Python - 进阶</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 19, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    3422字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="异步-io">异步 IO</h2>
+<p>在实际执行 IO 操作的时候，我们的程序会进入阻塞去等待 IO 操作的完成。这样会带来的后果是，要花费大量的时间来等待，浪费了 CPU 的执行效率。</p>
+<p>所以，我们会使用多线程或者多进程来并发执行代码，就是说我们每个用户分配一个线程，让 IO 操作在线程中执行。</p>
+<p>但是，因为线程的切换也是有不小的开销，所以一旦线程数量过多，那么 CPU 的时间就会花费在线程的切换上了，这样程序的性能就会下降。</p>
+<p>于是，另一种方法是异步 IO，当我们需要执行一个很耗时的 IO 操作时，并不等待 IO 结果，而是在 IO 执行完后再去处理。</p>
+<h3 id="协程">协程</h3>
+<p>协程（Coroutine）是一种并发模型，它允许程序在单线程内实现多个独立的执行线程，这些线程可以非阻塞地挂起和恢复，以实现协作式多任务处理。</p>
+<blockquote>
+<p>协程与线程之间的区别：</p>
+<ul>
+<li>1、<strong>资源管理</strong>：线程是操作系统的资源，而协程不调用操作系统，所以它也被称为用户态线程。</li>
+<li>2、<strong>调度方式</strong>：线程是抢占式的，由操作系统进行调度；而协程是非抢占式，需要用户释放使用权来切换到其他协程。</li>
+<li>3、<strong>并发和并行</strong>：线程是真正意义上的并行执行，而协程主要是在等待 IO 的过程中，重复使用线程。</li>
+<li>4、<strong>内存空间</strong>：线程共享同一块内存，而协程没有独立的内存空间。</li>
+<li>5、<strong>状态保留</strong>：协程能保留上一次调用时的状态。</li>
+<li>6、<strong>开销</strong>：线程的创建和销毁都是系统级的，协程的开销相对要小。</li>
+</ul>
+</blockquote>
+<p>传统的生产者与消费者模型，就是一个线程写消息，另一个线程读消息，我们看看协程的实现方式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">consumer</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">r</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> <span style="color:#e5c07b">True</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">yield</span> <span style="color:#e06c75">r</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#56b6c2">not</span> <span style="color:#e06c75">n</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;[消费者] 正在消费 </span><span style="color:#98c379">%s</span><span style="color:#98c379">...&#39;</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">n</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">r</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;消费完成&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">produce</span>(<span style="color:#e06c75">c</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">c</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">send</span>(<span style="color:#e5c07b">None</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">5</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">+</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;[生产者] 生产中 </span><span style="color:#98c379">%s</span><span style="color:#98c379">...&#39;</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">n</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">r</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">c</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">send</span>(<span style="color:#e06c75">n</span>)       <span style="color:#7f848e"># 调用消费者开始生产</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;[生产者] 消费者返回值: </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#39;</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">r</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">c</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">c</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">consumer</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">produce</span>(<span style="color:#e06c75">c</span>)
+</span></span></code></pre></div><h3 id="asyncio"><code>asyncio</code></h3>
+<p><code>asyncio</code> 是用来编写并发代码的库，它提供了一组高层级的 API 用于 ：</p>
+<ul>
+<li>1、并发地运行 Python 协程。</li>
+<li>2、控制子进程执行网络 IO。</li>
+<li>3、通过队列实现分布式任务。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">asyncio</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;Hello ...&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;... World!&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">run</span>(<span style="color:#e06c75">main</span>())
+</span></span></code></pre></div><hr>
+<p>我们再看一个例子，异步函数会被一个单独的事件循环使用，当读取到 <code>await</code> 的语句时，会通知事件循环先执行其他任务，在 <code>await</code> 语句中的内容执行完毕后再调用回该函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">asyncio</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">time</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">count</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;1&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;2&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">do</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">gather</span>(<span style="color:#e06c75">count</span>(), <span style="color:#e06c75">count</span>(), <span style="color:#e06c75">count</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">run</span>(<span style="color:#e06c75">do</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">e</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>() <span style="color:#56b6c2">-</span> <span style="color:#e06c75">s</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;</span><span style="color:#98c379">{</span><span style="color:#e06c75">__file__</span><span style="color:#98c379">}</span><span style="color:#98c379"> 执行了 </span><span style="color:#98c379">{</span><span style="color:#e06c75">e</span><span style="color:#98c379">:</span><span style="color:#98c379">0.2f</span><span style="color:#98c379">}</span><span style="color:#98c379"> 秒&#34;</span>)
+</span></span></code></pre></div><p>通过上面的例子，我们知道 <code>async def</code> 会产生一个 <code>coroutine</code> 对象，并且 <code>coroutine</code> 函数中可以包含 <code>await</code> 关键字，当执行到它的时候，<code>coroutine</code> 会暂停执行而去执行其他任务，直到 <code>await</code> 任务执行完后再继续执行该 <code>coroutine</code>。</p>
+<h4 id="串联-coroutines">串联 Coroutines</h4>
+<p>我们知道 <code>coroutine</code> 对象能够被另一个 <code>coroutine</code> 通过 <code>await</code> 调用。</p>
+<p>通过这个特性，我们可以将程序变成串联的调用链。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">asyncio</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">random</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">time</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">part1</span>(<span style="color:#e06c75">n</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">randint</span>(<span style="color:#d19a66">0</span>, <span style="color:#d19a66">10</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;(</span><span style="color:#98c379">{</span><span style="color:#e06c75">n</span><span style="color:#98c379">}</span><span style="color:#98c379">) 开始做 </span><span style="color:#98c379">{</span><span style="color:#e06c75">i</span><span style="color:#98c379">}</span><span style="color:#98c379"> 个馒头。&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#e06c75">i</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;(</span><span style="color:#98c379">{</span><span style="color:#e06c75">n</span><span style="color:#98c379">}</span><span style="color:#98c379">) 做好了 </span><span style="color:#98c379">{</span><span style="color:#e06c75">i</span><span style="color:#98c379">}</span><span style="color:#98c379"> 个馒头。&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">i</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">part2</span>(<span style="color:#e06c75">n</span>, <span style="color:#e06c75">arg</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">randint</span>(<span style="color:#d19a66">0</span>, <span style="color:#d19a66">10</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;(</span><span style="color:#98c379">{</span><span style="color:#e06c75">n</span><span style="color:#98c379">}</span><span style="color:#98c379">) 开始吃馒头。&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#e06c75">i</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;(</span><span style="color:#98c379">{</span><span style="color:#e06c75">n</span><span style="color:#98c379">}</span><span style="color:#98c379">) 花了 </span><span style="color:#98c379">{</span><span style="color:#e06c75">i</span><span style="color:#98c379">}</span><span style="color:#98c379"> 分钟吃了 </span><span style="color:#98c379">{</span><span style="color:#e06c75">arg</span><span style="color:#98c379">}</span><span style="color:#98c379"> 个馒头.&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">i</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">chain</span>(<span style="color:#e06c75">n</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p1</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">await</span> <span style="color:#e06c75">part1</span>(<span style="color:#e06c75">n</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p2</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">await</span> <span style="color:#e06c75">part2</span>(<span style="color:#e06c75">n</span>, <span style="color:#e06c75">p1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">e</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>() <span style="color:#56b6c2">-</span> <span style="color:#e06c75">s</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;--&gt;</span><span style="color:#98c379">{</span><span style="color:#e06c75">n</span><span style="color:#98c379">}</span><span style="color:#98c379">的工作 =&gt; 做面包用了</span><span style="color:#98c379">{</span><span style="color:#e06c75">p1</span><span style="color:#98c379">}</span><span style="color:#98c379">分钟, 吃面包用了</span><span style="color:#98c379">{</span><span style="color:#e06c75">p2</span><span style="color:#98c379">}</span><span style="color:#98c379">分钟.&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">do</span>(<span style="color:#e06c75">names</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">task</span> <span style="color:#56b6c2">=</span> (<span style="color:#e06c75">chain</span>(<span style="color:#e06c75">i</span>) <span style="color:#c678dd">for</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">names</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">gather</span>(<span style="color:#56b6c2">*</span><span style="color:#e06c75">task</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p</span> <span style="color:#56b6c2">=</span> [<span style="color:#98c379">&#34;张三&#34;</span>, <span style="color:#98c379">&#34;李四&#34;</span>, <span style="color:#98c379">&#34;王五&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">run</span>(<span style="color:#e06c75">do</span>(<span style="color:#e06c75">p</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">e</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>() <span style="color:#56b6c2">-</span> <span style="color:#e06c75">s</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;程序执行用时 </span><span style="color:#98c379">{</span><span style="color:#e06c75">e</span><span style="color:#98c379">:</span><span style="color:#98c379">0.2f</span><span style="color:#98c379">}</span><span style="color:#98c379"> 秒。&#34;</span>)
+</span></span></code></pre></div><h4 id="队列-coroutines">队列 Coroutines</h4>
+<p>队列模式中，一些互相独立的生产者向队列中放入事务。每个生产者都可能在随机的时间向队列中放入任意多个事项，而一旦事项被放入队列，就会有一组消费者马上从队列中读取尽量多的事项来进行处理，无需等待任何信号来触发这一动作。</p>
+<p><code>asyncio.queue</code> 中定义了三种 <code>coroutine</code>：</p>
+<ul>
+<li><code>await queue.put()</code> 向队列放入事务，如果队列满了，就返回并等待到有新空间时再调用。</li>
+<li><code>await queue.get()</code> 从队列中取出事务，如果队列为空，则返回并等待到队列中有新的事务时再调用。</li>
+<li><code>await queue.join()</code> 判断队列中的所有事务是否被全部取出并处理，如果是的话就返回。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">asyncio</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">itertools</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">it</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">os</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">time</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">random</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">produce</span>(<span style="color:#e06c75">name</span>, <span style="color:#e06c75">q</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">randint</span>(<span style="color:#d19a66">0</span>, <span style="color:#d19a66">10</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">_</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">it</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">repeat</span>(<span style="color:#e5c07b">None</span>, <span style="color:#e06c75">n</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">urandom</span>(<span style="color:#d19a66">5</span>)<span style="color:#56b6c2">.</span><span style="color:#e06c75">hex</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">t</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">await</span> <span style="color:#e06c75">q</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">put</span>((<span style="color:#e06c75">i</span>, <span style="color:#e06c75">t</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;[生产者] </span><span style="color:#98c379">{</span><span style="color:#e06c75">name</span><span style="color:#98c379">}</span><span style="color:#98c379"> 生产了 &lt;</span><span style="color:#98c379">{</span><span style="color:#e06c75">i</span><span style="color:#98c379">}</span><span style="color:#98c379">&gt; 到队列中。&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">consume</span>(<span style="color:#e06c75">name</span>, <span style="color:#e06c75">q</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> <span style="color:#e5c07b">True</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">i</span>, <span style="color:#e06c75">t</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">await</span> <span style="color:#e06c75">q</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">get</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">now</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;[消费者] </span><span style="color:#98c379">{</span><span style="color:#e06c75">name</span><span style="color:#98c379">}</span><span style="color:#98c379"> 消费了 &lt;</span><span style="color:#98c379">{</span><span style="color:#e06c75">i</span><span style="color:#98c379">}</span><span style="color:#98c379">&gt; ，花费了 </span><span style="color:#98c379">{</span><span style="color:#e06c75">now</span><span style="color:#56b6c2">-</span><span style="color:#e06c75">t</span><span style="color:#98c379">:</span><span style="color:#98c379">0.5f</span><span style="color:#98c379">}</span><span style="color:#98c379"> 秒。&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">q</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">task_done</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">do</span>(<span style="color:#e06c75">nProducer</span>, <span style="color:#e06c75">nConsumer</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">q</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Queue</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">producers</span> <span style="color:#56b6c2">=</span> [<span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_task</span>(<span style="color:#e06c75">produce</span>(<span style="color:#e06c75">n</span>, <span style="color:#e06c75">q</span>)) <span style="color:#c678dd">for</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#e06c75">nProducer</span>)]
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">consumer</span> <span style="color:#56b6c2">=</span> [<span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_task</span>(<span style="color:#e06c75">consume</span>(<span style="color:#e06c75">n</span>, <span style="color:#e06c75">q</span>)) <span style="color:#c678dd">for</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#e06c75">nConsumer</span>)]
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">gather</span>(<span style="color:#56b6c2">*</span><span style="color:#e06c75">producers</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">await</span> <span style="color:#e06c75">q</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">join</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">c</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">consumer</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">c</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">cancel</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">run</span>(<span style="color:#e06c75">do</span>(<span style="color:#d19a66">5</span>, <span style="color:#d19a66">5</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">e</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">perf_counter</span>() <span style="color:#56b6c2">-</span> <span style="color:#e06c75">s</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;程序执行用时 </span><span style="color:#98c379">{</span><span style="color:#e06c75">e</span><span style="color:#98c379">:</span><span style="color:#98c379">0.5f</span><span style="color:#98c379">}</span><span style="color:#98c379"> 秒。&#34;</span>)
+</span></span></code></pre></div><h4 id="异步-http-请求">异步 HTTP 请求</h4>
+<p>这个程序的内容是这样的：</p>
+<ol>
+<li>从一个本地文件 urls.txt 里读取一系列的 URL 地址</li>
+<li>向这些 URL 发送 GET 请求然后解析返回值。如果失败，就不再继续处理这个 URL 了。</li>
+<li>搜索返回的 HTTP 内容里包含的 href 里的 URL</li>
+<li>将这些 URL 写入本地文件 foundurls.txt</li>
+<li>尽量用异步和并发来实现上述逻辑。（使用 <code>aiohttp</code> 来发送 HTTP 请求，使用 <code>aiofiles</code> 来写入文件。这两个库是都是异步IO模式的很好的例子）。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat urls.txt
+</span></span><span style="display:flex;"><span>https://regex101.com/
+</span></span><span style="display:flex;"><span>https://docs.python.org/3/this-url-will-404.html
+</span></span><span style="display:flex;"><span>https://www.nytimes.com/guides/
+</span></span><span style="display:flex;"><span>https://www.mediamatters.org/
+</span></span><span style="display:flex;"><span>https://1.1.1.1/
+</span></span><span style="display:flex;"><span>https://www.politico.com/tipsheets/morning-money
+</span></span><span style="display:flex;"><span>https://www.bloomberg.com/markets/economics
+</span></span><span style="display:flex;"><span>https://www.ietf.org/rfc/rfc2616.txt
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#98c379">&#34;&#34;&#34; 异步的获取嵌入在 HTML 内的 HTTP 链接 &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">asyncio</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">logging</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">re</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">sys</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">from</span> <span style="color:#e06c75">typing</span> <span style="color:#c678dd">import</span> <span style="color:#e06c75">IO</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">urllib.error</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">urllib.parse</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">aiofiles</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">aiohttp</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">from</span> <span style="color:#e06c75">aiohttp</span> <span style="color:#c678dd">import</span> <span style="color:#e06c75">ClientSession</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">logging</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">basicConfig</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">format</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;</span><span style="color:#98c379">%(asctime)s</span><span style="color:#98c379"> </span><span style="color:#98c379">%(levelname)s</span><span style="color:#98c379">:</span><span style="color:#98c379">%(name)s</span><span style="color:#98c379">: </span><span style="color:#98c379">%(message)s</span><span style="color:#98c379">&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">level</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">logging</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">DEBUG</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">datefmt</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;%H:%M:%S&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">stream</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">sys</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">stderr</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">logger</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">logging</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getLogger</span>(<span style="color:#98c379">&#34;areq&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">logging</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getLogger</span>(<span style="color:#98c379">&#34;chardet.charsetprober&#34;</span>)<span style="color:#56b6c2">.</span><span style="color:#e06c75">disabled</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">HREF_RE</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">re</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">compile</span>(<span style="color:#98c379">r</span><span style="color:#98c379">&#39;href=&#34;(.*?)&#34;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">fetch_html</span>(<span style="color:#e06c75">url</span>: <span style="color:#e5c07b">str</span>, <span style="color:#e06c75">session</span>: <span style="color:#e06c75">ClientSession</span>, <span style="color:#56b6c2">**</span><span style="color:#e06c75">kwargs</span>) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">str</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&#34;&#34; 利用 HTTP GET 请求获取 HTML 页面。
+</span></span></span><span style="display:flex;"><span><span style="color:#98c379">
+</span></span></span><span style="display:flex;"><span><span style="color:#98c379">    kwargs 作为参数传递给 `session.request()`.
+</span></span></span><span style="display:flex;"><span><span style="color:#98c379">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">resp</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">await</span> <span style="color:#e06c75">session</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">request</span>(<span style="color:#e06c75">method</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;GET&#34;</span>, <span style="color:#e06c75">url</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">url</span>, <span style="color:#56b6c2">**</span><span style="color:#e06c75">kwargs</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">resp</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">raise_for_status</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">logger</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">info</span>(<span style="color:#98c379">&#34;Got response [</span><span style="color:#98c379">%s</span><span style="color:#98c379">] for URL: </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">resp</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">status</span>, <span style="color:#e06c75">url</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">html</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">await</span> <span style="color:#e06c75">resp</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">text</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">html</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">parse</span>(<span style="color:#e06c75">url</span>: <span style="color:#e5c07b">str</span>, <span style="color:#e06c75">session</span>: <span style="color:#e06c75">ClientSession</span>, <span style="color:#56b6c2">**</span><span style="color:#e06c75">kwargs</span>) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">set</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&#34;&#34; 获取 url 链接返回的 html 中内嵌的 href &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">found</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">set</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">try</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">html</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">await</span> <span style="color:#e06c75">fetch_html</span>(<span style="color:#e06c75">url</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">url</span>, <span style="color:#e06c75">session</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">session</span>, <span style="color:#56b6c2">**</span><span style="color:#e06c75">kwargs</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">except</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">aiohttp</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">ClientError</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">aiohttp</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">http_exceptions</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">HttpProcessingError</span>,
+</span></span><span style="display:flex;"><span>    ) <span style="color:#c678dd">as</span> <span style="color:#e06c75">e</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">logger</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">error</span>(
+</span></span><span style="display:flex;"><span>	    <span style="color:#98c379">&#34;aiohttp exception for </span><span style="color:#98c379">%s</span><span style="color:#98c379"> [</span><span style="color:#98c379">%s</span><span style="color:#98c379">]: </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#34;</span>,
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">url</span>,
+</span></span><span style="display:flex;"><span>	    <span style="color:#e5c07b">getattr</span>(<span style="color:#e06c75">e</span>, <span style="color:#98c379">&#34;status&#34;</span>, <span style="color:#e5c07b">None</span>),
+</span></span><span style="display:flex;"><span>	    <span style="color:#e5c07b">getattr</span>(<span style="color:#e06c75">e</span>, <span style="color:#98c379">&#34;message&#34;</span>, <span style="color:#e5c07b">None</span>),
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">except</span> <span style="color:#e06c75">Exception</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">e</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">logger</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">exception</span>(
+</span></span><span style="display:flex;"><span>	    <span style="color:#98c379">&#34;Non-aiohttp exception occured:  </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#34;</span>, <span style="color:#e5c07b">getattr</span>(<span style="color:#e06c75">e</span>, <span style="color:#98c379">&#34;__dict__&#34;</span>, {})
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> <span style="color:#e06c75">link</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">HREF_RE</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">findall</span>(<span style="color:#e06c75">html</span>):
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">try</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">abslink</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">urllib</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">parse</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">urljoin</span>(<span style="color:#e06c75">url</span>, <span style="color:#e06c75">link</span>)
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">except</span> (<span style="color:#e06c75">urllib</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">error</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">URLError</span>, <span style="color:#e06c75">ValueError</span>):
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">logger</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">exception</span>(<span style="color:#98c379">&#34;Error parsing URL: </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">link</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">pass</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">found</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">add</span>(<span style="color:#e06c75">abslink</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">logger</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">info</span>(<span style="color:#98c379">&#34;Found </span><span style="color:#98c379">%d</span><span style="color:#98c379"> links for </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#34;</span>, <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">found</span>), <span style="color:#e06c75">url</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">found</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">write_one</span>(<span style="color:#e06c75">file</span>: <span style="color:#e06c75">IO</span>, <span style="color:#e06c75">url</span>: <span style="color:#e5c07b">str</span>, <span style="color:#56b6c2">**</span><span style="color:#e06c75">kwargs</span>) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">None</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&#34;&#34;  爬取一个 url 链接，将 html 包含的 href 写入文件 &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">res</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">await</span> <span style="color:#e06c75">parse</span>(<span style="color:#e06c75">url</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">url</span>, <span style="color:#56b6c2">**</span><span style="color:#e06c75">kwargs</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#56b6c2">not</span> <span style="color:#e06c75">res</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e5c07b">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">async</span> <span style="color:#c678dd">with</span> <span style="color:#e06c75">aiofiles</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">open</span>(<span style="color:#e06c75">file</span>, <span style="color:#98c379">&#34;a&#34;</span>) <span style="color:#c678dd">as</span> <span style="color:#e06c75">f</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> <span style="color:#e06c75">p</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">res</span>:
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">await</span> <span style="color:#e06c75">f</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">write</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;</span><span style="color:#98c379">{</span><span style="color:#e06c75">url</span><span style="color:#98c379">}</span><span style="color:#98c379">\t</span><span style="color:#98c379">{</span><span style="color:#e06c75">p</span><span style="color:#98c379">}</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">logger</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">info</span>(<span style="color:#98c379">&#34;Wrote results for source URL: </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">url</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">async</span> <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">bulk_crawl_and_write</span>(<span style="color:#e06c75">file</span>: <span style="color:#e06c75">IO</span>, <span style="color:#e06c75">urls</span>: <span style="color:#e5c07b">set</span>, <span style="color:#56b6c2">**</span><span style="color:#e06c75">kwargs</span>) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">None</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&#34;&#34; 异步的爬取多个 url 并写入文件 &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">async</span> <span style="color:#c678dd">with</span> <span style="color:#e06c75">ClientSession</span>() <span style="color:#c678dd">as</span> <span style="color:#e06c75">session</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">tasks</span> <span style="color:#56b6c2">=</span> []
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> <span style="color:#e06c75">url</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">urls</span>:
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">tasks</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">write_one</span>(<span style="color:#e06c75">file</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">file</span>, <span style="color:#e06c75">url</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">url</span>, <span style="color:#e06c75">session</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">session</span>, <span style="color:#56b6c2">**</span><span style="color:#e06c75">kwargs</span>)
+</span></span><span style="display:flex;"><span>	    )
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">await</span> <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">gather</span>(<span style="color:#56b6c2">*</span><span style="color:#e06c75">tasks</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">import</span> <span style="color:#e06c75">pathlib</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">import</span> <span style="color:#e06c75">sys</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">assert</span> <span style="color:#e06c75">sys</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">version_info</span> <span style="color:#56b6c2">&gt;=</span> (<span style="color:#d19a66">3</span>, <span style="color:#d19a66">7</span>), <span style="color:#98c379">&#34;Script requires Python 3.7+.&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">here</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">pathlib</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Path</span>(<span style="color:#e06c75">__file__</span>)<span style="color:#56b6c2">.</span><span style="color:#e06c75">parent</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&#34;&#34; 打开 urls 文件，将 url 读入 set &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">with</span> <span style="color:#e5c07b">open</span>(<span style="color:#e06c75">here</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">joinpath</span>(<span style="color:#98c379">&#34;urls.txt&#34;</span>)) <span style="color:#c678dd">as</span> <span style="color:#e06c75">infile</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">urls</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">set</span>(<span style="color:#e5c07b">map</span>(<span style="color:#e5c07b">str</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">strip</span>, <span style="color:#e06c75">infile</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&#34;&#34; 打开存放提取出的 url 的文件 &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">outpath</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">here</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">joinpath</span>(<span style="color:#98c379">&#34;foundurls.txt&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">with</span> <span style="color:#e5c07b">open</span>(<span style="color:#e06c75">outpath</span>, <span style="color:#98c379">&#34;w&#34;</span>) <span style="color:#c678dd">as</span> <span style="color:#e06c75">outfile</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">outfile</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">write</span>(<span style="color:#98c379">&#34;source_url</span><span style="color:#98c379">\t</span><span style="color:#98c379">parsed_url</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&#34;&#34; 运行异步任务 &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">asyncio</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">run</span>(<span style="color:#e06c75">bulk_crawl_and_write</span>(<span style="color:#e06c75">file</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">outpath</span>, <span style="color:#e06c75">urls</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">urls</span>))
+</span></span></code></pre></div><h2 id="并发编程">并发编程</h2>
+<p>对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个 Word 就启动了一个 Word 进程。</p>
+<p>由于每个进程至少要干一件事，所以，一个进程至少有一个线程。当然，像Word这种复杂的进程可以有多个线程，多个线程可以同时执行，多线程的执行方式和多进程是一样的，也是由操作系统在多个线程之间快速切换，让每个线程都短暂地交替运行，看起来就像同时执行一样。当然，真正地同时执行多线程需要多核CPU才可能实现。</p>
+<h3 id="多进程">多进程</h3>
+<p>Unix/Linux 操作系统提供了 <code>fork()</code> 系统调用。它调用一次会返回两次，因为操作系统把当前进程复制了一份，分别在父进程和子进程内返回。</p>
+<ul>
+<li>子进程永远返回 <code>0</code>，父进程返回子进程的 ID。</li>
+<li>父进程可以有多个子进程，父进程要记录所有子进程的 ID。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">os</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;Process (</span><span style="color:#98c379">%s</span><span style="color:#98c379">) start ...&#34;</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getpid</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">pid</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">fork</span>()
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">pid</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;I&#39;m child process (</span><span style="color:#98c379">%s</span><span style="color:#98c379">) and my parent is </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#34;</span> <span style="color:#56b6c2">%</span> (<span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getpid</span>(), <span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getppid</span>()))
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;I&#39;m (</span><span style="color:#98c379">%s</span><span style="color:#98c379">) just created a child process (</span><span style="color:#98c379">%s</span><span style="color:#98c379">).&#34;</span> <span style="color:#56b6c2">%</span> (<span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getpid</span>(), <span style="color:#e06c75">pid</span>))
+</span></span></code></pre></div><p>如果在 window 系统下执行多进程，可以使用 <code>multiprocessing</code> 模块。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">from</span> <span style="color:#e06c75">multiprocessing</span> <span style="color:#c678dd">import</span> <span style="color:#e06c75">Process</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">os</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">run_proc</span>(<span style="color:#e06c75">name</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;Run child process </span><span style="color:#98c379">{</span><span style="color:#e06c75">name</span><span style="color:#98c379">}</span><span style="color:#98c379"> </span><span style="color:#98c379">{</span><span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getpid</span>()<span style="color:#98c379">}</span><span style="color:#98c379"> ...&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">f</span><span style="color:#98c379">&#34;Parent process </span><span style="color:#98c379">{</span><span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getpid</span>()<span style="color:#98c379">}</span><span style="color:#98c379">&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Process</span>(<span style="color:#e06c75">target</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">run_proc</span>, <span style="color:#e06c75">args</span><span style="color:#56b6c2">=</span>(<span style="color:#98c379">&#39;test&#39;</span>, ))
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;Child process will start.&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">start</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">join</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;Child process end.&#39;</span>)
+</span></span></code></pre></div><hr>
+<p>如果想要启动大量的子进程，可以通过进程池的方式批量创建子进程。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">from</span> <span style="color:#e06c75">multiprocessing</span> <span style="color:#c678dd">import</span> <span style="color:#e06c75">Pool</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">os</span><span style="color:#56b6c2">,</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">,</span> <span style="color:#e06c75">random</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">task</span>(<span style="color:#e06c75">name</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;Run task </span><span style="color:#98c379">%s</span><span style="color:#98c379"> (</span><span style="color:#98c379">%s</span><span style="color:#98c379">)...&#39;</span> <span style="color:#56b6c2">%</span> (<span style="color:#e06c75">name</span>, <span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getpid</span>()))
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">start</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">time</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span>() <span style="color:#56b6c2">*</span> <span style="color:#d19a66">3</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">end</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">time</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;Task </span><span style="color:#98c379">%s</span><span style="color:#98c379"> runs </span><span style="color:#98c379">%0.2f</span><span style="color:#98c379"> seconds.&#39;</span> <span style="color:#56b6c2">%</span> (<span style="color:#e06c75">name</span>, (<span style="color:#e06c75">end</span> <span style="color:#56b6c2">-</span> <span style="color:#e06c75">start</span>)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;Parent process </span><span style="color:#98c379">%s</span><span style="color:#98c379">.&#39;</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">os</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">getpid</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Pool</span>(<span style="color:#d19a66">4</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#d19a66">5</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">p</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">apply_async</span>(<span style="color:#e06c75">task</span>, <span style="color:#e06c75">args</span><span style="color:#56b6c2">=</span>(<span style="color:#e06c75">i</span>,))
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;Waiting for all subprocesses done...&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">close</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">p</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">join</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;All subprocesses done.&#39;</span>)
+</span></span></code></pre></div><h2 id="网络编程">网络编程</h2>
+<p><code>Socket</code> 是网络编程的一个抽象概念。通常我们用一个 <code>Socket</code> 表示“打开了一个网络链接”，而打开一个 <code>Socket</code> 需要知道目标计算机的 IP 地址和端口号，再指定协议类型即可。</p>
+<h3 id="tcp-编程">TCP 编程</h3>
+<h4 id="客户端">客户端</h4>
+<p>创建TCP连接时，主动发起连接的叫客户端，被动响应连接的叫服务器。</p>
+<p>如果要创建一个基于 TCP 连接的 <code>Socket</code>，需要指定协议。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">socket</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># AF_INET:指定 IPv4 协议	SOCK_STREAM:指定面向流的 TCP 协议</span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">socket</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">socket</span>(<span style="color:#e06c75">socket</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">AF_INET</span>, <span style="color:#e06c75">socket</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">SOCK_STREAM</span>)
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">connect</span>((<span style="color:#98c379">&#39;www.baidu.com&#39;</span>, <span style="color:#d19a66">80</span>))
+</span></span></code></pre></div><p>然后我们调用 <code>send()</code> 函数发送 HTTP 请求。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">send</span>(<span style="color:#98c379">b</span><span style="color:#98c379">&#39;GET / HTTP/1.1</span><span style="color:#98c379">\r\n</span><span style="color:#98c379">Host: www.baidu.com</span><span style="color:#98c379">\r\n</span><span style="color:#98c379">Connection: close</span><span style="color:#98c379">\r\n\r\n</span><span style="color:#98c379">&#39;</span>)
+</span></span></code></pre></div><p>接着我们接收返回的数据，并将数据分离写入到文件中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e06c75">buffer</span> <span style="color:#56b6c2">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">while</span> <span style="color:#e5c07b">True</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">d</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">recv</span>(<span style="color:#d19a66">1024</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#e06c75">d</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">buffer</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">d</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">break</span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">data</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">b</span><span style="color:#98c379">&#39;&#39;</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">join</span>(<span style="color:#e06c75">buffer</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">header</span>, <span style="color:#e06c75">html</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">data</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">split</span>(<span style="color:#98c379">b</span><span style="color:#98c379">&#39;</span><span style="color:#98c379">\r\n\r\n</span><span style="color:#98c379">&#39;</span>, <span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">print</span>(<span style="color:#e06c75">header</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">decode</span>(<span style="color:#98c379">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">with</span> <span style="color:#e5c07b">open</span>(<span style="color:#98c379">&#34;baidu.html&#34;</span>, <span style="color:#98c379">&#39;wb&#39;</span>) <span style="color:#c678dd">as</span> <span style="color:#e06c75">f</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">f</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">write</span>(<span style="color:#e06c75">html</span>)
+</span></span></code></pre></div><h4 id="服务端">服务端</h4>
+<p>服务器进程首先要绑定一个端口并监听来自其他客户端的连接。如果某个客户端连接过来了，服务器就与该客户端建立Socket连接，随后的通信就靠这个Socket连接了。</p>
+<p>所以，服务器会打开固定端口（比如80）监听，每来一个客户端连接，就创建该 Socket 连接。由于服务器会有大量来自客户端的连接，所以，服务器要能够区分一个 Socket 连接是和哪个客户端绑定的。一个 Socket 依赖4项：服务器地址、服务器端口、客户端地址、客户端端口来唯一确定一个 Socket。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">socket</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">socket</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">socket</span>(<span style="color:#e06c75">socket</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">AF_INET</span>, <span style="color:#e06c75">socket</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">SOCK_STREAM</span>)
+</span></span></code></pre></div><p>让服务端绑定本机地址 <code>127.0.0.1</code> 并且使用 <code>9999</code> 端口号。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">bind</span>((<span style="color:#98c379">&#39;127.0.0.1&#39;</span>, <span style="color:#d19a66">9999</span>))
+</span></span></code></pre></div><p>调用 <code>listen()</code> 方法监听端口，传入参数指定等待连接的最大数量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">listen</span>(<span style="color:#d19a66">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;Waiting for connection...&#34;</span>)
+</span></span></code></pre></div><p>每个连接都创建新的线程或进程来处理，这样才能接收多个客户端的连接。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">tcplink</span>(<span style="color:#e06c75">sock</span>, <span style="color:#e06c75">addr</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;Accept new connection from </span><span style="color:#98c379">%s</span><span style="color:#98c379">:</span><span style="color:#98c379">%s</span><span style="color:#98c379">...&#34;</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">addr</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">sock</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">send</span>(<span style="color:#98c379">b</span><span style="color:#98c379">&#39;Welcome!&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> <span style="color:#e5c07b">True</span>:
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/python/">Python</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2024/python-%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/python-%E5%9F%BA%E7%A1%80/cover.e8245e548f0c88ad1721f9798413ef83_hu39a96208b41191b61a5710e1893b7c44_1174048_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Python - 基础"
+                        data-key="Python - 基础" 
+                        data-hash="md5-6CReVI8MiK0XIfl5hBPvgw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python - 基础</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/shell%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/shell%E5%AD%A6%E4%B9%A0/cover.51251896a6af909388445aa0d04e4754_hu87cba6621d1cba6cf29db5a9878ced61_565035_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Shell学习"
+                        data-key="Shell学习" 
+                        data-hash="md5-USUYlqavkJOIRFqg0E5HVA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Shell学习</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/cover.3e17a9fdf92ab500eed4f3a8ff605aef_hu1426f538bf3f3d274a2921f898c10f8c_1722201_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Android开发笔记"
+                        data-key="Android开发笔记" 
+                        data-hash="md5-Phep/fkqtQDu1POo/2Ba7w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Android开发笔记</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了109.4k字·共 21篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#异步-io">异步 IO</a>
+      <ol>
+        <li><a href="#协程">协程</a></li>
+        <li><a href="#asyncio"><code>asyncio</code></a>
+          <ol>
+            <li><a href="#串联-coroutines">串联 Coroutines</a></li>
+            <li><a href="#队列-coroutines">队列 Coroutines</a></li>
+            <li><a href="#异步-http-请求">异步 HTTP 请求</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#并发编程">并发编程</a>
+      <ol>
+        <li><a href="#多进程">多进程</a></li>
+      </ol>
+    </li>
+    <li><a href="#网络编程">网络编程</a>
+      <ol>
+        <li><a href="#tcp-编程">TCP 编程</a>
+          <ol>
+            <li><a href="#客户端">客户端</a></li>
+            <li><a href="#服务端">服务端</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="http://localhost:1313/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">5</a>
+            </span></div>
+            <div class="category-list-item"><a href="http://localhost:1313/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">9</a>
+            </span></div>
+            <div class="category-list-item"><a href="http://localhost:1313/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="http://localhost:1313/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="http://localhost:1313/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">2</a>
+            </span></div>
+            <div class="category-list-item"><a href="http://localhost:1313/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">21</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_7">
+                Note
+            </a>
+        
+            <a href="/tags/web/" class="font_size_3">
+                Web
+            </a>
+        
+            <a href="/tags/%E8%8B%B1%E8%AF%AD/" class="font_size_3">
+                英语
+            </a>
+        
+            <a href="/tags/python/" class="font_size_2">
+                Python
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_2">
+                计算机网络
+            </a>
+        
+            <a href="/tags/c/" class="font_size_1">
+                C
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_1">
+                Linux
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/shell/" class="font_size_1">
+                Shell
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

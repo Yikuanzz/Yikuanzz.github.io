@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<meta name='description' content='概述 OSI 参考模型 网络通信是一个庞大的工程，其中网络协议就采用分层设计的思想。国际化标准组织提出了 开放式系统互联模型（open system interconnection model），'><title>计算机网络学习</title>
+
+<link rel='canonical' href='https://yikuanzz.github.io/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='计算机网络学习'>
+<meta property='og:description' content='概述 OSI 参考模型 网络通信是一个庞大的工程，其中网络协议就采用分层设计的思想。国际化标准组织提出了 开放式系统互联模型（open system interconnection model），'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='计算机网络' /><meta property='article:published_time' content='2024-05-21T08:10:37&#43;08:00'/><meta property='article:modified_time' content='2024-05-21T08:10:37&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/cover.png' />
+<meta name="twitter:title" content="计算机网络学习">
+<meta name="twitter:description" content="概述 OSI 参考模型 网络通信是一个庞大的工程，其中网络协议就采用分层设计的思想。国际化标准组织提出了 开放式系统互联模型（open system interconnection model），"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/cover.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://yikuanzz.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://leetcode.cn/u/yikuanzz/'
+                            target="_blank"
+                            title="Leetcode"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-leetcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M12 13h7.5" />
+  <path d="M9.424 7.268l4.999 -4.999" />
+  <path d="M16.633 16.644l-2.402 2.415a3.189 3.189 0 0 1 -4.524 0l-3.77 -3.787a3.223 3.223 0 0 1 0 -4.544l3.77 -3.787a3.189 3.189 0 0 1 4.524 0l2.302 2.313" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/gossip' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+  <path d="M9 8h6" />
+</svg>
+                
+                <span>杂谈</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/">
+                <img src="/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/cover_hu7de092c981d04a68ecb78876337b6c3c_1423095_800x0_resize_box_3.png"
+                        srcset="/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/cover_hu7de092c981d04a68ecb78876337b6c3c_1423095_800x0_resize_box_3.png 800w, /2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/cover_hu7de092c981d04a68ecb78876337b6c3c_1423095_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post 计算机网络学习" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" style="background-color: #FF8C00; color: #fff;">
+                技术与效率
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/">计算机网络学习</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 21, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    2546字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="概述">概述</h2>
+<h3 id="osi-参考模型">OSI 参考模型</h3>
+<p>网络通信是一个庞大的工程，其中网络协议就采用分层设计的思想。国际化标准组织提出了 开放式系统互联模型（open system interconnection model），简称 OSI 模型。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521081401.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521081401.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>物理层（physical layer），负责管理通信设备和通信媒介，对设备的针脚、电压、线缆等做了详尽的定义。物理层为我们屏蔽了物理设备的底层细节，为上层提供信息比特传输能力。至于它对于线缆、电压等的规定，软件研发人员一般不需要关注。</p>
+<p>数据链路层（data link layer）以 帧（frame）为传输单元，负责网络寻址、错误侦测，可以解决同一网络内多台主机的通信问题，最终实现局域网通信。</p>
+<p>网络层（network layer）以 数据包（packet）为传输单元，负责路径选择和数据包转发。网络层建立在数据链路层的基础上，它实现了全网通信能力，可以将数据传送到网络中任一的节点。数据链路层只实现了局域网内的通信能力，为网络层提供服务，将包送至下一节点。两者分工明确，彼此协作。</p>
+<p>传输层（transport layer）在网络层基础上，为应用进程提供端到端的通信服务，支持面向连接的数据流、流量控制以及可靠性保障。一个节点上通常有许多应用进程，为此传输层引入了端口的概念，实现了从进程到进程的传输能力。在 段（segment）中包含端口信息，网络转发后目标节点在包中取出段，再根据端口号送至目标进程。</p>
+<p>应用层（application layer）负责应用的通信逻辑，并提供多样的网络应用服务。</p>
+<ul>
+<li>会话层（session layer）为通信实体实现会话和连接管理功能，主要提供 用户认证、权限控制 等服务。</li>
+<li>表示层（presentation layer）为不同终端的用户提供一致的数据表示和变换方法，比如 数据的编解码、数据的加密压缩、数据的压缩解压 等等。</li>
+</ul>
+<h3 id="tcpip-协议栈">TCP/IP 协议栈</h3>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521083842.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521083842.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>网络访问层（network access layer）负责管理物理介质，并提供将数据从当前节点传输到下一节点的能力，相当于 物理层 + 数据链路层。</p>
+<ul>
+<li>不同的通信介质，有不同的接入设备，采用的协议也不同：Ethernet，以太网协议；PPP，点对点协议；DSL，用户数字线路 等等。</li>
+</ul>
+<p>网络互连层（internet layer）在网络访问层提供的局域网通信能力之上，实现网际通信能力，负责路径选择和数据包转发，相当于 网络层。</p>
+<ul>
+<li>IP 协议在该层以 IP 包为通信单元，通过该协议通信的主机需要分配一个 IP 地址，包中用 IP 地址来标识包的来源和目的地。</li>
+</ul>
+<p>传输层（transport layer）在网络互连层点到点传输能力基础上，实现端到端的进程间通信。</p>
+<ul>
+<li>UDP 协议引入了一个端口号，当 UDP 段搭载在 IP 包中送给主机后，系统根据段中的数据提交给对应的进程。</li>
+<li>TCP 协议相对 UDP协议 来说，它为进程提供可靠、有序的数据流。</li>
+</ul>
+<p>应用层（application layer）定义具体网络应用的通信逻辑，让应用进程间的写作成为可能。</p>
+<ul>
+<li>网络应用协议常见的有：HTTP、HTTPS、FTP、SMTP 等等。</li>
+</ul>
+<h2 id="ethernet以太网协议">Ethernet：以太网协议</h2>
+<h3 id="物理层数据链路层">物理层+数据链路层</h3>
+<h3 id="以太网帧结构">以太网帧结构</h3>
+<p>在以太网中，数据通信达基本单位是 以太网帧（frame），由 头部（header）、数据（data）以及 校验和（checksum）三部分构成。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521091248.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521091248.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>以太网帧头部包含 3 个字段：</p>
+<ul>
+<li>目的地址，长度为 6 个字节，用于标记数据由哪台机器接收。</li>
+<li>源地址，长度为 6 个字节，用于标记数据由哪台机器发送。</li>
+<li>类型，长度为 2 字节，用于标记数据如何处理，<code>0x0800</code> 表示该帧数据是一个 IP 包。</li>
+</ul>
+<p>以太网数据是任何需要发送的信息，长度可变，46 至 1500 字节均可。</p>
+<p>以太网校验和，长度为 4 个字节。因为物理信号可能受到环境干扰，网络设备传输的比特流会出错，为了保证传输以太网帧的时候是完好无损的，我们就要用到校验和。</p>
+<ul>
+<li>发送者负责为每个以太网帧计算校验和，并计算结果填写在校验和字段中；接收者接收到以太网帧后，重新计算校验和并与校验和字段对比；如果两个校验和不一致，说明该帧在传输时出错了。</li>
+</ul>
+<h3 id="mac-地址">MAC 地址</h3>
+<p>MAC（Media Access Control Address）地址也是以太网地址，也叫硬件地址、物理地址、网卡地址。</p>
+<ul>
+<li>物理层上，网卡负责比特流和电信号之间相互转换。</li>
+<li>软件层上，内核协议栈负责封装以太网帧，并调用网卡驱动发送；接收数据时，负责验证 目的地址、校验和 并取出数据部分交予上层协议栈处理。</li>
+</ul>
+<p>MAC 地址由 6 个字节（48位）组成。</p>
+<ul>
+<li>3 字节长的 厂商代码（OUI），由国际组织分配给不同的网络设备商。</li>
+<li>3 字节长的 序列号（SN），由厂商分配给它生产的网络设备。</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521093723.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521093723.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>MAC 地址很难直接用 ASCII 码来解读，所以我们将一个 8 位 字节的字符，分成 高 4 位 和 低 4 位，并且每个部分用 16 进制的字符来表示。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521094526.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240521094526.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>在 Linux 系统中，我们用 <code>ip link</code> 命令来查看网卡。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@iZ7xvfomazz4187zib4aurZ ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># ip link</span>
+</span></span><span style="display:flex;"><span>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span style="color:#d19a66">65536</span> qdisc noqueue state UNKNOWN mode DEFAULT group default qlen <span style="color:#d19a66">1000</span>
+</span></span><span style="display:flex;"><span>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span></span><span style="display:flex;"><span>2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span style="color:#d19a66">1500</span> qdisc pfifo_fast state UP mode DEFAULT group default qlen <span style="color:#d19a66">1000</span>
+</span></span><span style="display:flex;"><span>    link/ether 00:16:3e:03:2c:8d brd ff:ff:ff:ff:ff:ff
+</span></span><span style="display:flex;"><span>3: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span style="color:#d19a66">1500</span> qdisc noqueue state DOWN mode DEFAULT group default 
+</span></span><span style="display:flex;"><span>    link/ether 02:42:61:8f:61:b8 brd ff:ff:ff:ff:ff:ff
+</span></span></code></pre></div><p>我们也可以通过套接字编程直接向系统获取，Linux 套接字支持通过 <code>ioctl</code> 系统调用获取网络设备，大致步骤如下：（补充内容请看附录）</p>
+<p>​	1、创建套接字。</p>
+<p>​	2、准备 <code>ifreq</code> 结构体，保存网卡设备信息。</p>
+<p>​	3、将查询网卡名填充到 <code>ifreq</code>。</p>
+<p>​	4、调用 <code>ioctl</code> 系统，向套接字发送 <code>SIOCGIFHWADDR</code>请求获取物理地址。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;net/if.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;string.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;sys/ioctl.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;sys/socket.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">mac_ntoa</span>(<span style="color:#e5c07b">unsigned</span> <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">n</span>, <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">a</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 格式化数据，并写入字符串 a
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#61afef;font-weight:bold">sprintf</span>(<span style="color:#e06c75">a</span>, <span style="color:#98c379">&#34;%02x:%02x:%02x:%02x:%02x:%02x&#34;</span>, <span style="color:#e06c75">n</span>[<span style="color:#d19a66">0</span>], <span style="color:#e06c75">n</span>[<span style="color:#d19a66">1</span>], <span style="color:#e06c75">n</span>[<span style="color:#d19a66">2</span>], <span style="color:#e06c75">n</span>[<span style="color:#d19a66">3</span>], <span style="color:#e06c75">n</span>[<span style="color:#d19a66">4</span>], <span style="color:#e06c75">n</span>[<span style="color:#d19a66">5</span>]);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">argc</span>, <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">argv</span>[]){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">argc</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">2</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">fprintf</span>(<span style="color:#e06c75">stderr</span>, <span style="color:#98c379">&#34;no iface given</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 创建套接字
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">socket</span>(<span style="color:#e06c75">AF_INET</span>, <span style="color:#e06c75">SOCK_STREAM</span>, <span style="color:#d19a66">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span> <span style="color:#56b6c2">==</span> <span style="color:#e06c75">s</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">perror</span>(<span style="color:#98c379">&#34;Fail to create socket&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#d19a66">2</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 填充字符串名字
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">ifreq</span> <span style="color:#e06c75">ifr</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">strncpy</span>(<span style="color:#e06c75">ifr</span>.<span style="color:#e06c75">ifr_name</span>, <span style="color:#e06c75">argv</span>[<span style="color:#d19a66">1</span>], <span style="color:#d19a66">15</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>  	<span style="color:#7f848e">// 调用 ioctl 驱动获得地址
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">ret</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">ioctl</span>(<span style="color:#e06c75">s</span>, <span style="color:#e06c75">SIOCGIFHWADDR</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">ifr</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span> <span style="color:#56b6c2">==</span> <span style="color:#e06c75">ret</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">perror</span>(<span style="color:#98c379">&#34;Fail to get mac address&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#d19a66">3</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 转换为可读形式
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">mac</span>[<span style="color:#d19a66">18</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">mac_ntoa</span>((<span style="color:#e5c07b">unsigned</span> <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span>)<span style="color:#e06c75">ifr</span>.<span style="color:#e06c75">ifr_hwaddr</span>.<span style="color:#e06c75">sa_data</span>, <span style="color:#e06c75">mac</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 输出结果
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;IFace: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">ifr</span>.<span style="color:#e06c75">ifr_name</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;MAC: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">mac</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;       
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="mtu-最大传输单元">MTU 最大传输单元</h3>
+<p>如果待发送的数据超过帧的最大承载能力，就需要先对数据进行分片，然后再通过若干个帧进行传输。</p>
+<p>待发送的数据总共 4000 字节，假设以太网设备一帧最多只能承载 1500 字节。很明显，数据需要划分成 3 片，再通过 3 个帧进行发送。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240523105425.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240523105425.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="编程发送以太网帧">编程发送以太网帧</h3>
+<p>实现 sendether 命令，用于发送以太网帧，它的用法是：</p>
+<ul>
+<li>-i -iface：用于发送以太网帧的网卡名。</li>
+<li>-t -to：目的 MAC 地址。</li>
+<li>-T -type：以太类型。</li>
+<li>-d -data：待发送数据。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>send_ether -i enp0s8 -t 0a:00:27:00:00:00 -T 0x1024 -d <span style="color:#98c379">&#34;Hello, world!&#34;</span>
+</span></span></code></pre></div><p>使用 <code>enp0s8</code> 网卡，向 <code>0a:00:27:00:00:00</code> 发送一个类型为 <code>0x1024</code> 的以太网帧。</p>
+<h2 id="附录补充知识点">附录：补充知识点</h2>
+<h3 id="linux-内核---ioctl">Linux 内核 - <code>ioctl</code></h3>
+<p><code>ioctl</code>是设备驱动程序中设备控制接口函数，一个字符设备驱动通常会实现设备打开、关闭、读、写等功能，如果需要扩展新的功能，通常以增设 <code>ioctl()</code> 命令的方式实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;sys/ioctl.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">ioctl</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>, <span style="color:#e5c07b">int</span> <span style="color:#e06c75">cmd</span>, ...)
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/%E7%BD%91%E7%BB%9C%E6%95%B0%E9%80%9A%E5%85%A5%E9%97%A8/cover.4cc458ef01bfdf6a62f7a77fea3abfcc_hud6534069964b1be15513fb0788602e96_1276815_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 网络数通入门"
+                        data-key="网络数通入门" 
+                        data-hash="md5-TMRY7wG/32pi96d/6jq/zA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络数通入门</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/cover.0dcc70a422c7fa95a34071e992721e60_hue62a8c150cedb6b5c53d1c7275165f83_1610847_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 消息队列学习"
+                        data-key="消息队列学习" 
+                        data-hash="md5-DcxwpCLH&#43;pWjQHHpknIeYA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">消息队列学习</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/rpc-%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/rpc-%E5%AD%A6%E4%B9%A0/cover.342139740505623d4076e36655cd2501_hu6b9a47690eec077c155fc2fdb333230e_963914_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post RPC 学习"
+                        data-key="RPC 学习" 
+                        data-hash="md5-NCE5dAUFYj1AduNmVc0lAQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">RPC 学习</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了106k字·共 20篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#概述">概述</a>
+      <ol>
+        <li><a href="#osi-参考模型">OSI 参考模型</a></li>
+        <li><a href="#tcpip-协议栈">TCP/IP 协议栈</a></li>
+      </ol>
+    </li>
+    <li><a href="#ethernet以太网协议">Ethernet：以太网协议</a>
+      <ol>
+        <li><a href="#物理层数据链路层">物理层+数据链路层</a></li>
+        <li><a href="#以太网帧结构">以太网帧结构</a></li>
+        <li><a href="#mac-地址">MAC 地址</a></li>
+        <li><a href="#mtu-最大传输单元">MTU 最大传输单元</a></li>
+        <li><a href="#编程发送以太网帧">编程发送以太网帧</a></li>
+      </ol>
+    </li>
+    <li><a href="#附录补充知识点">附录：补充知识点</a>
+      <ol>
+        <li><a href="#linux-内核---ioctl">Linux 内核 - <code>ioctl</code></a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">9</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">2</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">20</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_7">
+                Note
+            </a>
+        
+            <a href="/tags/web/" class="font_size_3">
+                Web
+            </a>
+        
+            <a href="/tags/%E8%8B%B1%E8%AF%AD/" class="font_size_3">
+                英语
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_2">
+                计算机网络
+            </a>
+        
+            <a href="/tags/c/" class="font_size_1">
+                C
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_1">
+                Linux
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/python/" class="font_size_1">
+                Python
+            </a>
+        
+            <a href="/tags/shell/" class="font_size_1">
+                Shell
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -412,7 +412,7 @@
     
     <p>我们做<strong>随机实验(ramdom trial)</strong>，记为 $E$ ，把实验的所有结果的集合叫作<strong>样本空间(sample sapce)</strong>，记为 $\Omega$ 。</p>
 <p><strong>随机事件(random event)</strong> 是样本空间的子集，简单称为<strong>事件</strong>。</p>
-<h3 id="频率-p">频率 $P$</h3>
+<h2 id="频率-p">频率 $P$</h2>
 <p>那么，我们假设在同一条件下进行了 $n$ 次实验，再假设随机事件 $A$ 在实验中发生了 $k$ 次，那么就事件的<strong>频率</strong>为 :</p>
 <p>$$
 f_n(A)=\frac{k}{n}
@@ -427,7 +427,7 @@ $$</p>
 <li>规范性：$P(\Omega) = 1$</li>
 <li>可数可加性： $P(\cup ^ {\infty} _ {n=1} A_n ) = \sum ^ {\infty} _ {n=1} P(A_n) $</li>
 </ul>
-<h3 id="条件概率-pab--fracpabpb">条件概率 $P(A|B) = \frac{P(AB)}{P(B)}$</h3>
+<h2 id="条件概率-pab--fracpabpb">条件概率 $P(A|B) = \frac{P(AB)}{P(B)}$</h2>
 <p>我们说，在事件 $B$ 发生的前提下，事件 $A$ 发生的<strong>条件概率</strong>为:
 $$
 P(A|B) = \frac{P(AB)}{P(B)}
@@ -442,7 +442,7 @@ $$
 $$
 P(AB) = P(B)P(A|B)
 $$</p>
-<h3 id="全概率公式-pbsumn_i1pa_ipba_i">全概率公式 $P(B)=\sum^{n}_{i=1}P(A_i)P(B|A_i)$</h3>
+<h2 id="全概率公式-pbsumn_i1pa_ipba_i">全概率公式 $P(B)=\sum^{n}_{i=1}P(A_i)P(B|A_i)$</h2>
 <p>我们定义 $A_1, A_2, &hellip;, A_n$ 为样本空间 $\Omega$ 的一个<strong>划分</strong>，它满足：</p>
 <ul>
 <li>划分中的任两个事件之间不相容</li>
@@ -457,7 +457,7 @@ P(B) &amp;= P(B\Omega)= P(B(A_1 \cup A_2 \cup \cdots \cup A_n))\\
 &amp;= P(A_1)P(B|A_1) + P(A_2)P(B|A_2) + \cdots + P(A_n)P(B|A_n)
 \end{aligned}
 $$</p>
-<h3 id="贝叶斯公式-pa_ib--fracpba_ipa_isumn_j1pba_ipa_j">贝叶斯公式 $P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_i)P(A_j)}$</h3>
+<h2 id="贝叶斯公式-pa_ib--fracpba_ipa_isumn_j1pba_ipa_j">贝叶斯公式 $P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_i)P(A_j)}$</h2>
 <p>贝叶斯公式由条件概率和全概率公式组合而来，推理如下：
 $$
 \begin{aligned}
@@ -468,7 +468,7 @@ P(A_i|B) &amp;= \frac{P(A_iB)}{P(B)} = \frac{P(BA_i)}{P(B)}\
 $$
 一般来说，我们将划分 $A_1,A_2,&hellip;,A_n$ 作为已知的结果，是说我们通过实验或者以往的信息经验之类的得到了 $P(A_j)$ 的值，所以我们称 $P(A_j)$ 为<strong>先验概率</strong>。此外，我们称 $P(A_i|B)$ 为<strong>后验概率</strong>，因为 $P(A_i|B)$ 是说在事件 $B$ 发生后，$A_i$ 再发生的概率。</p>
 <p>通俗来说，就是我们通过了那么多的事件 $A_1,A_2,&hellip;,A_n$ 得到了结果，也就是事件 $B$ 的概率，但是我们还想要知道这个结果，也就是事件 $B$ 发生的情况下，某个 $A_j$ 发生的概率是多少这样。</p>
-<h3 id="分布函数-fxpx-leq-x-">分布函数 $F(x)=P\{X \leq x \}$</h3>
+<h2 id="分布函数-fxpx-leq-x-">分布函数 $F(x)=P\{X \leq x \}$</h2>
 <p>我们这里给出一个函数为：
 $$
 X = X(A)
@@ -491,7 +491,7 @@ $$
 <li>离散型随机变量：随机变量的取值为有限个或者可数无穷多个</li>
 <li>连续型随机变量：随机变量的取值连续地充满某个区间</li>
 </ul>
-<h3 id="离散型随机变量-两点分布-x-sim-0-1">离散型随机变量-两点分布 $X \sim (0-1)$</h3>
+<h2 id="离散型随机变量-两点分布-x-sim-0-1">离散型随机变量-两点分布 $X \sim (0-1)$</h2>
 <p>当随机变量 $X$ 的取值只有 $x_1$ 和 $x_2$ 这两个结果时，它的分布为：</p>
 <div>
     $$
@@ -502,7 +502,7 @@ P\{ X=x_2 \} &= 1 - p \quad, \quad0 < p < 1 \\
     $$
 </div>
 <p>我们称 $X$ 服从参数为 $p$ 的<strong>两点分布</strong>，也叫 (0-1) 分布，记作 $X \sim (0-1)$。</p>
-<h3 id="离散型随机变量-二项分布-xsim-bn-p">离散型随机变量-二项分布 $X\sim b(n, p)$</h3>
+<h2 id="离散型随机变量-二项分布-xsim-bn-p">离散型随机变量-二项分布 $X\sim b(n, p)$</h2>
 <p>当随机变量 $X$ 的分布满足：
 $$
 P\{X=k\} = C_n^k p ^k(1-p)^{n-k}
@@ -513,13 +513,13 @@ $$
 $$
 \lim\limits_{x\rightarrow\infty}C^k_np^k_n(1-p)^{n-k}=\frac{\lambda^ke^{-\lambda}}{k!}
 $$</p>
-<h3 id="离散型随机变量-泊松分布-x-sim-plambda">离散型随机变量-泊松分布 $X \sim P(\lambda)$</h3>
+<p>离散型随机变量-泊松分布 $X \sim P(\lambda)$</p>
 <p>当随机变量 $X$ 的分布满足：
 $$
 P\{X=k\} = \frac{\lambda^ke^{-\lambda}}{k!} \quad,\quad k=0,1,2,\dots,
 $$
 则称 $X$ 为服从参数为 $\lambda$ 的泊松分布(poisson distribution)，记作 $X \sim P(\lambda)$，其中 $\lambda$ 为常数。</p>
-<h3 id="概率密度函数-fx">概率密度函数 $f(x)$</h3>
+<h2 id="概率密度函数-fx">概率密度函数 $f(x)$</h2>
 <p>这里介绍一个概念，<strong>概率密度函数(density sunction)</strong>。它可以用来描述随机变量 $X$ 的分布函数 $F(x)$：
 $$
 F(x) = \int^x_{\infty}f(t)dx
@@ -530,7 +530,7 @@ $$
 <li>$\int^{{+\infty}}_{-\infty}f(x)dx = 1$</li>
 <li>$P \{ x_1 &lt; X &lt;x_2 \} = F(x_2) - F(x_1) = \int^{x_2}_{x_1}f(t)dx$</li>
 </ul>
-<h3 id="连续型随机变量-均匀分布-xsim-uab">连续型随机变量-均匀分布 $X\sim U(a,b)$</h3>
+<h2 id="连续型随机变量-均匀分布-xsim-uab">连续型随机变量-均匀分布 $X\sim U(a,b)$</h2>
 <p>当随机变量 $X$ 具有概率密度：</p>
 <div>
 $$
@@ -555,7 +555,7 @@ $$
 \right.
     $$
 </div>
-<h3 id="连续型随机变量-指数分布-xsim-elambda">连续型随机变量-指数分布 $X\sim E(\lambda)$</h3>
+<h2 id="连续型随机变量-指数分布-xsim-elambda">连续型随机变量-指数分布 $X\sim E(\lambda)$</h2>
 <p>当随机变量 $X$ 具有概率密度：</p>
 <div>
 $$
@@ -579,7 +579,7 @@ F(x)=\left\{
 \right.
 $$    
 </div>
-<h3 id="连续型随机变量-正态分布-x-sim-nmu-sigma2">连续型随机变量-正态分布 $X \sim N(\mu, \sigma^2)$</h3>
+<h2 id="连续型随机变量-正态分布-x-sim-nmu-sigma2">连续型随机变量-正态分布 $X \sim N(\mu, \sigma^2)$</h2>
 <p>当随机变量 $X$ 具有概率密度：
 $$
 f(x)= \frac{1}{\sqrt{2\pi}\sigma}e^{- \frac{(x-\mu)^2}{2 \sigma^2}},-\infty&lt;x&lt;+\infty
@@ -607,13 +607,13 @@ P \{\mu-3 \sigma < X < \mu + 3 \sigma \} = \phi(3) - \phi(-3) = 2\phi(3) -1 = 0.
 \end{aligned}
 $$    
 </div>
-<h3 id="联合分布函数-fxy--p-x-leq-x-y-leq-y">联合分布函数 $F(x,y) = P{ X \leq x, Y \leq y}$</h3>
+<h2 id="联合分布函数-fxy--p-x-leq-x-y-leq-y">联合分布函数 $F(x,y) = P{ X \leq x, Y \leq y}$</h2>
 <p>在这里，我们考虑两个随机变量 $X(e)$ 和 $Y(e)$ 的组合。我们把 $(X(e), Y(e))$ 称为<strong>二维随机向量(2-dimensional random vector)</strong>，简单记作 $(X, Y)$。</p>
 <p>显然，我们可以得到二维随机向量 $(X, Y)$ 的分布函数，或者说，随机变量 $X$ 和随机变量 $Y$ 的<strong>联合分布函数</strong>：
 $$
 F(x,y) = P\{ X \leq x, Y \leq y\}
 $$</p>
-<h3 id="边缘分布函数--f_xx-f_yy">边缘分布函数  $F_X(x), F_Y(y)$</h3>
+<h2 id="边缘分布函数--f_xx-f_yy">边缘分布函数  $F_X(x), F_Y(y)$</h2>
 <p>我们说到联合分布函数是二维随机变量 $(X, Y)$ 的分布函数，自然随机变量 $X$ 和 $Y$ 是有分布函数的，那么我们通过联合分布函数来求得变量 $X$ 和 $Y$ 的分布函数，就可以得二维随机变量 $(X, Y)$ 关于 $X$ 和 $Y$ 的边缘分布函数(marginal distribution function)：</p>
 <p>$$
 \begin{aligned}
@@ -621,7 +621,7 @@ F_X(x) &amp;= P\{X \leq x \} = P\{X \leq x, Y &lt; +\infty \} = F(x, +\infty) \\
 F_Y(y) &amp;= P\{Y \leq y \} = P\{X &lt; +\infty, Y \leq y \} = F(+\infty, y)
 \end{aligned}
 $$</p>
-<h3 id="数学期望-ex">数学期望 $E(X)$</h3>
+<h2 id="数学期望-ex">数学期望 $E(X)$</h2>
 <p>我们现在知道一个离散型变量 $X$ 的分布律为：</p>
 <p>$$
 P\{X = x_k\} = p_k, k=1,2.\dots
@@ -666,7 +666,7 @@ $$</p>
 </tr>
 </tbody>
 </table></div>
-<h3 id="方差-dx">方差 $D(X)$</h3>
+<h2 id="方差-dx">方差 $D(X)$</h2>
 <p>数学期望描述了随机变量取值的“平均数”，而 <strong>方差(variance)</strong> 是用来度量随机变量取值的分散程度的，记作 $D(X)$，即：
 $$
 D(X) = E[X-E(X)]^2 = E(X^2) - [E(X)]^2
@@ -703,7 +703,7 @@ $$</p>
 </tr>
 </tbody>
 </table></div>
-<h3 id="协方差--covx-y">协方差  $cov(X, Y)$</h3>
+<h2 id="协方差--covx-y">协方差  $cov(X, Y)$</h2>
 <p>数学期望和方差反映的都是随机变量自身的内容，这里我们考虑随机变量相互之间的影响，一般会使用<strong>协方差(convariance)</strong> 来描述，即：</p>
 <p>$$
 cov(X, Y) = E{[X-E(X)][Y-E(Y)]}
@@ -844,6 +844,18 @@ $$</p>
 
     
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
 
 <script>
 (function(u, c) {
@@ -861,7 +873,7 @@ $$</p>
         &copy; 
         
         2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-      共书写了85.5k字·共 14篇文章</br><span><p>
+      共书写了106k字·共 20篇文章</br><span><p>
     </section>
     
     <section class="powerby">
@@ -1004,27 +1016,22 @@ document.getElementById('days').innerHTML = number_of_days;
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li>
-      <ol>
-        <li><a href="#频率-p">频率 $P$</a></li>
-        <li><a href="#条件概率-pab--fracpabpb">条件概率 $P(A|B) = \frac{P(AB)}{P(B)}$</a></li>
-        <li><a href="#全概率公式-pbsumn_i1pa_ipba_i">全概率公式 $P(B)=\sum^{n}_{i=1}P(A_i)P(B|A_i)$</a></li>
-        <li><a href="#贝叶斯公式-pa_ib--fracpba_ipa_isumn_j1pba_ipa_j">贝叶斯公式 $P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_i)P(A_j)}$</a></li>
-        <li><a href="#分布函数-fxpx-leq-x-">分布函数 $F(x)=P\{X \leq x \}$</a></li>
-        <li><a href="#离散型随机变量-两点分布-x-sim-0-1">离散型随机变量-两点分布 $X \sim (0-1)$</a></li>
-        <li><a href="#离散型随机变量-二项分布-xsim-bn-p">离散型随机变量-二项分布 $X\sim b(n, p)$</a></li>
-        <li><a href="#离散型随机变量-泊松分布-x-sim-plambda">离散型随机变量-泊松分布 $X \sim P(\lambda)$</a></li>
-        <li><a href="#概率密度函数-fx">概率密度函数 $f(x)$</a></li>
-        <li><a href="#连续型随机变量-均匀分布-xsim-uab">连续型随机变量-均匀分布 $X\sim U(a,b)$</a></li>
-        <li><a href="#连续型随机变量-指数分布-xsim-elambda">连续型随机变量-指数分布 $X\sim E(\lambda)$</a></li>
-        <li><a href="#连续型随机变量-正态分布-x-sim-nmu-sigma2">连续型随机变量-正态分布 $X \sim N(\mu, \sigma^2)$</a></li>
-        <li><a href="#联合分布函数-fxy--p-x-leq-x-y-leq-y">联合分布函数 $F(x,y) = P{ X \leq x, Y \leq y}$</a></li>
-        <li><a href="#边缘分布函数--f_xx-f_yy">边缘分布函数  $F_X(x), F_Y(y)$</a></li>
-        <li><a href="#数学期望-ex">数学期望 $E(X)$</a></li>
-        <li><a href="#方差-dx">方差 $D(X)$</a></li>
-        <li><a href="#协方差--covx-y">协方差  $cov(X, Y)$</a></li>
-      </ol>
-    </li>
+    <li><a href="#频率-p">频率 $P$</a></li>
+    <li><a href="#条件概率-pab--fracpabpb">条件概率 $P(A|B) = \frac{P(AB)}{P(B)}$</a></li>
+    <li><a href="#全概率公式-pbsumn_i1pa_ipba_i">全概率公式 $P(B)=\sum^{n}_{i=1}P(A_i)P(B|A_i)$</a></li>
+    <li><a href="#贝叶斯公式-pa_ib--fracpba_ipa_isumn_j1pba_ipa_j">贝叶斯公式 $P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum^{n}_{j=1}P(B|A_i)P(A_j)}$</a></li>
+    <li><a href="#分布函数-fxpx-leq-x-">分布函数 $F(x)=P\{X \leq x \}$</a></li>
+    <li><a href="#离散型随机变量-两点分布-x-sim-0-1">离散型随机变量-两点分布 $X \sim (0-1)$</a></li>
+    <li><a href="#离散型随机变量-二项分布-xsim-bn-p">离散型随机变量-二项分布 $X\sim b(n, p)$</a></li>
+    <li><a href="#概率密度函数-fx">概率密度函数 $f(x)$</a></li>
+    <li><a href="#连续型随机变量-均匀分布-xsim-uab">连续型随机变量-均匀分布 $X\sim U(a,b)$</a></li>
+    <li><a href="#连续型随机变量-指数分布-xsim-elambda">连续型随机变量-指数分布 $X\sim E(\lambda)$</a></li>
+    <li><a href="#连续型随机变量-正态分布-x-sim-nmu-sigma2">连续型随机变量-正态分布 $X \sim N(\mu, \sigma^2)$</a></li>
+    <li><a href="#联合分布函数-fxy--p-x-leq-x-y-leq-y">联合分布函数 $F(x,y) = P{ X \leq x, Y \leq y}$</a></li>
+    <li><a href="#边缘分布函数--f_xx-f_yy">边缘分布函数  $F_X(x), F_Y(y)$</a></li>
+    <li><a href="#数学期望-ex">数学期望 $E(X)$</a></li>
+    <li><a href="#方差-dx">方差 $D(X)$</a></li>
+    <li><a href="#协方差--covx-y">协方差  $cov(X, Y)$</a></li>
   </ol>
 </nav>
         </div>
@@ -1047,15 +1054,17 @@ document.getElementById('days').innerHTML = number_of_days;
     <h3 class="widget-title"> </h3>
     <div class="widget-body">
         <div class="category-list">
-            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">3</a>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">4</a>
             </span></div>
-            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">8</a>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">9</a>
             </span></div>
             <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
             </span></div>
             <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
             </span></div>
-            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">1</a>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">2</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">3</a>
             </span></div>
         </div>
     </div>
@@ -1085,7 +1094,7 @@ document.getElementById('days').innerHTML = number_of_days;
                     <a href="/archives/#2024">
                         
                             <span class="year">2024</span>
-                            <span class="count">14</span>
+                            <span class="count">20</span>
                         
                     </a> 
                 </div>
@@ -1108,7 +1117,7 @@ document.getElementById('days').innerHTML = number_of_days;
 
     <div class="tagCloud-tags">
         
-            <a href="/tags/note/" class="font_size_6">
+            <a href="/tags/note/" class="font_size_7">
                 Note
             </a>
         
@@ -1116,8 +1125,16 @@ document.getElementById('days').innerHTML = number_of_days;
                 Web
             </a>
         
+            <a href="/tags/%E8%8B%B1%E8%AF%AD/" class="font_size_3">
+                英语
+            </a>
+        
             <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
                 计算机组成原理
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_2">
+                计算机网络
             </a>
         
             <a href="/tags/c/" class="font_size_1">
@@ -1136,16 +1153,8 @@ document.getElementById('days').innerHTML = number_of_days;
                 Python
             </a>
         
-            <a href="/tags/%E5%BC%80%E5%8F%91/" class="font_size_1">
-                开发
-            </a>
-        
-            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="font_size_1">
-                操作系统
-            </a>
-        
-            <a href="/tags/%E6%95%B0%E5%AD%A6/" class="font_size_1">
-                数学
+            <a href="/tags/shell/" class="font_size_1">
+                Shell
             </a>
         
     </div>

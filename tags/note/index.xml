@@ -6,8 +6,15 @@
     <description>Recent content in Note on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Apr 2024 10:10:04 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 22 Apr 2024 21:18:58 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/tags/note/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shell学习</title>
+      <link>https://yikuanzz.github.io/2024/shell%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Mon, 22 Apr 2024 21:18:58 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/shell%E5%AD%A6%E4%B9%A0/</guid>
+      <description>Shell 简介 Bash（Bourne Again SHell） 是 Unix 系统和 Linux 系统的一种命令环境。 Shell 是一个程序，它提供了用户与计算机交互的环境。其次，Shell 也是</description>
+    </item>
     <item>
       <title>消息队列学习</title>
       <link>https://yikuanzz.github.io/2024/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/</link>
@@ -23,10 +30,10 @@
       <description>基础技术 问题： 1、电脑浏览器是如何打开百度的？ 2、游戏客户端是如何连接服务器的？ 3、购物节，电商服务器是如何顶住压力的？ 网络设备 交换机：电脑</description>
     </item>
     <item>
-      <title>Android开发笔记（未完）</title>
-      <link>https://yikuanzz.github.io/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0%E6%9C%AA%E5%AE%8C/</link>
+      <title>Android开发笔记</title>
+      <link>https://yikuanzz.github.io/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Thu, 11 Apr 2024 19:05:18 +0800</pubDate>
-      <guid>https://yikuanzz.github.io/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0%E6%9C%AA%E5%AE%8C/</guid>
+      <guid>https://yikuanzz.github.io/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/</guid>
       <description>Android 介绍 Android 系统架构 Linux内核层，为 Android 设备各种硬件停供底层驱动。 系统运行库层，通过一些 C/C++ 库为 Android 系统提供主要的特性支持。 应用框架层，构建程序的</description>
     </item>
     <item>

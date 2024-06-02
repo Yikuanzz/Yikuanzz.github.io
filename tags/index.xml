@@ -6,13 +6,34 @@
     <description>Recent content in Tags on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Apr 2024 10:10:04 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 02 Jun 2024 00:44:02 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>英语</title>
+      <link>https://yikuanzz.github.io/tags/%E8%8B%B1%E8%AF%AD/</link>
+      <pubDate>Sun, 02 Jun 2024 00:44:02 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/tags/%E8%8B%B1%E8%AF%AD/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>计算机网络</title>
+      <link>https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Tue, 21 May 2024 08:10:37 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Note</title>
       <link>https://yikuanzz.github.io/tags/note/</link>
-      <pubDate>Fri, 19 Apr 2024 10:10:04 +0800</pubDate>
+      <pubDate>Mon, 22 Apr 2024 21:18:58 +0800</pubDate>
       <guid>https://yikuanzz.github.io/tags/note/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Shell</title>
+      <link>https://yikuanzz.github.io/tags/shell/</link>
+      <pubDate>Mon, 22 Apr 2024 21:18:58 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/tags/shell/</guid>
       <description></description>
     </item>
     <item>
@@ -20,13 +41,6 @@
       <link>https://yikuanzz.github.io/tags/web/</link>
       <pubDate>Fri, 19 Apr 2024 10:10:04 +0800</pubDate>
       <guid>https://yikuanzz.github.io/tags/web/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>计算机网络</title>
-      <link>https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
-      <pubDate>Thu, 18 Apr 2024 20:05:05 +0800</pubDate>
-      <guid>https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
       <description></description>
     </item>
     <item>
@@ -83,6 +97,13 @@
       <link>https://yikuanzz.github.io/tags/mysql/</link>
       <pubDate>Fri, 22 Mar 2024 15:51:46 +0800</pubDate>
       <guid>https://yikuanzz.github.io/tags/mysql/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>练习</title>
+      <link>https://yikuanzz.github.io/tags/%E7%BB%83%E4%B9%A0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://yikuanzz.github.io/tags/%E7%BB%83%E4%B9%A0/</guid>
       <description></description>
     </item>
   </channel>
