@@ -3,17 +3,17 @@
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-<meta name='description' content='数据结构 栈 队列 链表 图论 二叉树 堆 搜索 广度优先 深度优先 基础算法 查找 枚举 递归 分治 排序 贪心 双指针 动态规划 线性dp 背包'><title>简单算法问题</title>
+<meta name='description' content='数据结构 栈 【模板】栈 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第'><title>简单算法问题</title>
 
 <link rel='canonical' href='https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/'>
 
 <link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='简单算法问题'>
-<meta property='og:description' content='数据结构 栈 队列 链表 图论 二叉树 堆 搜索 广度优先 深度优先 基础算法 查找 枚举 递归 分治 排序 贪心 双指针 动态规划 线性dp 背包'>
+<meta property='og:description' content='数据结构 栈 【模板】栈 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第'>
 <meta property='og:url' content='https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/'>
 <meta property='og:site_name' content='Yikuanzz'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2024-05-15T20:12:01&#43;08:00'/><meta property='article:modified_time' content='2024-05-15T20:12:01&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/cover.png' />
 <meta name="twitter:title" content="简单算法问题">
-<meta name="twitter:description" content="数据结构 栈 队列 链表 图论 二叉树 堆 搜索 广度优先 深度优先 基础算法 查找 枚举 递归 分治 排序 贪心 双指针 动态规划 线性dp 背包"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="数据结构 栈 【模板】栈 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/cover.png' />
     <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
 <style>
@@ -217,7 +217,7 @@
         
 
         <li >
-            <a href='/gossip' >
+            <a href='/daily' >
                 
                 
                 
@@ -228,7 +228,7 @@
   <path d="M9 8h6" />
 </svg>
                 
-                <span>杂谈</span>
+                <span>日报</span>
             </a>
         </li>
         
@@ -379,7 +379,7 @@
 
 
                 <time class="article-words">
-                    54字
+                    956字
                 </time>
             </div>
         
@@ -393,6 +393,117 @@
     
     <h2 id="数据结构">数据结构</h2>
 <h3 id="栈">栈</h3>
+<h4 id="模板栈">【模板】栈</h4>
+<p><strong>描述</strong>：请你实现一个栈。</p>
+<ul>
+<li>push x : 将 x 入栈，保证 x 为 int 整数。</li>
+<li>pop ：输出栈顶，并让栈顶出栈。</li>
+<li>top ：输出栈顶，栈顶不出栈。</li>
+</ul>
+<p><strong>输入描述</strong>：第一行为一个正整数 <code>n</code> 代表操作次数。（<code>1 &lt;= n &lt;= 100000</code>），接下来的 <code>n</code>，每行为一个字符串，代表一个操作。</p>
+<p><strong>输出描述</strong>：如果操作为 push，则不输出任何东西。如果为另外两种，若栈为空，则输出 “error”。否则按对应操作输出。</p>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>输入：
+</span></span><span style="display:flex;"><span>	<span style="color:#d19a66">6</span>
+</span></span><span style="display:flex;"><span>    push <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>    pop
+</span></span><span style="display:flex;"><span>    top
+</span></span><span style="display:flex;"><span>    push <span style="color:#d19a66">2</span>
+</span></span><span style="display:flex;"><span>    push <span style="color:#d19a66">3</span>
+</span></span><span style="display:flex;"><span>    pop
+</span></span><span style="display:flex;"><span>输出：
+</span></span><span style="display:flex;"><span>    <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>    error
+</span></span><span style="display:flex;"><span>    <span style="color:#d19a66">3</span>
+</span></span></code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">class</span> <span style="color:#e5c07b">Stack</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#56b6c2;font-weight:bold">__init__</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">size</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">100000</span>) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">stack</span> <span style="color:#56b6c2">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">size</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">size</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">index</span> <span style="color:#56b6c2">=</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">is_empty</span>(<span style="color:#e06c75">self</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">index</span> <span style="color:#56b6c2">==</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;error&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span> <span style="color:#e5c07b">True</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span> <span style="color:#e5c07b">False</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">push</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">num</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">num</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">index</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">pop</span>(<span style="color:#e06c75">self</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">is_empty</span>():
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">res</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>()
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">index</span> <span style="color:#56b6c2">-=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e5c07b">print</span>(<span style="color:#e06c75">res</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">top</span>(<span style="color:#e06c75">self</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">is_empty</span>():
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">res</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">stack</span>[<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">index</span>]
+</span></span><span style="display:flex;"><span>            <span style="color:#e5c07b">print</span>(<span style="color:#e06c75">res</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e5c07b">input</span>())
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Stack</span>()
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">for</span> <span style="color:#e06c75">line</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#e06c75">n</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">str</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">input</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#e5c07b">str</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;pop&#39;</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">elif</span> <span style="color:#e5c07b">str</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;top&#39;</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">top</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">s1</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">str</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">split</span>(<span style="color:#98c379">&#39; &#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">s</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">push</span>(<span style="color:#e5c07b">int</span>(<span style="color:#e06c75">s1</span>[<span style="color:#d19a66">1</span>]))
+</span></span></code></pre></div><h4 id="栈的压入弹出序列">栈的压入、弹出序列</h4>
+<p><strong>描述</strong>：输入练个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈道所有数字均不相等。例如序列 1，2，3，4，5 是某栈道压入顺序，序列 4，5，3，2，1 是该压栈序列对应的一个弹出序列，但 4，3，5，1，2 就不可能是该压栈序列的弹出序列。</p>
+<ul>
+<li>1、<code>0 &lt;= pushV.length == popV.length &lt;= 1000</code>。</li>
+<li>2、<code>-1000 &lt;= pushV[i] &lt;= 1000</code>。</li>
+<li>3、<code>pushV 的所有数字均不同</code>。</li>
+</ul>
+<p><strong>示例1</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>输入：
+</span></span><span style="display:flex;"><span>    <span style="color:#56b6c2">[</span>1,2,3,4,5<span style="color:#56b6c2">]</span>,<span style="color:#56b6c2">[</span>4,5,3,2,1<span style="color:#56b6c2">]</span>
+</span></span><span style="display:flex;"><span>返回值：
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">true</span>
+</span></span><span style="display:flex;"><span>说明：
+</span></span><span style="display:flex;"><span>    可以通过push<span style="color:#56b6c2">(</span>1<span style="color:#56b6c2">)=</span>&gt;push<span style="color:#56b6c2">(</span>2<span style="color:#56b6c2">)=</span>&gt;push<span style="color:#56b6c2">(</span>3<span style="color:#56b6c2">)=</span>&gt;push<span style="color:#56b6c2">(</span>4<span style="color:#56b6c2">)=</span>&gt;pop<span style="color:#56b6c2">()=</span>&gt;push<span style="color:#56b6c2">(</span>5<span style="color:#56b6c2">)=</span>&gt;pop<span style="color:#56b6c2">()=</span>&gt;pop<span style="color:#56b6c2">()=</span>&gt;pop<span style="color:#56b6c2">()=</span>&gt;pop<span style="color:#56b6c2">()</span>
+</span></span><span style="display:flex;"><span>    这样的顺序得到<span style="color:#56b6c2">[</span>4,5,3,2,1<span style="color:#56b6c2">]</span>这个序列，返回true。      
+</span></span></code></pre></div><p><strong>示例2</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>输入：
+</span></span><span style="display:flex;"><span>    <span style="color:#56b6c2">[</span>1,2,3,4,5<span style="color:#56b6c2">]</span>,<span style="color:#56b6c2">[</span>4,3,5,1,2<span style="color:#56b6c2">]</span>
+</span></span><span style="display:flex;"><span>返回值：
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">false</span>
+</span></span><span style="display:flex;"><span>说明：
+</span></span><span style="display:flex;"><span>    由于是<span style="color:#56b6c2">[</span>1,2,3,4,5<span style="color:#56b6c2">]</span>的压入顺序，<span style="color:#56b6c2">[</span>4,3,5,1,2<span style="color:#56b6c2">]</span>的弹出顺序，要求4，3，5必须在1，2前压入，且1，2不能弹出，但是这样压入的顺序，1又不能在2之前弹出，所以无法形成的，返回false。      
+</span></span></code></pre></div><hr>
+<p>栈的操作主要有：出栈、入栈两个操作。</p>
+<h4 id="有效括号序列">有效括号序列</h4>
+<p><strong>描述</strong>：给定一个只包括 <code>'('</code>，<code>')'</code>，<code>'{'</code>，<code>'}'</code>，<code>'['</code>，<code>']'</code> 的字符串 s。</p>
+<p><strong>要求</strong>：判断字符串 s 是否有效（即括号是否匹配）。</p>
+<p><strong>说明</strong>：</p>
+<ul>
+<li>有效字符串需满足：
+<ol>
+<li>左括号必须用相同类型的右括号闭合。</li>
+<li>左括号必须以正确的顺序闭合。</li>
+</ol>
+</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>输入：s <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;()&#34;</span>
+</span></span><span style="display:flex;"><span>输出：True
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>输入：s <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;()[]{}&#34;</span>
+</span></span><span style="display:flex;"><span>输出：True
+</span></span></code></pre></div><hr>
 <h3 id="队列">队列</h3>
 <h3 id="链表">链表</h3>
 <h3 id="图论">图论</h3>
@@ -577,6 +688,10 @@
 
     
 
+    
+
+    
+
 
 <script>
 (function(u, c) {
@@ -594,7 +709,7 @@
         &copy; 
         
         2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-      共书写了106k字·共 20篇文章</br><span><p>
+      共书写了120.3k字·共 21篇文章</br><span><p>
     </section>
     
     <section class="powerby">
@@ -739,7 +854,13 @@ document.getElementById('days').innerHTML = number_of_days;
   <ol>
     <li><a href="#数据结构">数据结构</a>
       <ol>
-        <li><a href="#栈">栈</a></li>
+        <li><a href="#栈">栈</a>
+          <ol>
+            <li><a href="#模板栈">【模板】栈</a></li>
+            <li><a href="#栈的压入弹出序列">栈的压入、弹出序列</a></li>
+            <li><a href="#有效括号序列">有效括号序列</a></li>
+          </ol>
+        </li>
         <li><a href="#队列">队列</a></li>
         <li><a href="#链表">链表</a></li>
         <li><a href="#图论">图论</a></li>
@@ -792,7 +913,7 @@ document.getElementById('days').innerHTML = number_of_days;
     <h3 class="widget-title"> </h3>
     <div class="widget-body">
         <div class="category-list">
-            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">4</a>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">5</a>
             </span></div>
             <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">9</a>
             </span></div>
@@ -832,7 +953,7 @@ document.getElementById('days').innerHTML = number_of_days;
                     <a href="/archives/#2024">
                         
                             <span class="year">2024</span>
-                            <span class="count">20</span>
+                            <span class="count">21</span>
                         
                     </a> 
                 </div>
@@ -855,7 +976,7 @@ document.getElementById('days').innerHTML = number_of_days;
 
     <div class="tagCloud-tags">
         
-            <a href="/tags/note/" class="font_size_7">
+            <a href="/tags/note/" class="font_size_8">
                 Note
             </a>
         

@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<meta name='description' content='Go 基础 Go 语言是谷歌 2009 年首次推出并在 2012 年正式发布的一种全新的编程语言，可以在不损失应用程序性能的情况下降低代码的复杂性。 下面是 Go 的 “Hello'><title>简明的GO学习</title>
+
+<link rel='canonical' href='https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='简明的GO学习'>
+<meta property='og:description' content='Go 基础 Go 语言是谷歌 2009 年首次推出并在 2012 年正式发布的一种全新的编程语言，可以在不损失应用程序性能的情况下降低代码的复杂性。 下面是 Go 的 “Hello'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Note' /><meta property='article:published_time' content='2024-06-05T18:01:12&#43;08:00'/><meta property='article:modified_time' content='2024-06-05T18:01:12&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/cover.png' />
+<meta name="twitter:title" content="简明的GO学习">
+<meta name="twitter:description" content="Go 基础 Go 语言是谷歌 2009 年首次推出并在 2012 年正式发布的一种全新的编程语言，可以在不损失应用程序性能的情况下降低代码的复杂性。 下面是 Go 的 “Hello"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/cover.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://yikuanzz.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://leetcode.cn/u/yikuanzz/'
+                            target="_blank"
+                            title="Leetcode"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-leetcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M12 13h7.5" />
+  <path d="M9.424 7.268l4.999 -4.999" />
+  <path d="M16.633 16.644l-2.402 2.415a3.189 3.189 0 0 1 -4.524 0l-3.77 -3.787a3.223 3.223 0 0 1 0 -4.544l3.77 -3.787a3.189 3.189 0 0 1 4.524 0l2.302 2.313" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/daily' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+  <path d="M9 8h6" />
+</svg>
+                
+                <span>日报</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/">
+                <img src="/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/cover_hu6c64888fb7dba8ea3f9b3ae918b049b3_2340567_800x0_resize_box_3.png"
+                        srcset="/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/cover_hu6c64888fb7dba8ea3f9b3ae918b049b3_2340567_800x0_resize_box_3.png 800w, /2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/cover_hu6c64888fb7dba8ea3f9b3ae918b049b3_2340567_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post 简明的GO学习" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" style="background-color: #228B22; color: #fff;">
+                开发运维技术
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/">简明的GO学习</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 05, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    2290字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="go-基础">Go 基础</h2>
+<p>Go 语言是谷歌 2009 年首次推出并在 2012 年正式发布的一种全新的编程语言，可以在不损失应用程序性能的情况下降低代码的复杂性。</p>
+<p>下面是 Go 的 “Hello world”程序：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Println</span>(<span style="color:#98c379">&#34;Hello Go!&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="go">Go</h3>
+<p>在 Linux 操作系统中，我们安装 Go 之后可以使用命令管理工具来对 Go 进行管理。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># go -help</span>
+</span></span><span style="display:flex;"><span>Go is a tool <span style="color:#c678dd">for</span> managing Go <span style="color:#e5c07b">source</span> code.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Usage:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        go &lt;command&gt; <span style="color:#56b6c2">[</span>arguments<span style="color:#56b6c2">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>The commands are:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        bug         start a bug report
+</span></span><span style="display:flex;"><span>        build       compile packages and dependencies
+</span></span><span style="display:flex;"><span>        clean       remove object files and cached files
+</span></span><span style="display:flex;"><span>        doc         show documentation <span style="color:#c678dd">for</span> package or symbol
+</span></span><span style="display:flex;"><span>        env         print Go environment information
+</span></span><span style="display:flex;"><span>        fix         update packages to use new APIs
+</span></span><span style="display:flex;"><span>        fmt         gofmt <span style="color:#56b6c2">(</span>reformat<span style="color:#56b6c2">)</span> package sources
+</span></span><span style="display:flex;"><span>        generate    generate Go files by processing <span style="color:#e5c07b">source</span>
+</span></span><span style="display:flex;"><span>        get         add dependencies to current module and install them
+</span></span><span style="display:flex;"><span>        install     compile and install packages and dependencies
+</span></span><span style="display:flex;"><span>        list        list packages or modules
+</span></span><span style="display:flex;"><span>        mod         module maintenance
+</span></span><span style="display:flex;"><span>        work        workspace maintenance
+</span></span><span style="display:flex;"><span>        run         compile and run Go program
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">test</span>        <span style="color:#e5c07b">test</span> packages
+</span></span><span style="display:flex;"><span>        tool        run specified go tool
+</span></span><span style="display:flex;"><span>        version     print Go version
+</span></span><span style="display:flex;"><span>        vet         report likely mistakes in packages
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Use <span style="color:#98c379">&#34;go help &lt;command&gt;&#34;</span> <span style="color:#c678dd">for</span> more information about a command.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Additional <span style="color:#e5c07b">help</span> topics:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        buildconstraint build constraints
+</span></span><span style="display:flex;"><span>        buildmode       build modes
+</span></span><span style="display:flex;"><span>        c               calling between Go and C
+</span></span><span style="display:flex;"><span>        cache           build and <span style="color:#e5c07b">test</span> caching
+</span></span><span style="display:flex;"><span>        environment     environment variables
+</span></span><span style="display:flex;"><span>        filetype        file types
+</span></span><span style="display:flex;"><span>        go.mod          the go.mod file
+</span></span><span style="display:flex;"><span>        gopath          GOPATH environment variable
+</span></span><span style="display:flex;"><span>        gopath-get      legacy GOPATH go get
+</span></span><span style="display:flex;"><span>        goproxy         module proxy protocol
+</span></span><span style="display:flex;"><span>        importpath      import path syntax
+</span></span><span style="display:flex;"><span>        modules         modules, module versions, and more
+</span></span><span style="display:flex;"><span>        module-get      module-aware go get
+</span></span><span style="display:flex;"><span>        module-auth     module authentication using go.sum
+</span></span><span style="display:flex;"><span>        packages        package lists and patterns
+</span></span><span style="display:flex;"><span>        private         configuration <span style="color:#c678dd">for</span> downloading non-public code
+</span></span><span style="display:flex;"><span>        testflag        testing flags
+</span></span><span style="display:flex;"><span>        testfunc        testing functions
+</span></span><span style="display:flex;"><span>        vcs             controlling version control with GOVCS
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Use <span style="color:#98c379">&#34;go help &lt;topic&gt;&#34;</span> <span style="color:#c678dd">for</span> more information about that topic.
+</span></span></code></pre></div><p>通过 <code>build</code> 命令，我们可以对 Go 程序进行编译；<code>clean</code> 命令则会删除编译生成的可执行文件；<code>run</code> 命令则是编译并且运行。</p>
+<hr>
+<p>除了上面这些常用的命令外，还有一些好用的命令也是值得介绍的：</p>
+<ul>
+<li><code>go vet</code> 可以辅助捕获常见的错误；</li>
+<li><code>go fmt</code> 会将你的代码布局成和 Go 源码类似的风格；</li>
+<li><code>go doc</code> 能阅读包的文档内容，也可以自己去写代码的文档。</li>
+</ul>
+<h3 id="包">包</h3>
+<p>所有 Go 语言程序会被组成很多组的文件。每一个组就叫做包，放在同个文件夹内。这样每个包的代码都可以作为很小的复用单元，被其他项目引用。</p>
+<p>比如，我们在程序开头声明的就是该程序文件所属的包 <code>package main</code>。</p>
+<p>创建一个 Go 工程主要步骤如下：</p>
+<ul>
+<li>
+<p>1.新建工程文件目录 <code>goproject</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir goproject
+</span></span></code></pre></div></li>
+<li>
+<p>2.在工程文件中新建 <code>src</code>、<code>pkg</code>、<code>bin</code> 文件目录。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#e5c07b">cd</span> goproject
+</span></span><span style="display:flex;"><span>mkdir src pkg bin
+</span></span></code></pre></div></li>
+<li>
+<p>3.在 GOPYAH 中添加工程路径。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go env <span style="color:#e06c75">GOATH</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#34;/home/goproject&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p>4.在 <code>src</code> 文件目录下新建自己的包 <code>example</code> 文件目录。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#e5c07b">cd</span> ./src
+</span></span><span style="display:flex;"><span>mkdir example
+</span></span></code></pre></div></li>
+<li>
+<p>5.在 <code>src</code>下编写主程序代码 <code>goproject.go</code>。</p>
+</li>
+<li>
+<p>6.在 <code>example</code> 文件内编写 <code>example.go</code> 和包测试文件 <code>example_test.go</code>。</p>
+</li>
+<li>
+<p>7.编译调试包。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go build example
+</span></span><span style="display:flex;"><span>go <span style="color:#e5c07b">test</span> example
+</span></span><span style="display:flex;"><span>go install example
+</span></span></code></pre></div></li>
+<li>
+<p>8.编译主程序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go build goproject.go
+</span></span></code></pre></div></li>
+<li>
+<p>9.运行主程序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>.<span style="color:#56b6c2">/</span><span style="color:#e06c75">goproject</span>
+</span></span></code></pre></div></li>
+</ul>
+<p>其中，<code>GOPATH</code> 为工程根目录，<code>bin</code> 用来存放生成的可执行文件，<code>pkg</code> 用来生成 <code>.a</code> 文件，在 <code>golang</code> 中的 <code>import name</code> 实际上是去 <code>GoPATH</code> 中寻找 <code>name.a</code> 文件。</p>
+<hr>
+<p>在 Go 语言中，会将命名为 <code>main</code> 的包编译成为 二进制可执行程序。</p>
+<p>如果某个包名叫 <code>main</code> ，那么其中一定会有名为 <code>main()</code> 的函数。</p>
+<p>比如，我们在 <code>$GOPAHT/src/hello</code> 目录中创建 <code>hello.go</code> 并写入我们的“Hello world”程序，然后通过 <code>go build</code> 命令对该程序进行编译，它会产生一个 <code>hello</code> 的可执行程序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz hello<span style="color:#56b6c2">]</span><span style="color:#7f848e"># ./hello</span>
+</span></span><span style="display:flex;"><span>Hello world!
+</span></span></code></pre></div><h3 id="导包">导包</h3>
+<p>我们注意到程序中，有使用 <code>import &quot;fmt&quot;</code> 的语句。编译器会使用 Go 环境变量设置的路径，通过引入相对路径来去查找磁盘上的包。插个题外话，如果导入包却不适用包中的代码，则会报错。</p>
+<p>但是，我们的 <code>$GOPATH</code> 路径上并没有名为 <code>fmt</code> 的包，显然这是标准库中的包，那么这个查找顺序是怎么样的呢？</p>
+<p>举例，如果 Go 安装在 <code>/usr/local/go</code> 路径下，且 <code>GOPATH=/home/myproject:/homemylibraries</code>的话，那么我们去查找 <code>net/http</code> 包就会按照以下顺序去做：</p>
+<ul>
+<li>
+<p>1、<code>/usr/local/go/src/pkg/net/http</code>；</p>
+</li>
+<li>
+<p>2、<code>/home/myproject/src/net/http</code>；</p>
+</li>
+<li>
+<p>3、<code>/home/mylibraries/src/net/http</code>。</p>
+</li>
+</ul>
+<p>如果所有目录上都没找到要导入的包，那么我们对程序进行 <code>run</code> 或 <code>build</code> 的时候就会出错。后面，我们会介绍 <code>go get</code> 命令来进行处理。</p>
+<hr>
+<p>除了本地导入以外，我们也可以通过远程来导入包，比如 <code>import &quot;github.com/spf13/viper&quot;</code>。</p>
+<p>当我们的包路径包含 <code>URL</code> 时，Go 工具链就会使用 分布式版本控制系统（Distributed Version Control Systems，DVCS）来获取包，并且将包的源代码保存在 <code>GOPATH</code> 执行的路径里与 <code>URL</code> 匹配的目录里。</p>
+<p>这个过程通过 <code>go get</code> 命令完成，<code>go get</code> 将获取任意指定的 <code>URL</code> 的包。</p>
+<hr>
+<p>当我们用的包多起来的时候，就可能会有相同的包名，这时我们可以对包导入进行重命名，就像下面的代码这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">myfmt</span> <span style="color:#98c379">&#34;mylib/fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Println</span>(<span style="color:#98c379">&#34;Standard Library&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">myfmt</span>.<span style="color:#61afef;font-weight:bold">Println</span>(<span style="color:#98c379">&#34;mylib/fmt&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="函数-init">函数 init</h3>
+<p>每个包可以包含任意多个 <code>init</code> 函数，这些函数都会在程序执行开始的时候被调用。所有被编译器发现的 <code>init</code> 函数都会安排在 <code>main</code> 函数之前执行。</p>
+<p>比如，我们看一下 PostgreSQL 数据库驱动中的一段代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">postgres</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#98c379">&#34;database/sql&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">init</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">sql</span>.<span style="color:#61afef;font-weight:bold">Register</span>(<span style="color:#98c379">&#34;postgres&#34;</span>, <span style="color:#e5c07b">new</span>(<span style="color:#e06c75">PostgresDriver</span>)) 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如果程序导入了这个包，就会调用 <code>init</code> 函数，促使 PostgreSQL 的驱动最终注册到 Go 的 <code>sql</code> 包里，成为一个可用的驱动。</p>
+<p>为了要注册这个驱动，我们就要倒入这个包，但是呢，我们又不使用包内的代码，只是想要这 <code>init</code> 函数执行。</p>
+<p>那么，在导包的时候需要给包重新命名，要用到 <code>_</code> 符号。这样一来，我们可以将驱动注册到 <code>sql</code> 包里面了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#98c379">&#34;database/sql&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">_</span> <span style="color:#98c379">&#34;dbdriver/postgres&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">sql</span>.<span style="color:#61afef;font-weight:bold">Open</span>(<span style="color:#98c379">&#34;postgres&#34;</span>, <span style="color:#98c379">&#34;mydb&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="依赖管理">依赖管理</h3>
+<p>上面的内容，我们介绍了 Go 的依赖管理方法，就是通过 <code>GOPATH</code> 的方式来管理包和依赖，这样的方式存在很多弊端，也不利于项目的构建。</p>
+<p>因此，社区中出现了很多工具可供我们选择，比如 <code>godep</code>、<code>vender</code>、<code>gb</code> 等等。</p>
+<p>这里我们介绍一下 <code>gb</code> 工程的样式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/home/bill/devel/myproject <span style="color:#56b6c2">(</span><span style="color:#e06c75">$PROJECT</span><span style="color:#56b6c2">)</span>
+</span></span><span style="display:flex;"><span>|-- src
+</span></span><span style="display:flex;"><span>| |-- cmd
+</span></span><span style="display:flex;"><span>| | |-- myproject
+</span></span><span style="display:flex;"><span>| | | |-- main.go
+</span></span><span style="display:flex;"><span>| |-- examples
+</span></span><span style="display:flex;"><span>| |-- model
+</span></span><span style="display:flex;"><span>| |-- README.md
+</span></span><span style="display:flex;"><span>|-- vendor
+</span></span><span style="display:flex;"><span> |-- src
+</span></span><span style="display:flex;"><span> |-- bitbucket.org
+</span></span><span style="display:flex;"><span> | |-- ww
+</span></span><span style="display:flex;"><span> | |-- goautoneg
+</span></span><span style="display:flex;"><span> | |-- Makefile
+</span></span><span style="display:flex;"><span> | |-- README.txt
+</span></span><span style="display:flex;"><span> | |-- autoneg.go
+</span></span><span style="display:flex;"><span> | |-- autoneg_test.go
+</span></span><span style="display:flex;"><span> |-- github.com
+</span></span><span style="display:flex;"><span> |-- beorn7
+</span></span><span style="display:flex;"><span> |-- perks
+</span></span><span style="display:flex;"><span> |-- README.md
+</span></span><span style="display:flex;"><span> |-- quantile
+</span></span><span style="display:flex;"><span> |-- bench_test.go
+</span></span><span style="display:flex;"><span> |-- example_test.go
+</span></span><span style="display:flex;"><span> |-- exampledata.txt
+</span></span><span style="display:flex;"><span> |-- stream.go
+</span></span></code></pre></div><p><code>gb</code> 工程会区分开发人员的代码和开发人员需要依赖的代码。开发人员的代码放在 <code>$PROJECT/src/</code> 中，第三方代码放在 <code>$PROJECT/vendor/src</code>中。</p>
+<p>接下来，我们做一个实例，尝试创建一个 <code>gb</code> 工程：</p>
+<p>1、首先我们先安装 <code>gb</code> 工具：（要将 <code>$GOPATH/bin</code> 加入到环境变量中 <code>export PATH=$PATH:$GOPATH/bin</code> ）</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># go get github.com/constabulary/gb/...</span>
+</span></span></code></pre></div><p>2、我们创建一个文件夹 <code>demo-project</code> 和目录下的 <code>src/hello </code>文件夹：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># mkdir /home/demo-project</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># mkdir -p /home/demo-project/src/hello</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># tree /home/demo-project/</span>
+</span></span><span style="display:flex;"><span>/home/demo-project/
+</span></span><span style="display:flex;"><span>└── src
+</span></span><span style="display:flex;"><span>    └── hello
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">2</span> directories, <span style="color:#d19a66">0</span> files
+</span></span></code></pre></div><p>3、然后我们将写一个简单的 ”Hello world“ 程序到 <code>hello.go</code> 文件中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># tree /home/demo-project/</span>
+</span></span><span style="display:flex;"><span>/home/demo-project/
+</span></span><span style="display:flex;"><span>└── src
+</span></span><span style="display:flex;"><span>    └── hello
+</span></span><span style="display:flex;"><span>        └── hello.go
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#d19a66">2</span> directories, <span style="color:#d19a66">1</span> file
+</span></span></code></pre></div><p>4、进入到目录下，对项目进行编译和运行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz demo-project<span style="color:#56b6c2">]</span><span style="color:#7f848e"># gb build all</span>
+</span></span><span style="display:flex;"><span>hello
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz demo-project<span style="color:#56b6c2">]</span><span style="color:#7f848e"># bin/hello</span>
+</span></span><span style="display:flex;"><span>Hello gb
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz demo-project<span style="color:#56b6c2">]</span><span style="color:#7f848e"># tree</span>
+</span></span><span style="display:flex;"><span>/home/demo-project/
+</span></span><span style="display:flex;"><span>├── bin
+</span></span><span style="display:flex;"><span>│   └── hello
+</span></span><span style="display:flex;"><span>└── src
+</span></span><span style="display:flex;"><span>    └── hello
+</span></span><span style="display:flex;"><span>        └── hello.go
+</span></span></code></pre></div><h2 id="go-数据结构">Go 数据结构</h2>
+<h3 id="数组">数组</h3>
+<h3 id="切片">切片</h3>
+<h3 id="映射">映射</h3>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/note/">Note</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2024/shell%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/shell%E5%AD%A6%E4%B9%A0/cover.51251896a6af909388445aa0d04e4754_hu87cba6621d1cba6cf29db5a9878ced61_565035_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Shell学习"
+                        data-key="Shell学习" 
+                        data-hash="md5-USUYlqavkJOIRFqg0E5HVA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Shell学习</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/android%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/cover.3e17a9fdf92ab500eed4f3a8ff605aef_hu1426f538bf3f3d274a2921f898c10f8c_1722201_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Android开发笔记"
+                        data-key="Android开发笔记" 
+                        data-hash="md5-Phep/fkqtQDu1POo/2Ba7w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Android开发笔记</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/python-%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/python-%E5%9F%BA%E7%A1%80/cover.e8245e548f0c88ad1721f9798413ef83_hu39a96208b41191b61a5710e1893b7c44_1174048_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Python - 基础"
+                        data-key="Python - 基础" 
+                        data-hash="md5-6CReVI8MiK0XIfl5hBPvgw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python - 基础</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了120.3k字·共 21篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#go-基础">Go 基础</a>
+      <ol>
+        <li><a href="#go">Go</a></li>
+        <li><a href="#包">包</a></li>
+        <li><a href="#导包">导包</a></li>
+        <li><a href="#函数-init">函数 init</a></li>
+        <li><a href="#依赖管理">依赖管理</a></li>
+      </ol>
+    </li>
+    <li><a href="#go-数据结构">Go 数据结构</a>
+      <ol>
+        <li><a href="#数组">数组</a></li>
+        <li><a href="#切片">切片</a></li>
+        <li><a href="#映射">映射</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">5</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">9</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">2</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">21</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_8">
+                Note
+            </a>
+        
+            <a href="/tags/web/" class="font_size_3">
+                Web
+            </a>
+        
+            <a href="/tags/%E8%8B%B1%E8%AF%AD/" class="font_size_3">
+                英语
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_2">
+                计算机网络
+            </a>
+        
+            <a href="/tags/c/" class="font_size_1">
+                C
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_1">
+                Linux
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/python/" class="font_size_1">
+                Python
+            </a>
+        
+            <a href="/tags/shell/" class="font_size_1">
+                Shell
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 02 Jun 2024 00:44:02 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 05 Jun 2024 18:01:12 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>简明的GO学习</title>
+      <link>https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Wed, 05 Jun 2024 18:01:12 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/</guid>
+      <description>Go 基础 Go 语言是谷歌 2009 年首次推出并在 2012 年正式发布的一种全新的编程语言，可以在不损失应用程序性能的情况下降低代码的复杂性。 下面是 Go 的 “Hello</description>
+    </item>
     <item>
       <title>ZaharaEnglish</title>
       <link>https://yikuanzz.github.io/2024/zaharaenglish/</link>
@@ -20,7 +27,7 @@
       <link>https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/</link>
       <pubDate>Wed, 29 May 2024 22:23:06 +0800</pubDate>
       <guid>https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/</guid>
-      <description>off bilateral separate frank tragedy resolute deceive inquire justice frontier quantity insist affectionate evoke proclaim indigence want substitute endure stammer refer obligatory casual shelter inform ejection emphasis civilian jury innovate contend capability weapon fraction estimate applicable supposition colonial external transport clash inducement extent go up look supervise gloomy emerge laborious pasture completion prospect prefer ordinary amid conserve rapid diverse</description>
+      <description>deception retort capability strain protect call cleanse carry showy off bilateral separate frank tragedy resolute deceive inquire justice frontier quantity insist affectionate evoke proclaim indigence want substitute endure stammer refer obligatory casual shelter inform ejection emphasis civilian jury innovate contend capability weapon fraction estimate applicable supposition colonial external transport clash inducement extent go up look supervise gloomy emerge laborious pasture completion prospect prefer ordinary amid conserve rapid diverse</description>
     </item>
     <item>
       <title>计算机网络学习</title>
@@ -41,7 +48,7 @@
       <link>https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/</link>
       <pubDate>Wed, 15 May 2024 20:12:01 +0800</pubDate>
       <guid>https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/</guid>
-      <description>数据结构 栈 队列 链表 图论 二叉树 堆 搜索 广度优先 深度优先 基础算法 查找 枚举 递归 分治 排序 贪心 双指针 动态规划 线性dp 背包</description>
+      <description>数据结构 栈 【模板】栈 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第</description>
     </item>
     <item>
       <title>Shell学习</title>
