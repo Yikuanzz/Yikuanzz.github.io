@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+        <meta name='description' content='输入/输出（I/O）是在主存和外部设备之间复制数据的过程。 在 Linux 系统中，通过使用由内核提供的系统级 Unix I/O 函数来实现高级别的 I/O 函数。 Unix I/O 一个 Linux 文件'><title>系统级IO</title>
+
+<link rel='canonical' href='https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='系统级IO'>
+<meta property='og:description' content='输入/输出（I/O）是在主存和外部设备之间复制数据的过程。 在 Linux 系统中，通过使用由内核提供的系统级 Unix I/O 函数来实现高级别的 I/O 函数。 Unix I/O 一个 Linux 文件'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='C' /><meta property='article:tag' content='计算机网络' /><meta property='article:published_time' content='2024-06-06T10:53:23&#43;08:00'/><meta property='article:modified_time' content='2024-06-06T10:53:23&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/cover.png' />
+<meta name="twitter:title" content="系统级IO">
+<meta name="twitter:description" content="输入/输出（I/O）是在主存和外部设备之间复制数据的过程。 在 Linux 系统中，通过使用由内核提供的系统级 Unix I/O 函数来实现高级别的 I/O 函数。 Unix I/O 一个 Linux 文件"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/cover.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://yikuanzz.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://leetcode.cn/u/yikuanzz/'
+                            target="_blank"
+                            title="Leetcode"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-leetcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M12 13h7.5" />
+  <path d="M9.424 7.268l4.999 -4.999" />
+  <path d="M16.633 16.644l-2.402 2.415a3.189 3.189 0 0 1 -4.524 0l-3.77 -3.787a3.223 3.223 0 0 1 0 -4.544l3.77 -3.787a3.189 3.189 0 0 1 4.524 0l2.302 2.313" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/daily' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+  <path d="M9 8h6" />
+</svg>
+                
+                <span>日报</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/">
+                <img src="/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/cover_hub73ae7b0ed1c4909ac831706abf2ed8e_880514_800x0_resize_box_3.png"
+                        srcset="/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/cover_hub73ae7b0ed1c4909ac831706abf2ed8e_880514_800x0_resize_box_3.png 800w, /2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/cover_hub73ae7b0ed1c4909ac831706abf2ed8e_880514_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post 系统级IO" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" style="background-color: #228B22; color: #fff;">
+                开发运维技术
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/">系统级IO</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 06, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    6084字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>输入/输出（I/O）是在主存和外部设备之间复制数据的过程。</p>
+<p>在 Linux 系统中，通过使用由内核提供的系统级 Unix I/O 函数来实现高级别的 I/O 函数。</p>
+<h2 id="unix-io">Unix I/O</h2>
+<p>一个 Linux 文件就是一个 $m$ 个字节的序列：
+$$
+B_0, B_1,\dots,B_k,\dots,B_{m-1}
+$$
+所有的 I/O 设备被模型化为文件，而所有的输入和输出都被当作对应文件的读写来执行，允许 Linux 内核引出一个简单、低级的应用接口，称为 Unix I/O，这样使所有的输入和输出能用统一的方式来执行：</p>
+<ul>
+<li>打开文件：程序要求内核打开文件，内核会返回一个小的非负整数的描述符，它在后续对此文件的所有操作中标识这个文件。</li>
+<li>每个进程开始时打开三个文件：标准输入（描述符0）、标准输出（描述符1）和标准错误（描述符2）。头文件 <code>&lt;unistd.h&gt;</code> 定义了常量 <code>STDIN_FILENO</code>、<code>STDOUT_FILENO</code> 和 <code>STDERR_FILENO</code>。</li>
+<li>改变当前文件位置：对于每个打开的文件，内核保持一个文件的位置 <code>k</code> ，初始为 0。这个文件位置是从文件开头起始的字节偏移量。应用程序能够通过执行 <code>seek</code> 操作，设置文件的位置。</li>
+<li>读写文件：一个读操作就是从文件复制 <code>n &gt; 0</code> 个字节到内存，从当前文件位置 <code>k</code> 开始增加到 <code>k+n</code> 。给定一个大小为 <code>m</code> 字节的文件，当 <code>k &gt;= m</code> 时执行读操作会触发 end-of-file（EOF）的条件。那么写操作就是从内存复制 <code>n &gt; 0</code> 个字节到文件。</li>
+<li>关闭文件：程序通知内核关闭这个文件，内核会释放文件打开时创建的数据结构，并将这个描述符恢复到可用的描述符池中。</li>
+</ul>
+<h2 id="文件">文件</h2>
+<p>文件类型如下：</p>
+<ul>
+<li>普通文件（regular file）包含任意数据，通常区分文本文件和二进制文件。只是文本文件中有 ASCII 或 Unicode 字符。</li>
+<li>目录（directory）是包含一组链接（link）的文件，每个链接都将一个文件名映射到一个文件，每个目录至少有 <code>.</code> 和 <code>..</code>，代表当前目录的链接和到父目录的链接。</li>
+<li>套接字（socket）用来与另一个进程进行跨网络通信的文件。</li>
+</ul>
+<h2 id="打开和关闭文件">打开和关闭文件</h2>
+<p>进程通过 <code>open</code> 函数来打开或创建文件的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;sys/types.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;sys/stat.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;fcntl.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 成功返回文件描述符，出错返回 -1
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">open</span>(<span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">filename</span>, <span style="color:#e5c07b">int</span> <span style="color:#e06c75">flags</span>, <span style="color:#e5c07b">mode_t</span> <span style="color:#e06c75">mode</span>);	
+</span></span></code></pre></div><p><code>flags</code> 参数可选：</p>
+<ul>
+<li>O_RDONLY：只读。</li>
+<li>O_WRONLY：只写。</li>
+<li>O_RDWR：可读可写。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">open</span>(<span style="color:#98c379">&#34;foo.txt&#34;</span>, <span style="color:#e06c75">O_RDONLY</span>, <span style="color:#d19a66">0</span>);
+</span></span></code></pre></div><p><code>flags</code> 参数是多位掩码的或：</p>
+<ul>
+<li>O_CRETE：如果文件不存在就创建一个空文件。</li>
+<li>O_TRUNC：如果文件存在就截断。</li>
+<li>O_APPEND：写操作时设置文件位置到文件结尾。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">open</span>(<span style="color:#98c379">&#34;foo.txt&#34;</span>, <span style="color:#e06c75">O_WRONLY</span><span style="color:#56b6c2">|</span><span style="color:#e06c75">O_APPEND</span>, <span style="color:#d19a66">0</span>);
+</span></span></code></pre></div><p><code>mode</code> 参数指定了新文件的访问权限。</p>
+<blockquote>
+<p><strong>umask</strong></p>
+<p>在 Linux 中，umsak 用于设置新建文件和目录的默认权限。它由3位八进制数表示，分别表示用户、组和其他用户的权限掩码。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># define DEF_MODE S_IRUSR|S_IWUSR|S_IROTH|S_IWOTH
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># define DEF_UMASK S_IWGRP|S_IWOTH
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#61afef;font-weight:bold">umask</span>(<span style="color:#e06c75">DEF_UMASK</span>);
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">open</span>(<span style="color:#98c379">&#34;foo.txt&#34;</span>, <span style="color:#e06c75">O_CREAT</span><span style="color:#56b6c2">|</span><span style="color:#e06c75">O_TRUNC</span><span style="color:#56b6c2">|</span><span style="color:#e06c75">O_WRONLY</span>, <span style="color:#e06c75">DEF_MODE</span>);
+</span></span></code></pre></div><p>最后进程通过 <code>close</code> 函数关闭文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;unisted.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#7f848e">// 成功返回 0， 否则返回 -1
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">close</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>);
+</span></span></code></pre></div><h2 id="读和写文件">读和写文件</h2>
+<p>通过调用 read 和 write 函数来执行读写：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;unistd.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 成功返回读的字节数；EOF 为 0；出错 -1
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>, <span style="color:#e5c07b">void</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">buf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">n</span>);
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 成功返回写的字节数，错为 -1.
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">write</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>, <span style="color:#c678dd">const</span> <span style="color:#e5c07b">void</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">buf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">n</span>);
+</span></span></code></pre></div><blockquote>
+<p><strong>size_t</strong> 和 <strong>ssize_t</strong></p>
+<ul>
+<li><code>size_t</code> 一般用来表示一种计数，比如有多少东西被拷贝等。它在数组下标和内存管理函数等地方广泛使用。</li>
+<li><code>ssize_t</code> 用来表示可以被执行读写操作的数据块的大小，它表示的是<strong>有符号的 size_t 类型</strong>。</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e5c07b">char</span> <span style="color:#e06c75">c</span>;
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">while</span> (<span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#e06c75">STDIN_FILENO</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">c</span>, <span style="color:#d19a66">1</span>) <span style="color:#56b6c2">!=</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">write</span>(<span style="color:#e06c75">STDOU_FILENO</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">c</span>, <span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span><span style="color:#61afef;font-weight:bold">exit</span>(<span style="color:#d19a66">0</span>);
+</span></span></code></pre></div><h2 id="rio-健壮地读写">RIO 健壮地读写</h2>
+<p>RIO（Robust I/O）提供了两种函数处理不足值（short count）。</p>
+<p><strong>无缓冲输入输出</strong>：直接在内存和文件之间传送数据，没有应用级缓冲。</p>
+<p><code>rio_readn</code> 函数：</p>
+<ul>
+<li>此函数尝试从文件描述符 <code>fd</code> 中读取 <code>n</code> 个字符到用户缓冲区 <code>usrbuf</code> 中。</li>
+<li>如果被信号处理函数中断，它会再次尝试读取，确保读取到 <code>n</code> 个字节。</li>
+<li>与普通的 <code>read</code> 函数不同，<code>rio_readn</code> 解决了在网络编程中可能读取到的字节数少于请求数量的问题。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">// 成功返回读的字节数；EOF 为 0；出错 -1
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">rio_readn</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>, <span style="color:#e5c07b">void</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">usrbuf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">n</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">ssize_t</span> <span style="color:#e06c75">nread</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">bufp</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">usrbuf</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> (<span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> ((<span style="color:#e06c75">nread</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#e06c75">fd</span>, <span style="color:#e06c75">bufp</span>, <span style="color:#e06c75">nleft</span>)) <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> (<span style="color:#e06c75">errno</span> <span style="color:#56b6c2">==</span> <span style="color:#e06c75">EINTR</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">nread</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#7f848e">// 被信号处理函数中断，再次尝试读取
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>            <span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">return</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>; <span style="color:#7f848e">// 出错，errno 由 read 设置
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>        } <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">nread</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>) <span style="color:#7f848e">// 读取到 EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>            <span style="color:#c678dd">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">-=</span> <span style="color:#e06c75">nread</span>; <span style="color:#7f848e">// 剩下的字符数减去本次读到的字符数
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>        <span style="color:#e06c75">bufp</span> <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">nread</span>; <span style="color:#7f848e">// 缓冲区指针向右移动
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> (<span style="color:#e06c75">n</span> <span style="color:#56b6c2">-</span> <span style="color:#e06c75">nleft</span>); <span style="color:#7f848e">// 返回实际读取的字符数
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>}
+</span></span></code></pre></div><p><code>rio_writen</code> 函数：</p>
+<ul>
+<li>此函数类似于 <code>rio_readn</code>，但用于写出数据。</li>
+<li>它保证写出 <code>n</code> 字节，不会返回不足值。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">// 成功返回写的字节数，错为 -1.
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">rio_writen</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>, <span style="color:#e5c07b">void</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">usrbuf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">n</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">ssize_t</span> <span style="color:#e06c75">nwritten</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">bufp</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">usrbuf</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> (<span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> ((<span style="color:#e06c75">nwritten</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">write</span>(<span style="color:#e06c75">fd</span>, <span style="color:#e06c75">bufp</span>, <span style="color:#e06c75">nleft</span>)) <span style="color:#56b6c2">&lt;=</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> (<span style="color:#e06c75">errno</span> <span style="color:#56b6c2">==</span> <span style="color:#e06c75">EINTR</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">nwritten</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">return</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">-=</span> <span style="color:#e06c75">nwritten</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">bufp</span> <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">nwritten</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">n</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>带缓冲带输入</strong>：</p>
+<p><code>rio_readlineb</code> 从内部读缓冲区复制一个文本行，当缓冲区变空时，会自动地调用 <code>read</code> 重新填满缓冲区，如果文件既包含 文本行也二进制数据文件，就用 <code>rio_readn</code> 的缓冲版本 <code>rio_readnb</code>，它从和 <code>rio_readlineb</code> 一样的缓冲区中传送原始字节。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">rio_readinitb</span>(<span style="color:#e5c07b">rio_t</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">rp</span>, <span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>);
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">rio_readlineb</span>(<span style="color:#e5c07b">rio_t</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">rp</span>, <span style="color:#e5c07b">void</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">usrbuf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">maxlen</span>);
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">rio_readnb</span>(<span style="color:#e5c07b">rio_t</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">rp</span>, <span style="color:#e5c07b">void</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">userbuf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">n</span>);
+</span></span></code></pre></div><p>每打开一个描述符，都会调用一次 <code>rio_readinitb</code> 函数，它将描述符 <code>fd</code> 和 地址 <code>rp</code> 处的一个类型为 <code>rio_t</code> 的缓冲区联系起来。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># define RIO_BUFSIZE 8192
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">typedef</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">rio_fd</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">rio_cnt</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">rio_bufptr</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">rio_buf</span>[<span style="color:#e06c75">RIO_BUFSIZE</span>];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">rio_readinitb</span>(<span style="color:#e5c07b">rio_t</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">rp</span>, <span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_fd</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">fd</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">fio_cnt</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_bufptr</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_buf</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>rio_readlineb</code> 函数从文件 <code>rp</code> 读出下一个文本行（包括结尾的换行符），复制到 <code>usrbuf</code> ，并用 NULL 字符来结束这个文本行。超过 <code>maxlen-1</code> 的文本行会被截断，并用一个 NULL 字符结束。</p>
+<p>注意：带缓冲的函数调用不应该和无缓冲的 <code>rio_readn</code> 交叉调用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">argc</span>, <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">**</span><span style="color:#e06c75">argv</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">n</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">rio_t</span> <span style="color:#e06c75">rio</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">buf</span>[<span style="color:#e06c75">MAXLINE</span>];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 先初始化将数据读取到内置的缓冲区中
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#61afef;font-weight:bold">Rio_readinitb</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">rio</span>, <span style="color:#e06c75">STDIN_FILENO</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> ((<span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">Rio_readlineb</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">rio</span>, <span style="color:#e06c75">buf</span>, <span style="color:#e06c75">MAXLINE</span>)) <span style="color:#56b6c2">!=</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">Rio_write</span>(<span style="color:#e06c75">STDOUT_FILENO</span>, <span style="color:#e06c75">buf</span>, <span style="color:#e06c75">n</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们一起看一下 <code>rio_read</code> 函数的实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#c678dd">static</span> <span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">rio_read</span>(<span style="color:#e5c07b">rio_t</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">rp</span>, <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">usrbuf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">n</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">cnt</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 处理缓冲区
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#c678dd">while</span> (<span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_cnt</span> <span style="color:#56b6c2">&lt;=</span> <span style="color:#d19a66">0</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e">// 用 read 读取到缓冲区中
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>        <span style="color:#e06c75">rp</span> <span style="color:#56b6c2">-&gt;</span> <span style="color:#e06c75">rio_cnt</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_fd</span>, <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_buf</span>, <span style="color:#c678dd">sizeof</span>(<span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_buf</span>));
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> (<span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_cnt</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">0</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> (<span style="color:#e06c75">errno</span> <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">EINTR</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">return</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>   
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">rp</span> <span style="color:#56b6c2">-&gt;</span> <span style="color:#e06c75">rio_cnt</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#7f848e">// 加载成功后重置 buffer 地址
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>            <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_bufptr</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_buf</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 将数据从缓冲区复制到用户缓冲区
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">cnt</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_cnt</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">n</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">cnt</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">rp</span> <span style="color:#56b6c2">-&gt;</span> <span style="color:#e06c75">rio_cnt</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">memcpy</span>(<span style="color:#e06c75">usrbuf</span>, <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_bufptr</span>, <span style="color:#e06c75">cnt</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_bufptr</span> <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">n</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">rp</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">rio_cnt</span> <span style="color:#56b6c2">-=</span> <span style="color:#e06c75">cnt</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">cnt</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p><strong>errno</strong></p>
+<p>errno 是一个全局变量，用于表示最近一次发生的错误代码，它被定义在 errno.h 头文件中。</p>
+</blockquote>
+<p>接着，我们再看到 <code>rio_readlineb</code> 函数和 <code>rio_readnb</code> 函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">rio_readlineb</span>(<span style="color:#e5c07b">rio_t</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">rp</span>, <span style="color:#e5c07b">void</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">usrbuf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">maxlen</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">n</span>, <span style="color:#e06c75">rc</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">c</span>, <span style="color:#56b6c2">*</span><span style="color:#e06c75">bufp</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">usrbuf</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> (<span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>; <span style="color:#e06c75">n</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">maxlen</span>; <span style="color:#e06c75">n</span><span style="color:#56b6c2">++</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> ((<span style="color:#e06c75">rc</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">rio_read</span>(<span style="color:#e06c75">rp</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">c</span>, <span style="color:#d19a66">1</span>)) <span style="color:#56b6c2">==</span> <span style="color:#d19a66">1</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#56b6c2">*</span><span style="color:#e06c75">bufp</span><span style="color:#56b6c2">++</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">c</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> (<span style="color:#e06c75">c</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;\n&#39;</span>){
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">n</span><span style="color:#56b6c2">++</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">break</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }<span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">rc</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> (<span style="color:#e06c75">n</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">break</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#56b6c2">*</span><span style="color:#e06c75">bufp</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">n</span><span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e5c07b">ssize_t</span> <span style="color:#61afef;font-weight:bold">rio_readnb</span>(<span style="color:#e5c07b">rio_t</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">rp</span>, <span style="color:#e5c07b">void</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">usrbuf</span>, <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">n</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">size_t</span> <span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">ssize_t</span> <span style="color:#e06c75">nread</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">bufp</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">usrbuf</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> (<span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> ((<span style="color:#e06c75">nread</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">rio_read</span>(<span style="color:#e06c75">rp</span>, <span style="color:#e06c75">bufp</span>, <span style="color:#e06c75">nleft</span>)) <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span>(<span style="color:#e06c75">nread</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">nleft</span> <span style="color:#56b6c2">-=</span> <span style="color:#e06c75">nread</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">bufp</span> <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">nread</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> (<span style="color:#e06c75">n</span> <span style="color:#56b6c2">-</span> <span style="color:#e06c75">nleft</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>​</p>
+<h2 id="读取文件元数据">读取文件元数据</h2>
+<p>检索关于文件的信息，也就是元数据（meta data）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;unistd.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;sys/stata.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">stat</span>(<span style="color:#c678dd">const</span> <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">filename</span>, <span style="color:#c678dd">struct</span> <span style="color:#e06c75">stat</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">buf</span>);
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">fstat</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span>, <span style="color:#c678dd">struct</span> <span style="color:#e06c75">stat</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">buf</span>);
+</span></span></code></pre></div><p><figure 
+	>
+	<a href="https://s2.loli.net/2024/03/28/Ld49EStXOUBvJAR.png" >
+		<img src="https://s2.loli.net/2024/03/28/Ld49EStXOUBvJAR.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><code>st_size</code> 成员包含了文件的字节数大小。<code>st_mode</code> 成员编码了文件访问许可位和文件类型，它的低9位标识了文件所有者、组用户和其他用户的读写执行权限。</p>
+<p>这些权限位的含义如下：</p>
+<ul>
+<li>文件类型：
+<ul>
+<li><code>S_IFIFO</code>：管道或 FIFO 文件。</li>
+<li><code>S_IFCHR</code>：字符特殊文件。</li>
+<li><code>S_IFDIR</code>：目录文件。</li>
+<li><code>S_IFBLK</code>：块特殊文件。</li>
+<li><code>S_IFREG</code>：普通文件。</li>
+<li><code>S_IFLNK</code>：链接文件。</li>
+<li><code>S_IFSOCK</code>：套接字。</li>
+</ul>
+</li>
+<li>文件访问权限控制：
+<ul>
+<li><code>S_ISVTX</code>：粘住位。</li>
+<li><code>S_ISGID</code>：将进程的有效组 ID 设置为文件的组所有者 ID。</li>
+<li><code>S_ISUID</code>：将进程的有效用户 ID 设置为文件的用户 ID。</li>
+</ul>
+</li>
+<li>文件访问权限：
+<ul>
+<li><code>S_IXOTH</code>：其他用户可执行。</li>
+<li><code>S_IWOTH</code>：其他用户可写。</li>
+<li><code>S_IROTH</code>：其他用户可读。</li>
+<li><code>S_IXGRP</code>：组用户可执行。</li>
+<li><code>S_IWGRP</code>：组用户可写。</li>
+<li><code>S_IRGRP</code>：组用户可读。</li>
+<li><code>S_IXUSR</code>：文件所有者可执行。</li>
+<li><code>S_IWUSR</code>：文件所有者可写。</li>
+<li><code>S_IRUSR</code>：文件所有者可读。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>粘住位</strong>（也称为<strong>黏滞位</strong>）是 Unix 文件系统权限的一个特殊标志。它在文件或目录的权限中起到重要作用。</p>
+<ol>
+<li><strong>文件的粘住位</strong>：
+<ul>
+<li>如果一个可执行程序文件设置了粘住位，那么在该程序第一次执行并结束时，该程序正文的一部分会被保存在交换区（swap space）中。</li>
+<li>正文部分指的是机器指令部分，这使得下次执行该程序时能更快地将其装入内存区。</li>
+<li>在交换区中，文件是连续存放的，而在一般的 Unix 文件系统中，文件的各数据块很可能是随机存放的。</li>
+<li>常用的应用程序，例如文本编辑程序和编译程序，通常设置了它们所在文件的粘住位。</li>
+<li>现今较新的 Unix 系统大多数都具有虚存系统以及快速文件系统，所以不再需要使用这种技术。</li>
+</ul>
+</li>
+<li><strong>目录的粘住位</strong>：
+<ul>
+<li>在目录上设置粘住位，只有对该目录具有写许可权的用户并且满足以下条件之一，才能删除或更名该目录下的文件：
+<ul>
+<li>拥有此文件。</li>
+<li>拥有此目录。</li>
+<li>是超级用户。</li>
+</ul>
+</li>
+<li>例如，目录 <code>/tmp</code> 和 <code>/var/spool/uucp/public</code> 是设置粘住位的候选者，这两个目录是任何用户都可以在其中创建文件的目录。</li>
+<li>这两个目录对任一用户（用户、组和其他）的许可权通常都是读、写和执行。但是用户不应能删除或更名属于其他人的文件，因此在这两个目录的文件上都设置了粘住位。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<p>Linux 在 <code>sys/stat.h</code> 中定义了宏来去定 <code>st_mode</code> 成员的文件类型：</p>
+<ul>
+<li>S_ISREG(m)。这是一个普通文件吗？</li>
+<li>S_ISDIR(m)。这是一个目录文件吗？</li>
+<li>S_ISSOCK(m)。这是一个网络套接字吗？</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">argc</span>, <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">**</span><span style="color:#e06c75">argv</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">stat</span> <span style="color:#e06c75">stat</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">type</span>, <span style="color:#56b6c2">*</span><span style="color:#e06c75">readok</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">Stat</span>(<span style="color:#e06c75">argv</span>[<span style="color:#d19a66">1</span>], <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">stat</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">S_ISREG</span>(<span style="color:#e06c75">stat</span>.<span style="color:#e06c75">st_mode</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">type</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;regular&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">S_ISDIR</span>(<span style="color:#e06c75">stat</span>.<span style="color:#e06c75">st_mode</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">type</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;directory&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">type</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;other&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> ((<span style="color:#e06c75">stat</span>.<span style="color:#e06c75">st_mode</span> <span style="color:#56b6c2">&amp;</span> <span style="color:#e06c75">S_IRUSR</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">redok</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;yes&#34;</span>;
+</span></span><span style="display:flex;"><span>   	<span style="color:#c678dd">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">readok</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;no&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;type: %s, read: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">type</span>, <span style="color:#e06c75">readok</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">exit</span>(<span style="color:#d19a66">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="读取目录内容">读取目录内容</h2>
+<p>用 <code>readdir</code> 系列函数来读取目录的内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;sys/types.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;dirent.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 成功返回处理的指针；出错为NULL
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">DIR</span> <span style="color:#56b6c2">*</span><span style="color:#61afef;font-weight:bold">opendir</span>(<span style="color:#c678dd">const</span> <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">name</span>);
+</span></span></code></pre></div><p>函数 <code>opendir</code> 以路径名为参数，返回指向目录流（directory stream）的指针，流是对条目有序列表的抽象，在这里指目录项的列表。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;dirent.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 成功则为指向下一个目录项的指针没有更多目录或出错就为NULL并设置errno
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">dirent</span> <span style="color:#56b6c2">*</span><span style="color:#61afef;font-weight:bold">readdir</span>(<span style="color:#e06c75">DIR</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">dirp</span>);
+</span></span></code></pre></div><p>每次对 <code>readdir</code> 的调用返回到都是指向流 <code>drip</code> 中下一个目录项的指针，每个目录项都是一个结构：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">dirent</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">ino_t</span> <span style="color:#e06c75">d_ino</span>;	<span style="color:#7f848e">// inode number
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">d_name</span>[<span style="color:#d19a66">256</span>];	<span style="color:#7f848e">// filename
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>}
+</span></span></code></pre></div><blockquote>
+<ol>
+<li><strong>什么是 inode？</strong>
+<ul>
+<li>理解 inode 需要从文件存储说起。</li>
+<li>文件存储在硬盘上，硬盘的最小存储单位叫做“扇区”（Sector）。</li>
+<li>每个扇区储存512字节（相当于0.5KB）。</li>
+<li>操作系统读取硬盘时，不会一个个扇区地读取，而是一次性连续读取多个扇区，即一次性读取一个“块”（block）。</li>
+<li>这种由多个扇区组成的“块”是文件存取的最小单位。</li>
+<li>“块”的大小通常是4KB，即连续八个扇区组成一个 block。</li>
+<li>文件数据存储在“块”中，但我们还需要找到一个地方来存储文件的元信息，例如文件的创建者、创建日期、大小等等。</li>
+<li>这个存储文件元信息的区域就叫做 <strong>inode</strong>，中文译名为“索引节点”。</li>
+<li>每个文件都有对应的 inode，里面包含了与该文件有关的一些信息。</li>
+</ul>
+</li>
+<li><strong>inode 的内容</strong>
+<ul>
+<li>inode 包含文件的元信息，具体包括：
+<ul>
+<li>文件的字节数</li>
+<li>文件拥有者的 User ID</li>
+<li>文件的 Group ID</li>
+<li>文件的读、写、执行权限</li>
+<li>文件的时间戳（ctime、mtime、atime）</li>
+<li>链接数（有多少文件名指向这个 inode）</li>
+<li>文件数据 block 的位置</li>
+</ul>
+</li>
+<li>除了文件名以外的所有文件信息都存在 inode 中。</li>
+</ul>
+</li>
+<li><strong>inode 的大小</strong>
+<ul>
+<li>inode 也会消耗硬盘空间，因此硬盘格式化时会自动将硬盘分成两个区域：数据区和 inode 区（inode table）。</li>
+<li>每个 inode 节点的大小一般是128字节或256字节。</li>
+<li>inode 节点的总数在格式化时给定，通常是每1KB或每2KB设置一个 inode。</li>
+<li>如果 inode 节点用尽，但硬盘未满，就无法在硬盘上创建新文件。</li>
+</ul>
+</li>
+<li><strong>inode 号码</strong>
+<ul>
+<li>每个 inode 都有一个号码，操作系统用 inode 号码来识别不同的文件。</li>
+<li>Unix/Linux 系统内部不使用文件名，而使用 inode 号码来识别文件。</li>
+<li>文件名只是 inode 号码便于识别的别称。</li>
+<li>使用 <code>ls -i</code> 命令可以查看文件名对应的 inode 号码。</li>
+</ul>
+</li>
+<li><strong>目录文件</strong>
+<ul>
+<li>目录（directory）也是一种文件，实际上就是目录文件。</li>
+<li>目录文件的结构是一系列目录项（dirent）的列表，每个目录项包含文件名和对应的 inode 号码。</li>
+<li>使用 <code>ls -l</code> 命令可以列出文件的详细信息。</li>
+</ul>
+</li>
+<li><strong>硬链接</strong>
+<ul>
+<li>Unix/Linux 系统允许多个文件名指向同一个 inode 号码，这称为“硬链接”（hard link）。</li>
+<li>硬链接可以创建相同 inode 号码的文件，删除一个文件名不影响其他文件名的访问。</li>
+</ul>
+</li>
+<li><strong>软链接</strong>
+<ul>
+<li>文件 A 的内容是文件 B 的路径，这称为“软链接”（soft link）或“符号链接”（symbolic link）。</li>
+<li>文件 A 依赖于文件 B 存在，删除文件 B 会导致打开文件 A 报错。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<p>我们通过 <code>closedir</code> 关闭流并释放所有的资源。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;dirent.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">closedir</span>(<span style="color:#e06c75">DIR</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">dirp</span>);
+</span></span></code></pre></div><p>接下来，我们看一看实例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">argc</span>, <span style="color:#e5c07b">char</span> <span style="color:#56b6c2">**</span><span style="color:#e06c75">argv</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">DIR</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">streamp</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">dirent</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">dep</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">streamp</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">opendir</span>(<span style="color:#e06c75">argv</span>[<span style="color:#d19a66">1</span>]);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">errno</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> ((<span style="color:#e06c75">dep</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">readdir</span>(<span style="color:#e06c75">streamp</span>)) <span style="color:#56b6c2">!=</span> <span style="color:#e5c07b">NULL</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Found file: %s </span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">dep</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">d_name</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">errno</span> <span style="color:#56b6c2">!=</span> <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">unix_error</span>(<span style="color:#98c379">&#34;readdir error&#34;</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">closedir</span>(<span style="color:#e06c75">streamp</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">eixt</span>(<span style="color:#d19a66">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="共享文件">共享文件</h2>
+<p>内核用三个相关的数据结构来表示打开的文件：</p>
+<ul>
+<li>描述符表（descriptor table）。每个进程都有它独立的描述表，它的表项是由进程打开的文件描述符来索引的。</li>
+<li>文件表（file table）。打开文件集合是由一张文件表来表示的，所有进程共享这张表。每个表项包括：
+<ul>
+<li>当前的文件位置：表示下一次读或写的位置。</li>
+<li>引用计数：表示有多少个描述符指向该文件表表项。</li>
+<li>指向 <code>v-node</code> 表中对应表项的指针。</li>
+</ul>
+</li>
+<li><code>v-node</code> 表（v-node table）。同文件表一样，所有的进程共享这账 <code>v-node</code> 表。每个 <code>v-node</code> 表表项对应一个文件，记录文件的元数据信息，如权限、大小、类型等。</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/03/28/PtZhlLA8py5aDYs.png" >
+		<img src="https://s2.loli.net/2024/03/28/PtZhlLA8py5aDYs.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>多个描述符也可以通过不同的文件表项来引用同一个文件。当用同一个 filename 调用 open 函数两次就会出现这种情况。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/03/28/SvEkOV4nQ1RzGLg.png" >
+		<img src="https://s2.loli.net/2024/03/28/SvEkOV4nQ1RzGLg.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>在调用 fork 之后，子进程会有父进程的一个描述符表的副本。父子进程共享相同的文件打开集合，因此共享相同的文件位置。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/03/29/bY3d7Sml8yjergN.png" >
+		<img src="https://s2.loli.net/2024/03/29/bY3d7Sml8yjergN.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<blockquote>
+<p><strong>fork、wait 和 waitpid</strong></p>
+<p>fork()：</p>
+<ul>
+<li><code>fork()</code> 函数用于创建新进程。当父进程调用<code>fork()</code> 时，会生成一个子进程。子进程与父进程共享相同的代码段、数据段、堆栈段等。</li>
+<li>在子进程中，<code>fork()</code> 返回0；在父进程中，返回子进程的进程ID。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdlib.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;sys/types.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span> <span style="color:#e5c07b">pid_t</span> <span style="color:#e06c75">pid</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">fork</span>();
+</span></span><span style="display:flex;"><span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">pid</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;我是子进程，进程ID：%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#61afef;font-weight:bold">getpid</span>());
+</span></span><span style="display:flex;"><span> } <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">pid</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;我是父进程，进程ID：%d，子进程ID：%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#61afef;font-weight:bold">getpid</span>(), <span style="color:#e06c75">pid</span>);
+</span></span><span style="display:flex;"><span> } <span style="color:#c678dd">else</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;fork出错！</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>wait()：</p>
+<ul>
+<li><code>wait()</code> 函数用于等待子进程结束。当子进程终止时，父进程通过 <code>wait()</code> 获取子进程的退出状态。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdlib.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;sys/types.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;sys/wait.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span> <span style="color:#e5c07b">pid_t</span> <span style="color:#e06c75">pid</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">fork</span>();
+</span></span><span style="display:flex;"><span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">pid</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;我是子进程，进程ID：%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#61afef;font-weight:bold">getpid</span>());
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">exit</span>(<span style="color:#d19a66">0</span>);
+</span></span><span style="display:flex;"><span> } <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">pid</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;我是父进程，进程ID：%d，子进程ID：%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#61afef;font-weight:bold">getpid</span>(), <span style="color:#e06c75">pid</span>);
+</span></span><span style="display:flex;"><span>     <span style="color:#e5c07b">int</span> <span style="color:#e06c75">status</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#e5c07b">pid_t</span> <span style="color:#e06c75">wpid</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">wait</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">status</span>);
+</span></span><span style="display:flex;"><span>     <span style="color:#c678dd">if</span> (<span style="color:#e06c75">wpid</span> <span style="color:#56b6c2">==</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>) {
+</span></span><span style="display:flex;"><span>         <span style="color:#61afef;font-weight:bold">perror</span>(<span style="color:#98c379">&#34;wait出错&#34;</span>);
+</span></span><span style="display:flex;"><span>         <span style="color:#61afef;font-weight:bold">exit</span>(<span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">WIFEXITED</span>(<span style="color:#e06c75">status</span>)) {
+</span></span><span style="display:flex;"><span>         <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;子进程以状态 %d 退出</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#61afef;font-weight:bold">WEXITSTATUS</span>(<span style="color:#e06c75">status</span>));
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span> } <span style="color:#c678dd">else</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;fork出错！</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>waitpid()：</p>
+<ul>
+<li><code>waitpid()</code>函数类似于<code>wait()</code>，但提供更灵活的等待方式。您可以指定等待特定的子进程，以及控制等待的行为。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;sys/wait.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span> <span style="color:#e5c07b">int</span> <span style="color:#e06c75">status</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#e5c07b">pid_t</span> <span style="color:#e06c75">pid</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">fork</span>();
+</span></span><span style="display:flex;"><span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">pid</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;fork出错</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span> } <span style="color:#c678dd">else</span> <span style="color:#c678dd">if</span> (<span style="color:#e06c75">pid</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;这是子进程，进程ID：%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#61afef;font-weight:bold">getpid</span>());
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">sleep</span>(<span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>     <span style="color:#c678dd">return</span> <span style="color:#d19a66">1</span>;
+</span></span><span style="display:flex;"><span> } <span style="color:#c678dd">else</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;这是父进程，进程ID：%d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#61afef;font-weight:bold">getpid</span>());
+</span></span><span style="display:flex;"><span>     <span style="color:#e5c07b">pid_t</span> <span style="color:#e06c75">wait_pid</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">waitpid</span>(<span style="color:#e06c75">pid</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">status</span>, <span style="color:#d19a66">0</span>);
+</span></span><span style="display:flex;"><span>     <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;子进程 %d 以状态 %d 退出</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">wait_pid</span>, <span style="color:#61afef;font-weight:bold">WEXITSTATUS</span>(<span style="color:#e06c75">status</span>));
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></blockquote>
+<h2 id="io-重定向">I/O 重定向</h2>
+<p>Linux shell 提供的重定向就是，允许用户将磁盘文件和标准输入输出联系起来。</p>
+<p>当 Web 服务器代表客户运行 CGI 程序的时候，它就执行一种相似类型的重定向。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;unistd&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">dup2</span>(<span style="color:#e5c07b">int</span> <span style="color:#e06c75">oldfd</span>, <span style="color:#e5c07b">int</span> <span style="color:#e06c75">newfd</span>);
+</span></span></code></pre></div><p><code>dup2</code> 函数复制 <code>oldfd</code> 文件内容到 <code>newfd</code> 文件，覆盖 <code>newfd</code>。如果 <code>newfd</code> 是打开了，则会在复制之前被关闭。那么实际上，我们并不需要对 <code>newfd</code> 的内容进行覆盖，我们只需要将描述符指向 <code>oldfd</code> 就可以了。</p>
+<p>通过调用 <code>dup2(4,1)</code> 重定向后，文件A被关闭，原本的描述符会指向文件 B。</p>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/03/29/VUxzqHFlmy4uoiR.png" >
+		<img src="https://s2.loli.net/2024/03/29/VUxzqHFlmy4uoiR.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;unistd.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd1</span>, <span style="color:#e06c75">fd2</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">char</span> <span style="color:#e06c75">c</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fd1</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">open</span>(<span style="color:#98c379">&#34;foo.txt&#34;</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">c</span>, <span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fd2</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">open</span>(<span style="color:#98c379">&#34;foo.txt&#34;</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">c</span>, <span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#e06c75">fd2</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">c</span>, <span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">dup2</span>(<span style="color:#e06c75">fd2</span>, <span style="color:#e06c75">fd1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#e06c75">fd1</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">c</span>, <span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;c = %c </span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">c</span>); 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>标准 I/O</p>
+<p>标准 I/O 库将一个打开都文件模型化为 流。一个流就是一个指向 FILE 类型的结构的指针。</p>
+<p>每个 ANSI C 程序开始都有三个打开的流 stdin、stdout 和 stderr。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stdio.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">extern</span> <span style="color:#e06c75">FILE</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">stdin</span>;		<span style="color:#7f848e">// 0
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">extern</span> <span style="color:#e06c75">FILE</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">stdout</span>;	<span style="color:#7f848e">// 1
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">extern</span> <span style="color:#e06c75">FILE</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">stderr</span>;	<span style="color:#7f848e">// 2
+</span></span></span></code></pre></div><p>类型为 FILE 的流是对文件描述符和流缓冲区的抽象。</p>
+<p>流缓冲区的目的和 RIO 读缓冲区的一样：就是让开销高的 Linux I/O 系统调用的数量尽可能小。</p>
+<h2 id="io-函数综合">I/O 函数综合</h2>
+<p><figure 
+	>
+	<a href="https://s2.loli.net/2024/03/29/V51JOYLl4IMHAaS.png" >
+		<img src="https://s2.loli.net/2024/03/29/V51JOYLl4IMHAaS.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>以下为使用规则：</p>
+<ul>
+<li>只要有可能就尽量用标准 I/O。</li>
+<li>不要用 scanf 或 rio_readlineb 来读二进制文件。</li>
+<li>对网络套接字的 I/O 使用 RIO 函数。</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/linux/">Linux</a>
+        
+            <a href="/tags/c/">C</a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/cover.b1f0c75a8eec7bb44f8009dc314a1621_huc77e13b628f6c253544f486e9b91b9b1_1927448_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Linux C（一）入门"
+                        data-key="Linux C（一）入门" 
+                        data-hash="md5-sfDHWo7se7RPgAncMUoWIQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Linux C（一）入门</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/cover.67bb3671f19af1e9664a10e971934279_hu6c64888fb7dba8ea3f9b3ae918b049b3_2340567_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 简明的GO学习"
+                        data-key="简明的GO学习" 
+                        data-hash="md5-Z7s2cfGa8elmShDpcZNCeQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">简明的GO学习</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/shell%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/shell%E5%AD%A6%E4%B9%A0/cover.51251896a6af909388445aa0d04e4754_hu87cba6621d1cba6cf29db5a9878ced61_565035_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Shell学习"
+                        data-key="Shell学习" 
+                        data-hash="md5-USUYlqavkJOIRFqg0E5HVA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Shell学习</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了128.2k字·共 22篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#unix-io">Unix I/O</a></li>
+    <li><a href="#文件">文件</a></li>
+    <li><a href="#打开和关闭文件">打开和关闭文件</a></li>
+    <li><a href="#读和写文件">读和写文件</a></li>
+    <li><a href="#rio-健壮地读写">RIO 健壮地读写</a></li>
+    <li><a href="#读取文件元数据">读取文件元数据</a></li>
+    <li><a href="#读取目录内容">读取目录内容</a></li>
+    <li><a href="#共享文件">共享文件</a></li>
+    <li><a href="#io-重定向">I/O 重定向</a></li>
+    <li><a href="#io-函数综合">I/O 函数综合</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">6</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">9</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">2</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">22</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_8">
+                Note
+            </a>
+        
+            <a href="/tags/web/" class="font_size_3">
+                Web
+            </a>
+        
+            <a href="/tags/%E8%8B%B1%E8%AF%AD/" class="font_size_3">
+                英语
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_3">
+                计算机网络
+            </a>
+        
+            <a href="/tags/c/" class="font_size_2">
+                C
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_2">
+                Linux
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/python/" class="font_size_1">
+                Python
+            </a>
+        
+            <a href="/tags/shell/" class="font_size_1">
+                Shell
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

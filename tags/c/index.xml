@@ -6,8 +6,15 @@
     <description>Recent content in C on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Mar 2024 14:37:07 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jun 2024 10:53:23 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>系统级IO</title>
+      <link>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</link>
+      <pubDate>Thu, 06 Jun 2024 10:53:23 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</guid>
+      <description>输入/输出（I/O）是在主存和外部设备之间复制数据的过程。 在 Linux 系统中，通过使用由内核提供的系统级 Unix I/O 函数来实现高级别的 I/O 函数。 Unix I/O 一个 Linux 文件</description>
+    </item>
     <item>
       <title>Linux C（一）入门</title>
       <link>https://yikuanzz.github.io/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/</link>

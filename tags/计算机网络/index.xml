@@ -6,8 +6,15 @@
     <description>Recent content in 计算机网络 on Yikuanzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 May 2024 08:10:37 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jun 2024 10:53:23 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>系统级IO</title>
+      <link>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</link>
+      <pubDate>Thu, 06 Jun 2024 10:53:23 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</guid>
+      <description>输入/输出（I/O）是在主存和外部设备之间复制数据的过程。 在 Linux 系统中，通过使用由内核提供的系统级 Unix I/O 函数来实现高级别的 I/O 函数。 Unix I/O 一个 Linux 文件</description>
+    </item>
     <item>
       <title>计算机网络学习</title>
       <link>https://yikuanzz.github.io/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/</link>

@@ -6,7 +6,646 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Wed, 05 Jun 2024 18:01:12 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 06 Jun 2024 18:21:45 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>系统级IO</title>
+        <link>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</link>
+        <pubDate>Thu, 06 Jun 2024 10:53:23 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/cover.png" alt="Featured image of post 系统级IO" /&gt;&lt;p&gt;输入/输出（I/O）是在主存和外部设备之间复制数据的过程。&lt;/p&gt;
+&lt;p&gt;在 Linux 系统中，通过使用由内核提供的系统级 Unix I/O 函数来实现高级别的 I/O 函数。&lt;/p&gt;
+&lt;h2 id=&#34;unix-io&#34;&gt;Unix I/O&lt;/h2&gt;
+&lt;p&gt;一个 Linux 文件就是一个 $m$ 个字节的序列：
+$$
+B_0, B_1,\dots,B_k,\dots,B_{m-1}
+$$
+所有的 I/O 设备被模型化为文件，而所有的输入和输出都被当作对应文件的读写来执行，允许 Linux 内核引出一个简单、低级的应用接口，称为 Unix I/O，这样使所有的输入和输出能用统一的方式来执行：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;打开文件：程序要求内核打开文件，内核会返回一个小的非负整数的描述符，它在后续对此文件的所有操作中标识这个文件。&lt;/li&gt;
+&lt;li&gt;每个进程开始时打开三个文件：标准输入（描述符0）、标准输出（描述符1）和标准错误（描述符2）。头文件 &lt;code&gt;&amp;lt;unistd.h&amp;gt;&lt;/code&gt; 定义了常量 &lt;code&gt;STDIN_FILENO&lt;/code&gt;、&lt;code&gt;STDOUT_FILENO&lt;/code&gt; 和 &lt;code&gt;STDERR_FILENO&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;改变当前文件位置：对于每个打开的文件，内核保持一个文件的位置 &lt;code&gt;k&lt;/code&gt; ，初始为 0。这个文件位置是从文件开头起始的字节偏移量。应用程序能够通过执行 &lt;code&gt;seek&lt;/code&gt; 操作，设置文件的位置。&lt;/li&gt;
+&lt;li&gt;读写文件：一个读操作就是从文件复制 &lt;code&gt;n &amp;gt; 0&lt;/code&gt; 个字节到内存，从当前文件位置 &lt;code&gt;k&lt;/code&gt; 开始增加到 &lt;code&gt;k+n&lt;/code&gt; 。给定一个大小为 &lt;code&gt;m&lt;/code&gt; 字节的文件，当 &lt;code&gt;k &amp;gt;= m&lt;/code&gt; 时执行读操作会触发 end-of-file（EOF）的条件。那么写操作就是从内存复制 &lt;code&gt;n &amp;gt; 0&lt;/code&gt; 个字节到文件。&lt;/li&gt;
+&lt;li&gt;关闭文件：程序通知内核关闭这个文件，内核会释放文件打开时创建的数据结构，并将这个描述符恢复到可用的描述符池中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;文件&#34;&gt;文件&lt;/h2&gt;
+&lt;p&gt;文件类型如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;普通文件（regular file）包含任意数据，通常区分文本文件和二进制文件。只是文本文件中有 ASCII 或 Unicode 字符。&lt;/li&gt;
+&lt;li&gt;目录（directory）是包含一组链接（link）的文件，每个链接都将一个文件名映射到一个文件，每个目录至少有 &lt;code&gt;.&lt;/code&gt; 和 &lt;code&gt;..&lt;/code&gt;，代表当前目录的链接和到父目录的链接。&lt;/li&gt;
+&lt;li&gt;套接字（socket）用来与另一个进程进行跨网络通信的文件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;打开和关闭文件&#34;&gt;打开和关闭文件&lt;/h2&gt;
+&lt;p&gt;进程通过 &lt;code&gt;open&lt;/code&gt; 函数来打开或创建文件的：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;sys/types.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;sys/stat.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;fcntl.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 成功返回文件描述符，出错返回 -1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;filename&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;flags&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;mode_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;mode&lt;/span&gt;);	
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;flags&lt;/code&gt; 参数可选：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;O_RDONLY：只读。&lt;/li&gt;
+&lt;li&gt;O_WRONLY：只写。&lt;/li&gt;
+&lt;li&gt;O_RDWR：可读可写。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;foo.txt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;O_RDONLY&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;flags&lt;/code&gt; 参数是多位掩码的或：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;O_CRETE：如果文件不存在就创建一个空文件。&lt;/li&gt;
+&lt;li&gt;O_TRUNC：如果文件存在就截断。&lt;/li&gt;
+&lt;li&gt;O_APPEND：写操作时设置文件位置到文件结尾。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;foo.txt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;O_WRONLY&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;O_APPEND&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;mode&lt;/code&gt; 参数指定了新文件的访问权限。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;umask&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 Linux 中，umsak 用于设置新建文件和目录的默认权限。它由3位八进制数表示，分别表示用户、组和其他用户的权限掩码。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# define DEF_MODE S_IRUSR|S_IWUSR|S_IROTH|S_IWOTH
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# define DEF_UMASK S_IWGRP|S_IWOTH
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;umask&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;DEF_UMASK&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;foo.txt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;O_CREAT&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;O_TRUNC&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;O_WRONLY&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;DEF_MODE&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最后进程通过 &lt;code&gt;close&lt;/code&gt; 函数关闭文件。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;unisted.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 成功返回 0， 否则返回 -1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;close&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;读和写文件&#34;&gt;读和写文件&lt;/h2&gt;
+&lt;p&gt;通过调用 read 和 write 函数来执行读写：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;unistd.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 成功返回读的字节数；EOF 为 0；出错 -1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;buf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 成功返回写的字节数，错为 -1.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;write&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;buf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;size_t&lt;/strong&gt; 和 &lt;strong&gt;ssize_t&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;size_t&lt;/code&gt; 一般用来表示一种计数，比如有多少东西被拷贝等。它在数组下标和内存管理函数等地方广泛使用。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ssize_t&lt;/code&gt; 用来表示可以被执行读写操作的数据块的大小，它表示的是&lt;strong&gt;有符号的 size_t 类型&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;STDIN_FILENO&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;write&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;STDOU_FILENO&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;exit&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rio-健壮地读写&#34;&gt;RIO 健壮地读写&lt;/h2&gt;
+&lt;p&gt;RIO（Robust I/O）提供了两种函数处理不足值（short count）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;无缓冲输入输出&lt;/strong&gt;：直接在内存和文件之间传送数据，没有应用级缓冲。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;rio_readn&lt;/code&gt; 函数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;此函数尝试从文件描述符 &lt;code&gt;fd&lt;/code&gt; 中读取 &lt;code&gt;n&lt;/code&gt; 个字符到用户缓冲区 &lt;code&gt;usrbuf&lt;/code&gt; 中。&lt;/li&gt;
+&lt;li&gt;如果被信号处理函数中断，它会再次尝试读取，确保读取到 &lt;code&gt;n&lt;/code&gt; 个字节。&lt;/li&gt;
+&lt;li&gt;与普通的 &lt;code&gt;read&lt;/code&gt; 函数不同，&lt;code&gt;rio_readn&lt;/code&gt; 解决了在网络编程中可能读取到的字节数少于请求数量的问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 成功返回读的字节数；EOF 为 0；出错 -1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_readn&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; ((&lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt;)) &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;errno&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EINTR&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 被信号处理函数中断，再次尝试读取
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 出错，errno 由 read 设置
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) &lt;span style=&#34;color:#7f848e&#34;&gt;// 读取到 EOF
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 剩下的字符数减去本次读到的字符数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 缓冲区指针向右移动
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt;); &lt;span style=&#34;color:#7f848e&#34;&gt;// 返回实际读取的字符数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;rio_writen&lt;/code&gt; 函数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;此函数类似于 &lt;code&gt;rio_readn&lt;/code&gt;，但用于写出数据。&lt;/li&gt;
+&lt;li&gt;它保证写出 &lt;code&gt;n&lt;/code&gt; 字节，不会返回不足值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 成功返回写的字节数，错为 -1.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_writen&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nwritten&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; ((&lt;span style=&#34;color:#e06c75&#34;&gt;nwritten&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;write&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt;)) &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;errno&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EINTR&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;nwritten&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nwritten&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nwritten&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;带缓冲带输入&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;rio_readlineb&lt;/code&gt; 从内部读缓冲区复制一个文本行，当缓冲区变空时，会自动地调用 &lt;code&gt;read&lt;/code&gt; 重新填满缓冲区，如果文件既包含 文本行也二进制数据文件，就用 &lt;code&gt;rio_readn&lt;/code&gt; 的缓冲版本 &lt;code&gt;rio_readnb&lt;/code&gt;，它从和 &lt;code&gt;rio_readlineb&lt;/code&gt; 一样的缓冲区中传送原始字节。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_readinitb&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;rio_t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_readlineb&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;rio_t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;maxlen&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_readnb&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;rio_t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;userbuf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;每打开一个描述符，都会调用一次 &lt;code&gt;rio_readinitb&lt;/code&gt; 函数，它将描述符 &lt;code&gt;fd&lt;/code&gt; 和 地址 &lt;code&gt;rp&lt;/code&gt; 处的一个类型为 &lt;code&gt;rio_t&lt;/code&gt; 的缓冲区联系起来。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# define RIO_BUFSIZE 8192
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rio_fd&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rio_cnt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_bufptr&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rio_buf&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;RIO_BUFSIZE&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_readinitb&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;rio_t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;fio_cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_bufptr&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_buf&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;rio_readlineb&lt;/code&gt; 函数从文件 &lt;code&gt;rp&lt;/code&gt; 读出下一个文本行（包括结尾的换行符），复制到 &lt;code&gt;usrbuf&lt;/code&gt; ，并用 NULL 字符来结束这个文本行。超过 &lt;code&gt;maxlen-1&lt;/code&gt; 的文本行会被截断，并用一个 NULL 字符结束。&lt;/p&gt;
+&lt;p&gt;注意：带缓冲的函数调用不应该和无缓冲的 &lt;code&gt;rio_readn&lt;/code&gt; 交叉调用。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;argc&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;argv&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;rio_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rio&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buf&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;MAXLINE&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 先初始化将数据读取到内置的缓冲区中
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Rio_readinitb&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;STDIN_FILENO&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; ((&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Rio_readlineb&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buf&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;MAXLINE&lt;/span&gt;)) &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Rio_write&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;STDOUT_FILENO&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buf&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们一起看一下 &lt;code&gt;rio_read&lt;/code&gt; 函数的实现：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_read&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;rio_t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;cnt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 处理缓冲区
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#7f848e&#34;&gt;// 用 read 读取到缓冲区中
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rio_cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_buf&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_buf&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;errno&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EINTR&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rio_cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#7f848e&#34;&gt;// 加载成功后重置 buffer 地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_bufptr&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_buf&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 将数据从缓冲区复制到用户缓冲区
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rio_cnt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;memcpy&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_bufptr&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;cnt&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_bufptr&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rio_cnt&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;cnt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;cnt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;errno&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;errno 是一个全局变量，用于表示最近一次发生的错误代码，它被定义在 errno.h 头文件中。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接着，我们再看到 &lt;code&gt;rio_readlineb&lt;/code&gt; 函数和 &lt;code&gt;rio_readnb&lt;/code&gt; 函数：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_readlineb&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;rio_t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;maxlen&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;rc&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;maxlen&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; ((&lt;span style=&#34;color:#e06c75&#34;&gt;rc&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)) &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#c678dd&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }&lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;rc&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#c678dd&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_readnb&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;rio_t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;ssize_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;usrbuf&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; ((&lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;rio_read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;rp&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt;)) &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;bufp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nread&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nleft&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;​&lt;/p&gt;
+&lt;h2 id=&#34;读取文件元数据&#34;&gt;读取文件元数据&lt;/h2&gt;
+&lt;p&gt;检索关于文件的信息，也就是元数据（meta data）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;unistd.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;sys/stata.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;stat&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;filename&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stat&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;buf&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;fstat&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stat&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;buf&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/03/28/Ld49EStXOUBvJAR.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/03/28/Ld49EStXOUBvJAR.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;st_size&lt;/code&gt; 成员包含了文件的字节数大小。&lt;code&gt;st_mode&lt;/code&gt; 成员编码了文件访问许可位和文件类型，它的低9位标识了文件所有者、组用户和其他用户的读写执行权限。&lt;/p&gt;
+&lt;p&gt;这些权限位的含义如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文件类型：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;S_IFIFO&lt;/code&gt;：管道或 FIFO 文件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IFCHR&lt;/code&gt;：字符特殊文件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IFDIR&lt;/code&gt;：目录文件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IFBLK&lt;/code&gt;：块特殊文件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IFREG&lt;/code&gt;：普通文件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IFLNK&lt;/code&gt;：链接文件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IFSOCK&lt;/code&gt;：套接字。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;文件访问权限控制：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;S_ISVTX&lt;/code&gt;：粘住位。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_ISGID&lt;/code&gt;：将进程的有效组 ID 设置为文件的组所有者 ID。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_ISUID&lt;/code&gt;：将进程的有效用户 ID 设置为文件的用户 ID。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;文件访问权限：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;S_IXOTH&lt;/code&gt;：其他用户可执行。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IWOTH&lt;/code&gt;：其他用户可写。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IROTH&lt;/code&gt;：其他用户可读。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IXGRP&lt;/code&gt;：组用户可执行。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IWGRP&lt;/code&gt;：组用户可写。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IRGRP&lt;/code&gt;：组用户可读。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IXUSR&lt;/code&gt;：文件所有者可执行。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IWUSR&lt;/code&gt;：文件所有者可写。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S_IRUSR&lt;/code&gt;：文件所有者可读。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;粘住位&lt;/strong&gt;（也称为&lt;strong&gt;黏滞位&lt;/strong&gt;）是 Unix 文件系统权限的一个特殊标志。它在文件或目录的权限中起到重要作用。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;文件的粘住位&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;如果一个可执行程序文件设置了粘住位，那么在该程序第一次执行并结束时，该程序正文的一部分会被保存在交换区（swap space）中。&lt;/li&gt;
+&lt;li&gt;正文部分指的是机器指令部分，这使得下次执行该程序时能更快地将其装入内存区。&lt;/li&gt;
+&lt;li&gt;在交换区中，文件是连续存放的，而在一般的 Unix 文件系统中，文件的各数据块很可能是随机存放的。&lt;/li&gt;
+&lt;li&gt;常用的应用程序，例如文本编辑程序和编译程序，通常设置了它们所在文件的粘住位。&lt;/li&gt;
+&lt;li&gt;现今较新的 Unix 系统大多数都具有虚存系统以及快速文件系统，所以不再需要使用这种技术。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;目录的粘住位&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;在目录上设置粘住位，只有对该目录具有写许可权的用户并且满足以下条件之一，才能删除或更名该目录下的文件：
+&lt;ul&gt;
+&lt;li&gt;拥有此文件。&lt;/li&gt;
+&lt;li&gt;拥有此目录。&lt;/li&gt;
+&lt;li&gt;是超级用户。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;例如，目录 &lt;code&gt;/tmp&lt;/code&gt; 和 &lt;code&gt;/var/spool/uucp/public&lt;/code&gt; 是设置粘住位的候选者，这两个目录是任何用户都可以在其中创建文件的目录。&lt;/li&gt;
+&lt;li&gt;这两个目录对任一用户（用户、组和其他）的许可权通常都是读、写和执行。但是用户不应能删除或更名属于其他人的文件，因此在这两个目录的文件上都设置了粘住位。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Linux 在 &lt;code&gt;sys/stat.h&lt;/code&gt; 中定义了宏来去定 &lt;code&gt;st_mode&lt;/code&gt; 成员的文件类型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;S_ISREG(m)。这是一个普通文件吗？&lt;/li&gt;
+&lt;li&gt;S_ISDIR(m)。这是一个目录文件吗？&lt;/li&gt;
+&lt;li&gt;S_ISSOCK(m)。这是一个网络套接字吗？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;argc&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;argv&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stat&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stat&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;type&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readok&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Stat&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;argv&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;], &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;stat&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;S_ISREG&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stat&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;st_mode&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;regular&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;S_ISDIR&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stat&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;st_mode&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;directory&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;other&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; ((&lt;span style=&#34;color:#e06c75&#34;&gt;stat&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;st_mode&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;S_IRUSR&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;redok&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;yes&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   	&lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;readok&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;no&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;type: %s, read: %s&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;type&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;readok&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;exit&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;读取目录内容&#34;&gt;读取目录内容&lt;/h2&gt;
+&lt;p&gt;用 &lt;code&gt;readdir&lt;/code&gt; 系列函数来读取目录的内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;sys/types.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;dirent.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 成功返回处理的指针；出错为NULL
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;DIR&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;opendir&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;函数 &lt;code&gt;opendir&lt;/code&gt; 以路径名为参数，返回指向目录流（directory stream）的指针，流是对条目有序列表的抽象，在这里指目录项的列表。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;dirent.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 成功则为指向下一个目录项的指针没有更多目录或出错就为NULL并设置errno
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dirent&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;readdir&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;DIR&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;dirp&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;每次对 &lt;code&gt;readdir&lt;/code&gt; 的调用返回到都是指向流 &lt;code&gt;drip&lt;/code&gt; 中下一个目录项的指针，每个目录项都是一个结构：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dirent&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;ino_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;d_ino&lt;/span&gt;;	&lt;span style=&#34;color:#7f848e&#34;&gt;// inode number
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;d_name&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;256&lt;/span&gt;];	&lt;span style=&#34;color:#7f848e&#34;&gt;// filename
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;什么是 inode？&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;理解 inode 需要从文件存储说起。&lt;/li&gt;
+&lt;li&gt;文件存储在硬盘上，硬盘的最小存储单位叫做“扇区”（Sector）。&lt;/li&gt;
+&lt;li&gt;每个扇区储存512字节（相当于0.5KB）。&lt;/li&gt;
+&lt;li&gt;操作系统读取硬盘时，不会一个个扇区地读取，而是一次性连续读取多个扇区，即一次性读取一个“块”（block）。&lt;/li&gt;
+&lt;li&gt;这种由多个扇区组成的“块”是文件存取的最小单位。&lt;/li&gt;
+&lt;li&gt;“块”的大小通常是4KB，即连续八个扇区组成一个 block。&lt;/li&gt;
+&lt;li&gt;文件数据存储在“块”中，但我们还需要找到一个地方来存储文件的元信息，例如文件的创建者、创建日期、大小等等。&lt;/li&gt;
+&lt;li&gt;这个存储文件元信息的区域就叫做 &lt;strong&gt;inode&lt;/strong&gt;，中文译名为“索引节点”。&lt;/li&gt;
+&lt;li&gt;每个文件都有对应的 inode，里面包含了与该文件有关的一些信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;inode 的内容&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;inode 包含文件的元信息，具体包括：
+&lt;ul&gt;
+&lt;li&gt;文件的字节数&lt;/li&gt;
+&lt;li&gt;文件拥有者的 User ID&lt;/li&gt;
+&lt;li&gt;文件的 Group ID&lt;/li&gt;
+&lt;li&gt;文件的读、写、执行权限&lt;/li&gt;
+&lt;li&gt;文件的时间戳（ctime、mtime、atime）&lt;/li&gt;
+&lt;li&gt;链接数（有多少文件名指向这个 inode）&lt;/li&gt;
+&lt;li&gt;文件数据 block 的位置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;除了文件名以外的所有文件信息都存在 inode 中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;inode 的大小&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;inode 也会消耗硬盘空间，因此硬盘格式化时会自动将硬盘分成两个区域：数据区和 inode 区（inode table）。&lt;/li&gt;
+&lt;li&gt;每个 inode 节点的大小一般是128字节或256字节。&lt;/li&gt;
+&lt;li&gt;inode 节点的总数在格式化时给定，通常是每1KB或每2KB设置一个 inode。&lt;/li&gt;
+&lt;li&gt;如果 inode 节点用尽，但硬盘未满，就无法在硬盘上创建新文件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;inode 号码&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;每个 inode 都有一个号码，操作系统用 inode 号码来识别不同的文件。&lt;/li&gt;
+&lt;li&gt;Unix/Linux 系统内部不使用文件名，而使用 inode 号码来识别文件。&lt;/li&gt;
+&lt;li&gt;文件名只是 inode 号码便于识别的别称。&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;ls -i&lt;/code&gt; 命令可以查看文件名对应的 inode 号码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;目录文件&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;目录（directory）也是一种文件，实际上就是目录文件。&lt;/li&gt;
+&lt;li&gt;目录文件的结构是一系列目录项（dirent）的列表，每个目录项包含文件名和对应的 inode 号码。&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;ls -l&lt;/code&gt; 命令可以列出文件的详细信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;硬链接&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;Unix/Linux 系统允许多个文件名指向同一个 inode 号码，这称为“硬链接”（hard link）。&lt;/li&gt;
+&lt;li&gt;硬链接可以创建相同 inode 号码的文件，删除一个文件名不影响其他文件名的访问。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;软链接&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;文件 A 的内容是文件 B 的路径，这称为“软链接”（soft link）或“符号链接”（symbolic link）。&lt;/li&gt;
+&lt;li&gt;文件 A 依赖于文件 B 存在，删除文件 B 会导致打开文件 A 报错。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们通过 &lt;code&gt;closedir&lt;/code&gt; 关闭流并释放所有的资源。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;dirent.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;closedir&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;DIR&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;dirp&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;接下来，我们看一看实例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;argc&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;argv&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;DIR&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;streamp&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dirent&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;dep&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;streamp&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;opendir&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;argv&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;errno&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; ((&lt;span style=&#34;color:#e06c75&#34;&gt;dep&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;readdir&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;streamp&lt;/span&gt;)) &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;NULL&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Found file: %s &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;dep&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;d_name&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;errno&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;unix_error&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;readdir error&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;closedir&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;streamp&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;eixt&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;共享文件&#34;&gt;共享文件&lt;/h2&gt;
+&lt;p&gt;内核用三个相关的数据结构来表示打开的文件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;描述符表（descriptor table）。每个进程都有它独立的描述表，它的表项是由进程打开的文件描述符来索引的。&lt;/li&gt;
+&lt;li&gt;文件表（file table）。打开文件集合是由一张文件表来表示的，所有进程共享这张表。每个表项包括：
+&lt;ul&gt;
+&lt;li&gt;当前的文件位置：表示下一次读或写的位置。&lt;/li&gt;
+&lt;li&gt;引用计数：表示有多少个描述符指向该文件表表项。&lt;/li&gt;
+&lt;li&gt;指向 &lt;code&gt;v-node&lt;/code&gt; 表中对应表项的指针。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;v-node&lt;/code&gt; 表（v-node table）。同文件表一样，所有的进程共享这账 &lt;code&gt;v-node&lt;/code&gt; 表。每个 &lt;code&gt;v-node&lt;/code&gt; 表表项对应一个文件，记录文件的元数据信息，如权限、大小、类型等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/03/28/PtZhlLA8py5aDYs.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/03/28/PtZhlLA8py5aDYs.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;多个描述符也可以通过不同的文件表项来引用同一个文件。当用同一个 filename 调用 open 函数两次就会出现这种情况。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/03/28/SvEkOV4nQ1RzGLg.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/03/28/SvEkOV4nQ1RzGLg.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;在调用 fork 之后，子进程会有父进程的一个描述符表的副本。父子进程共享相同的文件打开集合，因此共享相同的文件位置。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/03/29/bY3d7Sml8yjergN.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/03/29/bY3d7Sml8yjergN.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;fork、wait 和 waitpid&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;fork()：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;fork()&lt;/code&gt; 函数用于创建新进程。当父进程调用&lt;code&gt;fork()&lt;/code&gt; 时，会生成一个子进程。子进程与父进程共享相同的代码段、数据段、堆栈段等。&lt;/li&gt;
+&lt;li&gt;在子进程中，&lt;code&gt;fork()&lt;/code&gt; 返回0；在父进程中，返回子进程的进程ID。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;sys/types.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;pid_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;fork&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;我是子进程，进程ID：%d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;getpid&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;我是父进程，进程ID：%d，子进程ID：%d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;getpid&lt;/span&gt;(), &lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fork出错！&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;wait()：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;wait()&lt;/code&gt; 函数用于等待子进程结束。当子进程终止时，父进程通过 &lt;code&gt;wait()&lt;/code&gt; 获取子进程的退出状态。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;sys/types.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;pid_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;fork&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;我是子进程，进程ID：%d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;getpid&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;exit&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;我是父进程，进程ID：%d，子进程ID：%d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;getpid&lt;/span&gt;(), &lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;status&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#e5c07b&#34;&gt;pid_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wpid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;wait&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;status&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;wpid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;perror&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;wait出错&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;exit&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;WIFEXITED&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;status&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;子进程以状态 %d 退出&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;WEXITSTATUS&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;status&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fork出错！&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;waitpid()：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;waitpid()&lt;/code&gt;函数类似于&lt;code&gt;wait()&lt;/code&gt;，但提供更灵活的等待方式。您可以指定等待特定的子进程，以及控制等待的行为。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;status&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;pid_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;fork&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fork出错&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;这是子进程，进程ID：%d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;getpid&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;sleep&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;这是父进程，进程ID：%d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;getpid&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#e5c07b&#34;&gt;pid_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wait_pid&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;waitpid&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pid&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;status&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;子进程 %d 以状态 %d 退出&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;wait_pid&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;WEXITSTATUS&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;status&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;io-重定向&#34;&gt;I/O 重定向&lt;/h2&gt;
+&lt;p&gt;Linux shell 提供的重定向就是，允许用户将磁盘文件和标准输入输出联系起来。&lt;/p&gt;
+&lt;p&gt;当 Web 服务器代表客户运行 CGI 程序的时候，它就执行一种相似类型的重定向。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;unistd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;dup2&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;oldfd&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;newfd&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;dup2&lt;/code&gt; 函数复制 &lt;code&gt;oldfd&lt;/code&gt; 文件内容到 &lt;code&gt;newfd&lt;/code&gt; 文件，覆盖 &lt;code&gt;newfd&lt;/code&gt;。如果 &lt;code&gt;newfd&lt;/code&gt; 是打开了，则会在复制之前被关闭。那么实际上，我们并不需要对 &lt;code&gt;newfd&lt;/code&gt; 的内容进行覆盖，我们只需要将描述符指向 &lt;code&gt;oldfd&lt;/code&gt; 就可以了。&lt;/p&gt;
+&lt;p&gt;通过调用 &lt;code&gt;dup2(4,1)&lt;/code&gt; 重定向后，文件A被关闭，原本的描述符会指向文件 B。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/03/29/VUxzqHFlmy4uoiR.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/03/29/VUxzqHFlmy4uoiR.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;stdio.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;unistd.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd1&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;fd2&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fd1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;foo.txt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fd2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;foo.txt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd2&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;dup2&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd2&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;fd1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd1&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;c = %c &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;c&lt;/span&gt;); 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;标准 I/O&lt;/p&gt;
+&lt;p&gt;标准 I/O 库将一个打开都文件模型化为 流。一个流就是一个指向 FILE 类型的结构的指针。&lt;/p&gt;
+&lt;p&gt;每个 ANSI C 程序开始都有三个打开的流 stdin、stdout 和 stderr。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;stdio.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;extern&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;FILE&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;stdin&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;extern&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;FILE&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;stdout&lt;/span&gt;;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;extern&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;FILE&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;stderr&lt;/span&gt;;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;类型为 FILE 的流是对文件描述符和流缓冲区的抽象。&lt;/p&gt;
+&lt;p&gt;流缓冲区的目的和 RIO 读缓冲区的一样：就是让开销高的 Linux I/O 系统调用的数量尽可能小。&lt;/p&gt;
+&lt;h2 id=&#34;io-函数综合&#34;&gt;I/O 函数综合&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://s2.loli.net/2024/03/29/V51JOYLl4IMHAaS.png&#34; &gt;
+		&lt;img src=&#34;https://s2.loli.net/2024/03/29/V51JOYLl4IMHAaS.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;以下为使用规则：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;只要有可能就尽量用标准 I/O。&lt;/li&gt;
+&lt;li&gt;不要用 scanf 或 rio_readlineb 来读二进制文件。&lt;/li&gt;
+&lt;li&gt;对网络套接字的 I/O 使用 RIO 函数。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>简明的GO学习</title>
         <link>https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Wed, 05 Jun 2024 18:01:12 +0800</pubDate>
@@ -22,7 +661,22 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Hello Go!&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;go&#34;&gt;Go&lt;/h3&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;题外话&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Foo&lt;/strong&gt; 是一个编程中经常使用的&lt;strong&gt;占位符&lt;/strong&gt;，它没有特定的含义。&amp;ldquo;foo&amp;rdquo; 这个词的确有很多不同的起源说法。以下是一些可能的来源：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;ldquo;Foo&amp;rdquo; 来自于 &amp;ldquo;FUBAR&amp;rdquo;，这个说法已经在前面提到过了。FUBAR 是 &amp;ldquo;Fucked Up Beyond All Recognition&amp;rdquo; 的缩写，意为 &amp;ldquo;完全搞砸了&amp;rdquo;。&amp;ldquo;Foo&amp;rdquo; 可能是在这个词的基础上发展而来的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;ldquo;Foo&amp;rdquo; 作为占位符的使用可以追溯到 1965 年，当时计算机科学家 Melvin Conway 在一篇论文中使用了 &amp;ldquo;foo&amp;rdquo; 和 &amp;ldquo;bar&amp;rdquo; 作为变量名。他认为这些词听起来有趣，可以使代码更易于阅读。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;ldquo;Foo&amp;rdquo; 来自于纽约的一个餐厅，当时计算机科学家们在那里举行了一个会议。他们使用 &amp;ldquo;foo&amp;rdquo; 来代表那个餐厅的名字，后来这个词就成为了占位符的代名词。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;go&#34;&gt;Go&lt;/h3&gt;
 &lt;p&gt;在 Linux 操作系统中，我们安装 Go 之后可以使用命令管理工具来对 Go 进行管理。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;root@yikuanzz ~&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# go -help&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Go is a tool &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; managing Go &lt;span style=&#34;color:#e5c07b&#34;&gt;source&lt;/span&gt; code.
@@ -257,7 +911,96 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        └── hello.go
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;go-数据结构&#34;&gt;Go 数据结构&lt;/h2&gt;
 &lt;h3 id=&#34;数组&#34;&gt;数组&lt;/h3&gt;
-&lt;h3 id=&#34;切片&#34;&gt;切片&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;数组&lt;/strong&gt;的最大一个特点就是占用的内存是&lt;strong&gt;连续分布&lt;/strong&gt;的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU 能将正在使用的数据缓存更久；&lt;/li&gt;
+&lt;li&gt;容易计算索引，迭代元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 声明一个包含 5 个 int 元素的数组
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;数组初始化时，每个元素都为对应类型的&lt;strong&gt;零值&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;如果想要更加快速地创建数组，可以使用&lt;strong&gt;数组字面量&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 声明一个包含 5 个 int 元素的数组 并且 初始化每个元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;40&lt;/span&gt; ,&lt;span style=&#34;color:#d19a66&#34;&gt;50&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然，我们可以让 Go 根据元素的数量来确定&lt;strong&gt;数组长度&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 容量初始化值的数量决定
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; [&lt;span style=&#34;color:#56b6c2&#34;&gt;...&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;40&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;50&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此外，我们也可以指定&lt;strong&gt;对应元素的初始化值&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 指定 索引2 和 索引3 的值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;: &lt;span style=&#34;color:#d19a66&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;:&lt;span style=&#34;color:#d19a66&#34;&gt;40&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;除了通过 &lt;code&gt;[]&lt;/code&gt; 运算符来访问数组，我们还可以通过&lt;strong&gt;指针访问值&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 数组元素为 整型指针
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;arrary&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;new&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;), &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;:&lt;span style=&#34;color:#e5c07b&#34;&gt;new&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;)}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 给 索引0 和 索引1 赋值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;] = &lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;] = &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在 Go 语言中，&lt;strong&gt;数组是一个值&lt;/strong&gt;。所以，数组是可以用在赋值上的，这样就可以复制数组。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 声明一个包含 5 个字符串的数组
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;array1&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 声明另一个包含 5 个字符串的数组 并且 初始化
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array2&lt;/span&gt; = [&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt; {&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Red&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Blue&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Green&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Yellow&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Pink&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 把 array2 值复制给 array1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array1&lt;/span&gt; = &lt;span style=&#34;color:#e06c75&#34;&gt;array2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此外，如果复制的是指针数组的话，则是将指针地址的值复制了一遍，它们都指向同一个内容。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;多维度数组&lt;/strong&gt;也是数组中的一个重要内容，它可以很容易地管理具父子关系的数据或者与坐标相关联的数据。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 声明一个二维整型数组，维度为 4 和 2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;][&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 数组字面量声明
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;][&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {{&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;11&lt;/span&gt;}, {&lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;21&lt;/span&gt;}, {&lt;span style=&#34;color:#d19a66&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;31&lt;/span&gt;}, {&lt;span style=&#34;color:#d19a66&#34;&gt;40&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;41&lt;/span&gt;}}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;在函数间传递数组&lt;/strong&gt;是一个很大的开销，因为函数变量的传递都是以值的方式传递的，如果变量是数组的话，就意味着会将一整个完整的数组进行复制，这样显然不太好。&lt;/p&gt;
+&lt;p&gt;因此，用指针来传递数组会是个好的选择。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;valueCopy&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;arr&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;[value]arr: %p \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;arr&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;addrCopy&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;arr&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;[address]arr: %p \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;arr&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;6&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;7&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;8&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;[base]arr: %p \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;valueCopy&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;addrCopy&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;array&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输出结果：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;root@yikuanzz ~&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# go run hello&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;base&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;arr: 0xc00001e060 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;value&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;arr: 0xc00001e090 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;address&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;arr: 0xc00001e060 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;切片&#34;&gt;切片&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;切片&lt;/strong&gt;是一种动态数组，可以按照需要增长大小和缩小。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;// 底层数组指针、切片长度、切片允许增长到的元素个数
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; ----- ----- -----
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| ptr | len | cap |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; ----- ----- -----
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;切片的创建和初始化&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;1、make 和 切片字面量。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建字符串切片，长度和容量都是 5
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建整型切片，长度为 3 ，容量为 5
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们还可以通过切片字面量来声明切片，但是要注意与数组的声明方式做区分。如果我们在 &lt;code&gt;[]&lt;/code&gt; 运算符中指定了&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建字符串切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt; {&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Red&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Blue&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Green&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Yellow&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Pink&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建字符串切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;99&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2、nil 和 空切片。&lt;/p&gt;
+&lt;p&gt;nil 切片是很常见的创建切片的方法，可以用于很多标准库和内置函数。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建 nil 整型切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 使用切
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过声明一个切片可以创建一个空切片。&lt;/p&gt;
 &lt;h3 id=&#34;映射&#34;&gt;映射&lt;/h3&gt;
 </description>
         </item>
@@ -647,7 +1390,33 @@
         <pubDate>Wed, 29 May 2024 22:23:06 +0800</pubDate>
         
         <guid>https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/</guid>
-        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/cover.png" alt="Featured image of post 英语角" /&gt;&lt;h2 id=&#34;deception&#34;&gt;deception&lt;/h2&gt;
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/cover.png" alt="Featured image of post 英语角" /&gt;&lt;h2 id=&#34;count&#34;&gt;count&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240606205120.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240606205120.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;splendid&#34;&gt;splendid&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240606210151.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240606210151.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;deception&#34;&gt;deception&lt;/h2&gt;
 &lt;p&gt;&lt;figure 
 	&gt;
 	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240605125815.png&#34; &gt;

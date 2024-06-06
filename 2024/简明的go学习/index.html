@@ -379,7 +379,7 @@
 
 
                 <time class="article-words">
-                    2290字
+                    3542字
                 </time>
             </div>
         
@@ -401,7 +401,22 @@
 </span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
 </span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Println</span>(<span style="color:#98c379">&#34;Hello Go!&#34;</span>)
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="go">Go</h3>
+</span></span></code></pre></div><blockquote>
+<p><strong>题外话</strong>：</p>
+<p><strong>Foo</strong> 是一个编程中经常使用的<strong>占位符</strong>，它没有特定的含义。&ldquo;foo&rdquo; 这个词的确有很多不同的起源说法。以下是一些可能的来源：</p>
+<ul>
+<li>
+<p>&ldquo;Foo&rdquo; 来自于 &ldquo;FUBAR&rdquo;，这个说法已经在前面提到过了。FUBAR 是 &ldquo;Fucked Up Beyond All Recognition&rdquo; 的缩写，意为 &ldquo;完全搞砸了&rdquo;。&ldquo;Foo&rdquo; 可能是在这个词的基础上发展而来的。</p>
+</li>
+<li>
+<p>&ldquo;Foo&rdquo; 作为占位符的使用可以追溯到 1965 年，当时计算机科学家 Melvin Conway 在一篇论文中使用了 &ldquo;foo&rdquo; 和 &ldquo;bar&rdquo; 作为变量名。他认为这些词听起来有趣，可以使代码更易于阅读。</p>
+</li>
+<li>
+<p>&ldquo;Foo&rdquo; 来自于纽约的一个餐厅，当时计算机科学家们在那里举行了一个会议。他们使用 &ldquo;foo&rdquo; 来代表那个餐厅的名字，后来这个词就成为了占位符的代名词。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="go">Go</h3>
 <p>在 Linux 操作系统中，我们安装 Go 之后可以使用命令管理工具来对 Go 进行管理。</p>
 <div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># go -help</span>
 </span></span><span style="display:flex;"><span>Go is a tool <span style="color:#c678dd">for</span> managing Go <span style="color:#e5c07b">source</span> code.
@@ -636,7 +651,96 @@
 </span></span><span style="display:flex;"><span>        └── hello.go
 </span></span></code></pre></div><h2 id="go-数据结构">Go 数据结构</h2>
 <h3 id="数组">数组</h3>
-<h3 id="切片">切片</h3>
+<p><strong>数组</strong>的最大一个特点就是占用的内存是<strong>连续分布</strong>的。</p>
+<ul>
+<li>CPU 能将正在使用的数据缓存更久；</li>
+<li>容易计算索引，迭代元素。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 声明一个包含 5 个 int 元素的数组
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">var</span> <span style="color:#e06c75">array</span> [<span style="color:#d19a66">5</span>]<span style="color:#e5c07b">int</span>
+</span></span></code></pre></div><p>数组初始化时，每个元素都为对应类型的<strong>零值</strong>。</p>
+<p>如果想要更加快速地创建数组，可以使用<strong>数组字面量</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 声明一个包含 5 个 int 元素的数组 并且 初始化每个元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">array</span> <span style="color:#56b6c2">:=</span> [<span style="color:#d19a66">5</span>]<span style="color:#e5c07b">int</span> {<span style="color:#d19a66">10</span>, <span style="color:#d19a66">20</span>, <span style="color:#d19a66">30</span>, <span style="color:#d19a66">40</span> ,<span style="color:#d19a66">50</span>}
+</span></span></code></pre></div><p>当然，我们可以让 Go 根据元素的数量来确定<strong>数组长度</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 容量初始化值的数量决定
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">array</span> <span style="color:#56b6c2">:=</span> [<span style="color:#56b6c2">...</span>]<span style="color:#e5c07b">int</span> {<span style="color:#d19a66">10</span>, <span style="color:#d19a66">20</span>, <span style="color:#d19a66">30</span>, <span style="color:#d19a66">40</span>, <span style="color:#d19a66">50</span>}
+</span></span></code></pre></div><p>此外，我们也可以指定<strong>对应元素的初始化值</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 指定 索引2 和 索引3 的值
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">array</span> <span style="color:#56b6c2">:=</span> [<span style="color:#d19a66">5</span>]<span style="color:#e5c07b">int</span> {<span style="color:#d19a66">2</span>: <span style="color:#d19a66">30</span>, <span style="color:#d19a66">3</span>:<span style="color:#d19a66">40</span>}
+</span></span></code></pre></div><hr>
+<p>除了通过 <code>[]</code> 运算符来访问数组，我们还可以通过<strong>指针访问值</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 数组元素为 整型指针
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">arrary</span> <span style="color:#56b6c2">:=</span> [<span style="color:#d19a66">5</span>]<span style="color:#56b6c2">*</span><span style="color:#e5c07b">int</span> {<span style="color:#d19a66">0</span>: <span style="color:#e5c07b">new</span>(<span style="color:#e5c07b">int</span>), <span style="color:#d19a66">1</span>:<span style="color:#e5c07b">new</span>(<span style="color:#e5c07b">int</span>)}
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 给 索引0 和 索引1 赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#56b6c2">*</span><span style="color:#e06c75">array</span>[<span style="color:#d19a66">0</span>] = <span style="color:#d19a66">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">*</span><span style="color:#e06c75">array</span>[<span style="color:#d19a66">1</span>] = <span style="color:#d19a66">20</span>
+</span></span></code></pre></div><p>在 Go 语言中，<strong>数组是一个值</strong>。所以，数组是可以用在赋值上的，这样就可以复制数组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 声明一个包含 5 个字符串的数组
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">var</span> <span style="color:#e06c75">array1</span> [<span style="color:#d19a66">5</span>]<span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 声明另一个包含 5 个字符串的数组 并且 初始化
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">array2</span> = [<span style="color:#d19a66">5</span>]<span style="color:#e5c07b">string</span> {<span style="color:#98c379">&#34;Red&#34;</span>, <span style="color:#98c379">&#34;Blue&#34;</span>, <span style="color:#98c379">&#34;Green&#34;</span>, <span style="color:#98c379">&#34;Yellow&#34;</span>, <span style="color:#98c379">&#34;Pink&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 把 array2 值复制给 array1
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">array1</span> = <span style="color:#e06c75">array2</span>
+</span></span></code></pre></div><p>此外，如果复制的是指针数组的话，则是将指针地址的值复制了一遍，它们都指向同一个内容。</p>
+<hr>
+<p><strong>多维度数组</strong>也是数组中的一个重要内容，它可以很容易地管理具父子关系的数据或者与坐标相关联的数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 声明一个二维整型数组，维度为 4 和 2
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">var</span> <span style="color:#e06c75">array</span> [<span style="color:#d19a66">4</span>][<span style="color:#d19a66">2</span>]<span style="color:#e5c07b">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 数组字面量声明
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">array</span> <span style="color:#56b6c2">:=</span> [<span style="color:#d19a66">4</span>][<span style="color:#d19a66">2</span>]<span style="color:#e5c07b">int</span> {{<span style="color:#d19a66">10</span>, <span style="color:#d19a66">11</span>}, {<span style="color:#d19a66">20</span>, <span style="color:#d19a66">21</span>}, {<span style="color:#d19a66">30</span>, <span style="color:#d19a66">31</span>}, {<span style="color:#d19a66">40</span>, <span style="color:#d19a66">41</span>}}
+</span></span></code></pre></div><hr>
+<p><strong>在函数间传递数组</strong>是一个很大的开销，因为函数变量的传递都是以值的方式传递的，如果变量是数组的话，就意味着会将一整个完整的数组进行复制，这样显然不太好。</p>
+<p>因此，用指针来传递数组会是个好的选择。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">valueCopy</span>(<span style="color:#e06c75">arr</span> [<span style="color:#d19a66">5</span>]<span style="color:#e5c07b">int</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Printf</span>(<span style="color:#98c379">&#34;[value]arr: %p \n&#34;</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">arr</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">addrCopy</span>(<span style="color:#e06c75">arr</span> <span style="color:#56b6c2">*</span>[<span style="color:#d19a66">5</span>]<span style="color:#e5c07b">int</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Printf</span>(<span style="color:#98c379">&#34;[address]arr: %p \n&#34;</span>, <span style="color:#e06c75">arr</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">array</span> <span style="color:#56b6c2">:=</span> [<span style="color:#d19a66">5</span>]<span style="color:#e5c07b">int</span> {<span style="color:#d19a66">4</span>, <span style="color:#d19a66">5</span>, <span style="color:#d19a66">6</span>, <span style="color:#d19a66">7</span>, <span style="color:#d19a66">8</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Printf</span>(<span style="color:#98c379">&#34;[base]arr: %p \n&#34;</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">array</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">valueCopy</span>(<span style="color:#e06c75">array</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">addrCopy</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">array</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># go run hello</span>
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">[</span>base<span style="color:#56b6c2">]</span>arr: 0xc00001e060 
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">[</span>value<span style="color:#56b6c2">]</span>arr: 0xc00001e090 
+</span></span><span style="display:flex;"><span><span style="color:#56b6c2">[</span>address<span style="color:#56b6c2">]</span>arr: 0xc00001e060 
+</span></span></code></pre></div><h3 id="切片">切片</h3>
+<p><strong>切片</strong>是一种动态数组，可以按照需要增长大小和缩小。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>// 底层数组指针、切片长度、切片允许增长到的元素个数
+</span></span><span style="display:flex;"><span> ----- ----- -----
+</span></span><span style="display:flex;"><span>| ptr | len | cap |
+</span></span><span style="display:flex;"><span> ----- ----- -----
+</span></span></code></pre></div><hr>
+<p><strong>切片的创建和初始化</strong>：</p>
+<p>1、make 和 切片字面量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 创建字符串切片，长度和容量都是 5
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">slice</span> <span style="color:#56b6c2">:=</span> <span style="color:#e5c07b">make</span>([]<span style="color:#e5c07b">string</span>, <span style="color:#d19a66">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 创建整型切片，长度为 3 ，容量为 5
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">slice</span> <span style="color:#56b6c2">:=</span> <span style="color:#e5c07b">make</span>([]<span style="color:#e5c07b">int</span>, <span style="color:#d19a66">3</span>, <span style="color:#d19a66">5</span>)
+</span></span></code></pre></div><p>我们还可以通过切片字面量来声明切片，但是要注意与数组的声明方式做区分。如果我们在 <code>[]</code> 运算符中指定了</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 创建字符串切片
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">slice</span> <span style="color:#56b6c2">:=</span> []<span style="color:#e5c07b">string</span> {<span style="color:#98c379">&#34;Red&#34;</span>, <span style="color:#98c379">&#34;Blue&#34;</span>, <span style="color:#98c379">&#34;Green&#34;</span>, <span style="color:#98c379">&#34;Yellow&#34;</span>, <span style="color:#98c379">&#34;Pink&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 创建字符串切片
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">slice</span> <span style="color:#56b6c2">:=</span> []<span style="color:#e5c07b">string</span> {<span style="color:#d19a66">99</span>: <span style="color:#98c379">&#34;&#34;</span>}
+</span></span></code></pre></div><p>2、nil 和 空切片。</p>
+<p>nil 切片是很常见的创建切片的方法，可以用于很多标准库和内置函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 创建 nil 整型切片
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">var</span> <span style="color:#e06c75">slice</span> []<span style="color:#e5c07b">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// 使用切
+</span></span></span></code></pre></div><p>通过声明一个切片可以创建一个空切片。</p>
 <h3 id="映射">映射</h3>
 
 </section>
@@ -747,23 +851,23 @@
                 
                     
 <article class="has-image">
-    <a href="/2024/python-%E5%9F%BA%E7%A1%80/">
+    <a href="/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/">
         
         
             <div class="article-image">
-                <img src="/2024/python-%E5%9F%BA%E7%A1%80/cover.e8245e548f0c88ad1721f9798413ef83_hu39a96208b41191b61a5710e1893b7c44_1174048_250x150_fill_box_smart1_3.png" 
+                <img src="/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/cover.294b91817829c50173f6c56acd748118_hub73ae7b0ed1c4909ac831706abf2ed8e_880514_250x150_fill_box_smart1_3.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post Python - 基础"
-                        data-key="Python - 基础" 
-                        data-hash="md5-6CReVI8MiK0XIfl5hBPvgw==">
+                        alt="Featured image of post 系统级IO"
+                        data-key="系统级IO" 
+                        data-hash="md5-KUuRgXgpxQFz9sVqzXSBGA==">
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">Python - 基础</h2>
+            <h2 class="article-title">系统级IO</h2>
         </div>
     </a>
 </article>
@@ -855,6 +959,10 @@
 
     
 
+    
+
+    
+
 
 <script>
 (function(u, c) {
@@ -872,7 +980,7 @@
         &copy; 
         
         2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-      共书写了120.3k字·共 21篇文章</br><span><p>
+      共书写了128.2k字·共 22篇文章</br><span><p>
     </section>
     
     <section class="powerby">
@@ -1053,7 +1161,7 @@ document.getElementById('days').innerHTML = number_of_days;
     <h3 class="widget-title"> </h3>
     <div class="widget-body">
         <div class="category-list">
-            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">5</a>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">6</a>
             </span></div>
             <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">9</a>
             </span></div>
@@ -1093,7 +1201,7 @@ document.getElementById('days').innerHTML = number_of_days;
                     <a href="/archives/#2024">
                         
                             <span class="year">2024</span>
-                            <span class="count">21</span>
+                            <span class="count">22</span>
                         
                     </a> 
                 </div>
@@ -1128,20 +1236,20 @@ document.getElementById('days').innerHTML = number_of_days;
                 英语
             </a>
         
-            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
-                计算机组成原理
-            </a>
-        
-            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_2">
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_3">
                 计算机网络
             </a>
         
-            <a href="/tags/c/" class="font_size_1">
+            <a href="/tags/c/" class="font_size_2">
                 C
             </a>
         
-            <a href="/tags/linux/" class="font_size_1">
+            <a href="/tags/linux/" class="font_size_2">
                 Linux
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
             </a>
         
             <a href="/tags/mysql/" class="font_size_1">

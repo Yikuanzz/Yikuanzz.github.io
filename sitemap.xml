@@ -2,31 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://yikuanzz.github.io/categories/</loc>
-    <lastmod>2024-06-05T18:01:12+08:00</lastmod>
+    <loc>https://yikuanzz.github.io/daily/2024/0606%E5%81%9A%E5%87%BA%E6%94%B9%E5%8F%98%E7%9A%84%E4%B8%80%E5%A4%A9/</loc>
+    <lastmod>2024-06-06T18:21:45+08:00</lastmod>
   </url><url>
-    <loc>https://yikuanzz.github.io/tags/note/</loc>
-    <lastmod>2024-06-05T18:01:12+08:00</lastmod>
-  </url><url>
-    <loc>https://yikuanzz.github.io/post/</loc>
-    <lastmod>2024-06-05T18:01:12+08:00</lastmod>
-  </url><url>
-    <loc>https://yikuanzz.github.io/tags/</loc>
-    <lastmod>2024-06-05T18:01:12+08:00</lastmod>
+    <loc>https://yikuanzz.github.io/daily/</loc>
+    <lastmod>2024-06-06T18:21:45+08:00</lastmod>
   </url><url>
     <loc>https://yikuanzz.github.io/</loc>
-    <lastmod>2024-06-05T18:01:12+08:00</lastmod>
+    <lastmod>2024-06-06T18:21:45+08:00</lastmod>
+  </url><url>
+    <loc>https://yikuanzz.github.io/tags/c/</loc>
+    <lastmod>2024-06-06T10:53:23+08:00</lastmod>
+  </url><url>
+    <loc>https://yikuanzz.github.io/categories/</loc>
+    <lastmod>2024-06-06T10:53:23+08:00</lastmod>
+  </url><url>
+    <loc>https://yikuanzz.github.io/tags/linux/</loc>
+    <lastmod>2024-06-06T10:53:23+08:00</lastmod>
+  </url><url>
+    <loc>https://yikuanzz.github.io/post/</loc>
+    <lastmod>2024-06-06T10:53:23+08:00</lastmod>
+  </url><url>
+    <loc>https://yikuanzz.github.io/tags/</loc>
+    <lastmod>2024-06-06T10:53:23+08:00</lastmod>
   </url><url>
     <loc>https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2024-06-06T10:53:23+08:00</lastmod>
+  </url><url>
+    <loc>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</loc>
+    <lastmod>2024-06-06T10:53:23+08:00</lastmod>
+  </url><url>
+    <loc>https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2024-06-06T10:53:23+08:00</lastmod>
+  </url><url>
+    <loc>https://yikuanzz.github.io/tags/note/</loc>
     <lastmod>2024-06-05T18:01:12+08:00</lastmod>
   </url><url>
     <loc>https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2024-06-05T18:01:12+08:00</lastmod>
   </url><url>
     <loc>https://yikuanzz.github.io/daily/2024/0605%E5%BC%80%E5%A7%8B%E5%86%99%E6%97%A5%E6%8A%A5/</loc>
-    <lastmod>2024-06-05T17:25:08+08:00</lastmod>
-  </url><url>
-    <loc>https://yikuanzz.github.io/daily/</loc>
     <lastmod>2024-06-05T17:25:08+08:00</lastmod>
   </url><url>
     <loc>https://yikuanzz.github.io/2024/zaharaenglish/</loc>
@@ -42,9 +57,6 @@
     <lastmod>2024-05-29T22:23:06+08:00</lastmod>
   </url><url>
     <loc>https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/</loc>
-    <lastmod>2024-05-21T08:10:37+08:00</lastmod>
-  </url><url>
-    <loc>https://yikuanzz.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2024-05-21T08:10:37+08:00</lastmod>
   </url><url>
     <loc>https://yikuanzz.github.io/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/</loc>
@@ -112,12 +124,6 @@
   </url><url>
     <loc>https://yikuanzz.github.io/2024/%E8%AE%A1%E7%BB%84-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%AE%97%E6%9C%AF/</loc>
     <lastmod>2024-03-25T10:55:32+08:00</lastmod>
-  </url><url>
-    <loc>https://yikuanzz.github.io/tags/c/</loc>
-    <lastmod>2024-03-24T14:37:07+08:00</lastmod>
-  </url><url>
-    <loc>https://yikuanzz.github.io/tags/linux/</loc>
-    <lastmod>2024-03-24T14:37:07+08:00</lastmod>
   </url><url>
     <loc>https://yikuanzz.github.io/2024/linux-c%E4%B8%80%E5%85%A5%E9%97%A8/</loc>
     <lastmod>2024-03-24T14:37:07+08:00</lastmod>
