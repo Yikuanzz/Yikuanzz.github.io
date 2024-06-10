@@ -6,7 +6,7 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 07 Jun 2024 22:03:20 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 10 Jun 2024 22:25:31 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>系统级IO</title>
         <link>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</link>
         <pubDate>Thu, 06 Jun 2024 10:53:23 +0800</pubDate>
@@ -999,9 +999,307 @@ $$
 &lt;p&gt;nil 切片是很常见的创建切片的方法，可以用于很多标准库和内置函数。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建 nil 整型切片
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 使用切
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过声明一个切片可以创建一个空切片。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 使用 make 创建空切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 使用切片字面量创建空的整型切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;切片的使用：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1、赋值和切片&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建整型切片并赋值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;{&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;40&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;50&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;切片之所以叫切片，就是创建一个新的切片就是把底层数组切出一部分。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个新切片  前闭后开
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;newSlice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;:&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们仔细观察知道 &lt;code&gt;slice&lt;/code&gt; 的切片容量是 &lt;code&gt;5&lt;/code&gt;，而 &lt;code&gt;newSlice&lt;/code&gt; 的切片容量是 &lt;code&gt;4&lt;/code&gt;。为什么呢？&lt;/p&gt;
+&lt;p&gt;还记得切片的三个元素么，除了长度和容量，还有指针。我们对切片再进行切片时，其实是将指针指向原数组的地址，那么之前作为开头的元素地址我们就不知道了。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609205434.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609205434.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;2、切片增长&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个整型切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;40&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;50&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个新切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;newSlice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;:&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 使用原容量分配新元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;newSlice&lt;/span&gt; = &lt;span style=&#34;color:#e5c07b&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;newSlice&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;60&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当我们使用 &lt;code&gt;append&lt;/code&gt; 函数时，如果底层数组有额外容量，那么就修改对应位置上的数；如果底层数组没有可用容量时，&lt;code&gt;append&lt;/code&gt; 函数会创建一个新的底层数组，将被引用的现有的值复制到新数组里，再追加新的值。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;函数 &lt;code&gt;append&lt;/code&gt; 会智能地处理底层数组的容量增长。当切片容量小于 1000 个元素的时候，总是成倍地增加容量。一旦元素超过 1000，容量的增长因子会设为 1.25。当然，具体的增长算法可能会改变。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;3、创建切片时的 3 个索引&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建字符串切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;source&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt; {&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Apple&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Orange&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Plum&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Banana&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Grape&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 将第三个元素切片，并限制容量
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;source&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;:&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;:&lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;第三个索引的含义是限制新建切片的最大容量。&lt;/p&gt;
+&lt;p&gt;有一个比较好的用途是，如果切片最大容量为当前切片长度，那么在使用 &lt;code&gt;append&lt;/code&gt; 函数时，就能够让其与原有的底层数组分离。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建字符串切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;source&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt; {&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Apple&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Orange&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Plum&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Banana&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Grape&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 将第三个元素切片，并限制容量
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;source&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;:&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;:&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 向 slice 追加新字符串
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; = &lt;span style=&#34;color:#e5c07b&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Kiwi&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此外，&lt;code&gt;append&lt;/code&gt; 函数使用 &lt;code&gt;...&lt;/code&gt; 运算符可以将一个切片的所有元素追加到另一个切片里。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建两个切片，并分别用两个整数进行初始化
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;s1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;s2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 将两个切片追加在一起，并显示结果
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%v \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;s1&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;s2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;...&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;4、迭代切片&lt;/p&gt;
+&lt;p&gt;Go 语言中也有 &lt;code&gt;range&lt;/code&gt; 可以配合 &lt;code&gt;for&lt;/code&gt; 来迭代切片里的元素。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个整型切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;40&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 循环迭代
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;index&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Index: %d Value: %d\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;index&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当迭代切片时，&lt;code&gt;range&lt;/code&gt; 会返回两个值，第一个是当前迭代到的索引位置，第二个值是该位置对应元素的一份副本。&lt;/p&gt;
+&lt;p&gt;当然，我们也可以用传统的 &lt;code&gt;for&lt;/code&gt; 循环搭配 &lt;code&gt;len&lt;/code&gt; 函数 和 &lt;code&gt;cap&lt;/code&gt; 函数来进行迭代。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;多维切片&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个整型切片的切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; [][]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; {{&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;}, {&lt;span style=&#34;color:#d19a66&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;200&lt;/span&gt;}}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;因为切片的结构简单，我们通过 &lt;code&gt;append&lt;/code&gt; 去增加新的元素也不会有特别大的开销。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 为第一个切片追加值为 20 的元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;] = &lt;span style=&#34;color:#e5c07b&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;], &lt;span style=&#34;color:#d19a66&#34;&gt;20&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;函数间传递切片&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;因为切片的尺寸很小，在函数间复制和传递切片的成本也很低。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 分配 100 万个整型值的切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;le6&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 将 slice 传递给函数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; = &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;foo&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 函数 foo 接收一个整型切片，并返回这个切片
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;foo&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;) []&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#56b6c2&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;slice&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;32位 和 64位 系统在 Windows 下基本数据类型的大小都是一样的。只有指针的大小不一样！32位指针大小为 4byte，而 64位 的指针大小为 8byte。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这样我们知道，在 64 位计算机中传递切片，实际上的开销只有 24 个字节。并且，函数中的切片和函数外的切片都是指向同一个底层数组，所以如果在函数修改了切片中数据，那么外面的切片也会察觉到变化。&lt;/p&gt;
 &lt;h3 id=&#34;映射&#34;&gt;映射&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;map&lt;/code&gt; 是一种无序的基于 &lt;code&gt;key-value&lt;/code&gt; 的数据结构，Go 语言中的 map 是引用类型，必须初始化才能使用。&lt;/p&gt;
+&lt;p&gt;映射功能强大的地方在于，能够基于键快速检索数据。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;映射是一个&lt;strong&gt;集合&lt;/strong&gt;，所以它可以使用处理数组和切片刀方式迭代映射中的元素，但映射是无序的集合，意味着没办法预测键值对被返回的顺序。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240610155245.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240610155245.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;映射最主要的数据结构有两种：&lt;code&gt;哈希查找表（Hash Table）&lt;/code&gt;、&lt;code&gt;搜索树（Search Tree）&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;哈希表用到&lt;strong&gt;哈希函数&lt;/strong&gt;计算 &lt;code&gt;key&lt;/code&gt; 的哈希值，然后根据哈希值将 &lt;code&gt;key&lt;/code&gt; 分配到不同的桶里面。随着映射存储的增加，哈希值分布就越均匀，访问键值的速度就越快，映射通过合理数量的桶来平衡键值对的分布。&lt;/p&gt;
+&lt;p&gt;在 Go 语言中，我们给映射添加键值对时，首先会将根据哈希函数的计算值分别放在“同类”的桶里面，一个桶里面放 8 个 &lt;code&gt;key&lt;/code&gt;，就是说桶里面共有 8 个位置，然后同个桶内的 &lt;code&gt;key&lt;/code&gt; 会根据哈希值地高 8 位来决定在桶内的具体位置。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240610161737.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240610161737.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;hmap&lt;/code&gt; 就是 &lt;code&gt;hashmap&lt;/code&gt; 的缩写，&lt;code&gt;bmap&lt;/code&gt; 就是“桶”。我们看到 &lt;code&gt;hmap&lt;/code&gt; 中的字段，&lt;code&gt;B&lt;/code&gt; 是 &lt;code&gt;buckets&lt;/code&gt; 数组的长度对数，这里为 5 则 &lt;code&gt;buckets&lt;/code&gt; 的长度就是 2 的 5 次方，也就是 32 这么大。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 桶的数据结构
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;bmap&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;topbits&lt;/span&gt;	[&lt;span style=&#34;color:#d19a66&#34;&gt;8&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;uint8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;keys&lt;/span&gt;	[&lt;span style=&#34;color:#d19a66&#34;&gt;8&lt;/span&gt;]&lt;span style=&#34;color:#e06c75&#34;&gt;keytype&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;values&lt;/span&gt;	[&lt;span style=&#34;color:#d19a66&#34;&gt;8&lt;/span&gt;]&lt;span style=&#34;color:#e06c75&#34;&gt;valuetype&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;pad&lt;/span&gt;		&lt;span style=&#34;color:#e5c07b&#34;&gt;uintptr&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;overflow&lt;/span&gt;	&lt;span style=&#34;color:#e5c07b&#34;&gt;uintptr&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;每个 &lt;code&gt;bucket&lt;/code&gt; 设计成最多只能放 8 个 &lt;code&gt;key-value&lt;/code&gt; 对，如果有第 9 个 &lt;code&gt;key-value&lt;/code&gt; 落入当前的 &lt;code&gt;bucket&lt;/code&gt;，那就需要再构建一个 &lt;code&gt;bucket&lt;/code&gt; ，通过 &lt;code&gt;overflow&lt;/code&gt; 指针连接起来。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;创建和初始化&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个映射，键的类型是 string，值的类型是 int
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;dict&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个映射，键和值的类型都是 string
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 用两个键值对初始化映射
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;dict&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Red&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#da1337&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Orange&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#e95a22&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;使用映射&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建空映射，用来存储颜色以及对应的十六进制代码
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e06c75&#34;&gt;String&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 将 Red 的代码加入到映射
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt;[&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Red&amp;#34;&lt;/span&gt;] = &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#da1337&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然，我们可以通过声明一个未初始化的映射来创建一个值为 &lt;code&gt;nil&lt;/code&gt; 的映射，要知道的是 &lt;code&gt;nil&lt;/code&gt; 映射不能用用于存储键值对，否则会产生错误。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 通过声明创建一个 nil 映射
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果我们想从映射中取值的话有两种方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、获得值的同时，得到一个标志来确定这个键是否存在。&lt;/li&gt;
+&lt;li&gt;2、只获得值，然后判断这个值是否为零值确定其是否存在。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 方式1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;exists&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt;[&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Blue&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;exists&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 方式2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt;[&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Blue&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同切片一样，映射也能够通过 &lt;code&gt;range&lt;/code&gt; 关键字来进行迭代。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个映射，存储颜色以及颜色对应的十六进制代码
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;AliceBlue&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#f0f8ff&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Coral&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#ff7F50&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;DarkGray&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#a9a9a9&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;ForestGreen&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#228b22&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;} 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 显示映射里的所有颜色
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Key: %s Value: %s\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果我们想把一个键值对从映射里面删除，就要用内置的 &lt;code&gt;delete&lt;/code&gt; 函数。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 删除键为 Coral 的键值对
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;delete&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Coral&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 显示映射里面的所有颜色
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Key: %s Value: %s \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;函数间传递映射&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;在函数间传递映射并不会重新再建立一个映射副本，它的特性与切片是一样的。就是说，如果在函数中对映射做了修改的话，所有对这个映射的引用都会察觉到这个修改。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个映射，存储颜色以及颜色对应的十六进制代码
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;AliceBlue&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#f0f8ff&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Coral&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#ff7F50&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;DarkGray&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#a9a9a9&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;ForestGreen&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#228b22&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; 	} 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 显示映射里的所有颜色
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Key: %s Value: %s\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; 	} 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 调用函数来移除指定的键
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;removeColor&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Coral&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 显示映射里的所有颜色
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Key: %s Value: %s\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	} 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// removeColor 将指定映射里的键删除
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;removeColor&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e5c07b&#34;&gt;delete&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;} 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;go-语言系统&#34;&gt;Go 语言系统&lt;/h2&gt;
+&lt;p&gt;Go 语言是一种静态类型的编程语言，编译器在编译时得知道程序里每个值的类型。&lt;/p&gt;
+&lt;p&gt;这样，编译器可以确保程序合理地用值，可以减少潜在的内存异常，并使编译器有机会对代码进行性能优化。&lt;/p&gt;
+&lt;p&gt;实际上值的类型给编译器提供了两部分信息:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、需要分配多少内存给这个值。&lt;/li&gt;
+&lt;li&gt;2、这段内存表示什么。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;用户定义类型&#34;&gt;用户定义类型&lt;/h3&gt;
+&lt;p&gt;Go 语言允许用户定义类型，其实就是用 &lt;code&gt;struct&lt;/code&gt; 关键字来组合字段进行类型的声明。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义一个用户类型
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;ext&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;privileged&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;bool&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;用结构体类型声明变量，初始化时会对其中的字段进行零值初始化。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 声明 usr 类型的变量，且初始化为零值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;bill&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 声明 user 类型，并初始化所有字段
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lisa&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Lisa&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;lisa@email.com&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;ext&lt;/span&gt;: &lt;span style=&#34;color:#d19a66&#34;&gt;123&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;privileged&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 声明 user 类型，并初始化所有字段
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;john&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; {&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;John&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;john@eamil.com&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;123&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;true&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;方法&#34;&gt;方法&lt;/h3&gt;
+&lt;p&gt;方法可以给用户定义的类型添加新的行为。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// user struct
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// notify: print information of user
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Sending User Email To %s&amp;lt;%s&amp;gt; \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// changeEmail: change email of user
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;changeEmail&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt; = &lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;bill&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;{&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Bill&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;bill@email.com&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;bill&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()		&lt;span style=&#34;color:#7f848e&#34;&gt;// value
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lisa&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;{&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Lisa&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;lisa@email.com&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lisa&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()		&lt;span style=&#34;color:#7f848e&#34;&gt;// pointer
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;bill&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;changeEmail&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;bill@newdomain.com&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;bill&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lisa&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;changeEmail&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;lisa@comcast.com&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lisa&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;关键字 &lt;code&gt;func&lt;/code&gt; 和函数名之间的参数被称为接受者，它将函数与接受者的类型绑定。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;root@yikuanzz ~&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# go run test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending User Email To Bill&amp;lt;bill@email.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending User Email To Lisa&amp;lt;lisa@email.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending User Email To Bill&amp;lt;bill@newdomain.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending User Email To Lisa&amp;lt;lisa@comcast.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;这里补充一下，Go 语言里面有两种类型的接受者：&lt;em&gt;值接收者&lt;/em&gt; 和 &lt;em&gt;指针接收者&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;如果用值接收者，那么参数传递的时候会生成一个副本；如果指针接收者，那么参数传递的时候会操作原地址上的数据。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;虽然我们在 &lt;code&gt;notify&lt;/code&gt; 方法有用指针来去调用，但是它仍是复制了副本，实际上是：&lt;code&gt;(*lisa).notify()&lt;/code&gt; 的样子。&lt;/p&gt;
+&lt;h3 id=&#34;类型的本质&#34;&gt;类型的本质&lt;/h3&gt;
+&lt;p&gt;1、内置类型。&lt;/p&gt;
+&lt;p&gt;内置类型就是&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -1390,7 +1688,33 @@ $$
         <pubDate>Wed, 29 May 2024 22:23:06 +0800</pubDate>
         
         <guid>https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/</guid>
-        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/cover.png" alt="Featured image of post 英语角" /&gt;&lt;h2 id=&#34;integrity&#34;&gt;integrity&lt;/h2&gt;
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/cover.png" alt="Featured image of post 英语角" /&gt;&lt;h2 id=&#34;prescribe&#34;&gt;prescribe&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609004515.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609004515.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;recreational&#34;&gt;recreational&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609012805.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609012805.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;integrity&#34;&gt;integrity&lt;/h2&gt;
 &lt;p&gt;&lt;figure 
 	&gt;
 	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240607125237.png&#34; &gt;
@@ -1408,6 +1732,32 @@ $$
 	&gt;
 	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240606205120.png&#34; &gt;
 		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240606205120.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;suburban&#34;&gt;suburban&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609194325.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609194325.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;problematic&#34;&gt;problematic&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609195046.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609195046.png&#34;
 			
 			
 			
@@ -2266,6 +2616,32 @@ $$
 	&gt;
 	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240531232943.png&#34; &gt;
 		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240531232943.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;preservation&#34;&gt;preservation&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611003011.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611003011.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;descend&#34;&gt;descend&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611004358.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611004358.png&#34;
 			
 			
 			
