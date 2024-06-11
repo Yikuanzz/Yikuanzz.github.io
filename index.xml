@@ -6,7 +6,7 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 10 Jun 2024 22:25:31 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 11 Jun 2024 16:13:55 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>系统级IO</title>
         <link>https://yikuanzz.github.io/2024/%E7%B3%BB%E7%BB%9F%E7%BA%A7io/</link>
         <pubDate>Thu, 06 Jun 2024 10:53:23 +0800</pubDate>
@@ -1299,7 +1299,420 @@ $$
 &lt;p&gt;虽然我们在 &lt;code&gt;notify&lt;/code&gt; 方法有用指针来去调用，但是它仍是复制了副本，实际上是：&lt;code&gt;(*lisa).notify()&lt;/code&gt; 的样子。&lt;/p&gt;
 &lt;h3 id=&#34;类型的本质&#34;&gt;类型的本质&lt;/h3&gt;
 &lt;p&gt;1、内置类型。&lt;/p&gt;
-&lt;p&gt;内置类型就是&lt;/p&gt;
+&lt;p&gt;内置类型就是语言提供的类型：数值类型、字符串类型和布尔类型。&lt;/p&gt;
+&lt;p&gt;因为是原始的类型，所以我们把这些类型的值传递给方法或函数时，应该传递一个对应值的副本。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// golang.org/src/strings/strings.go：第 620 行到第 625 行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Trim&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;cutset&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;cutset&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;TrimFunc&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;makeCutsetFunc&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;cutset&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2、引用类型。&lt;/p&gt;
+&lt;p&gt;Go 语言的引用类型有：切片、映射、通道、接口和函数类型。&lt;/p&gt;
+&lt;p&gt;当这些类型被声明时，创建的变量叫 &lt;em&gt;标头（header）&lt;/em&gt; 值。&lt;/p&gt;
+&lt;p&gt;每个引用类型创建的标头值是包含一个指向底层数据结构的指针，每个引用类型还有一些特殊的字段来管理底层数据结构。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// golang.org/src/net/ip.go：第 32 行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;IP&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;byte&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// golang.org/src/net/ip.go：第 329 行到第 337 行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;ip&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;IP&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;MarshalText&lt;/span&gt;() ([]&lt;span style=&#34;color:#e5c07b&#34;&gt;byte&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;error&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;ip&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;{		&lt;span style=&#34;color:#7f848e&#34;&gt;// 切片直接复制标头值就可以了
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;byte&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;), &lt;span style=&#34;color:#e5c07b&#34;&gt;nil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;ip&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;IPv4len&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;ip&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;IPv6len&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;errors&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;New&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Invaild IP address&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;byte&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;ip&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;String&lt;/span&gt;()), &lt;span style=&#34;color:#e5c07b&#34;&gt;nil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;3、结构类型。&lt;/p&gt;
+&lt;p&gt;结构类型可以用来描述一组数据值，这组值的本质即可以是原始的，也可以是非原始的。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// golang.org/src/time/time.go：第 39 行到第 55 行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 原始类型的结构体
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Time&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// sec 给出自公元 1 年 1 月 1 日 00:00:00 开始的秒数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;sec&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int64&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// nsec 指定了一秒内的纳秒偏移，这个值必须在[0, 999999999]范围内
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;nsec&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int32&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// loc 用于决定时间对应的当地的分、小时、天和年的值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;loc&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Location&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;下面的代码，&lt;code&gt;File&lt;/code&gt; 类型的实现使用了一个嵌入的指针，指向一个未公开的类型。这层额外的内嵌类型阻止了复制。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// golang.org/src/os/file_unix.go：第 15 行到第 29 行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 非原始类型的结构体
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// File 表示一个打开的文件描述符
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;File&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;file&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// file 是 *File 的实际表示
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;file&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;dirinfo&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;dirInfo&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 除了目录结构，此字段为 nil
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;nepipe&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int32&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;// Write 操作时遇到连续 EPIPE 的次数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// golang.org/src/os/file.go：第 238 行到第 240 行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Open&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;) (&lt;span style=&#34;color:#e06c75&#34;&gt;file&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;File&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;error&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;OpenFile&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;O_RDONLY&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;接口&#34;&gt;接口&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;多态&lt;/strong&gt;是说代码可以根据类型的具体实现采取不同行为的能力。&lt;/p&gt;
+&lt;p&gt;如果一个类型实现了某个接口，所有使用这个接口的地方，都可以支持这种类型的值。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;io&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;net/http&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;os&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// Simple &amp;#34;curl&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;init&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;os&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Args&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Usage: ./nnn &amp;lt;url&amp;gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;os&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// Get response from web server
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;r&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Get&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;os&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Args&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;nil&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// Copy to Stdout from Body
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;io&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Copy&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;os&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Stdout&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Body&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Body&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Close&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;nil&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;io.Copy&lt;/code&gt; 函数中的一个参数必须是实现了 &lt;code&gt;io.Writer&lt;/code&gt; 接口的值，第二个参数是必须实现了 &lt;code&gt;io.Reader&lt;/code&gt; 接口的值。 当我们将 &lt;code&gt;Body&lt;/code&gt; 和 &lt;code&gt;Stdout&lt;/code&gt; 这两个值传给 &lt;code&gt;io.Copy&lt;/code&gt; 函数后，这个函数会把服务器的数据分成小段，源源不断地传给终端窗口，直到最后一个片段读取并写入终端，&lt;code&gt;io.Copy&lt;/code&gt; 函数才返回。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;bytes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;io&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;os&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;bytes&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Buffer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 将字符串写入 Buffer
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Write&lt;/span&gt;([]&lt;span style=&#34;color:#e5c07b&#34;&gt;byte&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Hello&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 用 Fprintf 将字符串拼接到 Buffer
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Fprintf&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;World!&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 把 Buffer 的内容写到 Stdout
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;io&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Copy&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;os&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Stdout&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;接口&lt;/strong&gt;是用来定义行为的类型，这些被定义的行为不由接口直接实现，而是通过方法由用户定义的类型实现。&lt;/p&gt;
+&lt;p&gt;接口值是一个两字长度的数据结构：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、包含了一个指向内部表的指针，&lt;code&gt;iTable &lt;/code&gt; 包含值类型和方法集。&lt;/li&gt;
+&lt;li&gt;2、还有一个指向所存储值的指针。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果赋值给接口的是指针，那么则会获得其地址上的值 &lt;code&gt;*user&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611145058.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611145058.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;方法集&lt;/strong&gt;定义了接口的接受规则。&lt;/p&gt;
+&lt;p&gt;我们以方法接受者的视角来看，如果方法接收者是&lt;strong&gt;指针&lt;/strong&gt;，那么给接口的类型就&lt;strong&gt;必须是指针&lt;/strong&gt;类型。&lt;/p&gt;
+&lt;p&gt;但是，如果方法接收者是&lt;strong&gt;值&lt;/strong&gt;，那么给接口的类型&lt;strong&gt;可以是指针&lt;/strong&gt;类型也&lt;strong&gt;可以是值&lt;/strong&gt;类型。&lt;/p&gt;
+&lt;p&gt;看到下面这段代码执行就会报错！！&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;People&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;interface&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Speak&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Student&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;stu&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Student&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Speak&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;think&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;) (&lt;span style=&#34;color:#e06c75&#34;&gt;talk&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;think&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;no&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;talk&lt;/span&gt; = &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;I don&amp;#39;t like you!&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;talk&lt;/span&gt; = &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Hello, how are you going?&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;peo&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;People&lt;/span&gt; = &lt;span style=&#34;color:#e06c75&#34;&gt;Student&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;think&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;bitch&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;peo&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Speak&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;think&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;root@yikuanzz ~&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# go vet test3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# test3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vet: go/src/test3/pp.go:21:22: cannot use Student&lt;span style=&#34;color:#56b6c2&#34;&gt;{}&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;(&lt;/span&gt;value of &lt;span style=&#34;color:#e5c07b&#34;&gt;type&lt;/span&gt; Student&lt;span style=&#34;color:#56b6c2&#34;&gt;)&lt;/span&gt; as People value in variable declaration: Student does not implement People &lt;span style=&#34;color:#56b6c2&#34;&gt;(&lt;/span&gt;method Speak has pointer receiver&lt;span style=&#34;color:#56b6c2&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果要改正的话，就是将 &lt;code&gt;Student{}&lt;/code&gt; 改为 &lt;code&gt;&amp;amp;Student{}&lt;/code&gt; 就好了。&lt;/p&gt;
+&lt;p&gt;现在我们明白了这个规则了，但是为什么会这样呢？&lt;/p&gt;
+&lt;p&gt;事实上，编译器并不是总能自动获得一个值的地址。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// duration is based on int
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;duration&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// make duration easzier to read
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;d&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;duration&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;pretty&lt;/span&gt;() &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Sprintf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Duartion: %d&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;d&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 这样就是不能获取地址的形式
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 如果赋值给变量，然后对变量调用方法就是可行的
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;duration&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;42&lt;/span&gt;).&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;pretty&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;接下来，我们再看一看&lt;strong&gt;多态&lt;/strong&gt;行为的例子。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// Interface: notifier
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;notifier&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;interface&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// Struct: user
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// pointer method
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Sending user email to %s&amp;lt;%s&amp;gt;\n&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// Struct: admin
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;admin&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// pointer method
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;admin&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Sending admin email to %s&amp;lt;%s&amp;gt;\n&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;bill&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;{&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Bill&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;bill@email.com&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;sendNotification&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;bill&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lisa&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;admin&lt;/span&gt;{&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Lisa&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;lisa@email.com&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;sendNotification&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lisa&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;sendNotification&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;notifier&lt;/span&gt;){		&lt;span style=&#34;color:#7f848e&#34;&gt;// 多态函数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;root@yikuanzz ~&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# go run test5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending user email to Bill&amp;lt;bill@email.com&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending admin email to Lisa&amp;lt;lisa@email.com&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;嵌入类型&#34;&gt;嵌入类型&lt;/h3&gt;
+&lt;p&gt;Go 语言允许用户扩展或修改已有类型的行为，这个功能是通过 &lt;em&gt;嵌入类型（type embedding）&lt;/em&gt; 完成的。&lt;/p&gt;
+&lt;p&gt;嵌入类型是将已有点类型直接声明在新的结构类型里，被嵌入的类型被称为新的外部类型的内部类型。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Sending user eamil to %s&amp;lt;%s&amp;gt; \n&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;u&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;admin&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt; 	&lt;span style=&#34;color:#7f848e&#34;&gt;// embeding type
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;level&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// initiate a admin
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;ad&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;admin&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt; : &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;john smith&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt;: &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;john@yahoo.com&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;level&lt;/span&gt; : &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;super&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;ad&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;ad&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()		&lt;span style=&#34;color:#7f848e&#34;&gt;// 内部类型的方法被提升到外部类型
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;root@yikuanzz ~&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# go run test6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending user eamil to john smith&amp;lt;john@yahoo.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending user eamil to john smith&amp;lt;john@yahoo.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们对上述例子进行修改添加一个接口：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;notifier&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;interface&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;sendNotification&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;notifier&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在 &lt;code&gt;main &lt;/code&gt;函数中调用 &lt;code&gt;sendNotification(&amp;amp;ad)&lt;/code&gt;，这样用于实现接口的内部类型的方法被提升到外部类型。&lt;/p&gt;
+&lt;p&gt;那么这时候问题来了，如果我们要给 &lt;code&gt;admin&lt;/code&gt; 也实现一个方法会怎么样？&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;admin&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;notify&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Sending admin eamil to %s&amp;lt;%s&amp;gt; \n&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;email&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们在 &lt;code&gt;main&lt;/code&gt; 函数中执行这些语句：&lt;code&gt;sendNotification(&amp;amp;ad)&lt;/code&gt;、&lt;code&gt;ad.user.notify()&lt;/code&gt; 和 &lt;code&gt;ad.notify()&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;root@yikuanzz ~&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# go run test6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending admin eamil to john smith&amp;lt;john@yahoo.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending user eamil to john smith&amp;lt;john@yahoo.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending admin eamil to john smith&amp;lt;john@yahoo.com&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们发现，只有执行 &lt;code&gt;ad.user.notify()&lt;/code&gt; 才会调用内部类型的方法。&lt;/p&gt;
+&lt;h3 id=&#34;公开或未公开的标识符&#34;&gt;公开或未公开的标识符&lt;/h3&gt;
+&lt;p&gt;如果想设计好的 API，是需要用某种规则来控制声明后的标识符的可见性。&lt;/p&gt;
+&lt;p&gt;Go 语言支持从包里公开或隐藏标识符，通过这个功能，让用户能按照自己的规划控制标识符的可见性。&lt;/p&gt;
+&lt;p&gt;其实，如果我们知道私有变量和公有变量的概念就很好理解了，因为就是一个道理。&lt;/p&gt;
+&lt;p&gt;即，标识符的名字小写字母开头的，那么这个标识符就是未公开的；如果标识符的名字大写字母开头的，那么这个标识符就是公开的。&lt;/p&gt;
+&lt;p&gt;我们一般用工厂函数来对未公开的标识符进行操作，其实就是用函数来创建对象，为它添加数性和方法，然后返回这个对象。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// entities
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;entities&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;Name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;Email&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Admin&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;user&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 嵌入类型未公开
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;Rights&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// main
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;entities&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;entities&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Admin&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;Right&lt;/span&gt;: &lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 可设置内部类型公开字段的值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Name&lt;/span&gt; = &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Bill&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Email&lt;/span&gt; = &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;bill@email.com&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;User: %v \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;因为 &lt;code&gt;user&lt;/code&gt; 不是公开的，所以不能直接通过字面量构建；但是内部类型公开的标识符是可以通过外部类型来访问，并进行初始化的。&lt;/p&gt;
+&lt;h2 id=&#34;go-并发&#34;&gt;Go 并发&lt;/h2&gt;
+&lt;p&gt;在开始 Go 语言并发编程之前，我们先简单地了解一些概念：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;1、进程和线程：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;进程是程序在操作系统中的一次执行过程，系统进行资源分配和调度的一个独立单位。&lt;/li&gt;
+&lt;li&gt;线程是进程的一个执行实例，是 CPU 调度和分派的基本单位。&lt;/li&gt;
+&lt;li&gt;一个进程可以创建和撤销多个线程；同一个进程中的多个线程之间可以并发执行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2、协程和线程：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;协程，独立的栈空间，共享堆空间，调度由用户自己控制。&lt;/li&gt;
+&lt;li&gt;线程，在一个线程上可以跑多个协程，就是说协程是轻量级的线程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;3、并发和并行：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;多线程程序在一个核心的 CPU 上运行，就是并发，并发主要由切换时间片来实现&amp;quot;同时&amp;quot;运行。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611173906.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611173906.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;多线程程序在多个核心的 CPU 上运行，就是并行，并行是直接利用多核实现多线程的运行。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611173940.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611173940.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Go 语言中的并发其实就是能让某个函数独立于其他函数运行的能力。当一个函数创建为 &lt;code&gt;goroutine&lt;/code&gt; 时，Go 会将其视为一个独立的工作单元，这个单元会被调度到可用的&lt;strong&gt;逻辑处理器&lt;/strong&gt;上执行。&lt;/p&gt;
+&lt;p&gt;Go 语言通过&lt;strong&gt;运行时的调度器&lt;/strong&gt;来管理被创建的所有 &lt;code&gt;goroutine&lt;/code&gt; 并为其分配执行时间。这个调度器在操作系统之上，将操作系统的线程与语言运行时的逻辑处理器绑定，并在逻辑处理器上运行 &lt;code&gt;goroutine&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611175215.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611175215.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;有时，正在运行的 &lt;code&gt;goroutine&lt;/code&gt; 需要执行阻塞的系统调用，比如打开一个文件，这时线程和 &lt;code&gt;goroutine&lt;/code&gt; 会从逻辑处理器上分离，并且这个线程会继续阻塞直到系统调用返回。&lt;/p&gt;
+&lt;p&gt;此时，逻辑处理器就失去了线程，于是调度器会新建一个线程，并将其绑定到逻辑处理器上，然后在从本地运行队列里选择另一个 &lt;code&gt;goroutine&lt;/code&gt; 来运行。&lt;/p&gt;
+&lt;p&gt;一旦被阻塞的系统调用执行完成并返回，对应的 &lt;code&gt;goroutine&lt;/code&gt; 会回到本地运行队列，而之前的线程会被维护，以便之后可以继续使用。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;如果一个 &lt;code&gt;goroutine&lt;/code&gt; 要做一个网络 I/O 调用的话，&lt;code&gt;goroutine&lt;/code&gt; 就不用逻辑处理器，而是移到集成了&lt;strong&gt;网络轮询器&lt;/strong&gt;的运行时。一旦该轮询器指示某个网络读或写操作已就绪，对应的 &lt;code&gt;goroutine&lt;/code&gt; 就会重新分配到逻辑处理器上来完成操作。（调度器对可以创建的）&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -1688,7 +2101,46 @@ $$
         <pubDate>Wed, 29 May 2024 22:23:06 +0800</pubDate>
         
         <guid>https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/</guid>
-        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/cover.png" alt="Featured image of post 英语角" /&gt;&lt;h2 id=&#34;prescribe&#34;&gt;prescribe&lt;/h2&gt;
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/cover.png" alt="Featured image of post 英语角" /&gt;&lt;h2 id=&#34;sanitation&#34;&gt;sanitation&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611163721.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611163721.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;mastery&#34;&gt;mastery&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611164353.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611164353.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;shiver&#34;&gt;shiver&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611132043.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611132043.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;prescribe&#34;&gt;prescribe&lt;/h2&gt;
 &lt;p&gt;&lt;figure 
 	&gt;
 	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240609004515.png&#34; &gt;

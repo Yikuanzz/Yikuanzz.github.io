@@ -379,7 +379,7 @@
 
 
                 <time class="article-words">
-                    6438字
+                    9632字
                 </time>
             </div>
         
@@ -1039,7 +1039,420 @@
 <p>虽然我们在 <code>notify</code> 方法有用指针来去调用，但是它仍是复制了副本，实际上是：<code>(*lisa).notify()</code> 的样子。</p>
 <h3 id="类型的本质">类型的本质</h3>
 <p>1、内置类型。</p>
-<p>内置类型就是</p>
+<p>内置类型就是语言提供的类型：数值类型、字符串类型和布尔类型。</p>
+<p>因为是原始的类型，所以我们把这些类型的值传递给方法或函数时，应该传递一个对应值的副本。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// golang.org/src/strings/strings.go：第 620 行到第 625 行
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">Trim</span>(<span style="color:#e06c75">s</span> <span style="color:#e5c07b">string</span>, <span style="color:#e06c75">cutset</span> <span style="color:#e5c07b">string</span>) <span style="color:#e5c07b">string</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#34;&#34;</span> <span style="color:#56b6c2">||</span> <span style="color:#e06c75">cutset</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#34;&#34;</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#e06c75">s</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">TrimFunc</span>(<span style="color:#e06c75">s</span>, <span style="color:#61afef;font-weight:bold">makeCutsetFunc</span>(<span style="color:#e06c75">cutset</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>2、引用类型。</p>
+<p>Go 语言的引用类型有：切片、映射、通道、接口和函数类型。</p>
+<p>当这些类型被声明时，创建的变量叫 <em>标头（header）</em> 值。</p>
+<p>每个引用类型创建的标头值是包含一个指向底层数据结构的指针，每个引用类型还有一些特殊的字段来管理底层数据结构。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// golang.org/src/net/ip.go：第 32 行
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">type</span> <span style="color:#e06c75">IP</span> []<span style="color:#e5c07b">byte</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// golang.org/src/net/ip.go：第 329 行到第 337 行
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">func</span> (<span style="color:#e06c75">ip</span> <span style="color:#e06c75">IP</span>) <span style="color:#61afef;font-weight:bold">MarshalText</span>() ([]<span style="color:#e5c07b">byte</span>, <span style="color:#e5c07b">error</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">ip</span>) <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>{		<span style="color:#7f848e">// 切片直接复制标头值就可以了
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>        <span style="color:#c678dd">return</span> []<span style="color:#e5c07b">byte</span>(<span style="color:#98c379">&#34;&#34;</span>), <span style="color:#e5c07b">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">ip</span>) <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">IPv4len</span> <span style="color:#56b6c2">&amp;&amp;</span> <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">ip</span>) <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">IPv6len</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#e5c07b">nil</span>, <span style="color:#e06c75">errors</span>.<span style="color:#61afef;font-weight:bold">New</span>(<span style="color:#98c379">&#34;Invaild IP address&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> []<span style="color:#e5c07b">byte</span>(<span style="color:#e06c75">ip</span>.<span style="color:#61afef;font-weight:bold">String</span>()), <span style="color:#e5c07b">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>3、结构类型。</p>
+<p>结构类型可以用来描述一组数据值，这组值的本质即可以是原始的，也可以是非原始的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// golang.org/src/time/time.go：第 39 行到第 55 行
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">// 原始类型的结构体
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">type</span> <span style="color:#e06c75">Time</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// sec 给出自公元 1 年 1 月 1 日 00:00:00 开始的秒数
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">sec</span> <span style="color:#e5c07b">int64</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// nsec 指定了一秒内的纳秒偏移，这个值必须在[0, 999999999]范围内
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">nsec</span> <span style="color:#e5c07b">int32</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// loc 用于决定时间对应的当地的分、小时、天和年的值
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">loc</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">Location</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>下面的代码，<code>File</code> 类型的实现使用了一个嵌入的指针，指向一个未公开的类型。这层额外的内嵌类型阻止了复制。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// golang.org/src/os/file_unix.go：第 15 行到第 29 行
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">// 非原始类型的结构体
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">// File 表示一个打开的文件描述符
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">type</span> <span style="color:#e06c75">File</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#56b6c2">*</span><span style="color:#e06c75">file</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// file 是 *File 的实际表示
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">type</span> <span style="color:#e06c75">file</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fd</span> <span style="color:#e5c07b">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">name</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">dirinfo</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">dirInfo</span>		<span style="color:#7f848e">// 除了目录结构，此字段为 nil
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">nepipe</span> <span style="color:#e5c07b">int32</span>		<span style="color:#7f848e">// Write 操作时遇到连续 EPIPE 的次数
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// golang.org/src/os/file.go：第 238 行到第 240 行
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">Open</span>(<span style="color:#e06c75">name</span> <span style="color:#e5c07b">string</span>) (<span style="color:#e06c75">file</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">File</span>, <span style="color:#e06c75">err</span> <span style="color:#e5c07b">error</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#61afef;font-weight:bold">OpenFile</span>(<span style="color:#e06c75">name</span>, <span style="color:#e06c75">O_RDONLY</span>, <span style="color:#d19a66">0</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="接口">接口</h3>
+<p><strong>多态</strong>是说代码可以根据类型的具体实现采取不同行为的能力。</p>
+<p>如果一个类型实现了某个接口，所有使用这个接口的地方，都可以支持这种类型的值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#98c379">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#98c379">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#98c379">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// Simple &#34;curl&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">init</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">if</span> <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">os</span>.<span style="color:#e06c75">Args</span>) <span style="color:#56b6c2">!=</span> <span style="color:#d19a66">2</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Println</span>(<span style="color:#98c379">&#34;Usage: ./nnn &lt;url&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">os</span>.<span style="color:#61afef;font-weight:bold">Exit</span>(<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// Get response from web server
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">r</span>, <span style="color:#e06c75">err</span> <span style="color:#56b6c2">:=</span> <span style="color:#e06c75">http</span>.<span style="color:#61afef;font-weight:bold">Get</span>(<span style="color:#e06c75">os</span>.<span style="color:#e06c75">Args</span>[<span style="color:#d19a66">1</span>])
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">if</span> <span style="color:#e06c75">err</span> <span style="color:#56b6c2">!=</span> <span style="color:#e5c07b">nil</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Println</span>(<span style="color:#e06c75">err</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#c678dd">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// Copy to Stdout from Body
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">io</span>.<span style="color:#61afef;font-weight:bold">Copy</span>(<span style="color:#e06c75">os</span>.<span style="color:#e06c75">Stdout</span>, <span style="color:#e06c75">r</span>.<span style="color:#e06c75">Body</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">if</span> <span style="color:#e06c75">err</span> <span style="color:#56b6c2">:=</span> <span style="color:#e06c75">r</span>.<span style="color:#e06c75">Body</span>.<span style="color:#61afef;font-weight:bold">Close</span>(); <span style="color:#e06c75">err</span> <span style="color:#56b6c2">!=</span> <span style="color:#e5c07b">nil</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Println</span>(<span style="color:#e06c75">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>io.Copy</code> 函数中的一个参数必须是实现了 <code>io.Writer</code> 接口的值，第二个参数是必须实现了 <code>io.Reader</code> 接口的值。 当我们将 <code>Body</code> 和 <code>Stdout</code> 这两个值传给 <code>io.Copy</code> 函数后，这个函数会把服务器的数据分成小段，源源不断地传给终端窗口，直到最后一个片段读取并写入终端，<code>io.Copy</code> 函数才返回。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;bytes&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">var</span> <span style="color:#e06c75">b</span> <span style="color:#e06c75">bytes</span>.<span style="color:#e06c75">Buffer</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 将字符串写入 Buffer
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">b</span>.<span style="color:#61afef;font-weight:bold">Write</span>([]<span style="color:#e5c07b">byte</span>(<span style="color:#98c379">&#34;Hello&#34;</span>))
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 用 Fprintf 将字符串拼接到 Buffer
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Fprintf</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">b</span>, <span style="color:#98c379">&#34;World!&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 把 Buffer 的内容写到 Stdout
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">io</span>.<span style="color:#61afef;font-weight:bold">Copy</span>(<span style="color:#e06c75">os</span>.<span style="color:#e06c75">Stdout</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">b</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<p><strong>接口</strong>是用来定义行为的类型，这些被定义的行为不由接口直接实现，而是通过方法由用户定义的类型实现。</p>
+<p>接口值是一个两字长度的数据结构：</p>
+<ul>
+<li>1、包含了一个指向内部表的指针，<code>iTable </code> 包含值类型和方法集。</li>
+<li>2、还有一个指向所存储值的指针。</li>
+</ul>
+<p>如果赋值给接口的是指针，那么则会获得其地址上的值 <code>*user</code>。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611145058.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611145058.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<hr>
+<p><strong>方法集</strong>定义了接口的接受规则。</p>
+<p>我们以方法接受者的视角来看，如果方法接收者是<strong>指针</strong>，那么给接口的类型就<strong>必须是指针</strong>类型。</p>
+<p>但是，如果方法接收者是<strong>值</strong>，那么给接口的类型<strong>可以是指针</strong>类型也<strong>可以是值</strong>类型。</p>
+<p>看到下面这段代码执行就会报错！！</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">type</span> <span style="color:#e06c75">People</span> <span style="color:#c678dd">interface</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">Speak</span>(<span style="color:#e5c07b">string</span>) <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">type</span> <span style="color:#e06c75">Student</span> <span style="color:#c678dd">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> (<span style="color:#e06c75">stu</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">Student</span>) <span style="color:#61afef;font-weight:bold">Speak</span>(<span style="color:#e06c75">think</span> <span style="color:#e5c07b">string</span>) (<span style="color:#e06c75">talk</span> <span style="color:#e5c07b">string</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#e06c75">think</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#34;no&#34;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">talk</span> = <span style="color:#98c379">&#34;I don&#39;t like you!&#34;</span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#c678dd">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">talk</span> = <span style="color:#98c379">&#34;Hello, how are you going?&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">var</span> <span style="color:#e06c75">peo</span> <span style="color:#e06c75">People</span> = <span style="color:#e06c75">Student</span>{}
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">think</span> <span style="color:#56b6c2">:=</span> <span style="color:#98c379">&#34;bitch&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Println</span>(<span style="color:#e06c75">peo</span>.<span style="color:#61afef;font-weight:bold">Speak</span>(<span style="color:#e06c75">think</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># go vet test3</span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># test3</span>
+</span></span><span style="display:flex;"><span>vet: go/src/test3/pp.go:21:22: cannot use Student<span style="color:#56b6c2">{}</span> <span style="color:#56b6c2">(</span>value of <span style="color:#e5c07b">type</span> Student<span style="color:#56b6c2">)</span> as People value in variable declaration: Student does not implement People <span style="color:#56b6c2">(</span>method Speak has pointer receiver<span style="color:#56b6c2">)</span>
+</span></span></code></pre></div><p>如果要改正的话，就是将 <code>Student{}</code> 改为 <code>&amp;Student{}</code> 就好了。</p>
+<p>现在我们明白了这个规则了，但是为什么会这样呢？</p>
+<p>事实上，编译器并不是总能自动获得一个值的地址。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// duration is based on int
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">type</span> <span style="color:#e06c75">duration</span> <span style="color:#e5c07b">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// make duration easzier to read
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">func</span> (<span style="color:#e06c75">d</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">duration</span>) <span style="color:#61afef;font-weight:bold">pretty</span>() <span style="color:#e5c07b">string</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Sprintf</span>(<span style="color:#98c379">&#34;Duartion: %d&#34;</span>, <span style="color:#56b6c2">*</span><span style="color:#e06c75">d</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 这样就是不能获取地址的形式
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#7f848e">// 如果赋值给变量，然后对变量调用方法就是可行的
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#61afef;font-weight:bold">duration</span>(<span style="color:#d19a66">42</span>).<span style="color:#61afef;font-weight:bold">pretty</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<p>接下来，我们再看一看<strong>多态</strong>行为的例子。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// Interface: notifier
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">type</span> <span style="color:#e06c75">notifier</span> <span style="color:#c678dd">interface</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">notify</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// Struct: user
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">type</span> <span style="color:#e06c75">user</span> <span style="color:#c678dd">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">name</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">email</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// pointer method
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">func</span> (<span style="color:#e06c75">u</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">user</span>) <span style="color:#61afef;font-weight:bold">notify</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Printf</span>(<span style="color:#98c379">&#34;Sending user email to %s&lt;%s&gt;\n&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">u</span>.<span style="color:#e06c75">name</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">u</span>.<span style="color:#e06c75">email</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// Struct: admin
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">type</span> <span style="color:#e06c75">admin</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">name</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">email</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">// pointer method
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">func</span> (<span style="color:#e06c75">a</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">admin</span>) <span style="color:#61afef;font-weight:bold">notify</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Printf</span>(<span style="color:#98c379">&#34;Sending admin email to %s&lt;%s&gt;\n&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">a</span>.<span style="color:#e06c75">name</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">a</span>.<span style="color:#e06c75">email</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">bill</span> <span style="color:#56b6c2">:=</span> <span style="color:#e06c75">user</span>{<span style="color:#98c379">&#34;Bill&#34;</span>, <span style="color:#98c379">&#34;bill@email.com&#34;</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">sendNotification</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">bill</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">lisa</span> <span style="color:#56b6c2">:=</span> <span style="color:#e06c75">admin</span>{<span style="color:#98c379">&#34;Lisa&#34;</span>, <span style="color:#98c379">&#34;lisa@email.com&#34;</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">sendNotification</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">lisa</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">sendNotification</span>(<span style="color:#e06c75">n</span> <span style="color:#e06c75">notifier</span>){		<span style="color:#7f848e">// 多态函数
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">n</span>.<span style="color:#61afef;font-weight:bold">notify</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># go run test5</span>
+</span></span><span style="display:flex;"><span>Sending user email to Bill&lt;bill@email.com&gt;
+</span></span><span style="display:flex;"><span>Sending admin email to Lisa&lt;lisa@email.com&gt;
+</span></span></code></pre></div><h3 id="嵌入类型">嵌入类型</h3>
+<p>Go 语言允许用户扩展或修改已有类型的行为，这个功能是通过 <em>嵌入类型（type embedding）</em> 完成的。</p>
+<p>嵌入类型是将已有点类型直接声明在新的结构类型里，被嵌入的类型被称为新的外部类型的内部类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">type</span> <span style="color:#e06c75">user</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">name</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">email</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> (<span style="color:#e06c75">u</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">user</span>) <span style="color:#61afef;font-weight:bold">notify</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Printf</span>(<span style="color:#98c379">&#34;Sending user eamil to %s&lt;%s&gt; \n&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">u</span>.<span style="color:#e06c75">name</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">u</span>.<span style="color:#e06c75">email</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">type</span> <span style="color:#e06c75">admin</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">user</span> 	<span style="color:#7f848e">// embeding type
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">level</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// initiate a admin
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">ad</span> <span style="color:#56b6c2">:=</span> <span style="color:#e06c75">admin</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">user</span> : <span style="color:#e06c75">user</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#e06c75">name</span>: <span style="color:#98c379">&#34;john smith&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e06c75">email</span>: <span style="color:#98c379">&#34;john@yahoo.com&#34;</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">level</span> : <span style="color:#98c379">&#34;super&#34;</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">ad</span>.<span style="color:#e06c75">user</span>.<span style="color:#61afef;font-weight:bold">notify</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">ad</span>.<span style="color:#61afef;font-weight:bold">notify</span>()		<span style="color:#7f848e">// 内部类型的方法被提升到外部类型
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># go run test6</span>
+</span></span><span style="display:flex;"><span>Sending user eamil to john smith&lt;john@yahoo.com&gt; 
+</span></span><span style="display:flex;"><span>Sending user eamil to john smith&lt;john@yahoo.com&gt; 
+</span></span></code></pre></div><p>我们对上述例子进行修改添加一个接口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">type</span> <span style="color:#e06c75">notifier</span> <span style="color:#c678dd">interface</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#61afef;font-weight:bold">notify</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">sendNotification</span>(<span style="color:#e06c75">n</span> <span style="color:#e06c75">notifier</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">n</span>.<span style="color:#61afef;font-weight:bold">notify</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在 <code>main </code>函数中调用 <code>sendNotification(&amp;ad)</code>，这样用于实现接口的内部类型的方法被提升到外部类型。</p>
+<p>那么这时候问题来了，如果我们要给 <code>admin</code> 也实现一个方法会怎么样？</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#c678dd">func</span> (<span style="color:#e06c75">a</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">admin</span>) <span style="color:#61afef;font-weight:bold">notify</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Printf</span>(<span style="color:#98c379">&#34;Sending admin eamil to %s&lt;%s&gt; \n&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">a</span>.<span style="color:#e06c75">name</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">a</span>.<span style="color:#e06c75">email</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们在 <code>main</code> 函数中执行这些语句：<code>sendNotification(&amp;ad)</code>、<code>ad.user.notify()</code> 和 <code>ad.notify()</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#56b6c2">[</span>root@yikuanzz ~<span style="color:#56b6c2">]</span><span style="color:#7f848e"># go run test6</span>
+</span></span><span style="display:flex;"><span>Sending admin eamil to john smith&lt;john@yahoo.com&gt; 
+</span></span><span style="display:flex;"><span>Sending user eamil to john smith&lt;john@yahoo.com&gt; 
+</span></span><span style="display:flex;"><span>Sending admin eamil to john smith&lt;john@yahoo.com&gt; 
+</span></span></code></pre></div><p>我们发现，只有执行 <code>ad.user.notify()</code> 才会调用内部类型的方法。</p>
+<h3 id="公开或未公开的标识符">公开或未公开的标识符</h3>
+<p>如果想设计好的 API，是需要用某种规则来控制声明后的标识符的可见性。</p>
+<p>Go 语言支持从包里公开或隐藏标识符，通过这个功能，让用户能按照自己的规划控制标识符的可见性。</p>
+<p>其实，如果我们知道私有变量和公有变量的概念就很好理解了，因为就是一个道理。</p>
+<p>即，标识符的名字小写字母开头的，那么这个标识符就是未公开的；如果标识符的名字大写字母开头的，那么这个标识符就是公开的。</p>
+<p>我们一般用工厂函数来对未公开的标识符进行操作，其实就是用函数来创建对象，为它添加数性和方法，然后返回这个对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// entities
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">package</span> <span style="color:#e06c75">entities</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">type</span> <span style="color:#e06c75">user</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">Name</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">Email</span> <span style="color:#e5c07b">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">type</span> <span style="color:#e06c75">Admin</span> <span style="color:#c678dd">struct</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">user</span>		<span style="color:#7f848e">// 嵌入类型未公开
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">Rights</span> <span style="color:#e5c07b">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// main
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">package</span> <span style="color:#e06c75">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#98c379">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;entities&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">func</span> <span style="color:#61afef;font-weight:bold">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">a</span> <span style="color:#56b6c2">:=</span> <span style="color:#e06c75">entities</span>.<span style="color:#e06c75">Admin</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">Right</span>: <span style="color:#d19a66">10</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 可设置内部类型公开字段的值
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">a</span>.<span style="color:#e06c75">Name</span> = <span style="color:#98c379">&#34;Bill&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">a</span>.<span style="color:#e06c75">Email</span> = <span style="color:#98c379">&#34;bill@email.com&#34;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fmt</span>.<span style="color:#61afef;font-weight:bold">Printf</span>(<span style="color:#98c379">&#34;User: %v \n&#34;</span>, <span style="color:#e06c75">a</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>因为 <code>user</code> 不是公开的，所以不能直接通过字面量构建；但是内部类型公开的标识符是可以通过外部类型来访问，并进行初始化的。</p>
+<h2 id="go-并发">Go 并发</h2>
+<p>在开始 Go 语言并发编程之前，我们先简单地了解一些概念：</p>
+<ul>
+<li>
+<p>1、进程和线程：</p>
+<ul>
+<li>进程是程序在操作系统中的一次执行过程，系统进行资源分配和调度的一个独立单位。</li>
+<li>线程是进程的一个执行实例，是 CPU 调度和分派的基本单位。</li>
+<li>一个进程可以创建和撤销多个线程；同一个进程中的多个线程之间可以并发执行。</li>
+</ul>
+</li>
+<li>
+<p>2、协程和线程：</p>
+<ul>
+<li>协程，独立的栈空间，共享堆空间，调度由用户自己控制。</li>
+<li>线程，在一个线程上可以跑多个协程，就是说协程是轻量级的线程。</li>
+</ul>
+</li>
+<li>
+<p>3、并发和并行：</p>
+<ul>
+<li>
+<p>多线程程序在一个核心的 CPU 上运行，就是并发，并发主要由切换时间片来实现&quot;同时&quot;运行。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611173906.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611173906.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+</li>
+<li>
+<p>多线程程序在多个核心的 CPU 上运行，就是并行，并行是直接利用多核实现多线程的运行。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611173940.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611173940.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Go 语言中的并发其实就是能让某个函数独立于其他函数运行的能力。当一个函数创建为 <code>goroutine</code> 时，Go 会将其视为一个独立的工作单元，这个单元会被调度到可用的<strong>逻辑处理器</strong>上执行。</p>
+<p>Go 语言通过<strong>运行时的调度器</strong>来管理被创建的所有 <code>goroutine</code> 并为其分配执行时间。这个调度器在操作系统之上，将操作系统的线程与语言运行时的逻辑处理器绑定，并在逻辑处理器上运行 <code>goroutine</code>。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611175215.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240611175215.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>有时，正在运行的 <code>goroutine</code> 需要执行阻塞的系统调用，比如打开一个文件，这时线程和 <code>goroutine</code> 会从逻辑处理器上分离，并且这个线程会继续阻塞直到系统调用返回。</p>
+<p>此时，逻辑处理器就失去了线程，于是调度器会新建一个线程，并将其绑定到逻辑处理器上，然后在从本地运行队列里选择另一个 <code>goroutine</code> 来运行。</p>
+<p>一旦被阻塞的系统调用执行完成并返回，对应的 <code>goroutine</code> 会回到本地运行队列，而之前的线程会被维护，以便之后可以继续使用。</p>
+<hr>
+<p>如果一个 <code>goroutine</code> 要做一个网络 I/O 调用的话，<code>goroutine</code> 就不用逻辑处理器，而是移到集成了<strong>网络轮询器</strong>的运行时。一旦该轮询器指示某个网络读或写操作已就绪，对应的 <code>goroutine</code> 就会重新分配到逻辑处理器上来完成操作。（调度器对可以创建的）</p>
 
 </section>
 
@@ -1269,6 +1682,8 @@
 
     
 
+    
+
 
 <script>
 (function(u, c) {
@@ -1286,7 +1701,7 @@
         &copy; 
         
         2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-      共书写了133.1k字·共 22篇文章</br><span><p>
+      共书写了136.5k字·共 22篇文章</br><span><p>
     </section>
     
     <section class="powerby">
@@ -1450,8 +1865,12 @@ document.getElementById('days').innerHTML = number_of_days;
         <li><a href="#用户定义类型">用户定义类型</a></li>
         <li><a href="#方法">方法</a></li>
         <li><a href="#类型的本质">类型的本质</a></li>
+        <li><a href="#接口">接口</a></li>
+        <li><a href="#嵌入类型">嵌入类型</a></li>
+        <li><a href="#公开或未公开的标识符">公开或未公开的标识符</a></li>
       </ol>
     </li>
+    <li><a href="#go-并发">Go 并发</a></li>
   </ol>
 </nav>
         </div>
