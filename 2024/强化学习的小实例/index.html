@@ -357,7 +357,7 @@
     
     <header class="article-category">
         
-            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: #2a9d8f; color: #FF1493;">
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: #FF1493 color: ; color: ;">
                 人工智能
             </a>
         
@@ -411,18 +411,18 @@
     
     
     <p><em>Cases from MorvanZhou</em></p>
-<h2 id="案例1q-learning-寻宝藏"><strong>案例1：Q-Learning 寻宝藏</strong></h2>
-<h3 id="案例描述"><strong>案例描述</strong></h3>
+<h2 id="案例1q-learning-寻宝藏">案例1：Q-Learning 寻宝藏</h2>
+<h3 id="案例描述">案例描述</h3>
 <p>例子的环境是一个一维世界，在世界的右边有宝藏，探索者只要得到宝藏就会记住得到宝藏的方法，这是他用强化学习所学习到的行为。</p>
 <blockquote>
 <p>// T 就是宝藏的位置, o 是探索者的位置</p>
 <p>-o&mdash;T</p>
 </blockquote>
-<h3 id="算法描述"><strong>算法描述</strong></h3>
+<h3 id="算法描述">算法描述</h3>
 <p><code>Q-Learning</code> 是一种记录行为值（<code>Q Value</code>）的方法，每种在一定状态的行为都会有一个值 $Q(s,a)$ 就是说行为 <code>Action</code> 在 <code>State</code> 状态的值是 $Q(s, a)$。</p>
 <p><code>s</code> 在上面的探索者游戏中, 就是 <code>o</code> 所在的地点了。而每一个地点探索者都能做出两个行为 <code>left</code> / <code>right</code>, 这就是探索者的所有可行的 <code>a</code> 啦.</p>
 <p>如果在某个地点 <code>s1</code>，探索者计算了他能有的两个行为, <code>a1</code> / <code>a2</code> = <code>left</code> / <code>right</code>， 计算结果是  $Q(s_1,a_1)&gt; Q(s_1, a_2)$  , 那么探索者就会选择 <code>left</code> 这个行为。这就是 <code>Q learning</code> 的行为选择简单规则。</p>
-<h3 id="具体实现"><strong>具体实现</strong></h3>
+<h3 id="具体实现">具体实现</h3>
 <p>1、<strong>导入相关模块</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">time</span>
 </span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">numpy</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">np</span>
@@ -1275,6 +1275,8 @@
 
     
 
+    
+
 
 <script>
 (function(u, c) {
@@ -1292,7 +1294,7 @@
         &copy; 
         
         2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-      共书写了139.9k字·共 23篇文章</br><span><p>
+      共书写了140.3k字·共 23篇文章</br><span><p>
     </section>
     
     <section class="powerby">
@@ -1435,11 +1437,11 @@ document.getElementById('days').innerHTML = number_of_days;
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#案例1q-learning-寻宝藏"><strong>案例1：Q-Learning 寻宝藏</strong></a>
+    <li><a href="#案例1q-learning-寻宝藏">案例1：Q-Learning 寻宝藏</a>
       <ol>
-        <li><a href="#案例描述"><strong>案例描述</strong></a></li>
-        <li><a href="#算法描述"><strong>算法描述</strong></a></li>
-        <li><a href="#具体实现"><strong>具体实现</strong></a></li>
+        <li><a href="#案例描述">案例描述</a></li>
+        <li><a href="#算法描述">算法描述</a></li>
+        <li><a href="#具体实现">具体实现</a></li>
       </ol>
     </li>
     <li><a href="#案例2q-learning-走迷宫">案例2：Q-Learning 走迷宫</a>
