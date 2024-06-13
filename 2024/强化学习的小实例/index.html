@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+        <meta name='description' content='Cases from MorvanZhou 案例1：Q-Learning 寻宝藏 案例描述 例子的环境是一个一维世界，在世界的右边有宝藏，探索者只要得到宝藏就会记住得到宝藏的方法，这是'><title>强化学习的小实例</title>
+
+<link rel='canonical' href='https://yikuanzz.github.io/2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='强化学习的小实例'>
+<meta property='og:description' content='Cases from MorvanZhou 案例1：Q-Learning 寻宝藏 案例描述 例子的环境是一个一维世界，在世界的右边有宝藏，探索者只要得到宝藏就会记住得到宝藏的方法，这是'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='强化学习' /><meta property='article:published_time' content='2024-06-13T13:39:34&#43;08:00'/><meta property='article:modified_time' content='2024-06-13T13:39:34&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/cover.png' />
+<meta name="twitter:title" content="强化学习的小实例">
+<meta name="twitter:description" content="Cases from MorvanZhou 案例1：Q-Learning 寻宝藏 案例描述 例子的环境是一个一维世界，在世界的右边有宝藏，探索者只要得到宝藏就会记住得到宝藏的方法，这是"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/cover.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://yikuanzz.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://leetcode.cn/u/yikuanzz/'
+                            target="_blank"
+                            title="Leetcode"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-leetcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M12 13h7.5" />
+  <path d="M9.424 7.268l4.999 -4.999" />
+  <path d="M16.633 16.644l-2.402 2.415a3.189 3.189 0 0 1 -4.524 0l-3.77 -3.787a3.223 3.223 0 0 1 0 -4.544l3.77 -3.787a3.189 3.189 0 0 1 4.524 0l2.302 2.313" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/daily' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+  <path d="M9 8h6" />
+</svg>
+                
+                <span>日报</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/">
+                <img src="/2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/cover_hu58d6cf2aa73f775206d15558a76443b4_959915_800x0_resize_box_3.png"
+                        srcset="/2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/cover_hu58d6cf2aa73f775206d15558a76443b4_959915_800x0_resize_box_3.png 800w, /2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/cover_hu58d6cf2aa73f775206d15558a76443b4_959915_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post 强化学习的小实例" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="background-color: #2a9d8f; color: #FF1493;">
+                人工智能
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%B0%8F%E5%AE%9E%E4%BE%8B/">强化学习的小实例</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 13, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    3080字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><em>Cases from MorvanZhou</em></p>
+<h2 id="案例1q-learning-寻宝藏"><strong>案例1：Q-Learning 寻宝藏</strong></h2>
+<h3 id="案例描述"><strong>案例描述</strong></h3>
+<p>例子的环境是一个一维世界，在世界的右边有宝藏，探索者只要得到宝藏就会记住得到宝藏的方法，这是他用强化学习所学习到的行为。</p>
+<blockquote>
+<p>// T 就是宝藏的位置, o 是探索者的位置</p>
+<p>-o&mdash;T</p>
+</blockquote>
+<h3 id="算法描述"><strong>算法描述</strong></h3>
+<p><code>Q-Learning</code> 是一种记录行为值（<code>Q Value</code>）的方法，每种在一定状态的行为都会有一个值 $Q(s,a)$ 就是说行为 <code>Action</code> 在 <code>State</code> 状态的值是 $Q(s, a)$。</p>
+<p><code>s</code> 在上面的探索者游戏中, 就是 <code>o</code> 所在的地点了。而每一个地点探索者都能做出两个行为 <code>left</code> / <code>right</code>, 这就是探索者的所有可行的 <code>a</code> 啦.</p>
+<p>如果在某个地点 <code>s1</code>，探索者计算了他能有的两个行为, <code>a1</code> / <code>a2</code> = <code>left</code> / <code>right</code>， 计算结果是  $Q(s_1,a_1)&gt; Q(s_1, a_2)$  , 那么探索者就会选择 <code>left</code> 这个行为。这就是 <code>Q learning</code> 的行为选择简单规则。</p>
+<h3 id="具体实现"><strong>具体实现</strong></h3>
+<p>1、<strong>导入相关模块</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">time</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">numpy</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">np</span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">pandas</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">pd</span>
+</span></span></code></pre></div><p>2、<strong>预设参数</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">seed</span>(<span style="color:#d19a66">2</span>)               <span style="color:#7f848e"># 随机数种子  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">N_STATES</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">6</span>                    <span style="color:#7f848e"># 1维世界的宽度  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">ACTIONS</span> <span style="color:#56b6c2">=</span> [<span style="color:#98c379">&#39;left&#39;</span>, <span style="color:#98c379">&#39;right&#39;</span>]     <span style="color:#7f848e"># 探索者可以选择的动作  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">MAX_EPISODES</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">13</span>               <span style="color:#7f848e"># 最大回合数  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">FRESH_TIME</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0.3</span>                <span style="color:#7f848e"># 移动间隔时间  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">EPSILON</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0.9</span>                   <span style="color:#7f848e"># 贪婪度  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">ALPHA</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0.1</span>                     <span style="color:#7f848e"># 学习率  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">GAMMA</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0.9</span>                     <span style="color:#7f848e"># 奖励递减参数  </span>
+</span></span></code></pre></div><p>3、<strong>定义环境函数</strong></p>
+<ul>
+<li>函数输入值：当前的状态 <code>State</code>、当前的回合数 <code>episode</code>、当前的步数 <code>step_counter</code>。</li>
+<li>函数输出值：如果探索者到达终点，输出当前的回合数和探索者找到宝藏所用的总步数。如果探索者没有到达终点，就输出当前环境。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">update_env</span>(<span style="color:#e06c75">S</span>, <span style="color:#e06c75">episode</span>, <span style="color:#e06c75">step_counter</span>):  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">env_list</span> <span style="color:#56b6c2">=</span> [<span style="color:#98c379">&#39;-&#39;</span>] <span style="color:#56b6c2">*</span> (<span style="color:#e06c75">N_STATES</span><span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>) <span style="color:#56b6c2">+</span> [<span style="color:#98c379">&#39;T&#39;</span>]  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#e06c75">S</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;terminal&#39;</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">interaction</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;Episode </span><span style="color:#98c379">%s</span><span style="color:#98c379">: total_steps = </span><span style="color:#98c379">%s</span><span style="color:#98c379">&#39;</span> <span style="color:#56b6c2">%</span> (<span style="color:#e06c75">episode</span><span style="color:#56b6c2">+</span><span style="color:#d19a66">1</span>, <span style="color:#e06c75">step_counter</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;</span><span style="color:#98c379">\r</span><span style="color:#98c379">{}</span><span style="color:#98c379">&#39;</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">format</span>(<span style="color:#e06c75">interaction</span>),<span style="color:#e06c75">end</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;&#39;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#d19a66">2</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;</span><span style="color:#98c379">\r</span><span style="color:#98c379">                                &#39;</span>, <span style="color:#e06c75">end</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;&#39;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">env_list</span>[<span style="color:#e06c75">S</span>] <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;o&#39;</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">interaction</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;&#39;</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">join</span>(<span style="color:#e06c75">env_list</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;</span><span style="color:#98c379">\r</span><span style="color:#98c379">{}</span><span style="color:#98c379">&#39;</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">format</span>(<span style="color:#e06c75">interaction</span>), <span style="color:#e06c75">end</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;&#39;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#e06c75">FRESH_TIME</span>)  
+</span></span></code></pre></div><p>4、<strong>定义获取环境反馈参数</strong></p>
+<ul>
+<li>函数输入值：当前状态 <code>State</code> 和当前采取的动作 <code>Action</code>。</li>
+<li>函数输出值：返回下一个状态 <code>S_</code> 和 奖励 <code>R</code>；如果是选择向右走，且到达宝藏位置，就返回 <code>S_</code> 为<code>‘terminal’</code>，<code>R</code> 为 <code>1</code>；若向右走没有到达宝藏位置或者向左走，则没有奖励。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">get_env_feedback</span>(<span style="color:#e06c75">S</span>,<span style="color:#e06c75">A</span>):  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> <span style="color:#e06c75">A</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;right&#39;</span>:               
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">S</span> <span style="color:#56b6c2">==</span> <span style="color:#e06c75">N_STATES</span> <span style="color:#56b6c2">-</span> <span style="color:#d19a66">2</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">S_</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;terminal&#39;</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">R</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">S_</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">S</span> <span style="color:#56b6c2">+</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">R</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">R</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">S</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">S_</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">S</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">S_</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">S</span> <span style="color:#56b6c2">-</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">S_</span>, <span style="color:#e06c75">R</span>  
+</span></span></code></pre></div><p>5、<strong>定义一个 Q-Value 表</strong></p>
+<ul>
+<li>函数输入值：状态 <code>n_states</code> 和 <code>actions</code>；将所有的 <code>Q-Values</code> 放在 <code>q_table</code> 中，更新 <code>q_table</code> 就是更新探索者的最佳决策值。</li>
+<li>函数输出值：<code>q_table</code>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">build_q_table</span>(<span style="color:#e06c75">n_states</span>, <span style="color:#e06c75">actions</span>):  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">table</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">pd</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">DataFrame</span>(<span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">zeros</span>((<span style="color:#e06c75">n_states</span>, <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">actions</span>))),<span style="color:#e06c75">columns</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">actions</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">table</span> 
+</span></span></code></pre></div><p>6、<strong>定义动作选择函数</strong></p>
+<ul>
+<li>函数输入值：当前状态 <code>State</code> 和 <code>q_table</code>。</li>
+<li>函数返回值：动作的名字 <code>action_name</code>，这里通过设置贪婪度来决定。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">choose_action</span>(<span style="color:#e06c75">state</span>, <span style="color:#e06c75">q_table</span>):  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">state_actions</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">iloc</span>[<span style="color:#e06c75">state</span>,:]  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">uniform</span>()<span style="color:#56b6c2">&gt;</span><span style="color:#e06c75">EPSILON</span>) <span style="color:#56b6c2">or</span> ((<span style="color:#e06c75">state_actions</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>)<span style="color:#56b6c2">.</span><span style="color:#e06c75">all</span>()):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">action_name</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">choice</span>(<span style="color:#e06c75">ACTIONS</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">action_name</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">state_actions</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">idxmax</span>()  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">action_name</span>
+</span></span></code></pre></div><p>7、<strong>定义强化学习函数</strong></p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613135738.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613135738.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">rl</span>():  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">q_table</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">build_q_table</span>(<span style="color:#e06c75">N_STATES</span>, <span style="color:#e06c75">ACTIONS</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">episode</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#e06c75">MAX_EPISODES</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">step_counter</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">S</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">is_terminated</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">False</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">update_env</span>(<span style="color:#e06c75">S</span>, <span style="color:#e06c75">episode</span>, <span style="color:#e06c75">step_counter</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">while</span> <span style="color:#56b6c2">not</span> <span style="color:#e06c75">is_terminated</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">A</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">choose_action</span>(<span style="color:#e06c75">S</span>, <span style="color:#e06c75">q_table</span>)  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">S_</span>, <span style="color:#e06c75">R</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">get_env_feedback</span>(<span style="color:#e06c75">S</span>, <span style="color:#e06c75">A</span>)  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">q_predict</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">loc</span>[<span style="color:#e06c75">S</span>,<span style="color:#e06c75">A</span>]  
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">if</span> <span style="color:#e06c75">S_</span> <span style="color:#56b6c2">!=</span> <span style="color:#98c379">&#39;terminal&#39;</span>:  
+</span></span><span style="display:flex;"><span>	                <span style="color:#e06c75">q_target</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">R</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">GAMMA</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">iloc</span>[<span style="color:#e06c75">S_</span>,:]<span style="color:#56b6c2">.</span><span style="color:#e06c75">max</span>()  
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>	                <span style="color:#e06c75">q_target</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">R</span>  
+</span></span><span style="display:flex;"><span>	                <span style="color:#e06c75">is_terminated</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">True</span>  
+</span></span><span style="display:flex;"><span>	                  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">loc</span>[<span style="color:#e06c75">S</span>,<span style="color:#e06c75">A</span>] <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">ALPHA</span><span style="color:#56b6c2">*</span>(<span style="color:#e06c75">q_target</span> <span style="color:#56b6c2">-</span> <span style="color:#e06c75">q_predict</span>)  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">S</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">S_</span>  
+</span></span><span style="display:flex;"><span>	              
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">update_env</span>(<span style="color:#e06c75">S</span>, <span style="color:#e06c75">episode</span>, <span style="color:#e06c75">step_counter</span><span style="color:#56b6c2">+</span><span style="color:#d19a66">1</span>)  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">step_counter</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">return</span> <span style="color:#e06c75">q_table</span>  
+</span></span></code></pre></div><p>8、<strong>执行</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#34;__main__&#34;</span>:  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">q_table</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">rl</span>()  
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;</span><span style="color:#98c379">\r\n</span><span style="color:#98c379">Q-table:</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#39;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#e06c75">q_table</span>)
+</span></span></code></pre></div><h2 id="案例2q-learning-走迷宫">案例2：Q-Learning 走迷宫</h2>
+<h3 id="案例描述-1">案例描述</h3>
+<p>让探索者学会走迷宫，红色的是探索者（<code>agent</code>），黄色的是天堂 (<code>reward 1</code>), 黑色的地狱 (<code>reward -1</code>)。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613140441.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613140441.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="算法描述-1">算法描述</h3>
+<p>通过 <code>Q-Learning</code> 算法更新实现，就是不断更新 <code>Q- table</code> 里的值, 然后再根据新的值来判断要在某个 <code>State</code> 采取怎样的 <code>Action</code>。这里采用 <code>On-Policy</code>，就是将当前的经历当场学习并且运用。</p>
+<h3 id="具体实现-1">具体实现</h3>
+<p>1、<strong>构建强化学习算法主体</strong></p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613140553.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613140553.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">numpy</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">np</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">pandas</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">pd</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">class</span> <span style="color:#e5c07b">QLearningTable</span>:  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#56b6c2;font-weight:bold">__init__</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">actions</span>, <span style="color:#e06c75">learning_rate</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.01</span>, <span style="color:#e06c75">reward_decay</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.9</span>, <span style="color:#e06c75">e_greedy</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.9</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">actions</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">actions</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">lr</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">learning_rate</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">gamma</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">reward_decay</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">e_greedy</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">pd</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">DataFrame</span>(<span style="color:#e06c75">columns</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">actions</span>, <span style="color:#e06c75">dtype</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">float64</span>)  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">choose_action</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">observation</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">check_state_exist</span>(<span style="color:#e06c75">observation</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">if</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">uniform</span>() <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">state_action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">loc</span>[<span style="color:#e06c75">observation</span>,:]  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">choice</span>(<span style="color:#e06c75">state_action</span>[<span style="color:#e06c75">state_action</span><span style="color:#56b6c2">==</span><span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">max</span>(<span style="color:#e06c75">state_action</span>)]<span style="color:#56b6c2">.</span><span style="color:#e06c75">index</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">choice</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">actions</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">return</span> <span style="color:#e06c75">action</span>  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">learn</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">s</span>, <span style="color:#e06c75">a</span>, <span style="color:#e06c75">r</span>, <span style="color:#e06c75">s_</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">check_state_exist</span>(<span style="color:#e06c75">s_</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">q_predict</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">loc</span>[<span style="color:#e06c75">s</span>, <span style="color:#e06c75">a</span>]  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">if</span> <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">!=</span> <span style="color:#98c379">&#39;terminal&#39;</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">q_target</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">r</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">gamma</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">loc</span>[<span style="color:#e06c75">s_</span>, :]<span style="color:#56b6c2">.</span><span style="color:#e06c75">max</span>()  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">q_target</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">r</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">loc</span>[<span style="color:#e06c75">s</span>, <span style="color:#e06c75">a</span>] <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">lr</span><span style="color:#56b6c2">*</span>(<span style="color:#e06c75">q_target</span><span style="color:#56b6c2">-</span><span style="color:#e06c75">q_predict</span>)  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">check_state_exist</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">state</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">if</span> <span style="color:#e06c75">state</span> <span style="color:#56b6c2">not</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">index</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">pd</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Series</span>([<span style="color:#d19a66">0</span>]<span style="color:#56b6c2">*</span><span style="color:#e5c07b">len</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">actions</span>),<span style="color:#e06c75">index</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_table</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">columns</span>,<span style="color:#e06c75">name</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">state</span>))  
+</span></span></code></pre></div><p>2、<strong>搭建环境</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">numpy</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">np</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">time</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">sys</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">sys</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">version_info</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">major</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">2</span>:  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">import</span> <span style="color:#e06c75">Tkinter</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">tk</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">import</span> <span style="color:#e06c75">tkinter</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">tk</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">40</span>   <span style="color:#7f848e"># pixels  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">8</span>  <span style="color:#7f848e"># grid height  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">8</span>  <span style="color:#7f848e"># grid width  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">class</span> <span style="color:#e5c07b">Maze</span>(<span style="color:#e06c75">tk</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Tk</span>, <span style="color:#e5c07b">object</span>):  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#56b6c2;font-weight:bold">__init__</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">super</span>(<span style="color:#e06c75">Maze</span>, <span style="color:#e06c75">self</span>)<span style="color:#56b6c2">.</span><span style="color:#56b6c2;font-weight:bold">__init__</span>()  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">action_space</span> <span style="color:#56b6c2">=</span> [<span style="color:#98c379">&#39;u&#39;</span>, <span style="color:#98c379">&#39;d&#39;</span>, <span style="color:#98c379">&#39;l&#39;</span>, <span style="color:#98c379">&#39;r&#39;</span>]  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_actions</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">action_space</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">title</span>(<span style="color:#98c379">&#39;maze&#39;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">geometry</span>(<span style="color:#98c379">&#39;</span><span style="color:#98c379">{0}</span><span style="color:#98c379">x</span><span style="color:#98c379">{1}</span><span style="color:#98c379">&#39;</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">format</span>(<span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>))  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">_build_maze</span>()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">_build_maze</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">tk</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Canvas</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">bg</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;white&#39;</span>,  
+</span></span><span style="display:flex;"><span>                           <span style="color:#e06c75">height</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>,  
+</span></span><span style="display:flex;"><span>                           <span style="color:#e06c75">width</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># create grids  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">for</span> <span style="color:#e06c75">c</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">UNIT</span>):  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">x0</span>, <span style="color:#e06c75">y0</span>, <span style="color:#e06c75">x1</span>, <span style="color:#e06c75">y1</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">c</span>, <span style="color:#d19a66">0</span>, <span style="color:#e06c75">c</span>, <span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_line</span>(<span style="color:#e06c75">x0</span>, <span style="color:#e06c75">y0</span>, <span style="color:#e06c75">x1</span>, <span style="color:#e06c75">y1</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">for</span> <span style="color:#e06c75">r</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">UNIT</span>):  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">x0</span>, <span style="color:#e06c75">y0</span>, <span style="color:#e06c75">x1</span>, <span style="color:#e06c75">y1</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>, <span style="color:#e06c75">r</span>, <span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">r</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_line</span>(<span style="color:#e06c75">x0</span>, <span style="color:#e06c75">y0</span>, <span style="color:#e06c75">x1</span>, <span style="color:#e06c75">y1</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># create origin  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#d19a66">20</span>, <span style="color:#d19a66">20</span>])  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell1_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">2</span>, <span style="color:#e06c75">UNIT</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell1</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell1_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell1_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell1_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell1_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell2_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">2</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell2</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell2_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell2_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell2_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell2_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell3_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">2</span>, <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">6</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell3</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell3_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell3_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell3_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell3_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell4_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">6</span>, <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">2</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell4</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell4_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell4_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell4_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell4_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell5_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">4</span>, <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">4</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell5</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell5_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell5_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell5_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell5_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell6_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">4</span>, <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">1</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell6</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell6_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell6_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell6_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell6_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell7_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">1</span>, <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">3</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell7</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell7_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell7_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell7_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell7_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell8_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">2</span>, <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">4</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell8</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell8_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell8_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell8_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell8_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell9_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">3</span>, <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">2</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell9</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell9_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell9_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell9_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell9_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#7f848e"># create oval  </span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">oval_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">3</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">oval</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_oval</span>(  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">oval_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">oval_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">oval_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">oval_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;yellow&#39;</span>)  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#7f848e"># create red rect  </span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;red&#39;</span>)  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#7f848e"># pack all  </span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pack</span>()  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">reset</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">update</span>()  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#d19a66">0.5</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">delete</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#d19a66">20</span>, <span style="color:#d19a66">20</span>])  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;red&#39;</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#7f848e"># return observation  </span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">return</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>)  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">step</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">action</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">base_action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#d19a66">0</span>, <span style="color:#d19a66">0</span>])  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">if</span> <span style="color:#e06c75">action</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>:   <span style="color:#7f848e"># up  </span>
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">UNIT</span>:  
+</span></span><span style="display:flex;"><span>	                <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-=</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">action</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">1</span>:   <span style="color:#7f848e"># down  </span>
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">&lt;</span> (<span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">-</span> <span style="color:#d19a66">1</span>) <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>:  
+</span></span><span style="display:flex;"><span>	                <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">action</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">2</span>:   <span style="color:#7f848e"># right  </span>
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">&lt;</span> (<span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">-</span> <span style="color:#d19a66">1</span>) <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>:  
+</span></span><span style="display:flex;"><span>	                <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">action</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">3</span>:   <span style="color:#7f848e"># left  </span>
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">UNIT</span>:  
+</span></span><span style="display:flex;"><span>	                <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-=</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">move</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>, <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">0</span>], <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">1</span>])  <span style="color:#7f848e"># move agent  </span>
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>)  <span style="color:#7f848e"># next state  </span>
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#7f848e"># reward function  </span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">if</span> <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">==</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">oval</span>):  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">reward</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">True</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;terminal&#39;</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">in</span> [<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell1</span>), <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell2</span>), <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell3</span>),  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell4</span>),<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell5</span>),<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell6</span>),<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell7</span>),  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell8</span>),<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell9</span>)]:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">reward</span> <span style="color:#56b6c2">=</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">True</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#39;terminal&#39;</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">reward</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">False</span>  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">return</span> <span style="color:#e06c75">s_</span>, <span style="color:#e06c75">reward</span>, <span style="color:#e06c75">done</span>  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">render</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#d19a66">0.1</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">update</span>()  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">update</span>():  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">for</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#d19a66">10</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">reset</span>()  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">while</span> <span style="color:#e5c07b">True</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">render</span>()  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">a</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">s</span>, <span style="color:#e06c75">r</span>, <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">step</span>(<span style="color:#e06c75">a</span>)  
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">if</span> <span style="color:#e06c75">done</span>:  
+</span></span><span style="display:flex;"><span>	                <span style="color:#c678dd">break</span>  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">env</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Maze</span>()  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">after</span>(<span style="color:#d19a66">100</span>, <span style="color:#e06c75">update</span>)  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">mainloop</span>()  
+</span></span></code></pre></div><p>3、<strong>运行</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">from</span> <span style="color:#e06c75">maze_env</span> <span style="color:#c678dd">import</span> <span style="color:#e06c75">Maze</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">from</span> <span style="color:#e06c75">RL_brain</span> <span style="color:#c678dd">import</span> <span style="color:#e06c75">QLearningTable</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">update</span>():  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">episode</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#d19a66">150</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">observation</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">reset</span>()              <span style="color:#7f848e"># 初始化State的观测值</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#e06c75">episode</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">while</span> <span style="color:#e5c07b">True</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">render</span>()  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">RL</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">choose_action</span>(<span style="color:#e5c07b">str</span>(<span style="color:#e06c75">observation</span>))  <span style="color:#7f848e"># 选择Action</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#7f848e"># print(&#34;observation: {}&#34;.format(observation))  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">observation_</span>, <span style="color:#e06c75">reward</span>, <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">step</span>(<span style="color:#e06c75">action</span>)  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">RL</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">learn</span>(<span style="color:#e5c07b">str</span>(<span style="color:#e06c75">observation</span>), <span style="color:#e06c75">action</span>, <span style="color:#e06c75">reward</span>, <span style="color:#e5c07b">str</span>(<span style="color:#e06c75">observation_</span>))  
+</span></span><span style="display:flex;"><span>            <span style="color:#7f848e"># print(RL.q_table)  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">observation</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">observation_</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> <span style="color:#e06c75">done</span>:  
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">break</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;game over&#39;</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">destroy</span>()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">env</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Maze</span>()  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">RL</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">QLearningTable</span>(<span style="color:#e06c75">actions</span><span style="color:#56b6c2">=</span><span style="color:#e5c07b">list</span>(<span style="color:#e5c07b">range</span>(<span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_actions</span>)))  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">after</span>(<span style="color:#d19a66">100</span>, <span style="color:#e06c75">update</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">mainloop</span>() 
+</span></span></code></pre></div><h2 id="案例3deep-q-network-走迷宫">案例3：Deep-Q-Network 走迷宫</h2>
+<h3 id="案例描述-2">案例描述</h3>
+<p>让探索者学会走迷宫，红色的是探索者（<code>agent</code>），黄色的是天堂 (<code>reward 1</code>), 黑色的地狱 (<code>reward -1</code>)。</p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613141106.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613141106.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="算法描述-2">算法描述</h3>
+<p><code>Deep Q Network</code> 的简称叫 <code>DQN</code>, 是将 <code>Q learning</code> 的优势 和 <code>Neural networks</code> 结合了。如果我们使用 <code>tabular Qlearning</code>, 对于每一个 <code>state</code>, <code>action</code> 我们都需要存放在一张 <code>q_table</code> 的表中。如果像显示生活中, 情况可就比那个迷宫的状况复杂多了, 我们有千千万万个 <code>state</code>, 如果将这千万个 <code>state</code> 的值都放在表中, 受限于我们计算机硬件, 这样从表中获取数据, 更新数据是没有效率的. 这就是 <code>DQN</code> 产生的原因了。我们可以使用神经网络来估算这个 <code>state</code> 的值, 这样就不需要一张表了。</p>
+<h3 id="具体实现-2">具体实现</h3>
+<p>1、<strong>搭建强化学习主体</strong></p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613142230.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240613142230.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">numpy</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">np</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">pandas</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">pd</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">torch</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">torch.nn</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">nn</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">torch.nn.functional</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">F</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">matplotlib.pyplot</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">plt</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">copy</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">seed</span>(<span style="color:#d19a66">1</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">torch</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">manual_seed</span>(<span style="color:#d19a66">1</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#7f848e"># define the network architecture  </span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">class</span> <span style="color:#e5c07b">Net</span>(<span style="color:#e06c75">nn</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Module</span>):  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#56b6c2;font-weight:bold">__init__</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">n_feature</span>, <span style="color:#e06c75">n_hidden</span>, <span style="color:#e06c75">n_output</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">super</span>(<span style="color:#e06c75">Net</span>, <span style="color:#e06c75">self</span>)<span style="color:#56b6c2">.</span><span style="color:#56b6c2;font-weight:bold">__init__</span>()  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">el</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">nn</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Linear</span>(<span style="color:#e06c75">n_feature</span>, <span style="color:#e06c75">n_hidden</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">nn</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Linear</span>(<span style="color:#e06c75">n_hidden</span>, <span style="color:#e06c75">n_output</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">forward</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">x</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">x</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">el</span>(<span style="color:#e06c75">x</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">x</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">F</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">relu</span>(<span style="color:#e06c75">x</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">x</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q</span>(<span style="color:#e06c75">x</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#e06c75">x</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">class</span> <span style="color:#e5c07b">DeepQNetwork</span>():  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#56b6c2;font-weight:bold">__init__</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">n_actions</span>, <span style="color:#e06c75">n_features</span>, <span style="color:#e06c75">n_hidden</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">20</span>, <span style="color:#e06c75">learning_rate</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.01</span>, <span style="color:#e06c75">reward_decay</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.9</span>, <span style="color:#e06c75">e_greedy</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.9</span>,  
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">replace_target_iter</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">200</span>, <span style="color:#e06c75">memory_size</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">500</span>, <span style="color:#e06c75">batch_size</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">32</span>, <span style="color:#e06c75">e_greedy_increment</span><span style="color:#56b6c2">=</span><span style="color:#e5c07b">None</span>,  
+</span></span><span style="display:flex;"><span>                ):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_actions</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n_actions</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n_features</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_hidden</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">n_hidden</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">lr</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">learning_rate</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">gamma</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">reward_decay</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon_max</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">e_greedy</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">replace_target_iter</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">replace_target_iter</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_size</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">memory_size</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">batch_size</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">batch_size</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon_increment</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">e_greedy_increment</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span> <span style="color:#c678dd">if</span> <span style="color:#e06c75">e_greedy_increment</span> <span style="color:#56b6c2">is</span> <span style="color:#56b6c2">not</span> <span style="color:#e5c07b">None</span> <span style="color:#c678dd">else</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon_max</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># total learning step  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">learn_step_counter</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># initialize zero memory [s, a, r, s_]  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">zeros</span>((<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_size</span>, <span style="color:#e06c75">n_features</span><span style="color:#56b6c2">*</span><span style="color:#d19a66">2</span><span style="color:#56b6c2">+</span><span style="color:#d19a66">2</span>))  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">loss_func</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">nn</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">MSELoss</span>()  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">cost_his</span> <span style="color:#56b6c2">=</span> []  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">_build_net</span>()  
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">_build_net</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_eval</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Net</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span>, <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_hidden</span>, <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_actions</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_target</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Net</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span>, <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_hidden</span>, <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_actions</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">optimizer</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">torch</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">optim</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">RMSprop</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_eval</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">parameters</span>(), <span style="color:#e06c75">lr</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">lr</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">store_transition</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">s</span>, <span style="color:#e06c75">a</span>, <span style="color:#e06c75">r</span>, <span style="color:#e06c75">s_</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#56b6c2">not</span> <span style="color:#e5c07b">hasattr</span>(<span style="color:#e06c75">self</span>, <span style="color:#98c379">&#39;memory_counter&#39;</span>):  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_counter</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">transition</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hstack</span>((<span style="color:#e06c75">s</span>, [<span style="color:#e06c75">a</span>, <span style="color:#e06c75">r</span>], <span style="color:#e06c75">s_</span>))  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># replace the old memory with new memory  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">index</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_counter</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_size</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory</span>[<span style="color:#e06c75">index</span>, :] <span style="color:#56b6c2">=</span> <span style="color:#e06c75">transition</span>   
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_counter</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">choose_action</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">observation</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">observation</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">torch</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Tensor</span>(<span style="color:#e06c75">observation</span>[<span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">newaxis</span>, :])  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">uniform</span>() <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">actions_value</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_eval</span>(<span style="color:#e06c75">observation</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">argmax</span>(<span style="color:#e06c75">actions_value</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">data</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">numpy</span>())  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">randint</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_actions</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#e06c75">action</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">learn</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># check to replace target parameters  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">learn_step_counter</span> <span style="color:#56b6c2">%</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">replace_target_iter</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_target</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">load_state_dict</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_eval</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">state_dict</span>())  
+</span></span><span style="display:flex;"><span>            <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;</span><span style="color:#98c379">\n</span><span style="color:#98c379">target params replaced</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># sample batch memory from all memory  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_counter</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_size</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">sample_index</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">choice</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_size</span>, <span style="color:#e06c75">size</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">batch_size</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">sample_index</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">random</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">choice</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory_counter</span>, <span style="color:#e06c75">size</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">batch_size</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">batch_memory</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">memory</span>[<span style="color:#e06c75">sample_index</span>, :]  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># q_next is used for getting which action would be choosed by target network in state s_(t+1)  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">q_next</span>, <span style="color:#e06c75">q_eval</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_target</span>(<span style="color:#e06c75">torch</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Tensor</span>(<span style="color:#e06c75">batch_memory</span>[:, <span style="color:#56b6c2">-</span><span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span>:])), <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">q_eval</span>(<span style="color:#e06c75">torch</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Tensor</span>(<span style="color:#e06c75">batch_memory</span>[:, :<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span>]))  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># used for calculating y, we need to copy for q_eval because this operation could keep the Q_value that has not been selected unchanged,  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># so when we do q_target - q_eval, these Q_value become zero and wouldn&#39;t affect the calculation of the loss   </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">q_target</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">torch</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Tensor</span>(<span style="color:#e06c75">q_eval</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">data</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">numpy</span>()<span style="color:#56b6c2">.</span><span style="color:#e06c75">copy</span>())  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">batch_index</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">arange</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">batch_size</span>, <span style="color:#e06c75">dtype</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">int32</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">eval_act_index</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">batch_memory</span>[:, <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span>]<span style="color:#56b6c2">.</span><span style="color:#e06c75">astype</span>(<span style="color:#e5c07b">int</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">reward</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">torch</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Tensor</span>(<span style="color:#e06c75">batch_memory</span>[:, <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span><span style="color:#56b6c2">+</span><span style="color:#d19a66">1</span>])  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">q_target</span>[<span style="color:#e06c75">batch_index</span>, <span style="color:#e06c75">eval_act_index</span>] <span style="color:#56b6c2">=</span> <span style="color:#e06c75">reward</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">gamma</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">torch</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">max</span>(<span style="color:#e06c75">q_next</span>, <span style="color:#d19a66">1</span>)[<span style="color:#d19a66">0</span>]  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">loss</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">loss_func</span>(<span style="color:#e06c75">q_eval</span>, <span style="color:#e06c75">q_target</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">optimizer</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">zero_grad</span>()  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">loss</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">backward</span>()  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">optimizer</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">step</span>()  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#7f848e"># increase epsilon  </span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">cost_his</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">loss</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon_increment</span> <span style="color:#c678dd">if</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon_max</span> <span style="color:#c678dd">else</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">epsilon_max</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">learn_step_counter</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">plot_cost</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">plt</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">plot</span>(<span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">arange</span>(<span style="color:#e5c07b">len</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">cost_his</span>)), <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">cost_his</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">plt</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">ylabel</span>(<span style="color:#98c379">&#39;Cost&#39;</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">plt</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">xlabel</span>(<span style="color:#98c379">&#39;training steps&#39;</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">plt</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">show</span>()  
+</span></span></code></pre></div><p>2、<strong>搭建环境</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">numpy</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">np</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">time</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">import</span> <span style="color:#e06c75">sys</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">if</span> <span style="color:#e06c75">sys</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">version_info</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">major</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">2</span>:  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">import</span> <span style="color:#e06c75">Tkinter</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">tk</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">import</span> <span style="color:#e06c75">tkinter</span> <span style="color:#c678dd">as</span> <span style="color:#e06c75">tk</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">40</span>   <span style="color:#7f848e"># pixels  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">4</span>  <span style="color:#7f848e"># grid height  </span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">4</span>  <span style="color:#7f848e"># grid width  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">class</span> <span style="color:#e5c07b">Maze</span>(<span style="color:#e06c75">tk</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Tk</span>, <span style="color:#e5c07b">object</span>):  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#56b6c2;font-weight:bold">__init__</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">super</span>(<span style="color:#e06c75">Maze</span>, <span style="color:#e06c75">self</span>)<span style="color:#56b6c2">.</span><span style="color:#56b6c2;font-weight:bold">__init__</span>()  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">action_space</span> <span style="color:#56b6c2">=</span> [<span style="color:#98c379">&#39;u&#39;</span>, <span style="color:#98c379">&#39;d&#39;</span>, <span style="color:#98c379">&#39;l&#39;</span>, <span style="color:#98c379">&#39;r&#39;</span>]  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_actions</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">action_space</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">2</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">title</span>(<span style="color:#98c379">&#39;maze&#39;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">geometry</span>(<span style="color:#98c379">&#39;</span><span style="color:#98c379">{0}</span><span style="color:#98c379">x</span><span style="color:#98c379">{1}</span><span style="color:#98c379">&#39;</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">format</span>(<span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>))  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">_build_maze</span>()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">_build_maze</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">tk</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">Canvas</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">bg</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;white&#39;</span>,  
+</span></span><span style="display:flex;"><span>                           <span style="color:#e06c75">height</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>,  
+</span></span><span style="display:flex;"><span>                           <span style="color:#e06c75">width</span><span style="color:#56b6c2">=</span><span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># create grids  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">for</span> <span style="color:#e06c75">c</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">UNIT</span>):  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">x0</span>, <span style="color:#e06c75">y0</span>, <span style="color:#e06c75">x1</span>, <span style="color:#e06c75">y1</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">c</span>, <span style="color:#d19a66">0</span>, <span style="color:#e06c75">c</span>, <span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_line</span>(<span style="color:#e06c75">x0</span>, <span style="color:#e06c75">y0</span>, <span style="color:#e06c75">x1</span>, <span style="color:#e06c75">y1</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">for</span> <span style="color:#e06c75">r</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">UNIT</span>):  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">x0</span>, <span style="color:#e06c75">y0</span>, <span style="color:#e06c75">x1</span>, <span style="color:#e06c75">y1</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>, <span style="color:#e06c75">r</span>, <span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>, <span style="color:#e06c75">r</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_line</span>(<span style="color:#e06c75">x0</span>, <span style="color:#e06c75">y0</span>, <span style="color:#e06c75">x1</span>, <span style="color:#e06c75">y1</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># create origin  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#d19a66">20</span>, <span style="color:#d19a66">20</span>])  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">hell1_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">2</span>, <span style="color:#e06c75">UNIT</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell1</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell1_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell1_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">hell1_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">hell1_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;black&#39;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># hell2_center = origin + np.array([UNIT, UNIT * 2])  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># self.hell2 = self.canvas.create_rectangle(  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e">#     hell2_center[0] - 15, hell2_center[1] - 15,  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e">#     hell2_center[0] + 15, hell2_center[1] + 15,  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e">#     fill=&#39;black&#39;)  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># create oval  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">oval_center</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">UNIT</span> <span style="color:#56b6c2">*</span> <span style="color:#d19a66">2</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">oval</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_oval</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">oval_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">oval_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">oval_center</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">oval_center</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;yellow&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># create red rect  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;red&#39;</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># pack all  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pack</span>()  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">reset</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">update</span>()  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">time</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">sleep</span>(<span style="color:#d19a66">0.1</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">delete</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">origin</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#d19a66">20</span>, <span style="color:#d19a66">20</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">create_rectangle</span>(  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>, <span style="color:#e06c75">origin</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+</span> <span style="color:#d19a66">15</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">fill</span><span style="color:#56b6c2">=</span><span style="color:#98c379">&#39;red&#39;</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e"># return observation  </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> (<span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>)[:<span style="color:#d19a66">2</span>]) <span style="color:#56b6c2">-</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">oval</span>)[:<span style="color:#d19a66">2</span>]))<span style="color:#56b6c2">/</span>(<span style="color:#e06c75">MAZE_H</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">UNIT</span>)  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">step</span>(<span style="color:#e06c75">self</span>, <span style="color:#e06c75">action</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">s</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>)  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">base_action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>([<span style="color:#d19a66">0</span>, <span style="color:#d19a66">0</span>])  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">action</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span>:   <span style="color:#7f848e"># up  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">UNIT</span>:  
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">-=</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">action</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">1</span>:   <span style="color:#7f848e"># down  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">&lt;</span> (<span style="color:#e06c75">MAZE_H</span> <span style="color:#56b6c2">-</span> <span style="color:#d19a66">1</span>) <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>:  
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">1</span>] <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">action</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">2</span>:   <span style="color:#7f848e"># right  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">&lt;</span> (<span style="color:#e06c75">MAZE_W</span> <span style="color:#56b6c2">-</span> <span style="color:#d19a66">1</span>) <span style="color:#56b6c2">*</span> <span style="color:#e06c75">UNIT</span>:  
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">+=</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">action</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">3</span>:   <span style="color:#7f848e"># left  </span>
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> <span style="color:#e06c75">s</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">UNIT</span>:  
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">0</span>] <span style="color:#56b6c2">-=</span> <span style="color:#e06c75">UNIT</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">move</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>, <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">0</span>], <span style="color:#e06c75">base_action</span>[<span style="color:#d19a66">1</span>])  <span style="color:#7f848e"># move agent  </span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">next_coords</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">rect</span>)  <span style="color:#7f848e"># next state  </span>
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	        <span style="color:#7f848e"># reward function  </span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">if</span> <span style="color:#e06c75">next_coords</span> <span style="color:#56b6c2">==</span> <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">oval</span>):  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">reward</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">True</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">next_coords</span> <span style="color:#56b6c2">in</span> [<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">hell1</span>)]:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">reward</span> <span style="color:#56b6c2">=</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">True</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">else</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">reward</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">False</span>  
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">=</span> (<span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>(<span style="color:#e06c75">next_coords</span>[:<span style="color:#d19a66">2</span>]) <span style="color:#56b6c2">-</span> <span style="color:#e06c75">np</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">array</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">canvas</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">coords</span>(<span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">oval</span>)[:<span style="color:#d19a66">2</span>]))<span style="color:#56b6c2">/</span>(<span style="color:#e06c75">MAZE_H</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">UNIT</span>)  
+</span></span><span style="display:flex;"><span>	        <span style="color:#c678dd">return</span> <span style="color:#e06c75">s_</span>, <span style="color:#e06c75">reward</span>, <span style="color:#e06c75">done</span>  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	    <span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">render</span>(<span style="color:#e06c75">self</span>):  
+</span></span><span style="display:flex;"><span>	        <span style="color:#7f848e"># time.sleep(0.01)  </span>
+</span></span><span style="display:flex;"><span>	        <span style="color:#e06c75">self</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">update</span>() 
+</span></span></code></pre></div><p>3、<strong>运行</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">from</span> <span style="color:#e06c75">maze_env</span> <span style="color:#c678dd">import</span> <span style="color:#e06c75">Maze</span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">from</span> <span style="color:#e06c75">RL_brain</span> <span style="color:#c678dd">import</span> <span style="color:#e06c75">DeepQNetwork</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">run_maze</span>():  
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">step</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">episode</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#d19a66">300</span>):  
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;episode: </span><span style="color:#98c379">{}</span><span style="color:#98c379">&#34;</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">format</span>(<span style="color:#e06c75">episode</span>))  
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">observation</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">reset</span>()  
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">while</span> <span style="color:#e5c07b">True</span>:  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#34;step: </span><span style="color:#98c379">{}</span><span style="color:#98c379">&#34;</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">format</span>(<span style="color:#e06c75">step</span>))  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">render</span>()  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">action</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">RL</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">choose_action</span>(<span style="color:#e06c75">observation</span>)  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">observation_</span>, <span style="color:#e06c75">reward</span>, <span style="color:#e06c75">done</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">step</span>(<span style="color:#e06c75">action</span>)  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">RL</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">store_transition</span>(<span style="color:#e06c75">observation</span>, <span style="color:#e06c75">action</span>, <span style="color:#e06c75">reward</span>, <span style="color:#e06c75">observation_</span>)  
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">if</span> (<span style="color:#e06c75">step</span><span style="color:#56b6c2">&gt;</span><span style="color:#d19a66">200</span>) <span style="color:#56b6c2">and</span> (<span style="color:#e06c75">step</span><span style="color:#56b6c2">%</span><span style="color:#d19a66">5</span><span style="color:#56b6c2">==</span><span style="color:#d19a66">0</span>):  
+</span></span><span style="display:flex;"><span>	                <span style="color:#e06c75">RL</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">learn</span>()  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">observation</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">observation_</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#c678dd">if</span> <span style="color:#e06c75">done</span>:  
+</span></span><span style="display:flex;"><span>	                <span style="color:#c678dd">break</span>  
+</span></span><span style="display:flex;"><span>	            <span style="color:#e06c75">step</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e5c07b">print</span>(<span style="color:#98c379">&#39;game over&#39;</span>)  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">destroy</span>()  
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">if</span> <span style="color:#e06c75">__name__</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;__main__&#39;</span>:  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">env</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Maze</span>()  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">RL</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">DeepQNetwork</span>(<span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_actions</span>, <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">n_features</span>,  
+</span></span><span style="display:flex;"><span>	                    <span style="color:#e06c75">learning_rate</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.01</span>,  
+</span></span><span style="display:flex;"><span>	                    <span style="color:#e06c75">reward_decay</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.9</span>,  
+</span></span><span style="display:flex;"><span>	                    <span style="color:#e06c75">e_greedy</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">0.9</span>,  
+</span></span><span style="display:flex;"><span>	                    <span style="color:#e06c75">replace_target_iter</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">200</span>,  
+</span></span><span style="display:flex;"><span>	                    <span style="color:#e06c75">memory_size</span><span style="color:#56b6c2">=</span><span style="color:#d19a66">2000</span>  
+</span></span><span style="display:flex;"><span>	                    )  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">after</span>(<span style="color:#d19a66">100</span>, <span style="color:#e06c75">run_maze</span>)  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">env</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">mainloop</span>()  
+</span></span><span style="display:flex;"><span>	    <span style="color:#e06c75">RL</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">plot_cost</span>()  
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了139.9k字·共 23篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#案例1q-learning-寻宝藏"><strong>案例1：Q-Learning 寻宝藏</strong></a>
+      <ol>
+        <li><a href="#案例描述"><strong>案例描述</strong></a></li>
+        <li><a href="#算法描述"><strong>算法描述</strong></a></li>
+        <li><a href="#具体实现"><strong>具体实现</strong></a></li>
+      </ol>
+    </li>
+    <li><a href="#案例2q-learning-走迷宫">案例2：Q-Learning 走迷宫</a>
+      <ol>
+        <li><a href="#案例描述-1">案例描述</a></li>
+        <li><a href="#算法描述-1">算法描述</a></li>
+        <li><a href="#具体实现-1">具体实现</a></li>
+      </ol>
+    </li>
+    <li><a href="#案例3deep-q-network-走迷宫">案例3：Deep-Q-Network 走迷宫</a>
+      <ol>
+        <li><a href="#案例描述-2">案例描述</a></li>
+        <li><a href="#算法描述-2">算法描述</a></li>
+        <li><a href="#具体实现-2">具体实现</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="category-list-link">人工智能<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">6</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">9</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">2</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">23</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_8">
+                Note
+            </a>
+        
+            <a href="/tags/web/" class="font_size_3">
+                Web
+            </a>
+        
+            <a href="/tags/%E8%8B%B1%E8%AF%AD/" class="font_size_3">
+                英语
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_3">
+                计算机网络
+            </a>
+        
+            <a href="/tags/c/" class="font_size_2">
+                C
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_2">
+                Linux
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/python/" class="font_size_1">
+                Python
+            </a>
+        
+            <a href="/tags/shell/" class="font_size_1">
+                Shell
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
