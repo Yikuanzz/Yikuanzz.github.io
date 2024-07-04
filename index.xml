@@ -6,7 +6,198 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 16 Jun 2024 10:48:53 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 22 Jun 2024 10:44:39 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>CPP的STL</title>
+        <link>https://yikuanzz.github.io/2024/cpp%E7%9A%84stl/</link>
+        <pubDate>Sat, 22 Jun 2024 10:44:39 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/cpp%E7%9A%84stl/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/cpp%E7%9A%84stl/cover.png" alt="Featured image of post CPP的STL" /&gt;&lt;h2 id=&#34;stl-概述&#34;&gt;STL 概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;STL(Standard Template Library, 标准模板库)&lt;/code&gt; 主要由 &lt;code&gt;container(容器)&lt;/code&gt;、&lt;code&gt;algorithm(算法)&lt;/code&gt; 和 &lt;code&gt;iterator(迭代器)&lt;/code&gt; 三大部分构成，容器用于存放数据对象(元素)，算法用于操作容器中的数据对象。&lt;/p&gt;
+&lt;h3 id=&#34;stl-容器&#34;&gt;STL 容器&lt;/h3&gt;
+&lt;p&gt;一个 &lt;code&gt;STL&lt;/code&gt; 容器就是一种数据结构，比如 链表、栈和队列等，这些数据结构在 &lt;code&gt;STL&lt;/code&gt; 中已经实现好了，在算法设计中可以直接使用它们。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;数据结构&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;说明&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;实现头文件&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;向量（vector）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;连续存储元素，底层数据结构为数组，支持快速访问。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;vector&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;字符串（string）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;字符串处理容器。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;string&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;双端队列（deque）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;连续存储的指向不同元素的指针所在的数组，底层数据结构为一个中央控制器和多个缓冲区，支持首尾元素的快速删除，也支持随机访问。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;deque&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;链表（list）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;由结点组成的链表，每个结点包含着一个元素，底层数据结构为双向链表，支持结点的快速增删。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;list&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;栈（stack）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;后进先出的序列，底层一般用deque或者list实现。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;stack&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;队列（queue）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;先进先出的序列，底层一般用deque或list实现。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;queue&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;优先队列（prority_queue）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;元素的进出队顺序由某个谓词或者关系函数决定的一种队列，底层数据结构一般为vector或deque。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;queue&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;集合（set）/ 多重集合（multiset）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;由结点组成的红黑树，每个结点都包含着一个元素，set中所有元素有序但不重复，multiset中所有关键字有序但不重复。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;set&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;映射（map）/ 多重映射（multimap）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;由（关键字，值）对组成的集合，底层数据结构为红黑树，map中所有关键字有序但不重复，multimap中所有关键字有序但可以重复。&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;map&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;stl-算法&#34;&gt;STL 算法&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;STL&lt;/code&gt; 算法是用来操作容器中数据的模板函数，&lt;code&gt;STL&lt;/code&gt; 提供了大约 100 个实现算法的模板函数。例如，&lt;code&gt;STL&lt;/code&gt; 用 &lt;code&gt;sort()&lt;/code&gt; 来对一个 &lt;code&gt;vector&lt;/code&gt; 中的数据进行排序，用 &lt;code&gt;find()&lt;/code&gt; 来搜索一个 &lt;code&gt;list&lt;/code&gt; 中的对象。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;STL&lt;/code&gt; 算法部分主要由头文件 &lt;code&gt;&amp;lt;algorithm&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;numeric&amp;gt;&lt;/code&gt; 和 &lt;code&gt;&amp;lt;functional&amp;gt;&lt;/code&gt; 组成。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 用 sort() 实现数组排序的例子
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;algorithm&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;[] &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;sort&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;stl-迭代器&#34;&gt;STL 迭代器&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;STL&lt;/code&gt; 迭代器用于访问容器中的数据对象，每个容器都有自己的迭代器，只有容器自己才知道如何访问自己的元素。迭代器像 &lt;code&gt;c/c++&lt;/code&gt; 中的指针，算法通过迭代器来定位和操作容器中的数据。&lt;/p&gt;
+&lt;p&gt;常用的迭代器有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;iterator&lt;/code&gt;：指向容器中存放元素的迭代器，用于正向遍历容器中的元素。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;const_iterator&lt;/code&gt;：指向容器中存放元素的常量迭代器，只能读取容器中的元素。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;reverse_iterator&lt;/code&gt;：指向容器中存放元素的反向迭代器，用于反向遍历容器中的元素。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;const_reverse_iterator&lt;/code&gt;：指向容器中存放元素的常量反向迭代器，只能读取容器中的元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;迭代器常用运算有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;++&lt;/code&gt;：正向移动迭代器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--&lt;/code&gt;：反向移动迭代器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;*&lt;/code&gt;：返回迭代器所指的元素值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 通过迭代器来迭代向量中的元素例子
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;vector&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;::&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;iterator&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义正向迭代器
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;::&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;reverse_iterator&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;rit&lt;/span&gt;;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义反向迭代器
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;rit&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;rbegin&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;rit&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;rend&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;rit&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;rit&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;常用的stl容器&#34;&gt;常用的STL容器&lt;/h2&gt;
+&lt;h3 id=&#34;顺序容器&#34;&gt;顺序容器&lt;/h3&gt;
+&lt;p&gt;（1）&lt;code&gt;vector&lt;/code&gt; 向量容器：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它是一个向量类模板，向量容器相当于数组。&lt;/li&gt;
+&lt;li&gt;用于存储具有相同数据类型的一组元素，可以从末尾快速的插入与删除元素，快速地随机访问元素，但是在序列中间插入、删除元素比较慢，因为需要移动插入或删除处于后面的所有元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;/* 定义 vector 容器的方式 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v1&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义元素为 int 的向量 v1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v2&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// 指定向量 v2 的初始大小为 10 个 int 元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v3&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;， &lt;span style=&#34;color:#d19a66&#34;&gt;1.23&lt;/span&gt;);	&lt;span style=&#34;color:#7f848e&#34;&gt;// 指定向量 v3 的 10 个初始元素值都为 1.23
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;适配器容器&#34;&gt;适配器容器&lt;/h3&gt;
+&lt;h3 id=&#34;关联容器&#34;&gt;关联容器&lt;/h3&gt;
+</description>
+        </item>
+        <item>
+        <title>哈希表 平衡二叉树 红黑树</title>
+        <link>https://yikuanzz.github.io/2024/%E5%93%88%E5%B8%8C%E8%A1%A8-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91-%E7%BA%A2%E9%BB%91%E6%A0%91/</link>
+        <pubDate>Tue, 18 Jun 2024 14:33:01 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/%E5%93%88%E5%B8%8C%E8%A1%A8-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91-%E7%BA%A2%E9%BB%91%E6%A0%91/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E5%93%88%E5%B8%8C%E8%A1%A8-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91-%E7%BA%A2%E9%BB%91%E6%A0%91/cover.png" alt="Featured image of post 哈希表 平衡二叉树 红黑树" /&gt;&lt;h2 id=&#34;哈希表&#34;&gt;哈希表&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;哈希表（Hash Table）&lt;/strong&gt; 也是散列表，通过键值对来进行数据访问的数据结构。&lt;/p&gt;
+&lt;p&gt;哈希表的作用就是我们能用比较快的速度来对数据进行检索，我们已经很熟悉的 字典、映射 等数据结构的底层都是用哈希表来做的实现。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240618144512.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240618144512.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;哈希表原理&#34;&gt;哈希表原理&lt;/h3&gt;
+&lt;p&gt;哈希表是这样的，它的里面维护着一个数组，数组的大小不会很大也不会很小。同时，哈希表里面还有&lt;strong&gt;哈希函数（Hash Function）&lt;/strong&gt;，是用来计算哈希值的。&lt;/p&gt;
+&lt;p&gt;首先，一个键值对的数据给到哈希表，它先根据“键”计算该键的哈希值，然后再放在对应的数组位置上，这样不同的哈希值的数据就被放到不同的数组位置上了。&lt;/p&gt;
+&lt;p&gt;但是，实际情况并不可能这么完美，所以会有哈希值一样的情况，也就是&lt;strong&gt;哈希冲突（Hash Collision）&lt;/strong&gt;，当然我们有各种各样的方法来解决哈希冲突，后面我们来介绍。&lt;/p&gt;
+&lt;h3 id=&#34;哈希函数&#34;&gt;哈希函数&lt;/h3&gt;
+&lt;p&gt;哈希函数作为哈希表的最重要组成部分，一般是要满足以下条件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;哈希函数应该要容易计算，且计算出的哈希值分布要相对均匀。&lt;/li&gt;
+&lt;li&gt;哈希函数计算出的哈希值是一个固定长度的输出值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面是一些常用的哈希函数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;直接定址法&lt;/strong&gt;：用”键“的线性函数来做哈希地址。
+&lt;ul&gt;
+&lt;li&gt;$ Hash(key) = a\times key+b$，其中 $a$ 和 $b$ 都是常数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;除留余数法&lt;/strong&gt;：如果数组长为 $m$ 就取一个大于 $m$ 但是接近或等于 $m$ 的质数 $p$ ，利用取模运算，将关键字转换为哈希地址。
+&lt;ul&gt;
+&lt;li&gt;$Hash(key)= key \kern 5pt mod \kern 5pt p$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;平方取中法&lt;/strong&gt;：先通过求关键字平方值的方式扩大相近数之间的差别，然后根据表长度取关键字平方值的中间几位数作为哈希地址。
+&lt;ul&gt;
+&lt;li&gt;$Hash(key)=(key\times key)//100\kern 5pt mod\kern 5pt 1000$，先计算平方，然后除去后两位数，再取中间 3 位作为哈希值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;平衡二叉树&#34;&gt;平衡二叉树&lt;/h2&gt;
+&lt;h2 id=&#34;红黑树&#34;&gt;红黑树&lt;/h2&gt;
+</description>
+        </item>
+        <item>
         <title>日语语法大阅览</title>
         <link>https://yikuanzz.github.io/2024/%E6%97%A5%E8%AF%AD%E8%AF%AD%E6%B3%95%E5%A4%A7%E9%98%85%E8%A7%88/</link>
         <pubDate>Sun, 16 Jun 2024 10:48:53 +0800</pubDate>
@@ -3143,7 +3334,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;使用映射&lt;/strong&gt;：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建空映射，用来存储颜色以及对应的十六进制代码
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e06c75&#34;&gt;String&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;{}
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 将 Red 的代码加入到映射
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;colors&lt;/span&gt;[&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Red&amp;#34;&lt;/span&gt;] = &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;#da1337&amp;#34;&lt;/span&gt;
@@ -3706,6 +3897,7 @@ $$
 &lt;p&gt;一旦被阻塞的系统调用执行完成并返回，对应的 &lt;code&gt;goroutine&lt;/code&gt; 会回到本地运行队列，而之前的线程会被维护，以便之后可以继续使用。&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;如果一个 &lt;code&gt;goroutine&lt;/code&gt; 要做一个网络 I/O 调用的话，&lt;code&gt;goroutine&lt;/code&gt; 就不用逻辑处理器，而是移到集成了&lt;strong&gt;网络轮询器&lt;/strong&gt;的运行时。一旦该轮询器指示某个网络读或写操作已就绪，对应的 &lt;code&gt;goroutine&lt;/code&gt; 就会重新分配到逻辑处理器上来完成操作。（调度器对可以创建的）&lt;/p&gt;
+&lt;p&gt;​&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -4094,7 +4286,20 @@ $$
         <pubDate>Wed, 29 May 2024 22:23:06 +0800</pubDate>
         
         <guid>https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/</guid>
-        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/cover.png" alt="Featured image of post 英语角" /&gt;&lt;h2 id=&#34;squander&#34;&gt;squander&lt;/h2&gt;
+        <description>&lt;img src="https://yikuanzz.github.io/2024/%E8%8B%B1%E8%AF%AD%E8%A7%92/cover.png" alt="Featured image of post 英语角" /&gt;&lt;h2 id=&#34;tremendous&#34;&gt;tremendous&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240616121621.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240616121621.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;squander&#34;&gt;squander&lt;/h2&gt;
 &lt;p&gt;&lt;figure 
 	&gt;
 	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240614000540.png&#34; &gt;
@@ -6677,7 +6882,7 @@ $$
         <guid>https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/</guid>
         <description>&lt;img src="https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/cover.png" alt="Featured image of post 简单算法问题" /&gt;&lt;h2 id=&#34;数据结构&#34;&gt;数据结构&lt;/h2&gt;
 &lt;h3 id=&#34;栈&#34;&gt;栈&lt;/h3&gt;
-&lt;h4 id=&#34;模板栈&#34;&gt;【模板】栈&lt;/h4&gt;
+&lt;h4 id=&#34;栈的实现&#34;&gt;栈的实现&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;描述&lt;/strong&gt;：请你实现一个栈。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;push x : 将 x 入栈，保证 x 为 int 整数。&lt;/li&gt;
@@ -6767,8 +6972,35 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;说明：
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    由于是&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;1,2,3,4,5&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;的压入顺序，&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;4,3,5,1,2&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;的弹出顺序，要求4，3，5必须在1，2前压入，且1，2不能弹出，但是这样压入的顺序，1又不能在2之前弹出，所以无法形成的，返回false。      
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
-&lt;p&gt;栈的操作主要有：出栈、入栈两个操作。&lt;/p&gt;
-&lt;h4 id=&#34;有效括号序列&#34;&gt;有效括号序列&lt;/h4&gt;
+&lt;p&gt;方法一：我们通过一个辅助栈来判断是否能够实现这样的压栈顺序。思路并不困难，首先我们有 &lt;code&gt;pushV&lt;/code&gt; 和 &lt;code&gt;popV&lt;/code&gt; 两个数组，那么我们需要做的是遍历出栈数组，然后判断入栈数组中的数是否要入栈，接着再看栈的栈顶是不是等于出栈数组的数，如果是的话就出栈，否则就是这个出栈方案不满足条件。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;IsPopOrder&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;self&lt;/span&gt; , &lt;span style=&#34;color:#e06c75&#34;&gt;pushV&lt;/span&gt;: &lt;span style=&#34;color:#e06c75&#34;&gt;List&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;], &lt;span style=&#34;color:#e06c75&#34;&gt;popV&lt;/span&gt;: &lt;span style=&#34;color:#e06c75&#34;&gt;List&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;]) &lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;bool&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pushV&lt;/span&gt;)		&lt;span style=&#34;color:#7f848e&#34;&gt;# 获取栈长度&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []		&lt;span style=&#34;color:#7f848e&#34;&gt;# 用列表作为栈&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;j&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;# 用于输入栈的遍历&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;):		&lt;span style=&#34;color:#7f848e&#34;&gt;# 遍历输出&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;j&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; (&lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;[&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;popV&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;]):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#7f848e&#34;&gt;# 当栈为空或者栈首位与输出栈不同的时候才入栈&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pushV&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;j&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;j&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;[&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;popV&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;]:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#7f848e&#34;&gt;# 判断栈顶是否与出栈一致，是就是出栈&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;False&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;True&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;方法二：实际上，我们可以用 &lt;code&gt;pushV&lt;/code&gt; 作为栈进行判断，做法就是用一个变量 &lt;code&gt;n&lt;/code&gt; 同时作为栈顶和索引，我们遍历数组 &lt;code&gt;pushV&lt;/code&gt; 的每个元素，将它赋值给 &lt;code&gt;pushV[n]&lt;/code&gt;，然后判断数组是否不为空且栈顶的第一个元素是否与 &lt;code&gt;popV&lt;/code&gt; 数组的元素相同，如果是就出栈，最后判断栈是否为空，作为能否成功出栈的依据。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;IsPopOrder&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;self&lt;/span&gt; , &lt;span style=&#34;color:#e06c75&#34;&gt;pushV&lt;/span&gt;: &lt;span style=&#34;color:#e06c75&#34;&gt;List&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;], &lt;span style=&#34;color:#e06c75&#34;&gt;popV&lt;/span&gt;: &lt;span style=&#34;color:#e06c75&#34;&gt;List&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;]) &lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;bool&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;# 栈顶 和 数组索引&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;j&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt; 		&lt;span style=&#34;color:#7f848e&#34;&gt;# popV的索引&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;num&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pushV&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;pushV&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;num&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pushV&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;j&lt;/span&gt;]:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#7f848e&#34;&gt;# 满足条件 栈不空 且与 出栈顺序相等&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;j&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;True&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;False&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;有效括号序列&#34;&gt;有效括号序列&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;描述&lt;/strong&gt;：给定一个只包括 &lt;code&gt;&#39;(&#39;&lt;/code&gt;，&lt;code&gt;&#39;)&#39;&lt;/code&gt;，&lt;code&gt;&#39;{&#39;&lt;/code&gt;，&lt;code&gt;&#39;}&#39;&lt;/code&gt;，&lt;code&gt;&#39;[&#39;&lt;/code&gt;，&lt;code&gt;&#39;]&#39;&lt;/code&gt; 的字符串 s。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;要求&lt;/strong&gt;：判断字符串 s 是否有效（即括号是否匹配）。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;说明&lt;/strong&gt;：&lt;/p&gt;
@@ -6788,6 +7020,93 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;输入：s &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;()[]{}&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;输出：True
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;isValid&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;self&lt;/span&gt; , &lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;str&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;bool&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;# write code here&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s_&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;(&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s_&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;)&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;elif&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;{&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s_&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;}&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;elif&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;[&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s_&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;]&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;s_&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;True&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;False&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;逆波兰表达式&#34;&gt;逆波兰表达式&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;描述&lt;/strong&gt;：给定一个逆波兰表达式，求表达式的值。&lt;/p&gt;
+&lt;p&gt;数据范围：&lt;code&gt;1 &amp;lt;= n &amp;lt;= 100000&lt;/code&gt;，表达式中仅包含数字和 &lt;code&gt;+&lt;/code&gt;，&lt;code&gt;-&lt;/code&gt;，&lt;code&gt;*&lt;/code&gt;，&lt;code&gt;/&lt;/code&gt;，其中数字的大小满足 $|val| \leq 200$。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;输入：&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;2&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;+&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;4&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;返回值：12
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;输入：&lt;span style=&#34;color:#56b6c2&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;2&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;+&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;返回值：2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;evalRPN&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;self&lt;/span&gt; , &lt;span style=&#34;color:#e06c75&#34;&gt;tokens&lt;/span&gt;: &lt;span style=&#34;color:#e06c75&#34;&gt;List&lt;/span&gt;[&lt;span style=&#34;color:#e5c07b&#34;&gt;str&lt;/span&gt;]) &lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;# write code here&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;tokens&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;n1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;n2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;elif&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;n2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;n1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;elif&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;*&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;n1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;n2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;elif&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;n2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;n2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;n1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;[&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;中缀表达式转逆波兰表达式(后缀表达式)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;中缀表达式就是我们所熟悉的表达式，需要关注运算符的优先级，比如 &lt;code&gt;3 + 4 * 2&lt;/code&gt;，就要先算 &lt;code&gt;4 * 2&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;后缀表达式，也称为逆波兰表达式，运算符写在操作数后面，比如 &lt;code&gt;(3 + 4) * 5 - 6&lt;/code&gt;，为 &lt;code&gt;3 4 + 5 * - 6&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将中缀表达式变成后缀表达式的规则就是把每个运算符都移到它的两个操作数的后面，然后删除括号。&lt;/p&gt;
+&lt;p&gt;我们需要两个栈 &lt;code&gt;a&lt;/code&gt; 和 &lt;code&gt;b&lt;/code&gt;，&lt;code&gt;a&lt;/code&gt; 用来存储转换过程，&lt;code&gt;b&lt;/code&gt; 用于临时存储操作符与小括号。&lt;/p&gt;
+&lt;p&gt;主要注意的是 &lt;code&gt;b&lt;/code&gt; 栈的进出规则，如果扫描到当前符号比栈中的符号优先级要低，则先出栈再将该符号入栈。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;frontToBack&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;tokens&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;tokens&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;isnumeric&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;*&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;(&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;elif&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;[&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;[&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;*&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;[&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;elif&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;)&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;o&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;o&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;(&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;o&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#e06c75&#34;&gt;o&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;队列&#34;&gt;队列&lt;/h3&gt;
 &lt;h3 id=&#34;链表&#34;&gt;链表&lt;/h3&gt;
 &lt;h3 id=&#34;图论&#34;&gt;图论&lt;/h3&gt;

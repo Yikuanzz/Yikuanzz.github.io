@@ -3,19 +3,41 @@
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-<meta name='description' content='数据结构 栈 【模板】栈 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第'><title>简单算法问题</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+        <meta name='description' content='数据结构 栈 栈的实现 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第一'><title>简单算法问题</title>
 
 <link rel='canonical' href='https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/'>
 
 <link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='简单算法问题'>
-<meta property='og:description' content='数据结构 栈 【模板】栈 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第'>
+<meta property='og:description' content='数据结构 栈 栈的实现 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第一'>
 <meta property='og:url' content='https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/'>
 <meta property='og:site_name' content='Yikuanzz'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2024-05-15T20:12:01&#43;08:00'/><meta property='article:modified_time' content='2024-05-15T20:12:01&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/cover.png' />
 <meta name="twitter:title" content="简单算法问题">
-<meta name="twitter:description" content="数据结构 栈 【模板】栈 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="数据结构 栈 栈的实现 描述：请你实现一个栈。 push x : 将 x 入栈，保证 x 为 int 整数。 pop ：输出栈顶，并让栈顶出栈。 top ：输出栈顶，栈顶不出栈。 输入描述：第一"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/cover.png' />
     <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+
+  
+
 <style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
@@ -217,24 +239,6 @@
         
 
         <li >
-            <a href='/daily' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
-  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
-  <path d="M9 8h6" />
-</svg>
-                
-                <span>日报</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
             <a href='/%E5%85%B3%E4%BA%8E/' >
                 
                 
@@ -379,7 +383,7 @@
 
 
                 <time class="article-words">
-                    956字
+                    2039字
                 </time>
             </div>
         
@@ -393,7 +397,7 @@
     
     <h2 id="数据结构">数据结构</h2>
 <h3 id="栈">栈</h3>
-<h4 id="模板栈">【模板】栈</h4>
+<h4 id="栈的实现">栈的实现</h4>
 <p><strong>描述</strong>：请你实现一个栈。</p>
 <ul>
 <li>push x : 将 x 入栈，保证 x 为 int 整数。</li>
@@ -483,8 +487,35 @@
 </span></span><span style="display:flex;"><span>说明：
 </span></span><span style="display:flex;"><span>    由于是<span style="color:#56b6c2">[</span>1,2,3,4,5<span style="color:#56b6c2">]</span>的压入顺序，<span style="color:#56b6c2">[</span>4,3,5,1,2<span style="color:#56b6c2">]</span>的弹出顺序，要求4，3，5必须在1，2前压入，且1，2不能弹出，但是这样压入的顺序，1又不能在2之前弹出，所以无法形成的，返回false。      
 </span></span></code></pre></div><hr>
-<p>栈的操作主要有：出栈、入栈两个操作。</p>
-<h4 id="有效括号序列">有效括号序列</h4>
+<p>方法一：我们通过一个辅助栈来判断是否能够实现这样的压栈顺序。思路并不困难，首先我们有 <code>pushV</code> 和 <code>popV</code> 两个数组，那么我们需要做的是遍历出栈数组，然后判断入栈数组中的数是否要入栈，接着再看栈的栈顶是不是等于出栈数组的数，如果是的话就出栈，否则就是这个出栈方案不满足条件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">IsPopOrder</span>(<span style="color:#e06c75">self</span> , <span style="color:#e06c75">pushV</span>: <span style="color:#e06c75">List</span>[<span style="color:#e5c07b">int</span>], <span style="color:#e06c75">popV</span>: <span style="color:#e06c75">List</span>[<span style="color:#e5c07b">int</span>]) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">bool</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">len</span>(<span style="color:#e06c75">pushV</span>)		<span style="color:#7f848e"># 获取栈长度</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">stack</span> <span style="color:#56b6c2">=</span> []		<span style="color:#7f848e"># 用列表作为栈</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">j</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>		<span style="color:#7f848e"># 用于输入栈的遍历</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#e06c75">n</span>):		<span style="color:#7f848e"># 遍历输出</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">while</span> <span style="color:#e06c75">j</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">and</span> (<span style="color:#e5c07b">len</span>(<span style="color:#e06c75">stack</span>) <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span> <span style="color:#56b6c2">or</span> <span style="color:#e06c75">stack</span>[<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>] <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">popV</span>[<span style="color:#e06c75">i</span>]):
+</span></span><span style="display:flex;"><span>            <span style="color:#7f848e"># 当栈为空或者栈首位与输出栈不同的时候才入栈</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">pushV</span>[<span style="color:#e06c75">j</span>])
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">j</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">stack</span>[<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>] <span style="color:#56b6c2">==</span> <span style="color:#e06c75">popV</span>[<span style="color:#e06c75">i</span>]:
+</span></span><span style="display:flex;"><span>            <span style="color:#7f848e"># 判断栈顶是否与出栈一致，是就是出栈</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">return</span> <span style="color:#e5c07b">False</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e5c07b">True</span>
+</span></span></code></pre></div><p>方法二：实际上，我们可以用 <code>pushV</code> 作为栈进行判断，做法就是用一个变量 <code>n</code> 同时作为栈顶和索引，我们遍历数组 <code>pushV</code> 的每个元素，将它赋值给 <code>pushV[n]</code>，然后判断数组是否不为空且栈顶的第一个元素是否与 <code>popV</code> 数组的元素相同，如果是就出栈，最后判断栈是否为空，作为能否成功出栈的依据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">IsPopOrder</span>(<span style="color:#e06c75">self</span> , <span style="color:#e06c75">pushV</span>: <span style="color:#e06c75">List</span>[<span style="color:#e5c07b">int</span>], <span style="color:#e06c75">popV</span>: <span style="color:#e06c75">List</span>[<span style="color:#e5c07b">int</span>]) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">bool</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>		<span style="color:#7f848e"># 栈顶 和 数组索引</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">j</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span> 		<span style="color:#7f848e"># popV的索引</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">num</span> <span style="color:#56b6c2">in</span> <span style="color:#e5c07b">range</span>(<span style="color:#e06c75">pushV</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">pushV</span>[<span style="color:#e06c75">n</span>] <span style="color:#56b6c2">=</span> <span style="color:#e06c75">num</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">while</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">&gt;=</span> <span style="color:#d19a66">0</span> <span style="color:#56b6c2">and</span> <span style="color:#e06c75">pushV</span>[<span style="color:#e06c75">n</span>] <span style="color:#56b6c2">==</span> <span style="color:#e06c75">pop</span>[<span style="color:#e06c75">j</span>]:
+</span></span><span style="display:flex;"><span>            <span style="color:#7f848e"># 满足条件 栈不空 且与 出栈顺序相等</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">j</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n</span> <span style="color:#56b6c2">-=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">n</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e5c07b">True</span> <span style="color:#c678dd">if</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span> <span style="color:#c678dd">else</span> <span style="color:#e5c07b">False</span>
+</span></span></code></pre></div><h4 id="有效括号序列">有效括号序列</h4>
 <p><strong>描述</strong>：给定一个只包括 <code>'('</code>，<code>')'</code>，<code>'{'</code>，<code>'}'</code>，<code>'['</code>，<code>']'</code> 的字符串 s。</p>
 <p><strong>要求</strong>：判断字符串 s 是否有效（即括号是否匹配）。</p>
 <p><strong>说明</strong>：</p>
@@ -504,6 +535,93 @@
 </span></span><span style="display:flex;"><span>输入：s <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;()[]{}&#34;</span>
 </span></span><span style="display:flex;"><span>输出：True
 </span></span></code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">isValid</span>(<span style="color:#e06c75">self</span> , <span style="color:#e06c75">s</span>: <span style="color:#e5c07b">str</span>) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">bool</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e"># write code here</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">stack</span> <span style="color:#56b6c2">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">n</span> <span style="color:#56b6c2">=</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">s</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span> <span style="color:#56b6c2">and</span> <span style="color:#e06c75">stack</span>[<span style="color:#e06c75">n</span>] <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;(&#39;</span> <span style="color:#56b6c2">and</span> <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;)&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>()
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n</span> <span style="color:#56b6c2">-=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span> <span style="color:#56b6c2">and</span> <span style="color:#e06c75">stack</span>[<span style="color:#e06c75">n</span>] <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;{&#39;</span> <span style="color:#56b6c2">and</span> <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;}&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>()
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n</span> <span style="color:#56b6c2">-=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span> <span style="color:#56b6c2">and</span> <span style="color:#e06c75">stack</span>[<span style="color:#e06c75">n</span>] <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;[&#39;</span> <span style="color:#56b6c2">and</span> <span style="color:#e06c75">s_</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;]&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>()
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n</span> <span style="color:#56b6c2">-=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">s_</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n</span> <span style="color:#56b6c2">+=</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e5c07b">True</span> <span style="color:#c678dd">if</span> <span style="color:#e06c75">n</span> <span style="color:#56b6c2">==</span> <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span> <span style="color:#c678dd">else</span> <span style="color:#e5c07b">False</span>
+</span></span></code></pre></div><h4 id="逆波兰表达式">逆波兰表达式</h4>
+<p><strong>描述</strong>：给定一个逆波兰表达式，求表达式的值。</p>
+<p>数据范围：<code>1 &lt;= n &lt;= 100000</code>，表达式中仅包含数字和 <code>+</code>，<code>-</code>，<code>*</code>，<code>/</code>，其中数字的大小满足 $|val| \leq 200$。</p>
+<p><strong>示例</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>输入：<span style="color:#56b6c2">[</span><span style="color:#98c379">&#34;2&#34;</span>,<span style="color:#98c379">&#34;1&#34;</span>,<span style="color:#98c379">&#34;+&#34;</span>,<span style="color:#98c379">&#34;4&#34;</span>,<span style="color:#98c379">&#34;*&#34;</span><span style="color:#56b6c2">]</span>
+</span></span><span style="display:flex;"><span>返回值：12
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>输入：<span style="color:#56b6c2">[</span><span style="color:#98c379">&#34;2&#34;</span>,<span style="color:#98c379">&#34;0&#34;</span>,<span style="color:#98c379">&#34;+&#34;</span><span style="color:#56b6c2">]</span>
+</span></span><span style="display:flex;"><span>返回值：2
+</span></span></code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">evalRPN</span>(<span style="color:#e06c75">self</span> , <span style="color:#e06c75">tokens</span>: <span style="color:#e06c75">List</span>[<span style="color:#e5c07b">str</span>]) <span style="color:#56b6c2">-&gt;</span> <span style="color:#e5c07b">int</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e"># write code here</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">stack</span> <span style="color:#56b6c2">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">tokens</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;+&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n1</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n2</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">n1</span><span style="color:#56b6c2">+</span><span style="color:#e06c75">n2</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;-&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n1</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n2</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">n2</span><span style="color:#56b6c2">-</span><span style="color:#e06c75">n1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;*&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n1</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n2</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">n1</span><span style="color:#56b6c2">*</span><span style="color:#e06c75">n2</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">elif</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;/&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n1</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">n2</span> <span style="color:#56b6c2">=</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">n2</span><span style="color:#56b6c2">/</span><span style="color:#e06c75">n1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">stack</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">t</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e5c07b">int</span>(<span style="color:#e06c75">stack</span>[<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>])
+</span></span></code></pre></div><blockquote>
+<p><strong>中缀表达式转逆波兰表达式(后缀表达式)</strong></p>
+<ul>
+<li>
+<p>中缀表达式就是我们所熟悉的表达式，需要关注运算符的优先级，比如 <code>3 + 4 * 2</code>，就要先算 <code>4 * 2</code>。</p>
+</li>
+<li>
+<p>后缀表达式，也称为逆波兰表达式，运算符写在操作数后面，比如 <code>(3 + 4) * 5 - 6</code>，为 <code>3 4 + 5 * - 6</code>。</p>
+</li>
+</ul>
+<p>将中缀表达式变成后缀表达式的规则就是把每个运算符都移到它的两个操作数的后面，然后删除括号。</p>
+<p>我们需要两个栈 <code>a</code> 和 <code>b</code>，<code>a</code> 用来存储转换过程，<code>b</code> 用于临时存储操作符与小括号。</p>
+<p>主要注意的是 <code>b</code> 栈的进出规则，如果扫描到当前符号比栈中的符号优先级要低，则先出栈再将该符号入栈。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#c678dd">def</span> <span style="color:#61afef;font-weight:bold">frontToBack</span>(<span style="color:#e06c75">tokens</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">a</span> <span style="color:#56b6c2">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">b</span> <span style="color:#56b6c2">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">for</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">in</span> <span style="color:#e06c75">tokens</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> <span style="color:#e06c75">t</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">isnumeric</span>():
+</span></span><span style="display:flex;"><span>            <span style="color:#e06c75">a</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">t</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;*&#39;</span> <span style="color:#56b6c2">or</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;/&#39;</span> <span style="color:#56b6c2">or</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;(&#39;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">b</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">t</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">elif</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;+&#39;</span> <span style="color:#56b6c2">or</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;-&#39;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">if</span> <span style="color:#e06c75">b</span>[<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>] <span style="color:#56b6c2">and</span> <span style="color:#e06c75">b</span>[<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>] <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;*&#39;</span> <span style="color:#56b6c2">or</span> <span style="color:#e06c75">b</span>[<span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>] <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;/&#39;</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#e06c75">a</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">b</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">b</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">t</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">elif</span> <span style="color:#e06c75">t</span> <span style="color:#56b6c2">==</span> <span style="color:#98c379">&#39;)&#39;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#e06c75">o</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">b</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>()
+</span></span><span style="display:flex;"><span>                <span style="color:#c678dd">while</span> <span style="color:#e06c75">o</span> <span style="color:#56b6c2">!=</span> <span style="color:#98c379">&#39;(&#39;</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#e06c75">a</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">o</span>)
+</span></span><span style="display:flex;"><span>                    <span style="color:#e06c75">o</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">b</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">while</span> <span style="color:#e06c75">b</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">a</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">append</span>(<span style="color:#e06c75">b</span><span style="color:#56b6c2">.</span><span style="color:#e06c75">pop</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#e06c75">a</span>
+</span></span></code></pre></div></blockquote>
 <h3 id="队列">队列</h3>
 <h3 id="链表">链表</h3>
 <h3 id="图论">图论</h3>
@@ -581,6 +699,52 @@
         <h2 class="section-title">Related contents</h2>
         <div class="related-contents">
             <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2024/cpp%E7%9A%84stl/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/cpp%E7%9A%84stl/cover.2ca79e2c50d07270871199e4e5361a9c_hu273af249b763be19c04716eb2014edb1_1749826_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post CPP的STL"
+                        data-key="CPP的STL" 
+                        data-hash="md5-LKeeLFDQcnCHEZnk5TYanA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">CPP的STL</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/%E5%93%88%E5%B8%8C%E8%A1%A8-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91-%E7%BA%A2%E9%BB%91%E6%A0%91/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/%E5%93%88%E5%B8%8C%E8%A1%A8-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91-%E7%BA%A2%E9%BB%91%E6%A0%91/cover.cffdc846e8d2611f38e789a4756ee56f_hu309019f3621105e57f4a2b6c907ee7e1_1418089_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 哈希表 平衡二叉树 红黑树"
+                        data-key="哈希表 平衡二叉树 红黑树" 
+                        data-hash="md5-z/3IRujSYR8454mkdW7lbw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">哈希表 平衡二叉树 红黑树</h2>
+        </div>
+    </a>
+</article>
                 
                     
 <article class="has-image">
@@ -696,28 +860,6 @@
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
 
 <script>
 (function(u, c) {
@@ -735,7 +877,7 @@
         &copy; 
         
         2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-      共书写了149.6k字·共 24篇文章</br><span><p>
+      共书写了146k字·共 26篇文章</br><span><p>
     </section>
     
     <section class="powerby">
@@ -882,9 +1024,10 @@ document.getElementById('days').innerHTML = number_of_days;
       <ol>
         <li><a href="#栈">栈</a>
           <ol>
-            <li><a href="#模板栈">【模板】栈</a></li>
+            <li><a href="#栈的实现">栈的实现</a></li>
             <li><a href="#栈的压入弹出序列">栈的压入、弹出序列</a></li>
             <li><a href="#有效括号序列">有效括号序列</a></li>
+            <li><a href="#逆波兰表达式">逆波兰表达式</a></li>
           </ol>
         </li>
         <li><a href="#队列">队列</a></li>
@@ -949,7 +1092,7 @@ document.getElementById('days').innerHTML = number_of_days;
             </span></div>
             <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
             </span></div>
-            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">2</a>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">4</a>
             </span></div>
             <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">4</a>
             </span></div>
@@ -981,7 +1124,7 @@ document.getElementById('days').innerHTML = number_of_days;
                     <a href="/archives/#2024">
                         
                             <span class="year">2024</span>
-                            <span class="count">24</span>
+                            <span class="count">26</span>
                         
                     </a> 
                 </div>

@@ -16,6 +16,9 @@
 <meta name="twitter:description" content="Go 基础 Go 语言是谷歌 2009 年首次推出并在 2012 年正式发布的一种全新的编程语言，可以在不损失应用程序性能的情况下降低代码的复杂性。 下面是 Go 的 “Hello"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://yikuanzz.github.io/2024/%E7%AE%80%E6%98%8E%E7%9A%84go%E5%AD%A6%E4%B9%A0/cover.png' />
     <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+
+  
+
 <style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
@@ -217,24 +220,6 @@
         
 
         <li >
-            <a href='/daily' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#C1C1C1" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
-  <path d="M19 16h-12a2 2 0 0 0 -2 2" />
-  <path d="M9 8h6" />
-</svg>
-                
-                <span>日报</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
             <a href='/%E5%85%B3%E4%BA%8E/' >
                 
                 
@@ -379,7 +364,7 @@
 
 
                 <time class="article-words">
-                    9632字
+                    9633字
                 </time>
             </div>
         
@@ -890,7 +875,7 @@
 </span></span></code></pre></div><hr>
 <p><strong>使用映射</strong>：</p>
 <div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#7f848e">// 创建空映射，用来存储颜色以及对应的十六进制代码
-</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">colors</span> <span style="color:#56b6c2">:=</span> <span style="color:#c678dd">map</span>[<span style="color:#e5c07b">string</span>]<span style="color:#e06c75">String</span>{}
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">colors</span> <span style="color:#56b6c2">:=</span> <span style="color:#c678dd">map</span>[<span style="color:#e5c07b">string</span>]<span style="color:#e5c07b">string</span>{}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#7f848e">// 将 Red 的代码加入到映射
 </span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">colors</span>[<span style="color:#98c379">&#34;Red&#34;</span>] = <span style="color:#98c379">&#34;#da1337&#34;</span>
@@ -1453,6 +1438,7 @@
 <p>一旦被阻塞的系统调用执行完成并返回，对应的 <code>goroutine</code> 会回到本地运行队列，而之前的线程会被维护，以便之后可以继续使用。</p>
 <hr>
 <p>如果一个 <code>goroutine</code> 要做一个网络 I/O 调用的话，<code>goroutine</code> 就不用逻辑处理器，而是移到集成了<strong>网络轮询器</strong>的运行时。一旦该轮询器指示某个网络读或写操作已就绪，对应的 <code>goroutine</code> 就会重新分配到逻辑处理器上来完成操作。（调度器对可以创建的）</p>
+<p>​</p>
 
 </section>
 
@@ -1674,28 +1660,6 @@
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
 
 <script>
 (function(u, c) {
@@ -1713,7 +1677,7 @@
         &copy; 
         
         2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-      共书写了149.6k字·共 24篇文章</br><span><p>
+      共书写了146k字·共 26篇文章</br><span><p>
     </section>
     
     <section class="powerby">
@@ -1915,7 +1879,7 @@ document.getElementById('days').innerHTML = number_of_days;
             </span></div>
             <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
             </span></div>
-            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">2</a>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">4</a>
             </span></div>
             <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">4</a>
             </span></div>
@@ -1947,7 +1911,7 @@ document.getElementById('days').innerHTML = number_of_days;
                     <a href="/archives/#2024">
                         
                             <span class="year">2024</span>
-                            <span class="count">24</span>
+                            <span class="count">26</span>
                         
                     </a> 
                 </div>
