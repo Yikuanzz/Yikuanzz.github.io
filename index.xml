@@ -128,9 +128,55 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;补充：符号重载&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;C++ 中的运算符重载允许重新定义或重载大部分内置的运算符，使其适用于自定义类型。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实际上，运算符重载是一种特殊的函数，其函数名由关键字 &lt;code&gt;operator&lt;/code&gt; 和要重载的运算符符号构成。&lt;/li&gt;
+&lt;li&gt;例如，可以重载加法运算符 &lt;code&gt;+&lt;/code&gt;，使其适用于类对象之间的运算。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;Box&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;public&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;getVolume&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;breadth&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;height&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;setLength&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;len&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;len&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;setBreadth&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;bre&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;breadth&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;bre&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;setHeight&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;hei&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;height&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;hei&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 重载 + 运算符，用于把两个 Box 对象相加
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;Box&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;operator&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Box&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;Box&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;box&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;box&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;length&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;box&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;breadth&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;breadth&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;breadth&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;box&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;height&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;height&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;b&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;height&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;box&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;private&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;length&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 长度
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;breadth&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 宽度
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;height&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 高度
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;Box&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Box1&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;Box2&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;Box3&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 设置 Box1 和 Box2 的属性...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 把两个对象相加，得到 Box3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;Box3&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Box1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Box2&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 输出 Box3 的体积
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Volume of Box3: &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Box3&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;getVolume&lt;/span&gt;() &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;endl&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;常用的stl容器&#34;&gt;常用的STL容器&lt;/h2&gt;
 &lt;h3 id=&#34;顺序容器&#34;&gt;顺序容器&lt;/h3&gt;
-&lt;p&gt;（1）&lt;code&gt;vector&lt;/code&gt; 向量容器：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）&lt;code&gt;vector&lt;/code&gt; 向量容器：&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;它是一个向量类模板，向量容器相当于数组。&lt;/li&gt;
 &lt;li&gt;用于存储具有相同数据类型的一组元素，可以从末尾快速的插入与删除元素，快速地随机访问元素，但是在序列中间插入、删除元素比较慢，因为需要移动插入或删除处于后面的所有元素。&lt;/li&gt;
@@ -139,10 +185,438 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v1&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义元素为 int 的向量 v1
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v2&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// 指定向量 v2 的初始大小为 10 个 int 元素
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v3&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;， &lt;span style=&#34;color:#d19a66&#34;&gt;1.23&lt;/span&gt;);	&lt;span style=&#34;color:#7f848e&#34;&gt;// 指定向量 v3 的 10 个初始元素值都为 1.23
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;v4&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// 用数组 a[0..4] 共5个元素初始化v4
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;vector&lt;/code&gt; 常用的成员函数有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;[]&lt;/strong&gt;：返回指定下标的元素。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断当前向量容器是否为空。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回当前向量容器的中的实际元素个数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;reverse(n)&lt;/strong&gt;：为当前向量容器预分配 n 个元素的存储空间。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;capacity()&lt;/strong&gt;：返回当前向量容器在重新进行内存分配以前所能容纳的元素个数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;resize(n)&lt;/strong&gt;：调整当前向量容器的大小，使其能容纳 n 个元素个数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;push_back()&lt;/strong&gt;：在当前向量容器尾部添加一个元素。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;insert(pos, elem)&lt;/strong&gt;：在 pos 位置插入元素 elem，即将元素 elem 插入到迭代器 pos 指定元素之前。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;front()&lt;/strong&gt;：获取当前向量容器的第一个元素。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;back()&lt;/strong&gt;：获取当前向量容器的最后一个元素。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;erase()&lt;/strong&gt;：删除当前向量容器中某个迭代器或者迭代器区间指定的元素。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;clear()&lt;/strong&gt;：删除当前向量容器中所有元素。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;迭代函数&lt;/strong&gt;：&lt;strong&gt;begin()&lt;/strong&gt;、&lt;strong&gt;end()&lt;/strong&gt;、&lt;strong&gt;rbegin()&lt;/strong&gt;、&lt;strong&gt;rend()&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;vector&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;vector&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;::&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;iterator&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;--&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;erase&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;myv&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;（2）&lt;code&gt;string&lt;/code&gt; 字符串容器：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它是一个保存字符序列的容器，所有元素为字符类型，类似 &lt;code&gt;vector&amp;lt;char&amp;gt;&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;除了有字符串的一些常用操作以外，还有包含了所有的序列容器的操作。字符串的常用操作包括增加、删除、修改、查找比较、连接、输入、输出等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;/* string 容器初始化 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;cstr&lt;/span&gt;[] &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;China! Greate Wall&amp;#34;&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// C 字符串
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;s1&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;cstr&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// s1:China! Greate Wall
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;s2&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;s1&lt;/span&gt;);			&lt;span style=&#34;color:#7f848e&#34;&gt;// s2:China! Greate Wall
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;s3&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;cstr&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;7&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;11&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// s3:Greate Wall
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;s4&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;cstr&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;6&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// s4:China!
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;s5&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;A&amp;#39;&lt;/span&gt;);	&lt;span style=&#34;color:#7f848e&#34;&gt;// s5:AAAAA
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断当前字符串是否为空串。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回当前字符串的实际字符个数（返回结果为&lt;strong&gt;size_type&lt;/strong&gt;类型）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;length()&lt;/strong&gt;：返回当前字符串的实际字符个数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;[index]&lt;/strong&gt;：返回当前字符串位于 &lt;strong&gt;index&lt;/strong&gt; 位置的字符，&lt;strong&gt;index&lt;/strong&gt; 从0开始。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;at(index)&lt;/strong&gt;：返回当前字符串位于 &lt;strong&gt;index&lt;/strong&gt; 位置的字符。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;compare(const string&amp;amp; str)&lt;/strong&gt;：返回当前字符串与字符串 &lt;strong&gt;str&lt;/strong&gt; 的比较结果。在比较时，若两者相等，返回0；前者小于后者，返回-1；否则返回1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;append(c_str)&lt;/strong&gt;：在当前字符串的末尾添加一个字符串 &lt;strong&gt;str&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;insert(size_type index，const string&amp;amp; str)&lt;/strong&gt;	：在当前字符串的 &lt;strong&gt;index&lt;/strong&gt; 处插入一个字符串 &lt;strong&gt;str&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;迭代函数&lt;/strong&gt;：&lt;strong&gt;begin()&lt;/strong&gt;、&lt;strong&gt;end()&lt;/strong&gt;、&lt;strong&gt;rbegin()&lt;/strong&gt;、&lt;strong&gt;rend()&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;string&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;s2&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;s3&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Bye&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;s1&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Good moring&amp;#34;&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// s1 = &amp;#34;Good morning&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;s2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s1&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// s2 = &amp;#34;Good morning&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s2&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;find&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;morning&amp;#34;&lt;/span&gt;);	&lt;span style=&#34;color:#7f848e&#34;&gt;// i = 5
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;s2&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;replace&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;s2&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;length&lt;/span&gt;() &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;s3&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;s1: &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;endl&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;s2: &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;endl&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;（3）&lt;code&gt;deque&lt;/code&gt;双端队列容器：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它是一个双端队列类模板。&lt;/li&gt;
+&lt;li&gt;双端队列容器由若干个块构成，每个块中元素地址是连续的，块之间的地址是不连续的，有一个特定的机制将这些块构成一个整体。可以从前面或后面快速插入与删除元素，并可以快速地随机访问元素，但删除元素较慢。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;/* 定义 deque 双端队列容器的几种方式  */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;deque&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dq1&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义元素为 int 的双端队列 dq1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;deque&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dq2&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;);		&lt;span style=&#34;color:#7f848e&#34;&gt;// 指定 dq2 的初始化大小为 10 个 int 元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;deque&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dq3&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1.23&lt;/span&gt;);	&lt;span style=&#34;color:#7f848e&#34;&gt;// 指定 dq3 的 10 个初始元素的初值为 1.23
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;deque&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dq4&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;dq2&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;(), &lt;span style=&#34;color:#e06c75&#34;&gt;dq2&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;());		&lt;span style=&#34;color:#7f848e&#34;&gt;// 用 dq2 创建 dq4
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断双端队列容器是否为空队。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回双端队列容器中元素个数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;push_front(elem)&lt;/strong&gt;：在队头插入元素 &lt;strong&gt;elem&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;push_back(elem)&lt;/strong&gt;：在队尾插入元素 &lt;strong&gt;elem&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pop_front()&lt;/strong&gt;：删除队头一个元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pop_back()&lt;/strong&gt;：删除队尾一个元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;erase()&lt;/strong&gt;：从双端队列容器中删除一个或几个元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;clear()&lt;/strong&gt;：删除双端队列容器中所有元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;迭代器函数&lt;/strong&gt;：&lt;strong&gt;begin()&lt;/strong&gt;、&lt;strong&gt;end()&lt;/strong&gt;、&lt;strong&gt;rbegin()&lt;/strong&gt;、&lt;strong&gt;rend()&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;deque&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printDeque&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;deque&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义迭代器
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;deque&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;::&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;iterator&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;endl&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;deque&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 队头插入元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_front&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 队尾插入元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;dq: &amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printDeque&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 弹出队头元素和队尾元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;pop_front&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;pop_back&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;dq: &amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printDeque&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;dq&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;（4）&lt;code&gt;list&lt;/code&gt;链表容器：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它是一个双链表类模板。&lt;/li&gt;
+&lt;li&gt;可以从任何地方快速插入与删除。它的每个结点之间通过指针链接，不能随机访问元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;/* 定义 list 容器的几种方法  */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;l1&lt;/span&gt;;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义元素为 int 的链表 l1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;l2&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;);	&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义初始大小为 10 int 元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;l3&lt;/span&gt; (&lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1.2&lt;/span&gt;);	&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义初始有 10 个值为 1.2 的链表
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;l4&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;);	&lt;span style=&#34;color:#7f848e&#34;&gt;// 用数组初始化 l4 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断链表容器是否为空。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回链表容器中实际元素个数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;push_back()&lt;/strong&gt;：在链表尾部插入元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pop_back()&lt;/strong&gt;：删除链表容器的最后一个元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;remove ()&lt;/strong&gt;：删除链表容器中所有指定值的元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;remove_if(cmp)&lt;/strong&gt;：删除链表容器中满足条件的元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;erase()&lt;/strong&gt;：从链表容器中删除一个或几个元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;unique()&lt;/strong&gt;：删除链表容器中相邻的重复元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;clear()&lt;/strong&gt;：删除链表容器中所有的元素。&lt;/li&gt;
+&lt;li&gt;i&lt;strong&gt;nsert(pos，elem)&lt;/strong&gt;：在pos位置插入元素&lt;strong&gt;elem&lt;/strong&gt;，即将元素&lt;strong&gt;elem&lt;/strong&gt;插入到迭代器pos指定元素之前。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;insert(pos，n，elem)&lt;/strong&gt;：在&lt;strong&gt;pos&lt;/strong&gt;位置插入&lt;strong&gt;n&lt;/strong&gt;个元素&lt;strong&gt;elem&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;insert(pos，pos1，pos2)&lt;/strong&gt;：在迭代器&lt;strong&gt;pos&lt;/strong&gt;处插入**[pos1，pos2)**的元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;reverse()&lt;/strong&gt;：反转链表。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sort()&lt;/strong&gt;：对链表容器中的元素排序，因为 &lt;code&gt;sort()&lt;/code&gt; 排序算法主要用于支持随机访问的容器，而 &lt;strong&gt;list&lt;/strong&gt; 容器不支持随机访问，所以 &lt;strong&gt;list&lt;/strong&gt; 容器提供了 &lt;code&gt;sort()&lt;/code&gt; 采用函数用于元素排序。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;迭代器函数&lt;/strong&gt;：&lt;strong&gt;begin()&lt;/strong&gt;、&lt;strong&gt;end()&lt;/strong&gt;、&lt;strong&gt;rbegin()&lt;/strong&gt;、&lt;strong&gt;rend()&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;list&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printList&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;::&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;iterator&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;cout&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;endl&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 插入元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push_back&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;7&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printList&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 中间插入元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;::&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;iterator&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;--&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printList&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;lst&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;适配器容器&#34;&gt;适配器容器&lt;/h3&gt;
-&lt;h3 id=&#34;关联容器&#34;&gt;关联容器&lt;/h3&gt;
-</description>
+&lt;p&gt;&lt;strong&gt;（1）&lt;code&gt;stack&lt;/code&gt; 栈容器：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它是一个栈类模板，和数据结构中的栈一样，具有后进先出的特点。&lt;/li&gt;
+&lt;li&gt;栈容器默认的底层容器是 &lt;strong&gt;deque&lt;/strong&gt;。也可以指定其他底层容器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断栈容器是否为空。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回栈容器中实际元素个数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;push(elem)&lt;/strong&gt;：元素 &lt;strong&gt;elem&lt;/strong&gt; 进栈。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;top()&lt;/strong&gt;：返回栈顶元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pop()&lt;/strong&gt;：元素出栈。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;注意：stack 容器没有 begin() / end() 和 rbegin() / rend() 这样的用于迭代器的成员函数。&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;stack&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;stack&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;st&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;st&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;st&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;st&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;栈顶元素: %d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;st&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;top&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;出栈顺序: &amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#56b6c2&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;st&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;empty&lt;/span&gt;()) {	 	&lt;span style=&#34;color:#7f848e&#34;&gt;//	栈不空时出栈所有元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;st&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;top&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;st&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;() ;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;（2）&lt;code&gt;queue&lt;/code&gt; 队列容器：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它是一个队列类模板，和数据结构中的队列一样，具有先进先出的特点。&lt;/li&gt;
+&lt;li&gt;不允许顺序遍历，没有 **begin()/end() ** 和 &lt;strong&gt;rbegin()/rend()&lt;/strong&gt; 这样的用于迭代器的成员函数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断队列容器是否为空。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回队列容器中实际元素个数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;front()&lt;/strong&gt;：返回队头元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;back()&lt;/strong&gt;：返回队尾元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;push(elem)&lt;/strong&gt;：元素 &lt;strong&gt;elem&lt;/strong&gt; 进队。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pop()&lt;/strong&gt;：元素出队。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;queue&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;queue&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;队头元素: %d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;front&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;队尾元素: %d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;back&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;出队顺序: &amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#56b6c2&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;empty&lt;/span&gt;()) {	&lt;span style=&#34;color:#7f848e&#34;&gt;//出队所有元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;front&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;它是一个优先队列类模板。&lt;/li&gt;
+&lt;li&gt;优先队列是一种具有受限访问操作的存储结构，元素可以以任意顺序进入优先队列。一旦元素在优先队列容器中，出队操作将出队列最高优先级元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断优先队列容器是否为空。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回优先队列容器中实际元素个数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;push(elem)&lt;/strong&gt;：元素 &lt;strong&gt;elem&lt;/strong&gt; 进队。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;top()&lt;/strong&gt;：获取队头元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pop()&lt;/strong&gt;：元素出队。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;queue&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;priority_queue&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;队头元素: %d&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;top&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;出队顺序: &amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#56b6c2&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;empty&lt;/span&gt;()) {	&lt;span style=&#34;color:#7f848e&#34;&gt;//出队所有元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;top&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;qu&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;关联容器&#34;&gt;关联容器&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;（1）&lt;code&gt;set&lt;/code&gt; 集合容器 / &lt;code&gt;multiset&lt;/code&gt; 多重集容器：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;set&lt;/strong&gt; 和 &lt;strong&gt;multiset&lt;/strong&gt; 都是集合类模板，其元素值称为关键字。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;set&lt;/strong&gt; 中元素的关键字是唯一的，&lt;strong&gt;multiset&lt;/strong&gt; 中元素的关键字可以不唯一，而且默认情况下会对元素按关键字自动进行升序排列。 查找速度比较快，同时支持集合的交、差和并等一些集合上的运算，如果需要集合中的元素允许重复那么可以使用&lt;strong&gt;multiset&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断容器是否为空。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回容器中实际元素个数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;insert()&lt;/strong&gt;：插入元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;erase()&lt;/strong&gt;：从容器删除一个或几个元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;clear()&lt;/strong&gt;：删除所有元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;count(k)&lt;/strong&gt;：返回容器中关键字&lt;strong&gt;k&lt;/strong&gt;出现的次数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;find(k)&lt;/strong&gt;：如果容器中存在关键字为k的元素，返回该元素的迭代器，否则返回**end()**值。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;upper_bound()&lt;/strong&gt;：返回一个迭代器，指向关键字大于&lt;strong&gt;k&lt;/strong&gt;的第一个元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;lower_bound()&lt;/strong&gt;：返回一个迭代器，指向关键字不小于&lt;strong&gt;k&lt;/strong&gt;的第一个元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;迭代器函数&lt;/strong&gt;：&lt;strong&gt;begin()&lt;/strong&gt;、&lt;strong&gt;end()&lt;/strong&gt;、&lt;strong&gt;rbegin()&lt;/strong&gt;、&lt;strong&gt;rend()&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;set&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;/* set 和 multiset 类似这里就不演示了 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 初始化		
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;set&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;set&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;::&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;iterator&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 插入元素
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;it&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;（2）&lt;code&gt;map&lt;/code&gt; 映射容器 和 &lt;code&gt;multimap&lt;/code&gt; 多重映射容器：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;map&lt;/strong&gt; 和 &lt;strong&gt;multimap&lt;/strong&gt; 都是映射类模板。&lt;/li&gt;
+&lt;li&gt;映射是实现关键字与值关系的存储结构，可以使用一个关键字 &lt;strong&gt;key&lt;/strong&gt; 来访问相应的数据值 &lt;strong&gt;value&lt;/strong&gt;。在 &lt;strong&gt;set/multiset&lt;/strong&gt; 中的 &lt;strong&gt;key&lt;/strong&gt; 和 &lt;strong&gt;value&lt;/strong&gt; 都是 &lt;strong&gt;key&lt;/strong&gt; 类型，而 &lt;strong&gt;key&lt;/strong&gt; 和 &lt;strong&gt;value&lt;/strong&gt; 是一个 &lt;strong&gt;pair&lt;/strong&gt; 类结构。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// pair 类结构的声明形如
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;pair&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;T&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;first&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;T&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;second&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;map/multimap&lt;/strong&gt; 利用 &lt;strong&gt;pair&lt;/strong&gt; 的 &lt;strong&gt;&amp;lt;&lt;/strong&gt; 运算符将所有元素即 &lt;strong&gt;key-value&lt;/strong&gt; 对按 &lt;strong&gt;key&lt;/strong&gt; 的升序排列，以红黑树的形式存储，可以根据 &lt;strong&gt;key&lt;/strong&gt; 快速地找到与之对应的 &lt;strong&gt;value&lt;/strong&gt;（查找时间为O(log2n)）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;map&lt;/strong&gt;中不允许关键字重复出现，支持 &lt;strong&gt;[]&lt;/strong&gt; 运算符；而 &lt;strong&gt;multimap&lt;/strong&gt; 中允许关键字重复出现，但不支持 &lt;strong&gt;[]&lt;/strong&gt; 运算符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;empty()&lt;/strong&gt;：判断容器是否为空。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;size()&lt;/strong&gt;：返回容器中实际元素个数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;map[key]&lt;/strong&gt;：返回关键字为 &lt;strong&gt;key&lt;/strong&gt; 的元素的引用，如果不存在这样的关键字，则以 &lt;strong&gt;key&lt;/strong&gt; 作为关键字插入一个元素（不适合 &lt;strong&gt;multimap&lt;/strong&gt; ）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;insert(elem)&lt;/strong&gt;：插入一个元素 &lt;strong&gt;elem&lt;/strong&gt; 并返回该元素的位置。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;clear()&lt;/strong&gt;：删除所有元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;find()&lt;/strong&gt;：在容器中查找元素。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;count()&lt;/strong&gt;：容器中指定关键字的元素个数（&lt;strong&gt;map&lt;/strong&gt;中只有1或者0）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;迭代器函数&lt;/strong&gt;：&lt;strong&gt;begin()&lt;/strong&gt;、&lt;strong&gt;end()&lt;/strong&gt;、&lt;strong&gt;rbegin()&lt;/strong&gt;、&lt;strong&gt;rend()&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 &lt;code&gt;map&lt;/code&gt; 中修改元素并不困难，因为 &lt;code&gt;map&lt;/code&gt; 容器已经对 &lt;code&gt;[]&lt;/code&gt; 运算符进行了重载。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;map&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt;,&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 定义map容器mymap，其元素类型为pair&amp;lt;char,int&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;[&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;;   &lt;span style=&#34;color:#7f848e&#34;&gt;// 或者mymap.insert(pair&amp;lt;char，int&amp;gt;(&amp;#39;a&amp;#39;,1) );
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;ans&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;[&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;]; &lt;span style=&#34;color:#7f848e&#34;&gt;// 获取 map 中的一个值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;注意：只有当 map中有这个关键字（&amp;lsquo;a&amp;rsquo;）时才会成功，否则会自动插入一个元素，值为初始化值。可以使用 find() 方法来发现一个关键字是否存在。&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# include &amp;lt;map&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;namespace&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;std&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;map&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 第一种插入方式
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pair&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; (&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 第二种插入方式
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;map&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;::&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;value_type&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 第三种插入方式
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;[&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;map&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;::&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;iterator&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;begin&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;mymap&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;end&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;[%c, %d]&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;first&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;iter&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;second&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         </item>
         <item>
         <title>哈希表 平衡二叉树 红黑树</title>
@@ -3482,7 +3956,7 @@ $$
 &lt;/blockquote&gt;
 &lt;p&gt;虽然我们在 &lt;code&gt;notify&lt;/code&gt; 方法有用指针来去调用，但是它仍是复制了副本，实际上是：&lt;code&gt;(*lisa).notify()&lt;/code&gt; 的样子。&lt;/p&gt;
 &lt;h3 id=&#34;类型的本质&#34;&gt;类型的本质&lt;/h3&gt;
-&lt;p&gt;1、内置类型。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1、内置类型。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;内置类型就是语言提供的类型：数值类型、字符串类型和布尔类型。&lt;/p&gt;
 &lt;p&gt;因为是原始的类型，所以我们把这些类型的值传递给方法或函数时，应该传递一个对应值的副本。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// golang.org/src/strings/strings.go：第 620 行到第 625 行
@@ -3492,7 +3966,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;TrimFunc&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;s&lt;/span&gt;, &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;makeCutsetFunc&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;cutset&lt;/span&gt;))
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2、引用类型。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;2、引用类型。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Go 语言的引用类型有：切片、映射、通道、接口和函数类型。&lt;/p&gt;
 &lt;p&gt;当这些类型被声明时，创建的变量叫 &lt;em&gt;标头（header）&lt;/em&gt; 值。&lt;/p&gt;
 &lt;p&gt;每个引用类型创建的标头值是包含一个指向底层数据结构的指针，每个引用类型还有一些特殊的字段来管理底层数据结构。&lt;/p&gt;
@@ -3510,7 +3984,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; []&lt;span style=&#34;color:#e5c07b&#34;&gt;byte&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;ip&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;String&lt;/span&gt;()), &lt;span style=&#34;color:#e5c07b&#34;&gt;nil&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;3、结构类型。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;3、结构类型。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;结构类型可以用来描述一组数据值，这组值的本质即可以是原始的，也可以是非原始的。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// golang.org/src/time/time.go：第 39 行到第 55 行
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 原始类型的结构体
@@ -3624,7 +4098,7 @@ $$
 &lt;p&gt;&lt;strong&gt;方法集&lt;/strong&gt;定义了接口的接受规则。&lt;/p&gt;
 &lt;p&gt;我们以方法接受者的视角来看，如果方法接收者是&lt;strong&gt;指针&lt;/strong&gt;，那么给接口的类型就&lt;strong&gt;必须是指针&lt;/strong&gt;类型。&lt;/p&gt;
 &lt;p&gt;但是，如果方法接收者是&lt;strong&gt;值&lt;/strong&gt;，那么给接口的类型&lt;strong&gt;可以是指针&lt;/strong&gt;类型也&lt;strong&gt;可以是值&lt;/strong&gt;类型。&lt;/p&gt;
-&lt;p&gt;看到下面这段代码执行就会报错！！&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;看到下面这段代码执行就会报错！！&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
@@ -3654,7 +4128,8 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vet: go/src/test3/pp.go:21:22: cannot use Student&lt;span style=&#34;color:#56b6c2&#34;&gt;{}&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;(&lt;/span&gt;value of &lt;span style=&#34;color:#e5c07b&#34;&gt;type&lt;/span&gt; Student&lt;span style=&#34;color:#56b6c2&#34;&gt;)&lt;/span&gt; as People value in variable declaration: Student does not implement People &lt;span style=&#34;color:#56b6c2&#34;&gt;(&lt;/span&gt;method Speak has pointer receiver&lt;span style=&#34;color:#56b6c2&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果要改正的话，就是将 &lt;code&gt;Student{}&lt;/code&gt; 改为 &lt;code&gt;&amp;amp;Student{}&lt;/code&gt; 就好了。&lt;/p&gt;
 &lt;p&gt;现在我们明白了这个规则了，但是为什么会这样呢？&lt;/p&gt;
-&lt;p&gt;事实上，编译器并不是总能自动获得一个值的地址。&lt;/p&gt;
+&lt;p&gt;事实上，编译器并不是总能自动获得一个值的地址，所以当我们写的方法参数要求传入的是指针的时候，你传入值就会报错。而当写的方案&lt;/p&gt;
+&lt;p&gt;我们可以看一下这个例子，它用的是&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;

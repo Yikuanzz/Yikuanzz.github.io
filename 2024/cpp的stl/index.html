@@ -364,7 +364,7 @@
 
 
                 <time class="article-words">
-                    1413字
+                    5846字
                 </time>
             </div>
         
@@ -492,9 +492,55 @@
 </span></span><span style="display:flex;"><span>	 
 </span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>补充：符号重载</strong></p>
+<p>C++ 中的运算符重载允许重新定义或重载大部分内置的运算符，使其适用于自定义类型。</p>
+<ul>
+<li>实际上，运算符重载是一种特殊的函数，其函数名由关键字 <code>operator</code> 和要重载的运算符符号构成。</li>
+<li>例如，可以重载加法运算符 <code>+</code>，使其适用于类对象之间的运算。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;iostream&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">class</span> <span style="color:#e5c07b">Box</span> {
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">public</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">double</span> <span style="color:#e06c75">getVolume</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#e06c75">length</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">breadth</span> <span style="color:#56b6c2">*</span> <span style="color:#e06c75">height</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">setLength</span>(<span style="color:#e5c07b">double</span> <span style="color:#e06c75">len</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">length</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">len</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">setBreadth</span>(<span style="color:#e5c07b">double</span> <span style="color:#e06c75">bre</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">breadth</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">bre</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">setHeight</span>(<span style="color:#e5c07b">double</span> <span style="color:#e06c75">hei</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">height</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">hei</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 重载 + 运算符，用于把两个 Box 对象相加
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">Box</span> <span style="color:#c678dd">operator</span><span style="color:#56b6c2">+</span>(<span style="color:#c678dd">const</span> <span style="color:#e06c75">Box</span><span style="color:#56b6c2">&amp;</span> <span style="color:#e06c75">b</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">Box</span> <span style="color:#e06c75">box</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">box</span>.<span style="color:#e06c75">length</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">this</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">length</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">b</span>.<span style="color:#e06c75">length</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">box</span>.<span style="color:#e06c75">breadth</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">this</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">breadth</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">b</span>.<span style="color:#e06c75">breadth</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#e06c75">box</span>.<span style="color:#e06c75">height</span> <span style="color:#56b6c2">=</span> <span style="color:#c678dd">this</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">height</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">b</span>.<span style="color:#e06c75">height</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">return</span> <span style="color:#e06c75">box</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">private</span><span style="color:#56b6c2">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">double</span> <span style="color:#e06c75">length</span>; <span style="color:#7f848e">// 长度
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">double</span> <span style="color:#e06c75">breadth</span>; <span style="color:#7f848e">// 宽度
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e5c07b">double</span> <span style="color:#e06c75">height</span>; <span style="color:#7f848e">// 高度
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">Box</span> <span style="color:#e06c75">Box1</span>, <span style="color:#e06c75">Box2</span>, <span style="color:#e06c75">Box3</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 设置 Box1 和 Box2 的属性...
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#7f848e">// 把两个对象相加，得到 Box3
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">Box3</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">Box1</span> <span style="color:#56b6c2">+</span> <span style="color:#e06c75">Box2</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 输出 Box3 的体积
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34;Volume of Box3: &#34;</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">Box3</span>.<span style="color:#e06c75">getVolume</span>() <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">endl</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="常用的stl容器">常用的STL容器</h2>
 <h3 id="顺序容器">顺序容器</h3>
-<p>（1）<code>vector</code> 向量容器：</p>
+<p><strong>（1）<code>vector</code> 向量容器：</strong></p>
 <ul>
 <li>它是一个向量类模板，向量容器相当于数组。</li>
 <li>用于存储具有相同数据类型的一组元素，可以从末尾快速的插入与删除元素，快速地随机访问元素，但是在序列中间插入、删除元素比较慢，因为需要移动插入或删除处于后面的所有元素。</li>
@@ -503,10 +549,438 @@
 </span></span><span style="display:flex;"><span><span style="color:#e06c75">vector</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">v1</span>;		<span style="color:#7f848e">// 定义元素为 int 的向量 v1
 </span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">vector</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">v2</span>(<span style="color:#d19a66">10</span>);		<span style="color:#7f848e">// 指定向量 v2 的初始大小为 10 个 int 元素
 </span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">vector</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">double</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">v3</span>(<span style="color:#d19a66">10</span>， <span style="color:#d19a66">1.23</span>);	<span style="color:#7f848e">// 指定向量 v3 的 10 个初始元素值都为 1.23
-</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">vector</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">v4</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">vector</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">v4</span>(<span style="color:#e06c75">a</span>, <span style="color:#e06c75">a</span><span style="color:#56b6c2">+</span><span style="color:#d19a66">5</span>);		<span style="color:#7f848e">// 用数组 a[0..4] 共5个元素初始化v4
+</span></span></span></code></pre></div><p><code>vector</code> 常用的成员函数有：</p>
+<ul>
+<li>
+<p><strong>[]</strong>：返回指定下标的元素。</p>
+</li>
+<li>
+<p><strong>empty()</strong>：判断当前向量容器是否为空。</p>
+</li>
+<li>
+<p><strong>size()</strong>：返回当前向量容器的中的实际元素个数。</p>
+</li>
+<li>
+<p><strong>reverse(n)</strong>：为当前向量容器预分配 n 个元素的存储空间。</p>
+</li>
+<li>
+<p><strong>capacity()</strong>：返回当前向量容器在重新进行内存分配以前所能容纳的元素个数。</p>
+</li>
+<li>
+<p><strong>resize(n)</strong>：调整当前向量容器的大小，使其能容纳 n 个元素个数。</p>
+</li>
+<li>
+<p><strong>push_back()</strong>：在当前向量容器尾部添加一个元素。</p>
+</li>
+<li>
+<p><strong>insert(pos, elem)</strong>：在 pos 位置插入元素 elem，即将元素 elem 插入到迭代器 pos 指定元素之前。</p>
+</li>
+<li>
+<p><strong>front()</strong>：获取当前向量容器的第一个元素。</p>
+</li>
+<li>
+<p><strong>back()</strong>：获取当前向量容器的最后一个元素。</p>
+</li>
+<li>
+<p><strong>erase()</strong>：删除当前向量容器中某个迭代器或者迭代器区间指定的元素。</p>
+</li>
+<li>
+<p><strong>clear()</strong>：删除当前向量容器中所有元素。</p>
+</li>
+<li>
+<p><strong>迭代函数</strong>：<strong>begin()</strong>、<strong>end()</strong>、<strong>rbegin()</strong>、<strong>rend()</strong>。</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;vector&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">vector</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">myv</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">vector</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;::</span><span style="color:#e06c75">iterator</span> <span style="color:#e06c75">it</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">myv</span>.<span style="color:#e06c75">push_back</span>(<span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">it</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">myv</span>.<span style="color:#e06c75">begin</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">myv</span>.<span style="color:#e06c75">insert</span>(<span style="color:#e06c75">it</span>, <span style="color:#d19a66">2</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">myv</span>.<span style="color:#e06c75">push_back</span>(<span style="color:#d19a66">3</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">myv</span>.<span style="color:#e06c75">push_back</span>(<span style="color:#d19a66">4</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">it</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">myv</span>.<span style="color:#e06c75">end</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">it</span><span style="color:#56b6c2">--</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">myv</span>.<span style="color:#e06c75">erase</span>(<span style="color:#e06c75">it</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">it</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">myv</span>.<span style="color:#e06c75">begin</span>(); <span style="color:#e06c75">it</span> <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">myv</span>.<span style="color:#e06c75">end</span>(); <span style="color:#e06c75">it</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">it</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34; &#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>（2）<code>string</code> 字符串容器：</strong></p>
+<ul>
+<li>它是一个保存字符序列的容器，所有元素为字符类型，类似 <code>vector&lt;char&gt;</code>。</li>
+<li>除了有字符串的一些常用操作以外，还有包含了所有的序列容器的操作。字符串的常用操作包括增加、删除、修改、查找比较、连接、输入、输出等。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e">/* string 容器初始化 */</span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">char</span> <span style="color:#e06c75">cstr</span>[] <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;China! Greate Wall&#34;</span>;		<span style="color:#7f848e">// C 字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">string</span> <span style="color:#61afef;font-weight:bold">s1</span>(<span style="color:#e06c75">cstr</span>);		<span style="color:#7f848e">// s1:China! Greate Wall
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">string</span> <span style="color:#61afef;font-weight:bold">s2</span>(<span style="color:#e06c75">s1</span>);			<span style="color:#7f848e">// s2:China! Greate Wall
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">string</span> <span style="color:#61afef;font-weight:bold">s3</span>(<span style="color:#e06c75">cstr</span>, <span style="color:#d19a66">7</span>, <span style="color:#d19a66">11</span>);		<span style="color:#7f848e">// s3:Greate Wall
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">string</span> <span style="color:#61afef;font-weight:bold">s4</span>(<span style="color:#e06c75">cstr</span>, <span style="color:#d19a66">6</span>);		<span style="color:#7f848e">// s4:China!
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">string</span> <span style="color:#61afef;font-weight:bold">s5</span>(<span style="color:#d19a66">5</span>, <span style="color:#98c379">&#39;A&#39;</span>);	<span style="color:#7f848e">// s5:AAAAA
+</span></span></span></code></pre></div><ul>
+<li><strong>empty()</strong>：判断当前字符串是否为空串。</li>
+<li><strong>size()</strong>：返回当前字符串的实际字符个数（返回结果为<strong>size_type</strong>类型）。</li>
+<li><strong>length()</strong>：返回当前字符串的实际字符个数。</li>
+<li><strong>[index]</strong>：返回当前字符串位于 <strong>index</strong> 位置的字符，<strong>index</strong> 从0开始。</li>
+<li><strong>at(index)</strong>：返回当前字符串位于 <strong>index</strong> 位置的字符。</li>
+<li><strong>compare(const string&amp; str)</strong>：返回当前字符串与字符串 <strong>str</strong> 的比较结果。在比较时，若两者相等，返回0；前者小于后者，返回-1；否则返回1。</li>
+<li><strong>append(c_str)</strong>：在当前字符串的末尾添加一个字符串 <strong>str</strong>。</li>
+<li><strong>insert(size_type index，const string&amp; str)</strong>	：在当前字符串的 <strong>index</strong> 处插入一个字符串 <strong>str</strong>。</li>
+<li><strong>迭代函数</strong>：<strong>begin()</strong>、<strong>end()</strong>、<strong>rbegin()</strong>、<strong>rend()</strong>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;string&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">string</span> <span style="color:#e06c75">s1</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;&#34;</span>, <span style="color:#e06c75">s2</span>, <span style="color:#e06c75">s3</span> <span style="color:#56b6c2">=</span> <span style="color:#98c379">&#34;Bye&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">s1</span>.<span style="color:#e06c75">append</span>(<span style="color:#98c379">&#34;Good moring&#34;</span>);		<span style="color:#7f848e">// s1 = &#34;Good morning&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">s2</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">s1</span>;		<span style="color:#7f848e">// s2 = &#34;Good morning&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">s2</span>.<span style="color:#e06c75">find</span>(<span style="color:#98c379">&#34;morning&#34;</span>);	<span style="color:#7f848e">// i = 5
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">s2</span>.<span style="color:#e06c75">replace</span>(<span style="color:#d19a66">5</span>, <span style="color:#e06c75">s2</span>.<span style="color:#e06c75">length</span>() <span style="color:#56b6c2">-</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">+</span> <span style="color:#d19a66">1</span>, <span style="color:#e06c75">s3</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34;s1: &#34;</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">s1</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">endl</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34;s2: &#34;</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">s2</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">endl</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>（3）<code>deque</code>双端队列容器：</strong></p>
+<ul>
+<li>它是一个双端队列类模板。</li>
+<li>双端队列容器由若干个块构成，每个块中元素地址是连续的，块之间的地址是不连续的，有一个特定的机制将这些块构成一个整体。可以从前面或后面快速插入与删除元素，并可以快速地随机访问元素，但删除元素较慢。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e">/* 定义 deque 双端队列容器的几种方式  */</span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">deque</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">dq1</span>;		<span style="color:#7f848e">// 定义元素为 int 的双端队列 dq1
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">deque</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">dq2</span>(<span style="color:#d19a66">10</span>);		<span style="color:#7f848e">// 指定 dq2 的初始化大小为 10 个 int 元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">deque</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">double</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">dq3</span>(<span style="color:#d19a66">10</span>, <span style="color:#d19a66">1.23</span>);	<span style="color:#7f848e">// 指定 dq3 的 10 个初始元素的初值为 1.23
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">deque</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">dq4</span>(<span style="color:#e06c75">dq2</span>.<span style="color:#e06c75">begin</span>(), <span style="color:#e06c75">dq2</span>.<span style="color:#e06c75">end</span>());		<span style="color:#7f848e">// 用 dq2 创建 dq4
+</span></span></span></code></pre></div><ul>
+<li><strong>empty()</strong>：判断双端队列容器是否为空队。</li>
+<li><strong>size()</strong>：返回双端队列容器中元素个数。</li>
+<li><strong>push_front(elem)</strong>：在队头插入元素 <strong>elem</strong>。</li>
+<li><strong>push_back(elem)</strong>：在队尾插入元素 <strong>elem</strong>。</li>
+<li><strong>pop_front()</strong>：删除队头一个元素。</li>
+<li><strong>pop_back()</strong>：删除队尾一个元素。</li>
+<li><strong>erase()</strong>：从双端队列容器中删除一个或几个元素。</li>
+<li><strong>clear()</strong>：删除双端队列容器中所有元素。</li>
+<li><strong>迭代器函数</strong>：<strong>begin()</strong>、<strong>end()</strong>、<strong>rbegin()</strong>、<strong>rend()</strong>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;deque&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">printDeque</span>(<span style="color:#e06c75">deque</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">dq</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// 定义迭代器
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">deque</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#56b6c2">::</span> <span style="color:#e06c75">iterator</span> <span style="color:#e06c75">iter</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">iter</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">dq</span>.<span style="color:#e06c75">begin</span>(); <span style="color:#e06c75">iter</span> <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">dq</span>.<span style="color:#e06c75">end</span>(); <span style="color:#e06c75">iter</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#56b6c2">*</span><span style="color:#e06c75">iter</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34; &#34;</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">endl</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">deque</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">dq</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// 队头插入元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">dq</span>.<span style="color:#e06c75">push_front</span>(<span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// 队尾插入元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">dq</span>.<span style="color:#e06c75">push_back</span>(<span style="color:#d19a66">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34;dq: &#34;</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printDeque</span>(<span style="color:#e06c75">dq</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// 弹出队头元素和队尾元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">dq</span>.<span style="color:#e06c75">pop_front</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">dq</span>.<span style="color:#e06c75">pop_back</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#98c379">&#34;dq: &#34;</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printDeque</span>(<span style="color:#e06c75">dq</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>（4）<code>list</code>链表容器：</strong></p>
+<ul>
+<li>它是一个双链表类模板。</li>
+<li>可以从任何地方快速插入与删除。它的每个结点之间通过指针链接，不能随机访问元素。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e">/* 定义 list 容器的几种方法  */</span>
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">list</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">l1</span>;	<span style="color:#7f848e">// 定义元素为 int 的链表 l1
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">list</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">l2</span>(<span style="color:#d19a66">10</span>);	<span style="color:#7f848e">// 定义初始大小为 10 int 元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">list</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">double</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">l3</span> (<span style="color:#d19a66">10</span>, <span style="color:#d19a66">1.2</span>);	<span style="color:#7f848e">// 定义初始有 10 个值为 1.2 的链表
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">list</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">l4</span>(<span style="color:#e06c75">a</span>, <span style="color:#e06c75">a</span><span style="color:#56b6c2">+</span><span style="color:#d19a66">5</span>);	<span style="color:#7f848e">// 用数组初始化 l4 
+</span></span></span></code></pre></div><ul>
+<li><strong>empty()</strong>：判断链表容器是否为空。</li>
+<li><strong>size()</strong>：返回链表容器中实际元素个数。</li>
+<li><strong>push_back()</strong>：在链表尾部插入元素。</li>
+<li><strong>pop_back()</strong>：删除链表容器的最后一个元素。</li>
+<li><strong>remove ()</strong>：删除链表容器中所有指定值的元素。</li>
+<li><strong>remove_if(cmp)</strong>：删除链表容器中满足条件的元素。</li>
+<li><strong>erase()</strong>：从链表容器中删除一个或几个元素。</li>
+<li><strong>unique()</strong>：删除链表容器中相邻的重复元素。</li>
+<li><strong>clear()</strong>：删除链表容器中所有的元素。</li>
+<li>i<strong>nsert(pos，elem)</strong>：在pos位置插入元素<strong>elem</strong>，即将元素<strong>elem</strong>插入到迭代器pos指定元素之前。</li>
+<li><strong>insert(pos，n，elem)</strong>：在<strong>pos</strong>位置插入<strong>n</strong>个元素<strong>elem</strong>。</li>
+<li><strong>insert(pos，pos1，pos2)</strong>：在迭代器<strong>pos</strong>处插入**[pos1，pos2)**的元素。</li>
+<li><strong>reverse()</strong>：反转链表。</li>
+<li><strong>sort()</strong>：对链表容器中的元素排序，因为 <code>sort()</code> 排序算法主要用于支持随机访问的容器，而 <strong>list</strong> 容器不支持随机访问，所以 <strong>list</strong> 容器提供了 <code>sort()</code> 采用函数用于元素排序。</li>
+<li><strong>迭代器函数</strong>：<strong>begin()</strong>、<strong>end()</strong>、<strong>rbegin()</strong>、<strong>rend()</strong>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;list&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">void</span> <span style="color:#61afef;font-weight:bold">printList</span>(<span style="color:#e06c75">list</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">lst</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">list</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;::</span><span style="color:#e06c75">iterator</span> <span style="color:#e06c75">iter</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">iter</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">lst</span>.<span style="color:#e06c75">begin</span>(); <span style="color:#e06c75">iter</span> <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">lst</span>.<span style="color:#e06c75">end</span>(); <span style="color:#e06c75">iter</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;%d &#34;</span>, <span style="color:#56b6c2">*</span><span style="color:#e06c75">iter</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">cout</span> <span style="color:#56b6c2">&lt;&lt;</span> <span style="color:#e06c75">endl</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">list</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">lst</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// 插入元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">lst</span>.<span style="color:#e06c75">push_back</span>(<span style="color:#d19a66">5</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">lst</span>.<span style="color:#e06c75">push_back</span>(<span style="color:#d19a66">2</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">lst</span>.<span style="color:#e06c75">push_back</span>(<span style="color:#d19a66">7</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printList</span>(<span style="color:#e06c75">lst</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// 中间插入元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">list</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;::</span><span style="color:#e06c75">iterator</span> <span style="color:#e06c75">it</span>, <span style="color:#e06c75">start</span>, <span style="color:#e06c75">end</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">it</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">lst</span>.<span style="color:#e06c75">begin</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">start</span> <span style="color:#56b6c2">=</span> <span style="color:#56b6c2">++</span><span style="color:#e06c75">lst</span>.<span style="color:#e06c75">begin</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">end</span> <span style="color:#56b6c2">=</span> <span style="color:#56b6c2">--</span><span style="color:#e06c75">lst</span>.<span style="color:#e06c75">end</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">lst</span>.<span style="color:#e06c75">insert</span>(<span style="color:#e06c75">it</span>, <span style="color:#e06c75">start</span>, <span style="color:#e06c75">end</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printList</span>(<span style="color:#e06c75">lst</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="适配器容器">适配器容器</h3>
-<h3 id="关联容器">关联容器</h3>
-
+<p><strong>（1）<code>stack</code> 栈容器：</strong></p>
+<ul>
+<li>它是一个栈类模板，和数据结构中的栈一样，具有后进先出的特点。</li>
+<li>栈容器默认的底层容器是 <strong>deque</strong>。也可以指定其他底层容器。</li>
+</ul>
+<hr>
+<ul>
+<li><strong>empty()</strong>：判断栈容器是否为空。</li>
+<li><strong>size()</strong>：返回栈容器中实际元素个数。</li>
+<li><strong>push(elem)</strong>：元素 <strong>elem</strong> 进栈。</li>
+<li><strong>top()</strong>：返回栈顶元素。</li>
+<li><strong>pop()</strong>：元素出栈。</li>
+</ul>
+<p><em>注意：stack 容器没有 begin() / end() 和 rbegin() / rend() 这样的用于迭代器的成员函数。</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;stack&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">stack</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">st</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">st</span>.<span style="color:#e06c75">push</span>(<span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">st</span>.<span style="color:#e06c75">push</span>(<span style="color:#d19a66">2</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">st</span>.<span style="color:#e06c75">push</span>(<span style="color:#d19a66">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;栈顶元素: %d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">st</span>.<span style="color:#e06c75">top</span>());
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;出栈顺序: &#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">while</span> (<span style="color:#56b6c2">!</span><span style="color:#e06c75">st</span>.<span style="color:#e06c75">empty</span>()) {	 	<span style="color:#7f848e">//	栈不空时出栈所有元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>		<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;%d &#34;</span>, <span style="color:#e06c75">st</span>.<span style="color:#e06c75">top</span>());
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">st</span>.<span style="color:#e06c75">pop</span>() ;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>（2）<code>queue</code> 队列容器：</strong></p>
+<ul>
+<li>它是一个队列类模板，和数据结构中的队列一样，具有先进先出的特点。</li>
+<li>不允许顺序遍历，没有 **begin()/end() ** 和 <strong>rbegin()/rend()</strong> 这样的用于迭代器的成员函数。</li>
+</ul>
+<hr>
+<ul>
+<li><strong>empty()</strong>：判断队列容器是否为空。</li>
+<li><strong>size()</strong>：返回队列容器中实际元素个数。</li>
+<li><strong>front()</strong>：返回队头元素。</li>
+<li><strong>back()</strong>：返回队尾元素。</li>
+<li><strong>push(elem)</strong>：元素 <strong>elem</strong> 进队。</li>
+<li><strong>pop()</strong>：元素出队。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;queue&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">queue</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">qu</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">qu</span>.<span style="color:#e06c75">push</span>(<span style="color:#d19a66">2</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">qu</span>.<span style="color:#e06c75">push</span>(<span style="color:#d19a66">3</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;队头元素: %d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">qu</span>.<span style="color:#e06c75">front</span>());
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;队尾元素: %d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">qu</span>.<span style="color:#e06c75">back</span>());
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;出队顺序: &#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">while</span> (<span style="color:#56b6c2">!</span><span style="color:#e06c75">qu</span>.<span style="color:#e06c75">empty</span>()) {	<span style="color:#7f848e">//出队所有元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>		<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;%d &#34;</span>, <span style="color:#e06c75">qu</span>.<span style="color:#e06c75">front</span>());
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">qu</span>.<span style="color:#e06c75">pop</span>();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>它是一个优先队列类模板。</li>
+<li>优先队列是一种具有受限访问操作的存储结构，元素可以以任意顺序进入优先队列。一旦元素在优先队列容器中，出队操作将出队列最高优先级元素。</li>
+</ul>
+<hr>
+<ul>
+<li><strong>empty()</strong>：判断优先队列容器是否为空。</li>
+<li><strong>size()</strong>：返回优先队列容器中实际元素个数。</li>
+<li><strong>push(elem)</strong>：元素 <strong>elem</strong> 进队。</li>
+<li><strong>top()</strong>：获取队头元素。</li>
+<li><strong>pop()</strong>：元素出队。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;queue&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">priority_queue</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">qu</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">qu</span>.<span style="color:#e06c75">push</span>(<span style="color:#d19a66">3</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">qu</span>.<span style="color:#e06c75">push</span>(<span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">qu</span>.<span style="color:#e06c75">push</span>(<span style="color:#d19a66">2</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;队头元素: %d</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">qu</span>.<span style="color:#e06c75">top</span>());
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;出队顺序: &#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">while</span> (<span style="color:#56b6c2">!</span><span style="color:#e06c75">qu</span>.<span style="color:#e06c75">empty</span>()) {	<span style="color:#7f848e">//出队所有元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>		<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;%d &#34;</span>, <span style="color:#e06c75">qu</span>.<span style="color:#e06c75">top</span>());
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">qu</span>.<span style="color:#e06c75">pop</span>();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="关联容器">关联容器</h3>
+<p><strong>（1）<code>set</code> 集合容器 / <code>multiset</code> 多重集容器：</strong></p>
+<ul>
+<li><strong>set</strong> 和 <strong>multiset</strong> 都是集合类模板，其元素值称为关键字。</li>
+<li><strong>set</strong> 中元素的关键字是唯一的，<strong>multiset</strong> 中元素的关键字可以不唯一，而且默认情况下会对元素按关键字自动进行升序排列。 查找速度比较快，同时支持集合的交、差和并等一些集合上的运算，如果需要集合中的元素允许重复那么可以使用<strong>multiset</strong>。</li>
+</ul>
+<hr>
+<ul>
+<li><strong>empty()</strong>：判断容器是否为空。</li>
+<li><strong>size()</strong>：返回容器中实际元素个数。</li>
+<li><strong>insert()</strong>：插入元素。</li>
+<li><strong>erase()</strong>：从容器删除一个或几个元素。</li>
+<li><strong>clear()</strong>：删除所有元素。</li>
+<li><strong>count(k)</strong>：返回容器中关键字<strong>k</strong>出现的次数。</li>
+<li><strong>find(k)</strong>：如果容器中存在关键字为k的元素，返回该元素的迭代器，否则返回**end()**值。</li>
+<li><strong>upper_bound()</strong>：返回一个迭代器，指向关键字大于<strong>k</strong>的第一个元素。</li>
+<li><strong>lower_bound()</strong>：返回一个迭代器，指向关键字不小于<strong>k</strong>的第一个元素。</li>
+<li><strong>迭代器函数</strong>：<strong>begin()</strong>、<strong>end()</strong>、<strong>rbegin()</strong>、<strong>rend()</strong>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;set&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">/* set 和 multiset 类似这里就不演示了 */</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// 初始化		
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">set</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">s</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">set</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;::</span><span style="color:#e06c75">iterator</span> <span style="color:#e06c75">it</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#7f848e">// 插入元素
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">s</span>.<span style="color:#e06c75">insert</span>(<span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">s</span>.<span style="color:#e06c75">insert</span>(<span style="color:#d19a66">3</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">s</span>.<span style="color:#e06c75">insert</span>(<span style="color:#d19a66">4</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">it</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">s</span>.<span style="color:#e06c75">begin</span>(); <span style="color:#e06c75">it</span> <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">s</span>.<span style="color:#e06c75">end</span>(); <span style="color:#e06c75">it</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;%d &#34;</span>, <span style="color:#56b6c2">*</span><span style="color:#e06c75">it</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>（2）<code>map</code> 映射容器 和 <code>multimap</code> 多重映射容器：</strong></p>
+<ul>
+<li><strong>map</strong> 和 <strong>multimap</strong> 都是映射类模板。</li>
+<li>映射是实现关键字与值关系的存储结构，可以使用一个关键字 <strong>key</strong> 来访问相应的数据值 <strong>value</strong>。在 <strong>set/multiset</strong> 中的 <strong>key</strong> 和 <strong>value</strong> 都是 <strong>key</strong> 类型，而 <strong>key</strong> 和 <strong>value</strong> 是一个 <strong>pair</strong> 类结构。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e">// pair 类结构的声明形如
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#c678dd">struct</span> <span style="color:#e5c07b">pair</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">T</span> <span style="color:#e06c75">first</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">T</span> <span style="color:#e06c75">second</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><strong>map/multimap</strong> 利用 <strong>pair</strong> 的 <strong>&lt;</strong> 运算符将所有元素即 <strong>key-value</strong> 对按 <strong>key</strong> 的升序排列，以红黑树的形式存储，可以根据 <strong>key</strong> 快速地找到与之对应的 <strong>value</strong>（查找时间为O(log2n)）。</li>
+<li><strong>map</strong>中不允许关键字重复出现，支持 <strong>[]</strong> 运算符；而 <strong>multimap</strong> 中允许关键字重复出现，但不支持 <strong>[]</strong> 运算符。</li>
+</ul>
+<hr>
+<ul>
+<li><strong>empty()</strong>：判断容器是否为空。</li>
+<li><strong>size()</strong>：返回容器中实际元素个数。</li>
+<li><strong>map[key]</strong>：返回关键字为 <strong>key</strong> 的元素的引用，如果不存在这样的关键字，则以 <strong>key</strong> 作为关键字插入一个元素（不适合 <strong>multimap</strong> ）。</li>
+<li><strong>insert(elem)</strong>：插入一个元素 <strong>elem</strong> 并返回该元素的位置。</li>
+<li><strong>clear()</strong>：删除所有元素。</li>
+<li><strong>find()</strong>：在容器中查找元素。</li>
+<li><strong>count()</strong>：容器中指定关键字的元素个数（<strong>map</strong>中只有1或者0）。</li>
+<li><strong>迭代器函数</strong>：<strong>begin()</strong>、<strong>end()</strong>、<strong>rbegin()</strong>、<strong>rend()</strong>。</li>
+</ul>
+<p>在 <code>map</code> 中修改元素并不困难，因为 <code>map</code> 容器已经对 <code>[]</code> 运算符进行了重载。</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#e06c75">map</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">char</span>,<span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">mymap</span>;	<span style="color:#7f848e">// 定义map容器mymap，其元素类型为pair&lt;char,int&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">mymap</span>[<span style="color:#98c379">&#39;a&#39;</span>] <span style="color:#56b6c2">=</span> <span style="color:#d19a66">1</span>;   <span style="color:#7f848e">// 或者mymap.insert(pair&lt;char，int&gt;(&#39;a&#39;,1) );
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e5c07b">int</span> <span style="color:#e06c75">ans</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">mymap</span>[<span style="color:#98c379">&#39;a&#39;</span>]; <span style="color:#7f848e">// 获取 map 中的一个值
+</span></span></span></code></pre></div><p><em>注意：只有当 map中有这个关键字（&lsquo;a&rsquo;）时才会成功，否则会自动插入一个元素，值为初始化值。可以使用 find() 方法来发现一个关键字是否存在。</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"># include &lt;map&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#c678dd">using</span> <span style="color:#c678dd">namespace</span> <span style="color:#e06c75">std</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">map</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">char</span>, <span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> <span style="color:#e06c75">mymap</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 第一种插入方式
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">mymap</span>.<span style="color:#e06c75">insert</span>(<span style="color:#e06c75">pair</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">char</span>, <span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;</span> (<span style="color:#98c379">&#39;a&#39;</span>, <span style="color:#d19a66">1</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 第二种插入方式
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">mymap</span>.<span style="color:#e06c75">insert</span>(<span style="color:#e06c75">map</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">char</span>, <span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;::</span><span style="color:#e06c75">value_type</span>(<span style="color:#98c379">&#39;b&#39;</span>, <span style="color:#d19a66">2</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7f848e">// 第三种插入方式
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>	<span style="color:#e06c75">mymap</span>[<span style="color:#98c379">&#39;c&#39;</span>] <span style="color:#56b6c2">=</span> <span style="color:#d19a66">3</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">map</span><span style="color:#56b6c2">&lt;</span><span style="color:#e5c07b">char</span>, <span style="color:#e5c07b">int</span><span style="color:#56b6c2">&gt;::</span><span style="color:#e06c75">iterator</span> <span style="color:#e06c75">iter</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">for</span> (<span style="color:#e06c75">iter</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">mymap</span>.<span style="color:#e06c75">begin</span>(); <span style="color:#e06c75">iter</span> <span style="color:#56b6c2">!=</span> <span style="color:#e06c75">mymap</span>.<span style="color:#e06c75">end</span>(); <span style="color:#e06c75">iter</span><span style="color:#56b6c2">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;[%c, %d]&#34;</span>, <span style="color:#e06c75">iter</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">first</span>, <span style="color:#e06c75">iter</span><span style="color:#56b6c2">-&gt;</span><span style="color:#e06c75">second</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#e06c75">printf</span>(<span style="color:#98c379">&#34;</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
 </section>
 
 
@@ -742,7 +1216,7 @@
         &copy; 
         
         2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-      共书写了146k字·共 26篇文章</br><span><p>
+      共书写了150.5k字·共 26篇文章</br><span><p>
     </section>
     
     <section class="powerby">
