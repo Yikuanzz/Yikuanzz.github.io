@@ -6,7 +6,704 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sat, 22 Jun 2024 10:44:39 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 19 Sep 2024 13:26:44 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>RSS简明教程</title>
+        <link>https://yikuanzz.github.io/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</link>
+        <pubDate>Thu, 19 Sep 2024 13:26:44 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/cover.png" alt="Featured image of post RSS简明教程" /&gt;&lt;h2 id=&#34;rss&#34;&gt;RSS&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;RSS（Really Simple Syndication）&lt;/strong&gt; 是一种基于 XML 的内容聚合和发布格式。它允许用户在一个地方订阅和阅读来自多个网站的更新内容，而无需逐个访问这些网站。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;主要特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;内容聚合&lt;/strong&gt;：RSS可以将来自不同网站的内容汇集到一个地方，方便用户统一阅读。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动更新&lt;/strong&gt;：订阅RSS源后，用户可以自动接收到最新的内容更新。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;无广告干扰&lt;/strong&gt;：RSS阅读器通常不会显示网站上的广告，提供更清洁的阅读体验。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;使用方法&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;找到RSS源&lt;/strong&gt;：许多网站会提供RSS订阅链接，通常以图标或链接形式出现。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;使用RSS阅读器&lt;/strong&gt;：将RSS源链接添加到RSS阅读器中，如Feedly、Inoreader等，即可开始订阅和阅读内容。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;这里以 Windows 端为例，接下来会介绍 Fluent RSS 阅读器，并且介绍如何进行 RSS 订阅获取自己想要知道的信息。&lt;/p&gt;
+&lt;h2 id=&#34;fluent-reader&#34;&gt;Fluent Reader&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919133428.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919133428.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://hyliu.me/fluent-reader/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Fluent Reader&lt;/a&gt;&lt;/strong&gt; 是一个外观简洁的本地跨平台新闻聚合器，能够随身携带用户所有感兴趣的资源。&lt;/p&gt;
+&lt;h3 id=&#34;下载-fluent-reader&#34;&gt;下载 Fluent Reader&lt;/h3&gt;
+&lt;p&gt;我们可以在 Microsoft 商店 / Mac Apple 商店获取下载，或者通过 &lt;a class=&#34;link&#34; href=&#34;https://github.com/yang991178/fluent-reader/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub 发布页&lt;/a&gt; 进行下载。这里也给一个 百度云 的地址：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;地址: &lt;a class=&#34;link&#34; href=&#34;https://pan.baidu.com/s/1hjFIv9S73B8rGMhA1gofSA?pwd=ffff&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://pan.baidu.com/s/1hjFIv9S73B8rGMhA1gofSA?pwd=ffff&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;提取码: ffff&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;安装完成后的界面如下，还是一个空壳，需要添加订阅源：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919134155.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919134155.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;添加订阅源&#34;&gt;添加订阅源&lt;/h3&gt;
+&lt;p&gt;我们点击右上角边栏的设置齿轮，可以在上面添加订阅源，需要输入 URL 地址。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919134351.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919134351.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;接下来，我们就需要获取订阅源了，获取订阅源的方式有两种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1.使用网站提供的 RSS 源，比如新闻网站、博客上提供的。&lt;/li&gt;
+&lt;li&gt;2.使用 RSS 仓库，由开发者贡献的 RSS 订阅源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这里介绍第一种获取订阅源的方式，下面介绍第二种订阅源的获取和使用。&lt;/p&gt;
+&lt;p&gt;以&lt;a class=&#34;link&#34; href=&#34;http://politics.people.com.cn/ywkx/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;人民网&lt;/a&gt;举例，在要文快讯中有提供 RSS 的订阅源，我们可以使用它提供的 RSS 资源订阅消息。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140127.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140127.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140232.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140232.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;然后，我们复制订阅源回到 Fluent Reader 中进行订阅，成功后我们就可以看到最新的新闻推送。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140253.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140253.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140335.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140335.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;订阅源分组&#34;&gt;订阅源分组&lt;/h3&gt;
+&lt;p&gt;当我们订阅的咨询比较多的时候，可以对订阅的信息进行分组，比如我这里订阅了时政频道、社会频道和教育频道，我想把他们都分在人民网这一个组里。&lt;/p&gt;
+&lt;p&gt;我可以在分组和排序中新建一个组，并把这些订阅源添加到组里。这样我就可以方便地对文章进行分类了。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140751.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140751.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140818.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919140818.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919141012.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919141012.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;偏好设置&#34;&gt;偏好设置&lt;/h3&gt;
+&lt;p&gt;RSS 的文章是通过抓取缓存在本地的，在偏好设置中我们可以设置文章抓取的频率，以及清理历史文章。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919141234.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919141234.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;rss-hub&#34;&gt;RSS Hub&lt;/h2&gt;
+&lt;p&gt;一种更加便捷的方法是通过 RSS Hub 来去获取订阅源，它几乎能够从所有的内容中生成 RSS 提要。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;地址： &lt;a class=&#34;link&#34; href=&#34;https://rsshub.netlify.app/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://rsshub.netlify.app/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919141515.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919141515.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;示例添加社媒&#34;&gt;示例：添加社媒&lt;/h3&gt;
+&lt;p&gt;假设，我想添加豆瓣的每月推荐片单，我可以在其中找到写好的 URL 地址示例。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142036.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142036.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;但是，注意需要做一些修改，比如举例中的是：https://rsshub.app/douban/recommended/tv&lt;/p&gt;
+&lt;p&gt;它不能直接粘贴到订阅源上去使用，而是需要更改地址中 &lt;code&gt;rsshub.app&lt;/code&gt; 这个域名。这是官方提供的应用，但有时不是很稳定，更推荐使用一些公共的服务。&lt;/p&gt;
+&lt;p&gt;我们可以在指南中找到公共实例，选择可以使用的服务域名来更改原来的域名，比如我选择第一个 &lt;code&gt;rsshub.rssforever.com&lt;/code&gt; ，替换之后的 URL 就是 &lt;a class=&#34;link&#34; href=&#34;https://rsshub.rssforever.com/douban/recommended/tv&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://rsshub.rssforever.com/douban/recommended/tv&lt;/a&gt; ，现在就可以放到订阅源去订阅了。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142245.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142245.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142431.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142431.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142500.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142500.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;此外，示例外还提供了一些参数来去使用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;type&lt;/code&gt; 可以选择 &lt;code&gt;tv&lt;/code&gt; 或者 &lt;code&gt;movie&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;routeParams&lt;/code&gt; 可以筛选评分或者仅看有可播放片源的影片。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;比如，我想看 &lt;code&gt;movie&lt;/code&gt; 的榜单，而且仅看有可播放片源的影片，分数必须是 8 分的高分片。&lt;/p&gt;
+&lt;p&gt;我就可以这样写 &lt;code&gt;/douban/recommended/movie/playable=1&amp;amp;score=8&lt;/code&gt;，然后再加上服务器域名就是订阅源了  &lt;a class=&#34;link&#34; href=&#34;https://rsshub.rssforever.com/douban/recommended/movie/playable=1&amp;amp;score=8&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://rsshub.rssforever.com/douban/recommended/movie/playable=1&amp;score=8&lt;/a&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142920.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142920.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142940.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919142940.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&#34;示例新媒体&#34;&gt;示例：新媒体&lt;/h3&gt;
+&lt;p&gt;相信通过上面的例子，已经能够掌握怎么获取咨询了，下面我们继续实践。&lt;/p&gt;
+&lt;p&gt;比如，我想知道 36氪上的24小时热榜信息，那我就可以根据它提供的信息来拼接我的 URL 地址。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;/36kr/hot-list/24&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt; https://rsshub.rssforever.com/36kr/hot-list/24&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919143407.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919143407.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919143509.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919143509.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919143531.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240919143531.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Ubuntu 22.04 LTS 虚拟机互联</title>
+        <link>https://yikuanzz.github.io/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/</link>
+        <pubDate>Sat, 17 Aug 2024 12:27:27 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/cover.png" alt="Featured image of post Ubuntu 22.04 LTS 虚拟机互联" /&gt;&lt;h2 id=&#34;背景环境&#34;&gt;背景环境&lt;/h2&gt;
+&lt;p&gt;在我们需要进行&lt;strong&gt;集群部署&lt;/strong&gt;的软件学习的时候，最必要的是搭建好一个&lt;strong&gt;服务器环境&lt;/strong&gt;，其中的关键需求就是能够让&lt;strong&gt;服务器互联&lt;/strong&gt;。因此，我写了这篇文章的重要任务就是分享如何能够将服务器互联，也就是搭建多节点的虚拟机环境。&lt;/p&gt;
+&lt;p&gt;通过本文你可以了解到的&lt;strong&gt;内容&lt;/strong&gt;有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;① 计算机网络的基本内容；&lt;/li&gt;
+&lt;li&gt;② VMware Workstation 的虚拟网络配置；&lt;/li&gt;
+&lt;li&gt;③  Linux 网络基础命令以及网络配置方法。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;实验环境&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;VMware® Workstation 16 Pro&lt;/li&gt;
+&lt;li&gt;Ubuntu 22.04.1 LTS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;计算机网络基础&#34;&gt;计算机网络基础&lt;/h2&gt;
+&lt;p&gt;在开始虚拟网络配置之前，我们需要回答这样一个问题：&lt;strong&gt;电脑是如何上网的&lt;/strong&gt;？&lt;/p&gt;
+&lt;p&gt;当然这个问题不难回答，我们用网线连接电脑或者用无线网卡连接 WIFI 就可以上网了，但是我想进一步回答这个问题，让我们一起讨论其中的&lt;strong&gt;基础服务&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802092558.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802092558.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;局域网（LAN，Local Area Network）&lt;/strong&gt;：指在一个相对较小的地理范围内连接多台计算机设别，比如办公室、家庭等等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;广域网（WAN，Wide Area Network）&lt;/strong&gt;：指一种覆盖范围非常广泛的计算网络，可以跨越多个城市、国家，甚至洲际。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;网关（Gateway）&lt;/strong&gt;：指一种网络设备或软件，用于连接两个不同的网络或协议，并在它们之间进行数据交换。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一般， 我们家里的网络就是&lt;strong&gt;局域网&lt;/strong&gt;或者叫内网，而&lt;strong&gt;广域网&lt;/strong&gt;相对的就是互联网或者叫外网，想要让内网和外网相连接，就需要&lt;strong&gt;网关&lt;/strong&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;**路由器（Router）**是常用的网络设备，它主要用于连接两个或多个网络，并且在这些网络之间转发数据包，起到一个网关的作用。&lt;/p&gt;
+&lt;p&gt;在我们购买了网络服务后，&lt;strong&gt;互联网提供商&lt;/strong&gt;会分配一个&lt;strong&gt;公共 IP 地址&lt;/strong&gt;给到路由器，这样我们所有的上网请求最终都将通过这个公共的 IP 地址去请求，并且也通过这个 IP 地址来接收服务器的响应。&lt;/p&gt;
+&lt;p&gt;这里我们就会有一些疑问：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、我有手机、平板、电脑等等这些设备，怎么通过一个 IP 地址来去访问的呢？&lt;/li&gt;
+&lt;li&gt;2、假设我有100台电脑，我难道要一个个地去给它们配置 IP 地址吗？&lt;/li&gt;
+&lt;li&gt;3、我上网的时候，为什么我可以通过输入网址来去访问网站而不是 IP 地址？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;【问题一の解决】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;网络地址转换（NAT，Network Address Translation）&lt;/strong&gt;：是一种将私有 IP 地址转换为公共 IP 地址的技术，它允许多个设备共享一个公共 IP 地址，从而节省 IP 地址资源。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802101247.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802101247.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【问题二の解决】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;动态主机配置协议（DHCP，Dynamic Host Configuration Protocol）&lt;/strong&gt;：是一种自动分配 IP 地址的协议，它简化了网络管理，避免了手动配置每个设备的 IP 地址。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802102732.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802102732.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【问题三の解决】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;域名系统（DNS，Domain Name System）&lt;/strong&gt;：将我们容易读的域名转换为计算机可以读的 IP 地址，比如将 &lt;code&gt;www.example.com&lt;/code&gt; 转为 &lt;code&gt;12.13.33.43&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802103931.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802103931.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;虚拟网络连接模式&#34;&gt;虚拟网络连接模式&lt;/h2&gt;
+&lt;p&gt;我们先了解到 VMware Workstation 中常见的&lt;strong&gt;网络连接模式&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;在编辑-&amp;gt;&lt;strong&gt;虚拟网络编辑器&lt;/strong&gt;中，我们一般会有三个虚拟网络分别是 &lt;code&gt;VMnet0&lt;/code&gt;、&lt;code&gt;VMnet1&lt;/code&gt; 和 &lt;code&gt;VMnet8&lt;/code&gt;，分别负责进行不同的连接模式，并且在启用了 &lt;code&gt;DHCP&lt;/code&gt; 功能的时候，虚拟机地址是动态分配的。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240730233842.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240730233842.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）桥接模式 Bridged Mode&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;定义&lt;/strong&gt;：桥接模式将虚拟机的网络适配器直接连接到物理网络，就像虚拟机和主机在同一个交换机上。这样，虚拟机可以像物理机一样获取IP地址，并与网络中的其他设备通信。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优点&lt;/strong&gt;：虚拟机可以直接访问局域网中的其他设备，适合需要与其他设备进行直接通信的场景。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;缺点&lt;/strong&gt;：需要确保网络中有足够的 IP 地址分配给虚拟机。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 &amp;lt;-&amp;gt; 虚拟机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 -&amp;gt; 宿主机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;宿主机 -&amp;gt; 虚拟机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 -&amp;gt; 互联网&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;互联网 -&amp;gt; 虚拟机&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;桥接模式&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;【注意】：桥接模式下，可以将&lt;strong&gt;虚拟机和宿主机理解为同一局域网下的设备&lt;/strong&gt;，因此它们之间是能够相互通信的，也因为&lt;strong&gt;虚拟机和宿主机处于同一个网段&lt;/strong&gt;，所以互联网会将虚拟机视作同一网关下的不同设备来进行访问。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240731015506.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240731015506.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（2）NAT模式 Network Address Translation Mode&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;定义&lt;/strong&gt;：NAT 模式通过主机的网络连接来访问外部网络，同时用虚拟网卡实现主机网络与虚拟机网络通信。虚拟机通过 NAT 设备和 DHCP 服务器获取 IP 地址，并通过主机的 IP 地址访问外部网络。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优点&lt;/strong&gt;：虚拟机可以访问外部网络，而不需要额外的 IP 地址，适合需要访问外部网络但不需要被外部网络访问的场景。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;缺点&lt;/strong&gt;：因为虚拟机和主机共享一个网络标识，所以外部网络无法直接访问虚拟机。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 &amp;lt;-&amp;gt; 虚拟机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 -&amp;gt; 宿主机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;宿主机 -&amp;gt; 虚拟机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 -&amp;gt; 互联网&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;互联网 -&amp;gt; 虚拟机&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;网络地址转换&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;×&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;【注意】：当我们尝试把 &lt;code&gt;VMnet8&lt;/code&gt; &lt;strong&gt;虚拟网卡禁用&lt;/strong&gt;时，会发现&lt;strong&gt;宿主机&lt;/strong&gt;无法 ping 通&lt;strong&gt;虚拟机&lt;/strong&gt;，而&lt;strong&gt;虚拟机&lt;/strong&gt;可以 ping 通&lt;strong&gt;宿主机&lt;/strong&gt;。这是因为在 NAT 模式下，虚拟网卡被禁用后，&lt;strong&gt;宿主机无法通过 NAT 设备去找到虚拟机的 IP 地址&lt;/strong&gt;；而虚拟机仍然可以通过宿主机的物理网卡进行通信，因为这时&lt;strong&gt;宿主机就相当于一个路由器&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240731015531.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240731015531.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（3）主机模式 Host-Only Mode&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;定义&lt;/strong&gt;：主机模式将虚拟机与主机隔离开来，只允许虚拟机与主机之间通信。虚拟机通过虚拟网卡和虚拟交换机与主机通信。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优点&lt;/strong&gt;：适合需要隔离虚拟机与外部网络的场景，确保虚拟机的安全性。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;缺点&lt;/strong&gt;：虚拟机无法访问外部网络。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 &amp;lt;-&amp;gt; 虚拟机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 -&amp;gt; 宿主机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;宿主机 -&amp;gt; 虚拟机&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;虚拟机 -&amp;gt; 互联网&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;互联网 -&amp;gt; 虚拟机&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;仅主机模式&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;×&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;√&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;×&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;×&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;【注意】：&lt;strong&gt;虚拟机&lt;/strong&gt;是无法 ping 通&lt;strong&gt;宿主机&lt;/strong&gt;的原因可能是仅主机模式下是没有 NAT 设备的，因此也就没有从 &lt;code&gt;VMnet1&lt;/code&gt; 到 &lt;code&gt;LAN&lt;/code&gt; 的网关，所以&lt;strong&gt;虚拟机&lt;/strong&gt;无法 ping 通&lt;strong&gt;宿主机&lt;/strong&gt;；但是因为有虚拟网卡，所以&lt;strong&gt;宿主机&lt;/strong&gt;可以 ping 通&lt;strong&gt;虚拟机&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240731015606.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240731015606.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;虚拟机多节点环境配置&#34;&gt;虚拟机多节点环境配置&lt;/h2&gt;
+&lt;p&gt;根据上述内容来说，我们想配置一个&lt;strong&gt;多节点的 Linux 虚拟机环境&lt;/strong&gt;的话，就要这样做：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、打开虚拟网络编辑器，设置 &lt;code&gt;VMnet8&lt;/code&gt; 也就是 NAT 模式下的 &lt;strong&gt;子网IP&lt;/strong&gt; 和 &lt;strong&gt;子网掩码&lt;/strong&gt;；&lt;/li&gt;
+&lt;li&gt;2、分别给虚拟机配置&lt;strong&gt;静态 IP 地址&lt;/strong&gt;，这样方面对每个设别进行管理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;这里，给到实践要配置的具体参数，参数完全可以根据实际需求进行更改，&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;VMnet8 子网IP&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;VMnet8 子网掩码&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;VMnet8 网关&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Master IP地址&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Node1 IP地址&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Node2 IP地址&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;192.168.247.0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;255.255.255.0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;192.168.247.2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;192.168.247.128&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;192.168.247.129&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;192.168.247.130&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;①设置 &lt;code&gt;VMnet8&lt;/code&gt; 虚拟网络的子网、掩码、网关&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802110100.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802110100.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;②配置静态 IP 地址&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先我们切换到 &lt;code&gt;root&lt;/code&gt; 模式，在管理员模式下，编辑 &lt;code&gt;/etc/netplan/01-network-manager-all.yaml &lt;/code&gt; 的文件。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;su root
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vim /etc/netplan/01-network-manager-all.yaml 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后，大概的文件格式如下，我们把 &lt;code&gt;DHCP&lt;/code&gt; 服务关闭，并且设置对应的网关，此外 &lt;code&gt;DNS&lt;/code&gt; 服务可以设置为网关或者其他的知名 &lt;code&gt;DNS&lt;/code&gt; 服务器。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# Let NetworkManager manage all devices on this system&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;network&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#e06c75&#34;&gt;ethernets&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;ens33&lt;/span&gt;:    &lt;span style=&#34;color:#7f848e&#34;&gt;# network adapter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e06c75&#34;&gt;dhcp4&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e06c75&#34;&gt;dhcp6&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e06c75&#34;&gt;addresses&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        - &lt;span style=&#34;color:#d19a66&#34;&gt;192.168.247.128&lt;/span&gt;/24 &lt;span style=&#34;color:#7f848e&#34;&gt;# static IP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e06c75&#34;&gt;routes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        - &lt;span style=&#34;color:#e06c75&#34;&gt;to&lt;/span&gt;: default
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#e06c75&#34;&gt;via&lt;/span&gt;: &lt;span style=&#34;color:#d19a66&#34;&gt;192.168.247.2&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;# gateway&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e06c75&#34;&gt;nameservers&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;addresses&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          - &lt;span style=&#34;color:#d19a66&#34;&gt;192.168.247.2&lt;/span&gt;   &lt;span style=&#34;color:#7f848e&#34;&gt;# local domain&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          - &lt;span style=&#34;color:#d19a66&#34;&gt;8.8.8.8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#e06c75&#34;&gt;version&lt;/span&gt;: &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#e06c75&#34;&gt;renderer&lt;/span&gt;: NetworkManager
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;接着，我们将设置好网络配置应用一下，然后看看有没有设置成功。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;netplan apply
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ip address
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu &lt;span style=&#34;color:#d19a66&#34;&gt;65536&lt;/span&gt; qdisc noqueue state UNKNOWN group default qlen &lt;span style=&#34;color:#d19a66&#34;&gt;1000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    inet 127.0.0.1/8 scope host lo
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       valid_lft forever preferred_lft forever
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    inet6 ::1/128 scope host 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       valid_lft forever preferred_lft forever
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2: ens33: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu &lt;span style=&#34;color:#d19a66&#34;&gt;1500&lt;/span&gt; qdisc fq_codel state UP group default qlen &lt;span style=&#34;color:#d19a66&#34;&gt;1000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    link/ether 00:0c:29:cd:f1:4d brd ff:ff:ff:ff:ff:ff
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    altname enp2s1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    inet 192.168.247.128/24 brd 192.168.247.255 scope global noprefixroute ens33
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       valid_lft forever preferred_lft forever
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    inet6 fe80::20c:29ff:fecd:f14d/64 scope link 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       valid_lft forever preferred_lft forever
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最后，我们只需要对虚拟机进行克隆，并且修改对应的静态 IP 地址就可以了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;③测试虚拟机的互联&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Master&lt;/code&gt; 虚拟机视角分别 ~·&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;code&gt;Master&lt;/code&gt; 虚拟机 -&amp;gt; &lt;code&gt;Node1&lt;/code&gt; 虚拟机 /  &lt;code&gt;Node2&lt;/code&gt; 虚拟机&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802112539.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240802112539.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考内容&#34;&gt;参考内容&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.vmware.com/cn/VMware-Workstation-Pro/17/com.vmware.ws.using.doc/GUID-BAFA66C3-81F0-4FCA-84C4-D9F7D258A60A.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;配置桥接模式网络&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.vmware.com/cn/VMware-Workstation-Pro/17/com.vmware.ws.using.doc/GUID-89311E3D-CCA9-4ECC-AF5C-C52BE6A89A95.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;配置网络地址转换&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/linyfeng/p/7534677.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux IP 和 网关配置&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/linyfeng/p/7534677.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux 网络 IP route 命令&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.vmware.com/cn/VMware-Workstation-Pro/17/com.vmware.ws.using.doc/GUID-93BDF7F1-D2E4-42CE-80EA-4E305337D2FC.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;配置仅主机模式网络连接&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.frosthe.net/homeserver-router-basic-services/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;路由器基础服务详解 - DHCP, DNS, NAT&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_44281591/article/details/127195233&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Ubuntu 22.04 LTS 静态 IP 配置及源更新&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/liujiaxin2018/p/16287463.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Ubuntu 22.04 如何配置静态 IP、网关、DNS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/kebibuluan/p/17857311.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;一文详解vmware虚拟机nat、桥接、仅主机模式的区别&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_39192827/article/details/85872025&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;VMware 虚拟机三种网络模式 桥接模式、NAT模式、仅主机模式&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>CPP的STL</title>
         <link>https://yikuanzz.github.io/2024/cpp%E7%9A%84stl/</link>
         <pubDate>Sat, 22 Jun 2024 10:44:39 +0800</pubDate>
@@ -667,6 +1364,50 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;但是在实际中，我们通常会用一些标准哈希算法，例如 MD5、SHA-1、SHA-2 和 SHA-3 等。它们可以将任意长度的输入数据映射到恒定长度的哈希值。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MD5 和 SHA-1 已多次被成功攻击，因此它们被各类安全应用弃用。&lt;/li&gt;
+&lt;li&gt;SHA-2 系列中的 SHA-256 是最安全的哈希算法之一，仍未出现成功的攻击案例，因此常用在各类安全应用与协议中。&lt;/li&gt;
+&lt;li&gt;SHA-3 相较 SHA-2 的实现开销更低、计算效率更高，但目前使用覆盖度不如 SHA-2 系列。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;哈希冲突处理&#34;&gt;哈希冲突处理&lt;/h3&gt;
+&lt;p&gt;**哈希冲突（Hash Collison）**就是不同的关键字通过哈希函数计算出了相同的结果的情况。&lt;/p&gt;
+&lt;p&gt;常见的处理方式有两种：&lt;strong&gt;开放地址法（Open Addressing）&lt;/strong&gt;、&lt;strong&gt;链式地址法（Separate Chaining）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）开放地址法（Open Addressing）：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过探测的方式找到哈希表中的空位置，直到哈希表被全部填满为止。&lt;/li&gt;
+&lt;li&gt;它通过这样的方法来去求后继的哈希地址：$H(i) = (Hash(key) + F(i)) \kern 5pt mod \kern 5pt m $。&lt;/li&gt;
+&lt;li&gt;其中，$F(i)$ 是冲突解决方法：
+&lt;ul&gt;
+&lt;li&gt;线性探测法：$F(i) = 1,2,3,\dots,m-1$。&lt;/li&gt;
+&lt;li&gt;二次探测法：$F(i)=1^2,-1^2,2^2,-2^2,\dots,±n^2$。&lt;/li&gt;
+&lt;li&gt;伪随机数序列：$F(i)=伪随机数序列$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;（2）链式地址法（Separate Chaining）：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将相同的哈希地址的元素存储在同一个线性链表上。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;二叉搜索树&#34;&gt;二叉搜索树&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;二叉搜索树（Binary Search Tree）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;左子树上所有结点的值均小于或等于它的根结点的值。&lt;/li&gt;
+&lt;li&gt;右子树上所有结点的值均大于或等于它的根结点的值。&lt;/li&gt;
+&lt;li&gt;左、右子树也分别为二叉搜索树。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240511171406.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240511171406.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
 &lt;h2 id=&#34;平衡二叉树&#34;&gt;平衡二叉树&lt;/h2&gt;
 &lt;h2 id=&#34;红黑树&#34;&gt;红黑树&lt;/h2&gt;
 </description>
@@ -3451,7 +4192,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;导包&#34;&gt;导包&lt;/h3&gt;
 &lt;p&gt;我们注意到程序中，有使用 &lt;code&gt;import &amp;quot;fmt&amp;quot;&lt;/code&gt; 的语句。编译器会使用 Go 环境变量设置的路径，通过引入相对路径来去查找磁盘上的包。插个题外话，如果导入包却不适用包中的代码，则会报错。&lt;/p&gt;
 &lt;p&gt;但是，我们的 &lt;code&gt;$GOPATH&lt;/code&gt; 路径上并没有名为 &lt;code&gt;fmt&lt;/code&gt; 的包，显然这是标准库中的包，那么这个查找顺序是怎么样的呢？&lt;/p&gt;
-&lt;p&gt;举例，如果 Go 安装在 &lt;code&gt;/usr/local/go&lt;/code&gt; 路径下，且 &lt;code&gt;GOPATH=/home/myproject:/homemylibraries&lt;/code&gt;的话，那么我们去查找 &lt;code&gt;net/http&lt;/code&gt; 包就会按照以下顺序去做：&lt;/p&gt;
+&lt;p&gt;举例，如果 Go 安装在 &lt;code&gt;/usr/local/go&lt;/code&gt; 路径下，且 &lt;code&gt;GOPATH=/home/myproject:/home/mylibraries&lt;/code&gt;的话，那么我们去查找 &lt;code&gt;net/http&lt;/code&gt; 包就会按照以下顺序去做：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;1、&lt;code&gt;/usr/local/go/src/pkg/net/http&lt;/code&gt;；&lt;/p&gt;
@@ -3492,7 +4233,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;sql&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Register&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;postgres&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;new&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;PostgresDriver&lt;/span&gt;)) 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果程序导入了这个包，就会调用 &lt;code&gt;init&lt;/code&gt; 函数，促使 PostgreSQL 的驱动最终注册到 Go 的 &lt;code&gt;sql&lt;/code&gt; 包里，成为一个可用的驱动。&lt;/p&gt;
-&lt;p&gt;为了要注册这个驱动，我们就要倒入这个包，但是呢，我们又不使用包内的代码，只是想要这 &lt;code&gt;init&lt;/code&gt; 函数执行。&lt;/p&gt;
+&lt;p&gt;为了要注册这个驱动，我们就要导入这个包，但是呢，我们又不使用包内的代码，只是想要这 &lt;code&gt;init&lt;/code&gt; 函数执行。&lt;/p&gt;
 &lt;p&gt;那么，在导包的时候需要给包重新命名，要用到 &lt;code&gt;_&lt;/code&gt; 符号。这样一来，我们可以将驱动注册到 &lt;code&gt;sql&lt;/code&gt; 包里面了：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
@@ -4095,6 +4836,30 @@ $$
 	
 &lt;/figure&gt;&lt;/p&gt;
 &lt;hr&gt;
+&lt;p&gt;这里稍微解释一下 &lt;code&gt;itab&lt;/code&gt; （Interface Table），它是用于实现接口类型和具体类型之间的映射，主要作用是将接口类型和实现该接口的具体类型关联起来，提供一个快速查找机制，以便在运行时进行接口方法的调用。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;接口类型断言&lt;/strong&gt;：当进行接口类型断言时，Go 运行时会使用 &lt;code&gt;itab&lt;/code&gt; 来检查具体类型是否实现了接口。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;接口方法调用&lt;/strong&gt;：在调用接口方法时，Go 运行时会通过 &lt;code&gt;itab&lt;/code&gt; 查找具体类型的方法实现。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;itab&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#e06c75&#34;&gt;inter&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;interfacetype&lt;/span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 指向接口类型的定义
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;   &lt;span style=&#34;color:#e06c75&#34;&gt;_type&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;_type&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 指向实现该接口的具体类型的定义
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;   &lt;span style=&#34;color:#e06c75&#34;&gt;hash&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;uint32&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 类型的哈希值，用于类型切换
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;   &lt;span style=&#34;color:#e06c75&#34;&gt;_&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;byte&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#e06c75&#34;&gt;fun&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#e5c07b&#34;&gt;uintptr&lt;/span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 指向具体类型实现的接口方法函数指针数组	fun[0]=0 表示没有实现
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;假设，我们有一个接口 &lt;code&gt;Speaker&lt;/code&gt; 和 一个实现该接口的类型 &lt;code&gt;Dog&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Speaker&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;interface&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Speak&lt;/span&gt;() &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Dog&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;d&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;Dog&lt;/span&gt;) &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Speak&lt;/span&gt;() &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Woof!&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在运行的时候，Go 会为 &lt;code&gt;Dog&lt;/code&gt; 类型创建一个 &lt;code&gt;itab&lt;/code&gt; ，将 &lt;code&gt;Speaker&lt;/code&gt; 接口和 &lt;code&gt;Dog&lt;/code&gt; 类型关联起来，并存储 &lt;code&gt;Dog&lt;/code&gt; 类型实现的 &lt;code&gt;Speak&lt;/code&gt; 方法的指针。&lt;/p&gt;
+&lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;方法集&lt;/strong&gt;定义了接口的接受规则。&lt;/p&gt;
 &lt;p&gt;我们以方法接受者的视角来看，如果方法接收者是&lt;strong&gt;指针&lt;/strong&gt;，那么给接口的类型就&lt;strong&gt;必须是指针&lt;/strong&gt;类型。&lt;/p&gt;
 &lt;p&gt;但是，如果方法接收者是&lt;strong&gt;值&lt;/strong&gt;，那么给接口的类型&lt;strong&gt;可以是指针&lt;/strong&gt;类型也&lt;strong&gt;可以是值&lt;/strong&gt;类型。&lt;/p&gt;
@@ -4203,7 +4968,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending admin email to Lisa&amp;lt;lisa@email.com&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;嵌入类型&#34;&gt;嵌入类型&lt;/h3&gt;
 &lt;p&gt;Go 语言允许用户扩展或修改已有类型的行为，这个功能是通过 &lt;em&gt;嵌入类型（type embedding）&lt;/em&gt; 完成的。&lt;/p&gt;
-&lt;p&gt;嵌入类型是将已有点类型直接声明在新的结构类型里，被嵌入的类型被称为新的外部类型的内部类型。&lt;/p&gt;
+&lt;p&gt;嵌入类型是将已有的类型直接声明在新的结构类型里，被嵌入的类型被称为新的外部类型的内部类型。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
@@ -4261,11 +5026,16 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending user eamil to john smith&amp;lt;john@yahoo.com&amp;gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sending admin eamil to john smith&amp;lt;john@yahoo.com&amp;gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们发现，只有执行 &lt;code&gt;ad.user.notify()&lt;/code&gt; 才会调用内部类型的方法。&lt;/p&gt;
+&lt;p&gt;所以，我们可以得出的结论是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当我们只实现了内部类方法的时候，不论何种方式调用的就是内部类方法。&lt;/li&gt;
+&lt;li&gt;如果我们两个方法都实现了的时候，那么只有调用内部类再调用其实现的方法才会真的调用。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;公开或未公开的标识符&#34;&gt;公开或未公开的标识符&lt;/h3&gt;
 &lt;p&gt;如果想设计好的 API，是需要用某种规则来控制声明后的标识符的可见性。&lt;/p&gt;
 &lt;p&gt;Go 语言支持从包里公开或隐藏标识符，通过这个功能，让用户能按照自己的规划控制标识符的可见性。&lt;/p&gt;
 &lt;p&gt;其实，如果我们知道私有变量和公有变量的概念就很好理解了，因为就是一个道理。&lt;/p&gt;
-&lt;p&gt;即，标识符的名字小写字母开头的，那么这个标识符就是未公开的；如果标识符的名字大写字母开头的，那么这个标识符就是公开的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;标识符的名字小写字母开头的，那么这个标识符就是未公开的；如果标识符的名字大写字母开头的，那么这个标识符就是公开的。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;我们一般用工厂函数来对未公开的标识符进行操作，其实就是用函数来创建对象，为它添加数性和方法，然后返回这个对象。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// entities
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;entities&lt;/span&gt;
@@ -4300,6 +5070,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;因为 &lt;code&gt;user&lt;/code&gt; 不是公开的，所以不能直接通过字面量构建；但是内部类型公开的标识符是可以通过外部类型来访问，并进行初始化的。&lt;/p&gt;
 &lt;h2 id=&#34;go-并发&#34;&gt;Go 并发&lt;/h2&gt;
+&lt;h3 id=&#34;并发与并行&#34;&gt;并发与并行&lt;/h3&gt;
 &lt;p&gt;在开始 Go 语言并发编程之前，我们先简单地了解一些概念：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -4371,9 +5142,260 @@ $$
 &lt;p&gt;此时，逻辑处理器就失去了线程，于是调度器会新建一个线程，并将其绑定到逻辑处理器上，然后在从本地运行队列里选择另一个 &lt;code&gt;goroutine&lt;/code&gt; 来运行。&lt;/p&gt;
 &lt;p&gt;一旦被阻塞的系统调用执行完成并返回，对应的 &lt;code&gt;goroutine&lt;/code&gt; 会回到本地运行队列，而之前的线程会被维护，以便之后可以继续使用。&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;如果一个 &lt;code&gt;goroutine&lt;/code&gt; 要做一个网络 I/O 调用的话，&lt;code&gt;goroutine&lt;/code&gt; 就不用逻辑处理器，而是移到集成了&lt;strong&gt;网络轮询器&lt;/strong&gt;的运行时。一旦该轮询器指示某个网络读或写操作已就绪，对应的 &lt;code&gt;goroutine&lt;/code&gt; 就会重新分配到逻辑处理器上来完成操作。（调度器对可以创建的）&lt;/p&gt;
-&lt;p&gt;​&lt;/p&gt;
-</description>
+&lt;p&gt;如果一个 &lt;code&gt;goroutine&lt;/code&gt; 要做一个网络 I/O 调用的话，&lt;code&gt;goroutine&lt;/code&gt; 就不用逻辑处理器，而是移到集成了&lt;strong&gt;网络轮询器&lt;/strong&gt;的运行时。一旦该轮询器指示某个网络读或写操作已就绪，对应的 &lt;code&gt;goroutine&lt;/code&gt; 就会重新分配到逻辑处理器上来完成操作。（调度器对可以创建的逻辑处理器的数量没有限制，默认每个程序最多创建 10 000 个线程。）&lt;/p&gt;
+&lt;p&gt;所以，当 &lt;code&gt;goroutine&lt;/code&gt; 并行的时候，就会有多个逻辑处理器，这时调度器会将 &lt;code&gt;goroutine&lt;/code&gt; 平等分配到每个逻辑处理器上，这样 &lt;code&gt;goroutine&lt;/code&gt; 就会在不同的线程上同时运行。&lt;/p&gt;
+&lt;h3 id=&#34;goroutine&#34;&gt;goroutine&lt;/h3&gt;
+&lt;p&gt;我们看一看 &lt;code&gt;goroutine&lt;/code&gt; 的例子，它创建两个协程，以并发的形式分别显示大写和小写的英文字母。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 分配一个逻辑处理器给调度器
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;runtime&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;GOMAXPROCS&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// wg 等待程序完成
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 等待 2 个 goroutine 完成
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Add&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Start Goroutines&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 匿名函数 小写
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Done&lt;/span&gt;()		&lt;span style=&#34;color:#7f848e&#34;&gt;// 完成计数减1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;char&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;26&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%c &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;char&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 匿名函数 大写
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Done&lt;/span&gt;()		&lt;span style=&#34;color:#7f848e&#34;&gt;// 完成计数减1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;A&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;char&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;A&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;26&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;char&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%c &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;char&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Waiting To Finish&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Wait&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Terminating Program&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此外，我们知道的是，一个正在运行的 &lt;code&gt;goroutine&lt;/code&gt; 在工作结束前，是可以被停止并重新调度的。因为，如果一个 &lt;code&gt;goroutine&lt;/code&gt; 在一定时间内没有完成它的任务就会被挂起，然后切换到另一个 &lt;code&gt;goroutine&lt;/code&gt; 去执行它的任务。&lt;/p&gt;
+&lt;p&gt;我们也可以通过给每个核心分配一个逻辑处理器去处理任务。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 给每个可用的核心分配一个逻辑处理器
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;runtime&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;GOMAXPROCS&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;runtime&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;NumCPU&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;竞争状态&#34;&gt;竞争状态&lt;/h3&gt;
+&lt;p&gt;如果两个或者多个 &lt;code&gt;goroutine&lt;/code&gt; 在没有互相同步的情况下，访问某个共享的资源，并试图同时读和写这个资源，就处于相互竞争的状态，这种情况被称作 &lt;strong&gt;竞争状态（race candition）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;对于一个共享资源的读写操作必须是原子化的，也就是说同一时刻下，只能有一个 &lt;code&gt;goroutine&lt;/code&gt; 对共享资源进行读和写操作。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;	
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Add&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Wait&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Final Counter:&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;id&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Done&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 获取 counter 值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;runtime&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Gosched&lt;/span&gt;()	&lt;span style=&#34;color:#7f848e&#34;&gt;// 把 goroutine 退出并放回队列
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    	&lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 增加本地 value 值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt; = &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 将值保存到 counter
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    }	
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们可以用 &lt;code&gt;go build -race&lt;/code&gt; 来检测程序中的竞争，当然，为了消除竞争状态，我们可以通过 &lt;code&gt;Go&lt;/code&gt; 提供的锁机制来锁住共享资源，来保证 &lt;code&gt;goroutine&lt;/code&gt; 的同步状态。&lt;/p&gt;
+&lt;h3 id=&#34;锁住共享资源&#34;&gt;锁住共享资源&lt;/h3&gt;
+&lt;p&gt;如果需要顺序访问一个整型变量或一段代码，&lt;code&gt;atomic&lt;/code&gt; 和 &lt;code&gt;sync&lt;/code&gt; 包的函数提供了很好的解决方案。&lt;/p&gt;
+&lt;p&gt;原子函数能以很底层的加锁机制来同步访问整型变量和指针。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync/atomic&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int64&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Add&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Wait&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Final Counter:&amp;#34;&lt;/span&gt; , &lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;id&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Done&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#7f848e&#34;&gt;// 安全地对 counter 加 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;atomic&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;AddInt64&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;runtime&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;GOsched&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们使用的 &lt;code&gt;AddInt64&lt;/code&gt; 函数会同步整型的加法，强制同时只有一个 &lt;code&gt;goroutine&lt;/code&gt; 运行并完成这个加法操作，另外的原子函数是 &lt;code&gt;LoadInt64&lt;/code&gt; 和 &lt;code&gt;StoreInt64&lt;/code&gt; ，这两个函数提供了一种安全地读和写一个整型值的方式。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync/atomic&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;time&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;shuntdown&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int64&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Add&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;doWork&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;A&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;doWork&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;B&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;time&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Sleep&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;time&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Second&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Shutdown Now&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;atomic&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;StoreInt64&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;shutdown&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Wait&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;doWork&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Done&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Doing %s Work \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;time&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Sleep&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;250&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;time&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Millisecond&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;atmoic&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;LoadInt64&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;shutdown&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Shutting %s Down \n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;break&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;另一种同步访问共享资源的方式是使用 &lt;strong&gt;互斥锁（mutex）&lt;/strong&gt;。互斥锁用于在代码上创建一个临界区，保证同一时间只有一个 &lt;code&gt;goroutine&lt;/code&gt; 可以执行这个临界区代码。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;mutex&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;Mutex&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Add&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Wait&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Final Counter: %d\\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;incCounter&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;id&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;done&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;mutex&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Lock&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;runtime&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Gosched&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;counter&lt;/span&gt; = &lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;mutex&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Unlock&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;通道&#34;&gt;通道&lt;/h3&gt;
+&lt;p&gt;在 Go 中，除了使用原子函数和互斥锁来保证对共享资源的安全访问以及消除竞争状态，还可以使用通道，通过发送和接收需要共享的资源，在 &lt;code&gt;goroutine&lt;/code&gt; 之间做同步。&lt;/p&gt;
+&lt;p&gt;声明通道时，需要指定将要被共享的数据的类型。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个无缓冲的整型通道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;unbuffered&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 创建一个有缓冲的通道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;buffered&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 通过通道发送一个字符串
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;buffered&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Gopher&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;// 从通道接收一个字符串
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;value&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buffered&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;无缓冲通道（unbuffered channel）&lt;/strong&gt; 是指在接收前没有能力保存任何值的通道，它要求发送和接收的 &lt;code&gt;goroutine&lt;/code&gt; 必须是准备好的，因此它们这中交互的行为就是同步的，如果没准备好，那么另一方就会阻塞等待。&lt;/p&gt;
+&lt;p&gt;我们用两个 &lt;code&gt;goroutine&lt;/code&gt; 来模拟网球比赛，并用无缓冲的通道来模拟球的来回。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;math/rand&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;time&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;init&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;rand&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Seed&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;time&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Now&lt;/span&gt;().&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;UnixNano&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;court&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Add&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;player&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Nadal&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;court&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;player&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Djokovic&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;court&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         </item>
         <item>
         <title>ZaharaEnglish</title>
@@ -15484,6 +16506,225 @@ $$
 &lt;li&gt;&lt;strong&gt;均衡循环扫描算法（C-LOOK）&lt;/strong&gt; ：C-SCAN 只有到达磁盘边界时才能改变磁头移动方向，并且磁头返回时也需要返回到磁盘起点，这样可能会做很多无用功。C-LOOK 算法对 C-SCAN 算法进行了改进，如果磁头移动的方向上已经没有磁道访问请求了，就可以立即让磁头返回，并且磁头只需要返回到有磁道访问请求的位置即可。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;img src=&#34;https://s2.loli.net/2024/03/27/UD4apktXIAFvEeL.png&#34; width = &#34;600&#34; height = &#34;200&#34; alt=&#34;&#34; align=center /&gt;
+&lt;h2 id=&#34;附录&#34;&gt;附录&lt;/h2&gt;
+&lt;h3 id=&#34;死锁产生代码实例&#34;&gt;死锁产生代码实例&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;（1）互斥条件&lt;/strong&gt;：资源一次只能被一个线程占用。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lock&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Lock&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;task&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lock&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;current_thread&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt; acquired the lock&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#7f848e&#34;&gt;# 模拟长时间操作&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Event&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wait&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;current_thread&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt; released the lock&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;threads&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Thread&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;task&lt;/span&gt;) &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threads&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threads&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;join&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;（2）请求和保持条件&lt;/strong&gt;：线程已经持有一个资源，在等待另一个资源时不释放已持有的资源。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Lock&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Lock&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;task1&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 1 acquired lock1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Event&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wait&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 1 acquired lock2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;task2&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 2 acquired lock2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Event&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wait&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 2 acquired lock1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Thread&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;task1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Thread&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;task2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;join&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;join&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;（3）不可剥夺条件&lt;/strong&gt;：资源不能被强制剥夺，只能由线程主动释放。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Lock&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Lock&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;task1&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;acquire&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 1 acquired lock1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Event&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wait&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;acquire&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 1 acquired lock2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;release&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;release&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;task2&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;acquire&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 2 acquired lock2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Event&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wait&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;acquire&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 2 acquired lock1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;release&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;release&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Thread&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;task1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Thread&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;task2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;join&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;join&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;（4）循环等待条件&lt;/strong&gt;：存在一个线程等待队列，队列中的每个线程都在等待下一个线程所持有的资源。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Lock&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Lock&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;task1&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;acquire&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 1 acquired lock1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Event&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wait&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;acquire&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 1 acquired lock2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;release&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;release&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;task2&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;acquire&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 2 acquired lock2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Event&lt;/span&gt;()&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wait&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;acquire&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Task 2 acquired lock1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;release&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;lock2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;release&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Thread&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;task1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;threading&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Thread&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;task2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t1&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;join&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;t2&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;join&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;页面置换算法实现&#34;&gt;页面置换算法实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# FIFO（先进先出）算法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;FIFO&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Memory: &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Total page faults: &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# LRU（最近最少使用）算法   &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;LRU&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;remove&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Memory: &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Total page faults: &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# OPT（最佳置换）算法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;OPT&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;)):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;future_uses&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;:]&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;index&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt;) &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;:] &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;float&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;inf&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;page&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pop&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;future_uses&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;index&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;max&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;future_uses&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Memory: &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;memory&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Total page faults: &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;page_faults&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 示例&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;5&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;FIFO&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;LRU&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;OPT&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;pages&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;capacity&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;磁盘调度算法实现&#34;&gt;磁盘调度算法实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# FCFS（先来先服务）算法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;FCFS&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;sum&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;abs&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;]) &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# SSTF（最短寻道时间优先）算法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;SSTF&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;closest&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;min&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;key&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;lambda&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;x&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;abs&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;x&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;abs&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;closest&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;closest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;closest&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;remove&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;closest&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# SCAN（扫描）算法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;SCAN&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;direction&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;up&amp;#39;&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;sort&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;direction&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;up&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;reversed&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;reversed&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;request&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;sum&lt;/span&gt;(&lt;span style=&#34;color:#e5c07b&#34;&gt;abs&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;] &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;]) &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;seek_sequence&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;# 示例&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#d19a66&#34;&gt;98&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;183&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;37&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;122&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;14&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;124&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;65&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;67&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;53&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;sequence&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;FCFS&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;requests&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;)	
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Seek Sequence: &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;sequence&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Total Seek Operations: &lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;total_seek&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://javaguide.cn/cs-basics/operating-system/operating-system-basic-questions-01.html#%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;操作系统常见面试题总结&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/ZingBug/Java-Notes/blob/master/interviews/2020%E5%B1%8A%E7%A7%8B%E6%8B%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AF%87.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;2020届秋招面试题总结-操作系统篇&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/6934500044057870350&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;2.5w字 + 36 张图爆肝操作系统面试题，太牛逼了&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -16635,6 +17876,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#1  0x00007ffff7a790b9 in __isoc99_scanf () from /lib64/libc.so.6&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#2  0x0000000000400580 in main () at zz5.c:6&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;gdb&lt;/code&gt; 显示段错误出现在 &lt;code&gt;_IO_vfscanf&lt;/code&gt; 函数中，用 &lt;code&gt;bt&lt;/code&gt; 命令可以看到这个函数是被我们的 &lt;code&gt;scanf&lt;/code&gt; 函数调用的，所以是 &lt;code&gt;scanf&lt;/code&gt; 这一行代码引发的段错误。仔细观察程序发现是 &lt;code&gt;man&lt;/code&gt; 前面少了个 &lt;code&gt;&amp;amp;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;【】&lt;/p&gt;
 </description>
         </item>
         <item>

@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<meta name='description' content='冷热分离：表数据量大读写缓慢 背景信息 在海量大数据场景下，一张表中往往存储着大量的历史数据，如订单数据或者监控数据。随着时间的推移，这些数据被'><title>软件架构场景</title>
+
+<link rel='canonical' href='https://yikuanzz.github.io/2024/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9C%BA%E6%99%AF/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='软件架构场景'>
+<meta property='og:description' content='冷热分离：表数据量大读写缓慢 背景信息 在海量大数据场景下，一张表中往往存储着大量的历史数据，如订单数据或者监控数据。随着时间的推移，这些数据被'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9C%BA%E6%99%AF/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2024-07-27T01:07:04&#43;08:00'/><meta property='article:modified_time' content='2024-07-27T01:07:04&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/cove.png' />
+<meta name="twitter:title" content="软件架构场景">
+<meta name="twitter:description" content="冷热分离：表数据量大读写缓慢 背景信息 在海量大数据场景下，一张表中往往存储着大量的历史数据，如订单数据或者监控数据。随着时间的推移，这些数据被"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/cove.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+
+  
+
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://yikuanzz.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://leetcode.cn/u/yikuanzz/'
+                            target="_blank"
+                            title="Leetcode"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-leetcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M12 13h7.5" />
+  <path d="M9.424 7.268l4.999 -4.999" />
+  <path d="M16.633 16.644l-2.402 2.415a3.189 3.189 0 0 1 -4.524 0l-3.77 -3.787a3.223 3.223 0 0 1 0 -4.544l3.77 -3.787a3.189 3.189 0 0 1 4.524 0l2.302 2.313" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9C%BA%E6%99%AF/">
+                
+                    <img src="/cove.png" loading="lazy" alt="Featured image of post 软件架构场景" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" style="background-color: #FF8C00; color: #fff;">
+                技术与效率
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9C%BA%E6%99%AF/">软件架构场景</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 27, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    2762字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="冷热分离表数据量大读写缓慢">冷热分离：表数据量大读写缓慢</h2>
+<h3 id="背景信息">背景信息</h3>
+<p>在海量大数据场景下，一张表中往往存储着大量的历史数据，如订单数据或者监控数据。随着时间的推移，这些数据被访问的频率会逐渐降低，最终被搁置。减少这部分数据的存储成本，成为一个新的问题。为解决这一问题同时降低存储成本，数据库的<strong>冷热分离</strong>功能应运而生。</p>
+<h3 id="原理介绍">原理介绍</h3>
+<p>数据库冷热分离是一种优化策略，旨在根据数据的访问频率和业务重要性，将数据分为冷数据和热数据，然后分别存储在不同的存储介质中。</p>
+<ul>
+<li><strong>热数据</strong>：这是需要即时对用户进行分发的数据，例如从数据源抓取之后经过处理，需要立即存储到可快速分发的存储介质，以供API或直接面向用户的系统使用。热数据需要重点保障服务质量和稳定性，因为它们通常具有较高的时效性和访问频率。</li>
+<li><strong>冷数据</strong>：这是不需要即时发送给用户的数据。冷数据不会原样分发给用户，而是需要长期积累，以便进行更高层次的分析。</li>
+</ul>
+<p><strong>冷热分离</strong>是指在处理数据时将数据库分为冷库和热库：</p>
+<ul>
+<li><strong>冷库</strong>用于存放走到了终态的数据（即冷数据）。</li>
+<li><strong>热库</strong>用于存放还需要修改的数据（即热数据）。</li>
+</ul>
+<p>冷热分离的<strong>缺点</strong>：</p>
+<ul>
+<li>用户查询冷数据速度依旧很慢，如果查询冷数据的用户比例很低，那么可以忽略。</li>
+<li>业务无法再修改冷数据，冷数据多到一定程度时，系统承受不住，这个可以通过分库来解决。</li>
+</ul>
+<h3 id="实现思路">实现思路</h3>
+<p><strong>1、判断数据是冷数据还是热数据</strong>：</p>
+<p>根据实际业务需求制定判定条件，例如<strong>时间字段</strong>、<strong>状态字段</strong>、<strong>组合字段</strong>，要注意的是，当一个数据被标注为冷数据的时候，业务代码将不会对它进行写操作。</p>
+<p><strong>2、如何触发冷热分离</strong>：</p>
+<p>有三种方式可以实现，包括<strong>业务层代码</strong>、<strong>binlog实现</strong>和<strong>定时扫描数据库</strong>实现。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th>修改写操作的业务代码</th>
+<th>监听数据库变更日志</th>
+<th>定时扫描数据库</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>优点</td>
+<td>1、代码灵活可控<br />2、保证实时性</td>
+<td>1、与业务代码解耦<br />2、可以做到低延时</td>
+<td>1、与业务代码解耦<br />2、可以更时间区分冷热数据的场景</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>1、不能按照时间区分冷热，当数据变为冷数据，期间可能没有进行任何操作<br />2、需要修改所有数据写操作的业务代码</td>
+<td>1、无法按照时间区分冷热，当数据变为冷数据，期间没有进行任何操作<br />2、需要考虑数据并发操作的问题，即业务代码与冷热变更代码同时操作同意数据</td>
+<td>1、不能做到实时性</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>3、如何分离冷热数据</strong>：</p>
+<p>具体步骤是：判断数据是冷数据/热数据 -&gt; 将要分离的数据插入冷数据库中 -&gt; 从热数据库中删除分离的数据。</p>
+<ul>
+<li>
+<p>同时修改多个数据库，保证<strong>数据的一致性</strong>：</p>
+<ul>
+<li>①在热数据库中，对要搬运的数据添加标识 <code>ColdFlag=WaittingForMove</code>。</li>
+<li>②找出所有待搬运的数据 <code>ColdFlag=WaittingForMove</code>。</li>
+<li>③在冷数据库中保存一份数据，但在保护逻辑中需要判断以此保证幂等性。</li>
+<li>④从热数据库中删除数据。</li>
+</ul>
+</li>
+<li>
+<p>大数据量的<strong>批量处理</strong>：</p>
+<ul>
+<li>①在热数据库中，对要搬运的数据添加标识 <code>ColdFlag=WaittingForMove</code>。</li>
+<li>②找前 50 条待搬运的数据 <code>ColdFlag=WaittingForMove</code>。</li>
+<li>③在冷数据库中保存一份数据，但在保护逻辑中需要判断以此保证幂等性。</li>
+<li>④从热数据库中删除数据。</li>
+<li>⑤循环执行。</li>
+</ul>
+</li>
+<li>
+<p>大数据量的<strong>并行处理</strong>：</p>
+<ul>
+<li>①计算待搬运的数据数量，再计算要同时启动的线程数。</li>
+<li>②给正在处理的数据加锁，就是在表中加上 <code>lock thread</code> 和 <code>load time</code> 两个字段，找出待迁移的未加锁或锁超时的数据并更新字段。</li>
+<li>③对数据进行处理前，要判断该数据是否由当前线程锁定，就是查询 <code>lock thread</code> 是否等于当前线程。</li>
+<li>④数据处理完毕后，必须保证锁被释放出去。</li>
+<li>⑤假设某线程失败退出了，结果锁没有释放的话可以设置一个超时时间，如果锁超时仍未释放，则其他线程能够正常处理该数据。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>幂等性</strong>:对于同一操作，不论执行多少次，产生的影响都是相同的。</p>
+<p>比如，我们考虑一个转账功能的例子，假设我们调用下游接口进行转账，但由于网络传输丢包、请求未送达或返回结果丢失等原因，可能出现超时。</p>
+<p>那么这个时候我们是否要进行重试呢？如果重试会不会多转一笔钱呢？</p>
+<ul>
+<li>方案一：查询接口
+<ul>
+<li>不要直接返回转账结果，而是由下游系统提供一个查询接口，来去查询转账记录；如果查询记录的结果是失败的，就重试发起转账。</li>
+</ul>
+</li>
+<li>方案二：直接插入
+<ul>
+<li>上游系统如果调用超时，就直接重试，比较适用于重复请求概率较低的场景。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727024603.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727024603.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="查询分离如何优化表数据量大查询缓慢">查询分离：如何优化表数据量大查询缓慢</h2>
+<h3 id="背景信息-1">背景信息</h3>
+<p>假设在客服系统的架构中，有一个工单查询功能，工单表中存有几千万条数据，且查询工单表数据时需要关联十几个子表。问题就是，每次客户查询数据时，需要很长的时间才能够返回结果，并且有些旧数据时需要持续进行更新的。这个时候就要用到 <strong>查询分离</strong> 来解决。</p>
+<h3 id="原理介绍-1">原理介绍</h3>
+<p><strong>查询分离</strong>是一种数据库优化策略，旨在提高查询性能。具体来说，每次写入数据时，除了将数据保存到主数据库中，还会保存一份数据到另外的存储系统中。当用户查询数据时，直接从这个另外的存储系统中获取数据。这样可以有效减轻主数据库的查询压力，提高系统的响应速度。</p>
+<p>因此，当有以下情况时，可以使用<strong>查询分离</strong>：</p>
+<ul>
+<li>数据量大；</li>
+<li>所有写数据的请求效率尚可；</li>
+<li>查询数据的请求效率很低；</li>
+<li>所有的数据任何时候都可能被修改；</li>
+<li>业务希望我们优化查询数据的功能。</li>
+</ul>
+<p>查询分离的<strong>缺点</strong>：</p>
+<ul>
+<li>通过Elasticsearch 存储查询数据时的注意事项。</li>
+<li>主数据量越来越大后，写操作还是会慢。</li>
+<li>主数据和查询数据数据不一致，可能不能满足业务的需求。</li>
+</ul>
+<h3 id="实现思路-1">实现思路</h3>
+<p><strong>1、如何触发查询分离</strong>：</p>
+<ul>
+<li>修改业务代码，在写入常规数据后，同步或异步建立查询数据。</li>
+<li>监控数据库日志，如果产生数据变更。</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th>同步建立查询数据</th>
+<th>异步建立查询数据</th>
+<th>监控数据库日志</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>优点</td>
+<td>1、保证查询数据的实时性和一致性<br />2、业务逻辑灵活可控</td>
+<td>1、不影响主流程</td>
+<td>1、不影响主流程<br />2、业务代码0入侵</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>1、侵入业务代码<br />2、减缓写操作速度</td>
+<td>1、查询数据更新前，用户可能会查询到过时的数据</td>
+<td>1、查询数据更新前，用户可能会查询到过时的数据<br />2、架构复杂一些</td>
+</tr>
+</tbody>
+</table></div>
+<p>一般来说，异步建立查询数据时，我们会使用到<strong>消息队列</strong>去做实现：当我们发起一个写操作时，就会通知消息队列开启一个线程去更新查询数据。</p>
+<ul>
+<li><strong>MQ 选型</strong>：
+<ul>
+<li>①召集技术中心所有能做技术决策的人共同投票选型。</li>
+<li>②从易用性和代码工作量角度考量。</li>
+</ul>
+</li>
+<li><strong>MQ宕机</strong>：
+<ul>
+<li>①在主数据中添加标识 <code>NeedUpdateQueryData=true</code> 告知消息队列数据需要更新。</li>
+<li>②消息队列消费者获取信号后，批量查询要更新的主数据并进行更新，完毕后更改标识 <code>NeedUpdateQueryData=false</code>。</li>
+<li>③在主数据中添加尝试搬运次数字段，每尝试一次就给字段值加1，以此来监控尝试次数过多的数据。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、查询数据如何存储</strong>：</p>
+<ul>
+<li><strong>MongoDB</strong>：文档型数据库，用于数据存储和管理。它支持灵活的数据模型，无需预定义模式。</li>
+<li><strong>Elasticsearch</strong>：搜索引擎，专注于数据检索服务。它强调全文索引和复杂查询。</li>
+<li><strong>HBase</strong>：分布式列式存储系统，适用于大规模数据存储和高吞吐量的读写。</li>
+</ul>
+<p><strong>3、查询数据如何使用</strong>：</p>
+<ul>
+<li>在查询数据更新到最新前，不允许用户查询数据。</li>
+<li>给用户提示该数据可能不是最新数据，建议刷新。</li>
+</ul>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727090438.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727090438.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h2 id="elasticsearch-注意要点需要知道的坑">Elasticsearch 注意要点：需要知道的坑</h2>
+<h3 id="如何使用-elastichsearch-设计表结构">如何使用 Elastichsearch 设计表结构</h3>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727103856.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727103856.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727103726.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727103726.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="如何修改-elasticsearch-表结构">如何修改 ElasticSearch 表结构</h3>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727104409.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727104409.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727104451.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727104451.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h3 id="es-的坑">ES 的坑</h3>
+<p><figure 
+	>
+	<a href="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727105855.png" >
+		<img src="https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240727105855.png"
+			
+			
+			
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/cover.d042496d128743873df3e1b3341af6ec_hu1a151bc9ca85f660950beb9df0738685_858374_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post RSS简明教程"
+                        data-key="RSS简明教程" 
+                        data-hash="md5-0EJJbRKHQ4c98&#43;GzNBr27A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">RSS简明教程</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/cover.6eff83785ed600380df1126b3b48b9a8_hu2b1e886c0aa414fb7c37b219b386bfd4_934590_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Ubuntu 22.04 LTS 虚拟机互联"
+                        data-key="Ubuntu 22.04 LTS 虚拟机互联" 
+                        data-hash="md5-bv&#43;DeF7WADgN8RJrO0i5qA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Ubuntu 22.04 LTS 虚拟机互联</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/cover.b80d52f84a44fd6502b213be68c92064_hu7de092c981d04a68ecb78876337b6c3c_1423095_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 计算机网络学习"
+                        data-key="计算机网络学习" 
+                        data-hash="md5-uA1S&#43;EpE/WUCshO&#43;aMkgZA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">计算机网络学习</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了160.5k字·共 29篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#冷热分离表数据量大读写缓慢">冷热分离：表数据量大读写缓慢</a>
+      <ol>
+        <li><a href="#背景信息">背景信息</a></li>
+        <li><a href="#原理介绍">原理介绍</a></li>
+        <li><a href="#实现思路">实现思路</a></li>
+      </ol>
+    </li>
+    <li><a href="#查询分离如何优化表数据量大查询缓慢">查询分离：如何优化表数据量大查询缓慢</a>
+      <ol>
+        <li><a href="#背景信息-1">背景信息</a></li>
+        <li><a href="#原理介绍-1">原理介绍</a></li>
+        <li><a href="#实现思路-1">实现思路</a></li>
+      </ol>
+    </li>
+    <li><a href="#elasticsearch-注意要点需要知道的坑">Elasticsearch 注意要点：需要知道的坑</a>
+      <ol>
+        <li><a href="#如何使用-elastichsearch-设计表结构">如何使用 Elastichsearch 设计表结构</a></li>
+        <li><a href="#如何修改-elasticsearch-表结构">如何修改 ElasticSearch 表结构</a></li>
+        <li><a href="#es-的坑">ES 的坑</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="category-list-link">人工智能<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">6</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">12</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">4</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">28</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_8">
+                Note
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_3">
+                Linux
+            </a>
+        
+            <a href="/tags/web/" class="font_size_3">
+                Web
+            </a>
+        
+            <a href="/tags/%E8%8B%B1%E8%AF%AD/" class="font_size_3">
+                英语
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_3">
+                计算机网络
+            </a>
+        
+            <a href="/tags/c/" class="font_size_2">
+                C
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/python/" class="font_size_1">
+                Python
+            </a>
+        
+            <a href="/tags/shell/" class="font_size_1">
+                Shell
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

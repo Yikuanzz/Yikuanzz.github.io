@@ -6,8 +6,29 @@
     <description>Recent content in 技术与效率 on Yikuanzz</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 May 2024 08:10:37 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 19 Sep 2024 13:26:44 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RSS简明教程</title>
+      <link>https://yikuanzz.github.io/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Thu, 19 Sep 2024 13:26:44 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</guid>
+      <description>RSS RSS（Really Simple Syndication） 是一种基于 XML 的内容聚合和发布格式。它允许用户在一个地方订阅和阅读来自多个网站的更新内容，而无</description>
+    </item>
+    <item>
+      <title>Ubuntu 22.04 LTS 虚拟机互联</title>
+      <link>https://yikuanzz.github.io/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/</link>
+      <pubDate>Sat, 17 Aug 2024 12:27:27 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/</guid>
+      <description>背景环境 在我们需要进行集群部署的软件学习的时候，最必要的是搭建好一个服务器环境，其中的关键需求就是能够让服务器互联。因此，我写了这篇文章的重</description>
+    </item>
+    <item>
+      <title>软件架构场景</title>
+      <link>https://yikuanzz.github.io/2024/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9C%BA%E6%99%AF/</link>
+      <pubDate>Sat, 27 Jul 2024 01:07:04 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9C%BA%E6%99%AF/</guid>
+      <description>冷热分离：表数据量大读写缓慢 背景信息 在海量大数据场景下，一张表中往往存储着大量的历史数据，如订单数据或者监控数据。随着时间的推移，这些数据被</description>
+    </item>
     <item>
       <title>计算机网络学习</title>
       <link>https://yikuanzz.github.io/2024/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/</link>
