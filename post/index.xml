@@ -6,8 +6,29 @@
     <description>Recent content in Posts on Yikuanzz</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Sep 2024 13:26:44 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 28 Feb 2025 17:38:22 +0800</lastBuildDate>
     <atom:link href="https://yikuanzz.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go协程交替打印</title>
+      <link>https://yikuanzz.github.io/2025/go%E5%8D%8F%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0/</link>
+      <pubDate>Fri, 28 Feb 2025 17:38:22 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2025/go%E5%8D%8F%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0/</guid>
+      <description>（1）用协程交替打印 ABC 一百次； （2）用协程交替打印数字，0 到 100。 我们可以利用 Channel 的阻塞机制来进行信号传递，因为无缓冲的 Channel 中，如果没有数据传</description>
+    </item>
+    <item>
+      <title>Go中os.OpenFile详解</title>
+      <link>https://yikuanzz.github.io/2024/go%E4%B8%ADos.openfile%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Wed, 25 Sep 2024 11:22:32 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/go%E4%B8%ADos.openfile%E8%AF%A6%E8%A7%A3/</guid>
+      <description>os.OpenFile() 在 Go 语言中，os.OpenFile 是一个底层文件操作函数，用于精细地控制文件的打开行为。 func OpenFile(name string, flag int, perm FileMode)(*Fiel, error) 参数解析： 1、name string</description>
+    </item>
+    <item>
+      <title>Flexbox 弹性盒布局</title>
+      <link>https://yikuanzz.github.io/2024/flexbox-%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/</link>
+      <pubDate>Sat, 21 Sep 2024 16:25:42 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/flexbox-%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/</guid>
+      <description>Flexbox（弹性盒布局）是一种用于布局的 CSS 模型，这也是最常使用的模型。我们通过 display: flex 来将其容器设置为 flex 布局，那么它的子元素就会根据布局进行</description>
+    </item>
     <item>
       <title>RSS简明教程</title>
       <link>https://yikuanzz.github.io/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</link>
@@ -16,11 +37,25 @@
       <description>RSS RSS（Really Simple Syndication） 是一种基于 XML 的内容聚合和发布格式。它允许用户在一个地方订阅和阅读来自多个网站的更新内容，而无</description>
     </item>
     <item>
+      <title>IO多路复用机制</title>
+      <link>https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Mon, 26 Aug 2024 20:12:34 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/</guid>
+      <description>IO 多路复用详解 IO多路复用是一种高效的IO处理机制，允许单个线程同时监听和处理多个文件描述符（如网络连接、管道等）的IO事件。它是现代操作系</description>
+    </item>
+    <item>
       <title>Ubuntu 22.04 LTS 虚拟机互联</title>
       <link>https://yikuanzz.github.io/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/</link>
       <pubDate>Sat, 17 Aug 2024 12:27:27 +0800</pubDate>
       <guid>https://yikuanzz.github.io/2024/ubuntu-22.04-lts-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%92%E8%81%94/</guid>
       <description>背景环境 在我们需要进行集群部署的软件学习的时候，最必要的是搭建好一个服务器环境，其中的关键需求就是能够让服务器互联。因此，我写了这篇文章的重</description>
+    </item>
+    <item>
+      <title>JavaScript的异步处理机制</title>
+      <link>https://yikuanzz.github.io/2024/javascript%E7%9A%84%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Tue, 13 Aug 2024 11:28:49 +0800</pubDate>
+      <guid>https://yikuanzz.github.io/2024/javascript%E7%9A%84%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</guid>
+      <description>JavaScript 是一种单线程语言，但通过其独特的运行机制和异步编程模型，能够高效地处理非阻塞任务。以下是 JavaScript 实现异步的核心原理及其相关技术细节。 1. JavaScript 的单线程</description>
     </item>
     <item>
       <title>软件架构场景</title>

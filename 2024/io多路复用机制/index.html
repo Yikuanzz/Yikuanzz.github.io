@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+        <meta name='description' content='IO 多路复用详解 IO多路复用是一种高效的IO处理机制，允许单个线程同时监听和处理多个文件描述符（如网络连接、管道等）的IO事件。它是现代操作系'><title>IO多路复用机制</title>
+
+<link rel='canonical' href='https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/'>
+
+<link rel="stylesheet" href="/scss/style.min.46208cabd58e8bcef0cfb7d7ea6b561adcca3b91dd1fc6657493a44f03c5db75.css"><meta property='og:title' content='IO多路复用机制'>
+<meta property='og:description' content='IO 多路复用详解 IO多路复用是一种高效的IO处理机制，允许单个线程同时监听和处理多个文件描述符（如网络连接、管道等）的IO事件。它是现代操作系'>
+<meta property='og:url' content='https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/'>
+<meta property='og:site_name' content='Yikuanzz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2024-08-26T20:12:34&#43;08:00'/><meta property='article:modified_time' content='2024-08-26T20:12:34&#43;08:00'/><meta property='og:image' content='https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/cover.png' />
+<meta name="twitter:title" content="IO多路复用机制">
+<meta name="twitter:description" content="IO 多路复用详解 IO多路复用是一种高效的IO处理机制，允许单个线程同时监听和处理多个文件描述符（如网络连接、管道等）的IO事件。它是现代操作系"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/cover.png' />
+    <link rel="shortcut icon" href="https://s2.loli.net/2024/03/22/Z5UYhgiHmGofML8.jpg" />
+
+  
+
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://yikuanzz.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/aa2_hue12ee8e79b9cb68bf5d1297bba3d9824_12551_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🎧</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Yikuanzz</a></h1>
+        <h2 class="site-description">Anytimes you like.</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='https://space.bilibili.com/15264235'
+                            target="_blank"
+                            title="Bilibili"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bilibili" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#87CEFA" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" />
+  <path d="M8 3l2 3" />
+  <path d="M16 3l-2 3" />
+  <path d="M9 13v-2" />
+  <path d="M15 11v2" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/Yikuanzz'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://leetcode.cn/u/yikuanzz/'
+                            target="_blank"
+                            title="Leetcode"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-leetcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M12 13h7.5" />
+  <path d="M9.424 7.268l4.999 -4.999" />
+  <path d="M16.633 16.644l-2.402 2.415a3.189 3.189 0 0 1 -4.524 0l-3.77 -3.787a3.223 3.223 0 0 1 0 -4.544l3.77 -3.787a3.189 3.189 0 0 1 4.524 0l2.302 2.313" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://www.zhihu.com/people/dolikes'
+                            target="_blank"
+                            title="Zhihu"
+                        >
+                            
+                            
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-zhihu" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#009988" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M14 6h6v12h-2l-2 2l-1 -2h-1z" />
+  <path d="M4 12h6.5" />
+  <path d="M10.5 6h-5" />
+  <path d="M6 4c-.5 2.5 -1.5 3.5 -2.5 4.5" />
+  <path d="M8 6v7c0 4.5 -2 5.5 -4 7" />
+  <path d="M11 18l-3 -5" />
+</svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/">
+                <img src="/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/cover_hub703a4106b7d89ab4a0bb1fd5e47c69f_471140_800x0_resize_box_3.png"
+                        srcset="/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/cover_hub703a4106b7d89ab4a0bb1fd5e47c69f_471140_800x0_resize_box_3.png 800w, /2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/cover_hub703a4106b7d89ab4a0bb1fd5e47c69f_471140_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="420" 
+                        loading="lazy"
+                        alt="Featured image of post IO多路复用机制" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" style="background-color: #FF8C00; color: #fff;">
+                技术与效率
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/">IO多路复用机制</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 26, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    6921字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="io-多路复用详解">IO 多路复用详解</h1>
+<p>IO多路复用是一种高效的IO处理机制，允许单个线程同时监听和处理多个文件描述符（如网络连接、管道等）的IO事件。它是现代操作系统中实现高性能网络服务器的核心技术之一。以下是IO多路复用的详细解析。</p>
+<hr>
+<h3 id="1-io多路复用的基本概念"><strong>1. IO多路复用的基本概念</strong></h3>
+<h4 id="1什么是io多路复用">（1）<strong>什么是IO多路复用？</strong></h4>
+<p>IO多路复用是指通过一个阻塞调用（如<code>select</code>、<code>poll</code>、<code>epoll</code>），让单个线程能够同时监控多个文件描述符的状态变化（如可读、可写或异常）。一旦某个文件描述符准备好进行IO操作，系统会通知应用程序，从而避免了传统轮询方式的低效问题。</p>
+<h4 id="2为什么需要io多路复用">（2）<strong>为什么需要IO多路复用？</strong></h4>
+<ul>
+<li>在高并发场景下，传统的阻塞IO模型会导致大量线程被阻塞，浪费资源。</li>
+<li>使用非阻塞IO模型虽然可以避免阻塞，但频繁轮询会增加CPU开销。</li>
+<li>IO多路复用结合了两者的优点：高效且不浪费资源。</li>
+</ul>
+<hr>
+<h3 id="2-常见的io多路复用机制"><strong>2. 常见的IO多路复用机制</strong></h3>
+<h4 id="1select">（1）<strong>select</strong></h4>
+<ul>
+<li>
+<p><strong>特点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>最早的IO多路复用机制，支持跨平台（Unix/Linux/Windows）。</li>
+<li>支持监听多个文件描述符的状态变化。</li>
+</ul>
+</li>
+<li>
+<p><strong>限制</strong>：</p>
+</li>
+<li>
+<ul>
+<li>文件描述符数量有限制（通常为1024，可以通过宏定义扩展）。</li>
+<li>需要手动维护文件描述符集合，效率较低。</li>
+<li>每次调用<code>select</code>都会复制文件描述符集合到内核空间，性能较差。</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例代码">示例代码</h5>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;sys/select.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fd_set</span> <span style="color:#e06c75">readfds</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#7f848e">// 标准输入
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">FD_ZERO</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">readfds</span>);        <span style="color:#7f848e">// 清空文件描述符集合
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#61afef;font-weight:bold">FD_SET</span>(<span style="color:#e06c75">fd</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">readfds</span>);     <span style="color:#7f848e">// 添加文件描述符到集合
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Waiting for input...</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">select</span>(<span style="color:#e06c75">fd</span> <span style="color:#56b6c2">+</span> <span style="color:#d19a66">1</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">readfds</span>, <span style="color:#e5c07b">NULL</span>, <span style="color:#e5c07b">NULL</span>, <span style="color:#e5c07b">NULL</span>) <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">FD_ISSET</span>(<span style="color:#e06c75">fd</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">readfds</span>)) {
+</span></span><span style="display:flex;"><span>            <span style="color:#e5c07b">char</span> <span style="color:#e06c75">buffer</span>[<span style="color:#d19a66">1024</span>];
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#e06c75">fd</span>, <span style="color:#e06c75">buffer</span>, <span style="color:#c678dd">sizeof</span>(<span style="color:#e06c75">buffer</span>));
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Input: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">buffer</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h4 id="2poll">（2）<strong>poll</strong></h4>
+<ul>
+<li>
+<p><strong>特点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>类似于<code>select</code>，但没有文件描述符数量限制。</li>
+<li>支持更多类型的文件描述符（如管道、套接字等）。</li>
+</ul>
+</li>
+<li>
+<p><strong>限制</strong>：</p>
+</li>
+<li>
+<ul>
+<li>性能与<code>select</code>类似，每次调用都需要遍历所有文件描述符，效率较低。</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例代码-1">示例代码</h5>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;poll.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">pollfd</span> <span style="color:#e06c75">fds</span>[<span style="color:#d19a66">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fds</span>[<span style="color:#d19a66">0</span>].<span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#7f848e">// 标准输入
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">fds</span>[<span style="color:#d19a66">0</span>].<span style="color:#e06c75">events</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">POLLIN</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Waiting for input...</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">poll</span>(<span style="color:#e06c75">fds</span>, <span style="color:#d19a66">1</span>, <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>) <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> (<span style="color:#e06c75">fds</span>[<span style="color:#d19a66">0</span>].<span style="color:#e06c75">revents</span> <span style="color:#56b6c2">&amp;</span> <span style="color:#e06c75">POLLIN</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#e5c07b">char</span> <span style="color:#e06c75">buffer</span>[<span style="color:#d19a66">1024</span>];
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">buffer</span>, <span style="color:#c678dd">sizeof</span>(<span style="color:#e06c75">buffer</span>));
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Input: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">buffer</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h4 id="3epolllinux特有">（3）<strong>epoll（Linux特有）</strong></h4>
+<ul>
+<li>
+<p><strong>特点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>高效的IO多路复用机制，专为Linux设计。</li>
+<li>基于事件驱动模型，只有就绪的文件描述符才会触发回调。</li>
+<li>支持大量文件描述符（理论上仅受限于系统内存）。</li>
+<li>内核态与用户态之间的数据交换较少，性能优越。</li>
+</ul>
+</li>
+<li>
+<p><strong>核心函数</strong>：</p>
+</li>
+<li>
+<ul>
+<li><code>epoll_create</code>：创建一个<code>epoll</code>实例。</li>
+<li><code>epoll_ctl</code>：注册、修改或删除文件描述符。</li>
+<li><code>epoll_wait</code>：等待事件发生。</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例代码-2">示例代码</h5>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;sys/epoll.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">#define MAX_EVENTS 10
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">epoll_fd</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">epoll_create1</span>(<span style="color:#d19a66">0</span>); <span style="color:#7f848e">// 创建epoll实例
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">epoll_event</span> <span style="color:#e06c75">event</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">event</span>.<span style="color:#e06c75">events</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">EPOLLIN</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">event</span>.<span style="color:#e06c75">data</span>.<span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#7f848e">// 标准输入
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">epoll_ctl</span>(<span style="color:#e06c75">epoll_fd</span>, <span style="color:#e06c75">EPOLL_CTL_ADD</span>, <span style="color:#d19a66">0</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">event</span>); <span style="color:#7f848e">// 注册标准输入
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">epoll_event</span> <span style="color:#e06c75">events</span>[<span style="color:#e06c75">MAX_EVENTS</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Waiting for input...</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">nfds</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">epoll_wait</span>(<span style="color:#e06c75">epoll_fd</span>, <span style="color:#e06c75">events</span>, <span style="color:#e06c75">MAX_EVENTS</span>, <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">nfds</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">for</span> (<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">nfds</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> (<span style="color:#e06c75">events</span>[<span style="color:#e06c75">i</span>].<span style="color:#e06c75">data</span>.<span style="color:#e06c75">fd</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span> <span style="color:#56b6c2">&amp;&amp;</span> (<span style="color:#e06c75">events</span>[<span style="color:#e06c75">i</span>].<span style="color:#e06c75">events</span> <span style="color:#56b6c2">&amp;</span> <span style="color:#e06c75">EPOLLIN</span>)) {
+</span></span><span style="display:flex;"><span>                <span style="color:#e5c07b">char</span> <span style="color:#e06c75">buffer</span>[<span style="color:#d19a66">1024</span>];
+</span></span><span style="display:flex;"><span>                <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">buffer</span>, <span style="color:#c678dd">sizeof</span>(<span style="color:#e06c75">buffer</span>));
+</span></span><span style="display:flex;"><span>                <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Input: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">buffer</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">close</span>(<span style="color:#e06c75">epoll_fd</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h3 id="3-io多路复用的工作原理"><strong>3. IO多路复用的工作原理</strong></h3>
+<h4 id="1事件驱动模型">（1）<strong>事件驱动模型</strong></h4>
+<p>IO多路复用的核心思想是基于事件驱动模型：</p>
+<ul>
+<li>应用程序注册感兴趣的事件（如可读、可写）。</li>
+<li>内核负责监控这些事件，并在事件发生时通知应用程序。</li>
+</ul>
+<h4 id="2阻塞与非阻塞">（2）<strong>阻塞与非阻塞</strong></h4>
+<ul>
+<li>调用<code>select</code>、<code>poll</code>或<code>epoll_wait</code>时，线程会被阻塞，直到至少一个文件描述符准备就绪。</li>
+<li>这种阻塞是非忙等待的，不会消耗CPU资源。</li>
+</ul>
+<h4 id="3性能优化">（3）<strong>性能优化</strong></h4>
+<ul>
+<li><code>select</code>和<code>poll</code>需要遍历所有文件描述符，效率较低。</li>
+<li><code>epoll</code>只处理就绪的文件描述符，因此性能更高。</li>
+</ul>
+<hr>
+<h3 id="4-io多路复用的应用场景"><strong>4. IO多路复用的应用场景</strong></h3>
+<ul>
+<li><strong>Web服务器</strong>：如Nginx、Apache使用<code>epoll</code>实现高并发连接处理。</li>
+<li><strong>聊天应用</strong>：实时监听多个客户端的连接状态。</li>
+<li><strong>游戏服务器</strong>：同时处理大量玩家的请求。</li>
+<li><strong>日志系统</strong>：监控多个日志文件的变化。</li>
+</ul>
+<hr>
+<h3 id="5-io多路复用与异步io的区别"><strong>5. IO多路复用与异步IO的区别</strong></h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>IO多路复用</th>
+<th>异步IO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>是否阻塞</strong></td>
+<td>阻塞（等待事件发生）</td>
+<td>非阻塞（提交任务后立即返回）</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>高并发、少量大流量</td>
+<td>高延迟、大量小流量</td>
+</tr>
+<tr>
+<td><strong>实现复杂度</strong></td>
+<td>较低</td>
+<td>较高</td>
+</tr>
+<tr>
+<td><strong>性能</strong></td>
+<td>高效（尤其是<code>epoll</code>）</td>
+<td>更高效，但依赖底层支持</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h3 id="heading"></h3>
+<h1 id="io-多路复用细节">IO 多路复用细节</h1>
+<p>多路复用的核心在于通过操作系统提供的系统调用（如 <code>select</code>、<code>poll</code> 或 <code>epoll</code>），让单个线程能够同时监听多个文件描述符的状态变化。以下是详细解释多路复用如何实现监听多个文件描述符的机制。</p>
+<hr>
+<h3 id="1-文件描述符与事件"><strong>1. 文件描述符与事件</strong></h3>
+<p>在操作系统中，文件描述符（File Descriptor, FD）是用于标识文件、套接字、管道等资源的整数。每个文件描述符可以触发不同的事件，例如：</p>
+<ul>
+<li><strong>可读事件</strong>：数据到达，可以被读取。</li>
+<li><strong>可写事件</strong>：缓冲区有空间，可以写入数据。</li>
+<li><strong>异常事件</strong>：发生错误或带外数据到达。</li>
+</ul>
+<p>多路复用通过注册感兴趣的文件描述符及其对应的事件类型，让内核负责监控这些文件描述符的状态。</p>
+<hr>
+<h3 id="2-多路复用的工作原理"><strong>2. 多路复用的工作原理</strong></h3>
+<h4 id="1注册文件描述符和事件">（1）<strong>注册文件描述符和事件</strong></h4>
+<p>应用程序通过系统调用将需要监听的文件描述符及其感兴趣的事件类型注册到内核中。例如：</p>
+<ul>
+<li>在 <code>select</code> 中，使用一个位图（bitmap）来表示文件描述符集合。</li>
+<li>在 <code>poll</code> 中，使用一个数组来存储每个文件描述符及其事件类型。</li>
+<li>在 <code>epoll</code> 中，通过 <code>epoll_ctl</code> 将文件描述符及其事件类型添加到 <code>epoll</code> 实例中。</li>
+</ul>
+<h4 id="2内核监控">（2）<strong>内核监控</strong></h4>
+<p>注册完成后，内核会持续监控这些文件描述符的状态变化。具体来说：</p>
+<ul>
+<li>内核维护了一个文件描述符表，记录每个文件描述符的状态（如是否有数据可读、是否可写等）。</li>
+<li>当某个文件描述符的状态发生变化时，内核会标记该文件描述符为“就绪”。</li>
+</ul>
+<h4 id="3等待事件">（3）<strong>等待事件</strong></h4>
+<p>应用程序调用多路复用函数（如 <code>select</code>、<code>poll</code> 或 <code>epoll_wait</code>），进入阻塞状态，等待内核通知有文件描述符就绪。此时：</p>
+<ul>
+<li>线程不会消耗CPU资源，因为它是阻塞等待。</li>
+<li>内核会在后台持续检查所有注册的文件描述符。</li>
+</ul>
+<h4 id="4通知应用程序">（4）<strong>通知应用程序</strong></h4>
+<p>当至少一个文件描述符变为就绪状态时，内核会唤醒阻塞的线程，并返回就绪的文件描述符列表。应用程序可以根据返回的结果，处理对应的文件描述符。</p>
+<hr>
+<h3 id="3-不同多路复用机制的具体实现"><strong>3. 不同多路复用机制的具体实现</strong></h3>
+<h4 id="1select-1">（1）<strong>select</strong></h4>
+<ul>
+<li>
+<p><strong>工作方式</strong>：</p>
+</li>
+<li>
+<ul>
+<li>应用程序将感兴趣的文件描述符集合（可读、可写、异常）传递给 <code>select</code>。</li>
+<li><code>select</code> 调用后，内核会复制这些集合到内核空间，并开始监控。</li>
+<li>当有文件描述符就绪时，内核修改集合并返回。</li>
+</ul>
+</li>
+<li>
+<p><strong>特点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>每次调用都需要复制整个集合，效率较低。</li>
+<li>文件描述符数量有限制（通常为1024）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2poll-1">（2）<strong>poll</strong></h4>
+<ul>
+<li>
+<p><strong>工作方式</strong>：</p>
+</li>
+<li>
+<ul>
+<li>应用程序将一个 <code>struct pollfd</code> 数组传递给 <code>poll</code>，数组中的每个元素包含一个文件描述符及其感兴趣的事件。</li>
+<li><code>poll</code> 调用后，内核开始监控这些文件描述符。</li>
+<li>当有文件描述符就绪时，内核更新数组中的 <code>revents</code> 字段并返回。</li>
+</ul>
+</li>
+<li>
+<p><strong>特点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>没有文件描述符数量限制。</li>
+<li>性能与 <code>select</code> 类似，每次调用都需要遍历所有文件描述符。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3epoll">（3）<strong>epoll</strong></h4>
+<ul>
+<li>
+<p><strong>工作方式</strong>：</p>
+</li>
+<li>
+<ul>
+<li>应用程序通过 <code>epoll_create</code> 创建一个 <code>epoll</code> 实例。</li>
+<li>使用 <code>epoll_ctl</code> 注册、修改或删除文件描述符及其事件。</li>
+<li>调用 <code>epoll_wait</code> 阻塞等待事件发生。</li>
+<li>当有文件描述符就绪时，内核只返回就绪的文件描述符列表。</li>
+</ul>
+</li>
+<li>
+<p><strong>特点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>只处理就绪的文件描述符，避免了遍历所有文件描述符的开销。</li>
+<li>支持大量文件描述符（理论上仅受限于系统内存）。</li>
+<li>性能优越，特别适合高并发场景。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="4-具体流程示例"><strong>4. 具体流程示例</strong></h3>
+<p>以下是一个基于 <code>epoll</code> 的监听多个文件描述符的流程：</p>
+<ol>
+<li><strong>创建</strong> <code>epoll</code> <strong>实例</strong>：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#e06c75">epoll_fd</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">epoll_create1</span>(<span style="color:#d19a66">0</span>);
+</span></span></code></pre></div><ol>
+<li><strong>注册文件描述符</strong>：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">epoll_event</span> <span style="color:#e06c75">event</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e06c75">event</span>.<span style="color:#e06c75">events</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">EPOLLIN</span>; <span style="color:#7f848e">// 监听可读事件
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#e06c75">event</span>.<span style="color:#e06c75">data</span>.<span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">socket_fd</span>; <span style="color:#7f848e">// 添加套接字文件描述符
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span><span style="color:#61afef;font-weight:bold">epoll_ctl</span>(<span style="color:#e06c75">epoll_fd</span>, <span style="color:#e06c75">EPOLL_CTL_ADD</span>, <span style="color:#e06c75">socket_fd</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">event</span>);
+</span></span></code></pre></div><ol>
+<li><strong>等待事件发生</strong>：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#c678dd">struct</span> <span style="color:#e06c75">epoll_event</span> <span style="color:#e06c75">events</span>[<span style="color:#e06c75">MAX_EVENTS</span>];
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#e06c75">nfds</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">epoll_wait</span>(<span style="color:#e06c75">epoll_fd</span>, <span style="color:#e06c75">events</span>, <span style="color:#e06c75">MAX_EVENTS</span>, <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>);
+</span></span></code></pre></div><ol>
+<li><strong>处理就绪的文件描述符</strong>：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#c678dd">for</span> (<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">nfds</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">events</span>[<span style="color:#e06c75">i</span>].<span style="color:#e06c75">data</span>.<span style="color:#e06c75">fd</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">events</span>[<span style="color:#e06c75">i</span>].<span style="color:#e06c75">events</span> <span style="color:#56b6c2">&amp;</span> <span style="color:#e06c75">EPOLLIN</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#7f848e">// 处理可读事件
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>        <span style="color:#e5c07b">char</span> <span style="color:#e06c75">buffer</span>[<span style="color:#d19a66">1024</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#e06c75">fd</span>, <span style="color:#e06c75">buffer</span>, <span style="color:#c678dd">sizeof</span>(<span style="color:#e06c75">buffer</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Received data: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">buffer</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h3 id="5-总结"><strong>5. 总结</strong></h3>
+<p>多路复用通过操作系统提供的系统调用（如 <code>select</code>、<code>poll</code> 或 <code>epoll</code>），让单个线程能够高效地监听多个文件描述符的状态变化。其核心步骤包括：</p>
+<ol>
+<li>注册感兴趣的文件描述符及其事件类型。</li>
+<li>内核负责监控这些文件描述符的状态。</li>
+<li>应用程序阻塞等待事件发生。</li>
+<li>内核通知应用程序哪些文件描述符已经就绪。</li>
+</ol>
+<p>不同多路复用机制（如 <code>select</code>、<code>poll</code> 和 <code>epoll</code>）在实现细节和性能上有所差异，但它们的基本原理是相同的。其中，<code>epoll</code> 因其高效的事件驱动模型，成为现代高并发服务器的首选方案。</p>
+<h1 id="内核与文件描述符">内核与文件描述符</h1>
+<p>内核监控文件描述符的过程涉及到操作系统底层的资源管理机制和事件驱动模型。以下是详细解释内核如何监控文件描述符的原理和具体实现。</p>
+<hr>
+<h3 id="1-文件描述符与内核对象"><strong>1. 文件描述符与内核对象</strong></h3>
+<p>在操作系统中，文件描述符（File Descriptor, FD）是一个整数，用于标识打开的文件、套接字、管道等资源。每个文件描述符都对应一个内核中的文件对象（file object），该对象包含以下信息：</p>
+<ul>
+<li>文件类型（如普通文件、套接字、设备等）。</li>
+<li>当前文件的偏移量。</li>
+<li>文件状态标志（如只读、可写等）。</li>
+<li>文件操作方法表（如 <code>read</code>、<code>write</code> 等函数指针）。</li>
+</ul>
+<p>当应用程序通过系统调用（如 <code>open</code> 或 <code>socket</code>）创建文件描述符时，内核会为其分配一个对应的文件对象，并将其加入进程的文件描述符表中。</p>
+<hr>
+<h3 id="2-内核如何监控文件描述符"><strong>2. 内核如何监控文件描述符？</strong></h3>
+<h4 id="1注册感兴趣的事件">（1）<strong>注册感兴趣的事件</strong></h4>
+<p>应用程序通过多路复用系统调用（如 <code>select</code>、<code>poll</code> 或 <code>epoll</code>）将需要监听的文件描述符及其感兴趣的事件类型（如可读、可写或异常）注册到内核中。例如：</p>
+<ul>
+<li>在 <code>select</code> 中，使用位图（bitmap）表示文件描述符集合。</li>
+<li>在 <code>poll</code> 中，使用数组存储每个文件描述符及其事件类型。</li>
+<li>在 <code>epoll</code> 中，通过 <code>epoll_ctl</code> 将文件描述符及其事件类型添加到 <code>epoll</code> 实例中。</li>
+</ul>
+<h4 id="2内核维护文件描述符的状态">（2）<strong>内核维护文件描述符的状态</strong></h4>
+<p>内核为每个文件对象维护其当前状态，包括但不限于以下信息：</p>
+<ul>
+<li><strong>数据缓冲区</strong>：对于网络套接字，内核维护接收缓冲区和发送缓冲区。</li>
+<li><strong>文件位置</strong>：对于普通文件，内核记录当前读写位置。</li>
+<li><strong>事件标志</strong>：内核记录文件描述符是否处于“就绪”状态（如是否有数据可读、是否可写等）。</li>
+</ul>
+<h4 id="3事件检测机制">（3）<strong>事件检测机制</strong></h4>
+<p>内核通过不同的机制检测文件描述符的状态变化：</p>
+<ul>
+<li>
+<p><strong>网络套接字</strong>：</p>
+</li>
+<li>
+<ul>
+<li>对于 TCP 套接字，内核会在接收缓冲区中有数据到达时标记为“可读”。</li>
+<li>对于 UDP 套接字，内核在收到数据包时标记为“可读”。</li>
+<li>当发送缓冲区有空间时，标记为“可写”。</li>
+</ul>
+</li>
+<li>
+<p><strong>普通文件</strong>：</p>
+</li>
+<li>
+<ul>
+<li>对于磁盘文件，内核在文件被修改或达到 EOF 时触发事件。</li>
+</ul>
+</li>
+<li>
+<p><strong>管道和 FIFO</strong>：</p>
+</li>
+<li>
+<ul>
+<li>内核在管道中有数据可读或有空间可写时触发事件。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4通知机制">（4）<strong>通知机制</strong></h4>
+<p>当文件描述符的状态发生变化时，内核会更新其事件标志，并通知等待的线程。具体通知方式因多路复用机制而异：</p>
+<ul>
+<li>
+<p><strong>select 和 poll</strong>：</p>
+</li>
+<li>
+<ul>
+<li>内核定期检查所有注册的文件描述符状态。</li>
+<li>如果有文件描述符变为“就绪”，则唤醒阻塞的线程并返回结果。</li>
+</ul>
+</li>
+<li>
+<p><strong>epoll</strong>：</p>
+</li>
+<li>
+<ul>
+<li>内核使用红黑树或哈希表高效地管理文件描述符及其事件。</li>
+<li>只有当某个文件描述符变为“就绪”时，内核才会将其加入就绪队列。</li>
+<li>调用 <code>epoll_wait</code> 时，内核直接返回就绪队列中的文件描述符。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-具体实现细节"><strong>3. 具体实现细节</strong></h3>
+<h4 id="1文件对象的操作方法表">（1）<strong>文件对象的操作方法表</strong></h4>
+<p>每个文件对象都有一个操作方法表（file operations table），定义了该文件支持的操作（如 <code>read</code>、<code>write</code>、<code>poll</code> 等）。其中，<code>poll</code> 方法用于检测文件描述符的状态。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#c678dd">static</span> <span style="color:#c678dd">const</span> <span style="color:#c678dd">struct</span> <span style="color:#e06c75">file_operations</span> <span style="color:#e06c75">my_file_ops</span> <span style="color:#56b6c2">=</span> {
+</span></span><span style="display:flex;"><span>    .<span style="color:#e06c75">read</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">my_read</span>,
+</span></span><span style="display:flex;"><span>    .<span style="color:#e06c75">write</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">my_write</span>,
+</span></span><span style="display:flex;"><span>    .<span style="color:#e06c75">poll</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">my_poll</span>,
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>当应用程序调用 <code>select</code>、<code>poll</code> 或 <code>epoll</code> 时，内核会调用文件对象的 <code>poll</code> 方法来检查其状态。</p>
+<h4 id="2等待队列">（2）<strong>等待队列</strong></h4>
+<p>为了实现高效的事件通知，内核使用等待队列（wait queue）机制。每个文件对象都有一个等待队列，用于记录等待该文件描述符事件的线程。例如：</p>
+<ul>
+<li>当线程调用 <code>select</code> 或 <code>poll</code> 时，内核将其加入文件对象的等待队列。</li>
+<li>当文件描述符的状态发生变化时，内核遍历等待队列并唤醒相关的线程。</li>
+</ul>
+<h4 id="3中断与回调">（3）<strong>中断与回调</strong></h4>
+<p>对于某些硬件设备（如网卡），内核通过中断处理程序捕获事件。例如：</p>
+<ul>
+<li>当网卡接收到数据包时，会产生硬件中断。</li>
+<li>中断处理程序将数据包放入接收缓冲区，并标记套接字为“可读”。</li>
+<li>内核随后通知等待的线程。</li>
+</ul>
+<hr>
+<h3 id="4-不同多路复用机制的对比"><strong>4. 不同多路复用机制的对比</strong></h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>特性</th>
+<th><code>select</code></th>
+<th><code>poll</code></th>
+<th><code>epoll</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>文件描述符管理</strong></td>
+<td>使用位图，固定大小</td>
+<td>使用数组，动态扩展</td>
+<td>使用红黑树/哈希表，高效管理</td>
+</tr>
+<tr>
+<td><strong>事件检测</strong></td>
+<td>遍历所有文件描述符</td>
+<td>遍历所有文件描述符</td>
+<td>只检测就绪的文件描述符</td>
+</tr>
+<tr>
+<td><strong>性能</strong></td>
+<td>较低（O(n)复杂度）</td>
+<td>较低（O(n)复杂度）</td>
+<td>高效（O(1)复杂度）</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>小规模文件描述符</td>
+<td>中等规模文件描述符</td>
+<td>大规模高并发场景</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h3 id="5-示例内核如何处理套接字的可读事件"><strong>5. 示例：内核如何处理套接字的可读事件</strong></h3>
+<p>假设有一个 TCP 套接字，以下是内核如何监控其可读事件的流程：</p>
+<ol>
+<li><strong>注册事件</strong>：
+应用程序通过 <code>epoll_ctl</code> 将套接字文件描述符及其“可读”事件注册到 <code>epoll</code> 实例中。</li>
+<li><strong>接收数据</strong>：
+当远程主机发送数据时，网卡产生硬件中断，内核的中断处理程序将数据包复制到套接字的接收缓冲区。</li>
+<li><strong>标记事件</strong>：
+内核检查接收缓冲区的状态，发现有数据可读，于是标记该套接字为“可读”。</li>
+<li><strong>通知线程</strong>：
+内核将该套接字加入 <code>epoll</code> 的就绪队列，并唤醒等待的线程。</li>
+<li><strong>处理事件</strong>：
+应用程序调用 <code>epoll_wait</code>，内核返回就绪的套接字列表。应用程序可以调用 <code>read</code> 读取数据。</li>
+</ol>
+<hr>
+<h3 id="6-总结"><strong>6. 总结</strong></h3>
+<p>内核通过以下方式监控文件描述符：</p>
+<ol>
+<li>为每个文件描述符维护一个文件对象，记录其状态和操作方法。</li>
+<li>使用事件检测机制（如缓冲区状态、硬件中断）监控文件描述符的状态变化。</li>
+<li>使用等待队列机制通知等待的线程。</li>
+<li>不同多路复用机制（如 <code>select</code>、<code>poll</code> 和 <code>epoll</code>）以不同的方式管理和通知文件描述符事件。</li>
+</ol>
+<p>这种机制使得内核能够高效地处理大量文件描述符的状态变化，从而支持高并发的IO操作。</p>
+<h1 id="io-多路复用的事件检测机制">IO 多路复用的事件检测机制</h1>
+<p><code>select</code>、<code>poll</code> 和 <code>epoll</code> 是三种常见的 IO 多路复用机制，它们用于监听多个文件描述符的事件（如可读、可写或异常）。尽管它们的目标相似，但在实现细节和性能上存在显著差异。以下是这三种机制在事件检测方面的详细对比和分析。</p>
+<hr>
+<h3 id="1-select-的事件检测"><strong>1. select 的事件检测</strong></h3>
+<h4 id="1工作原理">（1）<strong>工作原理</strong></h4>
+<ul>
+<li><code>select</code> 使用位图（bitmap）来表示需要监听的文件描述符集合。</li>
+<li>应用程序将三个位图（分别表示可读、可写和异常事件）传递给内核。</li>
+<li>内核复制这些位图到内核空间，并开始监控对应的文件描述符。</li>
+<li>当有文件描述符就绪时，内核修改位图并返回。</li>
+</ul>
+<h4 id="2事件检测流程">（2）<strong>事件检测流程</strong></h4>
+<ol>
+<li><strong>注册文件描述符</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>应用程序通过设置 <code>fd_set</code> 位图中的相应位来指定需要监听的文件描述符。</li>
+<li>调用 <code>select</code> 时，内核会接收这些位图。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>内核监控</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>内核遍历所有注册的文件描述符，检查每个文件描述符的状态。</li>
+<li>如果某个文件描述符满足条件（如接收缓冲区有数据、发送缓冲区有空间等），内核将其标记为“就绪”。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>通知应用程序</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>内核修改传入的位图，将就绪的文件描述符标记为“已就绪”。</li>
+<li>返回就绪文件描述符的数量。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3优缺点">（3）<strong>优缺点</strong></h4>
+<ul>
+<li>
+<p><strong>优点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>简单易用，跨平台支持良好。</li>
+</ul>
+</li>
+<li>
+<p><strong>缺点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>文件描述符数量受限（通常为 1024）。</li>
+<li>每次调用都需要复制整个位图到内核空间，效率较低。</li>
+<li>遍历所有文件描述符以检测事件，性能随文件描述符数量线性下降。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-poll-的事件检测"><strong>2. poll 的事件检测</strong></h3>
+<h4 id="1工作原理-1">（1）<strong>工作原理</strong></h4>
+<ul>
+<li><code>poll</code> 使用一个数组（<code>struct pollfd</code>）来表示需要监听的文件描述符及其事件类型。</li>
+<li>每个数组元素包含文件描述符、感兴趣的事件（<code>events</code>）和实际发生的事件（<code>revents</code>）。</li>
+<li>内核接收该数组并开始监控对应的文件描述符。</li>
+</ul>
+<h4 id="2事件检测流程-1">（2）<strong>事件检测流程</strong></h4>
+<ol>
+<li><strong>注册文件描述符</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>应用程序创建一个 <code>struct pollfd</code> 数组，每个元素指定一个文件描述符及其感兴趣的事件。</li>
+<li>调用 <code>poll</code> 时，内核会接收这个数组。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>内核监控</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>内核遍历数组中的每个文件描述符，检查其状态。</li>
+<li>如果某个文件描述符满足条件，内核更新其对应的 <code>revents</code> 字段。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>通知应用程序</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>内核返回就绪文件描述符的数量。</li>
+<li>应用程序可以通过检查 <code>revents</code> 字段来确定具体哪些文件描述符发生了事件。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3优缺点-1">（3）<strong>优缺点</strong></h4>
+<ul>
+<li>
+<p><strong>优点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>没有文件描述符数量限制。</li>
+<li>更灵活，支持更多类型的文件描述符。</li>
+</ul>
+</li>
+<li>
+<p><strong>缺点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>每次调用仍然需要遍历所有文件描述符，性能随文件描述符数量线性下降。</li>
+<li>性能与 <code>select</code> 类似，适用于中小规模场景。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-epoll-的事件检测"><strong>3. epoll 的事件检测</strong></h3>
+<h4 id="1工作原理-2">（1）<strong>工作原理</strong></h4>
+<ul>
+<li>
+<p><code>epoll</code> 是 Linux 特有的高效 IO 多路复用机制。</p>
+</li>
+<li>
+<p>它使用红黑树或哈希表来管理文件描述符，并通过事件队列通知就绪的文件描述符。</p>
+</li>
+<li>
+<p><code>epoll</code> 提供了三个核心函数：</p>
+</li>
+<li>
+<ul>
+<li><code>epoll_create</code>：创建一个 <code>epoll</code> 实例。</li>
+<li><code>epoll_ctl</code>：注册、修改或删除文件描述符。</li>
+<li><code>epoll_wait</code>：等待事件发生。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2事件检测流程-2">（2）<strong>事件检测流程</strong></h4>
+<ol>
+<li><strong>创建 epoll 实例</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>应用程序调用 <code>epoll_create</code> 创建一个 <code>epoll</code> 实例。</li>
+<li>内核为该实例分配一个红黑树或哈希表，用于存储文件描述符及其事件。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>注册文件描述符</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>应用程序通过 <code>epoll_ctl</code> 将文件描述符及其感兴趣的事件添加到 <code>epoll</code> 实例中。</li>
+<li>内核将文件描述符插入红黑树或哈希表中。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>内核监控</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>内核持续监控所有注册的文件描述符。</li>
+<li>当某个文件描述符的状态发生变化时，内核将其加入就绪队列。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>通知应用程序</strong>：</li>
+</ol>
+<ul>
+<li>
+<ul>
+<li>应用程序调用 <code>epoll_wait</code>，内核直接返回就绪队列中的文件描述符列表。</li>
+<li>应用程序只需处理这些就绪的文件描述符，无需遍历所有文件描述符。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3优缺点-2">（3）<strong>优缺点</strong></h4>
+<ul>
+<li>
+<p><strong>优点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>支持大量文件描述符（理论上仅受限于系统内存）。</li>
+<li>只处理就绪的文件描述符，避免了遍历所有文件描述符的开销。</li>
+<li>高效的事件驱动模型，特别适合高并发场景。</li>
+</ul>
+</li>
+<li>
+<p><strong>缺点</strong>：</p>
+</li>
+<li>
+<ul>
+<li>仅限于 Linux 平台。</li>
+<li>相对复杂，需要额外管理 <code>epoll</code> 实例。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="4-对比总结"><strong>4. 对比总结</strong></h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>特性</th>
+<th><code>select</code></th>
+<th><code>poll</code></th>
+<th><code>epoll</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>文件描述符管理</strong></td>
+<td>使用位图，固定大小</td>
+<td>使用数组，动态扩展</td>
+<td>使用红黑树/哈希表，高效管理</td>
+</tr>
+<tr>
+<td><strong>事件检测方式</strong></td>
+<td>遍历所有文件描述符</td>
+<td>遍历所有文件描述符</td>
+<td>只检测就绪的文件描述符</td>
+</tr>
+<tr>
+<td><strong>文件描述符数量限制</strong></td>
+<td>有限（通常为 1024）</td>
+<td>无限制</td>
+<td>无限制</td>
+</tr>
+<tr>
+<td><strong>性能复杂度</strong></td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>小规模文件描述符</td>
+<td>中等规模文件描述符</td>
+<td>大规模高并发场景</td>
+</tr>
+<tr>
+<td><strong>平台支持</strong></td>
+<td>跨平台</td>
+<td>跨平台</td>
+<td>仅限 Linux</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h3 id="5-示例代码对比"><strong>5. 示例代码对比</strong></h3>
+<h4 id="1select-2">（1）<code>select</code></h4>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;sys/select.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fd_set</span> <span style="color:#e06c75">readfds</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">FD_ZERO</span>(<span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">readfds</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">FD_SET</span>(<span style="color:#d19a66">0</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">readfds</span>); <span style="color:#7f848e">// 标准输入
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Waiting for input...</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">select</span>(<span style="color:#d19a66">1</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">readfds</span>, <span style="color:#e5c07b">NULL</span>, <span style="color:#e5c07b">NULL</span>, <span style="color:#e5c07b">NULL</span>) <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">FD_ISSET</span>(<span style="color:#d19a66">0</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">readfds</span>)) {
+</span></span><span style="display:flex;"><span>            <span style="color:#e5c07b">char</span> <span style="color:#e06c75">buffer</span>[<span style="color:#d19a66">1024</span>];
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">buffer</span>, <span style="color:#c678dd">sizeof</span>(<span style="color:#e06c75">buffer</span>));
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Input: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">buffer</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="2poll-2">（2）<code>poll</code></h4>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;poll.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">pollfd</span> <span style="color:#e06c75">fds</span>[<span style="color:#d19a66">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">fds</span>[<span style="color:#d19a66">0</span>].<span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#7f848e">// 标准输入
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>    <span style="color:#e06c75">fds</span>[<span style="color:#d19a66">0</span>].<span style="color:#e06c75">events</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">POLLIN</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Waiting for input...</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#61afef;font-weight:bold">poll</span>(<span style="color:#e06c75">fds</span>, <span style="color:#d19a66">1</span>, <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>) <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">if</span> (<span style="color:#e06c75">fds</span>[<span style="color:#d19a66">0</span>].<span style="color:#e06c75">revents</span> <span style="color:#56b6c2">&amp;</span> <span style="color:#e06c75">POLLIN</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#e5c07b">char</span> <span style="color:#e06c75">buffer</span>[<span style="color:#d19a66">1024</span>];
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">buffer</span>, <span style="color:#c678dd">sizeof</span>(<span style="color:#e06c75">buffer</span>));
+</span></span><span style="display:flex;"><span>            <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Input: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">buffer</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="3epoll-1">（3）<code>epoll</code></h4>
+<div class="highlight"><pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;stdio.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;sys/epoll.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e">#include</span> <span style="color:#7f848e">&lt;unistd.h&gt;</span><span style="color:#7f848e">
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#7f848e">#define MAX_EVENTS 10
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#e5c07b">int</span> <span style="color:#61afef;font-weight:bold">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">epoll_fd</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">epoll_create1</span>(<span style="color:#d19a66">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">epoll_event</span> <span style="color:#e06c75">event</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">event</span>.<span style="color:#e06c75">events</span> <span style="color:#56b6c2">=</span> <span style="color:#e06c75">EPOLLIN</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#e06c75">event</span>.<span style="color:#e06c75">data</span>.<span style="color:#e06c75">fd</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#7f848e">// 标准输入
+</span></span></span><span style="display:flex;"><span><span style="color:#7f848e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">epoll_ctl</span>(<span style="color:#e06c75">epoll_fd</span>, <span style="color:#e06c75">EPOLL_CTL_ADD</span>, <span style="color:#d19a66">0</span>, <span style="color:#56b6c2">&amp;</span><span style="color:#e06c75">event</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">struct</span> <span style="color:#e06c75">epoll_event</span> <span style="color:#e06c75">events</span>[<span style="color:#e06c75">MAX_EVENTS</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Waiting for input...</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#e5c07b">int</span> <span style="color:#e06c75">nfds</span> <span style="color:#56b6c2">=</span> <span style="color:#61afef;font-weight:bold">epoll_wait</span>(<span style="color:#e06c75">epoll_fd</span>, <span style="color:#e06c75">events</span>, <span style="color:#e06c75">MAX_EVENTS</span>, <span style="color:#56b6c2">-</span><span style="color:#d19a66">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">if</span> (<span style="color:#e06c75">nfds</span> <span style="color:#56b6c2">&gt;</span> <span style="color:#d19a66">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#c678dd">for</span> (<span style="color:#e5c07b">int</span> <span style="color:#e06c75">i</span> <span style="color:#56b6c2">=</span> <span style="color:#d19a66">0</span>; <span style="color:#e06c75">i</span> <span style="color:#56b6c2">&lt;</span> <span style="color:#e06c75">nfds</span>; <span style="color:#e06c75">i</span><span style="color:#56b6c2">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">if</span> (<span style="color:#e06c75">events</span>[<span style="color:#e06c75">i</span>].<span style="color:#e06c75">data</span>.<span style="color:#e06c75">fd</span> <span style="color:#56b6c2">==</span> <span style="color:#d19a66">0</span> <span style="color:#56b6c2">&amp;&amp;</span> (<span style="color:#e06c75">events</span>[<span style="color:#e06c75">i</span>].<span style="color:#e06c75">events</span> <span style="color:#56b6c2">&amp;</span> <span style="color:#e06c75">EPOLLIN</span>)) {
+</span></span><span style="display:flex;"><span>                <span style="color:#e5c07b">char</span> <span style="color:#e06c75">buffer</span>[<span style="color:#d19a66">1024</span>];
+</span></span><span style="display:flex;"><span>                <span style="color:#61afef;font-weight:bold">read</span>(<span style="color:#d19a66">0</span>, <span style="color:#e06c75">buffer</span>, <span style="color:#c678dd">sizeof</span>(<span style="color:#e06c75">buffer</span>));
+</span></span><span style="display:flex;"><span>                <span style="color:#61afef;font-weight:bold">printf</span>(<span style="color:#98c379">&#34;Input: %s</span><span style="color:#98c379">\n</span><span style="color:#98c379">&#34;</span>, <span style="color:#e06c75">buffer</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#61afef;font-weight:bold">close</span>(<span style="color:#e06c75">epoll_fd</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">return</span> <span style="color:#d19a66">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h3 id="6-总结-1"><strong>6. 总结</strong></h3>
+<ul>
+<li>
+<p><code>select</code> 和 <code>poll</code> 的事件检测方式类似，都是通过遍历所有文件描述符来检查事件，性能较差。</p>
+</li>
+<li>
+<p><code>epoll</code> 通过只处理就绪的文件描述符，显著提高了性能，特别适合高并发场景。</p>
+</li>
+<li>
+<p>在选择多路复用机制时，应根据具体的场景和需求进行权衡：</p>
+</li>
+<li>
+<ul>
+<li>小规模文件描述符：<code>select</code> 或 <code>poll</code>。</li>
+<li>大规模高并发场景：<code>epoll</code>。</li>
+</ul>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2025/go%E5%8D%8F%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0/">
+        
+        
+            <div class="article-image">
+                <img src="/2025/go%E5%8D%8F%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0/cover.4869d41838bfe0e27948c414a193bc87_hu57bcf0b35e7c7f357025b7ed2d64bff5_607841_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Go协程交替打印"
+                        data-key="Go协程交替打印" 
+                        data-hash="md5-SGnUGDi/4OJ5SMQUoZO8hw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Go协程交替打印</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/go%E4%B8%ADos.openfile%E8%AF%A6%E8%A7%A3/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/go%E4%B8%ADos.openfile%E8%AF%A6%E8%A7%A3/cover.fb25058af774d2a70ccd6ebc665d1ec3_hu8c4fca34fb88be1a4ccda2cf04020a20_555523_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Go中os.OpenFile详解"
+                        data-key="Go中os.OpenFile详解" 
+                        data-hash="md5-&#43;yUFivd00qcMzW68Zl0eww==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Go中os.OpenFile详解</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/2024/flexbox-%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/flexbox-%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/cover.37fcc164ec19c28456a31d8fc53aa24b_hu359ef899446a16ca565629e2b73b1e2f_730705_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Flexbox 弹性盒布局"
+                        data-key="Flexbox 弹性盒布局" 
+                        data-hash="md5-N/zBZOwZwoRWox2PxTqiSw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Flexbox 弹性盒布局</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留言！","requiredMeta":["name","email","url"],"serverURL":"https://vercel-db-yikuanzzs-projects.vercel.app/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 <a href="https://yikuanzz.github.io//">Yikuanzz</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了171.9k字·共 34篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-03-22';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#1-io多路复用的基本概念"><strong>1. IO多路复用的基本概念</strong></a>
+          <ol>
+            <li><a href="#1什么是io多路复用">（1）<strong>什么是IO多路复用？</strong></a></li>
+            <li><a href="#2为什么需要io多路复用">（2）<strong>为什么需要IO多路复用？</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#2-常见的io多路复用机制"><strong>2. 常见的IO多路复用机制</strong></a>
+          <ol>
+            <li><a href="#1select">（1）<strong>select</strong></a></li>
+            <li><a href="#2poll">（2）<strong>poll</strong></a></li>
+            <li><a href="#3epolllinux特有">（3）<strong>epoll（Linux特有）</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#3-io多路复用的工作原理"><strong>3. IO多路复用的工作原理</strong></a>
+          <ol>
+            <li><a href="#1事件驱动模型">（1）<strong>事件驱动模型</strong></a></li>
+            <li><a href="#2阻塞与非阻塞">（2）<strong>阻塞与非阻塞</strong></a></li>
+            <li><a href="#3性能优化">（3）<strong>性能优化</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#4-io多路复用的应用场景"><strong>4. IO多路复用的应用场景</strong></a></li>
+        <li><a href="#5-io多路复用与异步io的区别"><strong>5. IO多路复用与异步IO的区别</strong></a></li>
+        <li><a href="#heading"></a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#1-文件描述符与事件"><strong>1. 文件描述符与事件</strong></a></li>
+        <li><a href="#2-多路复用的工作原理"><strong>2. 多路复用的工作原理</strong></a>
+          <ol>
+            <li><a href="#1注册文件描述符和事件">（1）<strong>注册文件描述符和事件</strong></a></li>
+            <li><a href="#2内核监控">（2）<strong>内核监控</strong></a></li>
+            <li><a href="#3等待事件">（3）<strong>等待事件</strong></a></li>
+            <li><a href="#4通知应用程序">（4）<strong>通知应用程序</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#3-不同多路复用机制的具体实现"><strong>3. 不同多路复用机制的具体实现</strong></a>
+          <ol>
+            <li><a href="#1select-1">（1）<strong>select</strong></a></li>
+            <li><a href="#2poll-1">（2）<strong>poll</strong></a></li>
+            <li><a href="#3epoll">（3）<strong>epoll</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#4-具体流程示例"><strong>4. 具体流程示例</strong></a></li>
+        <li><a href="#5-总结"><strong>5. 总结</strong></a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#1-文件描述符与内核对象"><strong>1. 文件描述符与内核对象</strong></a></li>
+        <li><a href="#2-内核如何监控文件描述符"><strong>2. 内核如何监控文件描述符？</strong></a>
+          <ol>
+            <li><a href="#1注册感兴趣的事件">（1）<strong>注册感兴趣的事件</strong></a></li>
+            <li><a href="#2内核维护文件描述符的状态">（2）<strong>内核维护文件描述符的状态</strong></a></li>
+            <li><a href="#3事件检测机制">（3）<strong>事件检测机制</strong></a></li>
+            <li><a href="#4通知机制">（4）<strong>通知机制</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#3-具体实现细节"><strong>3. 具体实现细节</strong></a>
+          <ol>
+            <li><a href="#1文件对象的操作方法表">（1）<strong>文件对象的操作方法表</strong></a></li>
+            <li><a href="#2等待队列">（2）<strong>等待队列</strong></a></li>
+            <li><a href="#3中断与回调">（3）<strong>中断与回调</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#4-不同多路复用机制的对比"><strong>4. 不同多路复用机制的对比</strong></a></li>
+        <li><a href="#5-示例内核如何处理套接字的可读事件"><strong>5. 示例：内核如何处理套接字的可读事件</strong></a></li>
+        <li><a href="#6-总结"><strong>6. 总结</strong></a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#1-select-的事件检测"><strong>1. select 的事件检测</strong></a>
+          <ol>
+            <li><a href="#1工作原理">（1）<strong>工作原理</strong></a></li>
+            <li><a href="#2事件检测流程">（2）<strong>事件检测流程</strong></a></li>
+            <li><a href="#3优缺点">（3）<strong>优缺点</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#2-poll-的事件检测"><strong>2. poll 的事件检测</strong></a>
+          <ol>
+            <li><a href="#1工作原理-1">（1）<strong>工作原理</strong></a></li>
+            <li><a href="#2事件检测流程-1">（2）<strong>事件检测流程</strong></a></li>
+            <li><a href="#3优缺点-1">（3）<strong>优缺点</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#3-epoll-的事件检测"><strong>3. epoll 的事件检测</strong></a>
+          <ol>
+            <li><a href="#1工作原理-2">（1）<strong>工作原理</strong></a></li>
+            <li><a href="#2事件检测流程-2">（2）<strong>事件检测流程</strong></a></li>
+            <li><a href="#3优缺点-2">（3）<strong>优缺点</strong></a></li>
+          </ol>
+        </li>
+        <li><a href="#4-对比总结"><strong>4. 对比总结</strong></a></li>
+        <li><a href="#5-示例代码对比"><strong>5. 示例代码对比</strong></a>
+          <ol>
+            <li><a href="#1select-2">（1）<code>select</code></a></li>
+            <li><a href="#2poll-2">（2）<code>poll</code></a></li>
+            <li><a href="#3epoll-1">（3）<code>epoll</code></a></li>
+          </ol>
+        </li>
+        <li><a href="#6-总结-1"><strong>6. 总结</strong></a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="category-list-link">人工智能<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/" class="category-list-link">开发运维技术<span class="category-list-count">6</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-list-link">技术与效率<span class="category-list-count">17</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%89%A9%E7%90%86/" class="category-list-link">数学与物理<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-list-link">数据库<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-list-link">算法与数据结构<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://yikuanzz.github.io/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="category-list-link">语言学习<span class="category-list-count">4</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2025">
+                        
+                            <span class="year">2025</span>
+                            <span class="count">1</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">32</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/note/" class="font_size_8">
+                Note
+            </a>
+        
+            <a href="/tags/linux/" class="font_size_3">
+                Linux
+            </a>
+        
+            <a href="/tags/web/" class="font_size_3">
+                Web
+            </a>
+        
+            <a href="/tags/%E8%8B%B1%E8%AF%AD/" class="font_size_3">
+                英语
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="font_size_3">
+                计算机网络
+            </a>
+        
+            <a href="/tags/c/" class="font_size_2">
+                C
+            </a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" class="font_size_2">
+                计算机组成原理
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_1">
+                MySQL
+            </a>
+        
+            <a href="/tags/python/" class="font_size_1">
+                Python
+            </a>
+        
+            <a href="/tags/shell/" class="font_size_1">
+                Shell
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

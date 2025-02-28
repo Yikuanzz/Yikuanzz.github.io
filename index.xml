@@ -6,7 +6,385 @@
         <description>Recent content on Yikuanzz</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Thu, 19 Sep 2024 13:26:44 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 28 Feb 2025 17:38:22 +0800</lastBuildDate><atom:link href="https://yikuanzz.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Go协程交替打印</title>
+        <link>https://yikuanzz.github.io/2025/go%E5%8D%8F%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0/</link>
+        <pubDate>Fri, 28 Feb 2025 17:38:22 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2025/go%E5%8D%8F%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2025/go%E5%8D%8F%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0/cover.png" alt="Featured image of post Go协程交替打印" /&gt;&lt;p&gt;（1）用协程交替打印 ABC 一百次；
+（2）用协程交替打印数字，0 到 100。&lt;/p&gt;
+&lt;p&gt;我们可以利用 Channel 的阻塞机制来进行信号传递，因为无缓冲的 Channel 中，如果没有数据传入管道，那么该协程就会被阻塞。&lt;/p&gt;
+&lt;h2 id=&#34;问题一打印-abc&#34;&gt;问题一：打印 ABC&lt;/h2&gt;
+&lt;p&gt;设计这样一个函数：参数一接收要打印的字母，参数二为 Channel 接收上一个协程传递的信息，参数三也为 Channel 负责给下一个协程传递发送信息，参数四为 sync.WaitGroup 确保线程能够执行完。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240909124452.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240909124452.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;null&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;null&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;此外，这里需要注意的是，我们每个协程完成打印任务的时候就把 Channel 关闭，因此循环到打印 C 的线程时，ChanA 已经被关闭了，此时仍向它发送数据就会报错，所以要通过 recover 方法将异常捕获。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printABC&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;letter&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}, &lt;span style=&#34;color:#e06c75&#34;&gt;nxtch&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}, &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Done&lt;/span&gt;()  &lt;span style=&#34;color:#7f848e&#34;&gt;// 宣布协程完成任务
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;close&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;ch&lt;/span&gt;)  &lt;span style=&#34;color:#7f848e&#34;&gt;// 关闭 channel
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;recover&lt;/span&gt;(); &lt;span style=&#34;color:#e06c75&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;nil&lt;/span&gt; { &lt;span style=&#34;color:#7f848e&#34;&gt;//捕获异常
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;\n&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;ch&lt;/span&gt;  &lt;span style=&#34;color:#7f848e&#34;&gt;// 接收信号并消费
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Print&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;letter&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;nxtch&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}{}  &lt;span style=&#34;color:#7f848e&#34;&gt;// 发送信号给下个协程
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;chA&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;chB&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;chC&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Add&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printABC&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;A&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chA&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chB&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printABC&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;B&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chB&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chC&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printABC&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;C&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chC&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chA&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// START
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;chA&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Wait&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;问题二打印-0-到-100&#34;&gt;问题二：打印 0 到 100&lt;/h2&gt;
+&lt;p&gt;函数的设计逻辑与问题一没有什么区别，主要就是在循环要打印的内容上做了一些更改，根据第一次初始化协程传入的参数开始循环打印。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240909141936.png&#34; &gt;
+		&lt;img src=&#34;https://yikuanwebsite.oss-cn-guangzhou.aliyuncs.com/img/20240909141936.png&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;null&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;null&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; (  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;)  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printNum&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}, &lt;span style=&#34;color:#e06c75&#34;&gt;nxtch&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}, &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;) {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt;() {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Done&lt;/span&gt;()                     &lt;span style=&#34;color:#7f848e&#34;&gt;// 宣布协程完成任务  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;       &lt;span style=&#34;color:#e5c07b&#34;&gt;close&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;ch&lt;/span&gt;)                     &lt;span style=&#34;color:#7f848e&#34;&gt;// 关闭 channel       if r := recover(); r != nil { //捕获异常  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;          &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;\n&amp;#34;&lt;/span&gt;)  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       }  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }()  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;start&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt; {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;// 接收信号并消费  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;       &lt;span style=&#34;color:#e06c75&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;)  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#e06c75&#34;&gt;nxtch&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}{} &lt;span style=&#34;color:#7f848e&#34;&gt;// 发送信号给下个协程  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    }  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;WaitGroup&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;chA&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{})  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;chB&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#c678dd&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{})  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Add&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printNum&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chA&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chB&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;)  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printNum&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chB&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;chA&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;)  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// START  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;chA&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt;{}{}  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;wg&lt;/span&gt;.&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;Wait&lt;/span&gt;()  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>Go中os.OpenFile详解</title>
+        <link>https://yikuanzz.github.io/2024/go%E4%B8%ADos.openfile%E8%AF%A6%E8%A7%A3/</link>
+        <pubDate>Wed, 25 Sep 2024 11:22:32 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/go%E4%B8%ADos.openfile%E8%AF%A6%E8%A7%A3/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/go%E4%B8%ADos.openfile%E8%AF%A6%E8%A7%A3/cover.png" alt="Featured image of post Go中os.OpenFile详解" /&gt;&lt;h2 id=&#34;osopenfile&#34;&gt;os.OpenFile()&lt;/h2&gt;
+&lt;p&gt;在 Go 语言中，&lt;code&gt;os.OpenFile&lt;/code&gt; 是一个底层文件操作函数，用于精细地控制文件的打开行为。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;OpenFile&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;string&lt;/span&gt;,  &lt;span style=&#34;color:#e06c75&#34;&gt;flag&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;perm&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;FileMode&lt;/span&gt;)(&lt;span style=&#34;color:#56b6c2&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;Fiel&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;error&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;参数解析：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1、&lt;code&gt;name string&lt;/code&gt;：文件的路径。&lt;/p&gt;
+&lt;p&gt;2、&lt;code&gt;flag int&lt;/code&gt;：文件打开标志，可以用 &lt;code&gt;|&lt;/code&gt; 进行组合。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;os.O_RDONLY&lt;/code&gt;：只读模式。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.O_WRONLY&lt;/code&gt;：只写模式。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.O_RDWR&lt;/code&gt;：读写模式。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.O_APPEND&lt;/code&gt;：追加模式（写入时自动到文件末尾）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.O_CREATE&lt;/code&gt;：文件不存在时创建。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.O_EXCL&lt;/code&gt;：与O_CREATE配合使用，文件必须不存在。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.O_SYNC&lt;/code&gt;：同步I/O。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.O_TRUNC&lt;/code&gt;：打开时清空文件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;3、&lt;code&gt;perm  FielMode&lt;/code&gt;：文件权限模式（Unix 风格）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0644&lt;/code&gt;：所有者读写，其他人只读。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;0755&lt;/code&gt;：所有者读写执行，其他人读执行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;文件的权限&#34;&gt;文件的权限&lt;/h2&gt;
+&lt;p&gt;文件的权限风格由 &lt;strong&gt;9 个 bit&lt;/strong&gt; 位组成的，按照三组划分：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-plain&#34; data-lang=&#34;plain&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;rwx rwx rwx
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;↓   ↓   ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;所有者权限 | 所属组权限 | 其他用户权限
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;r&lt;/code&gt;（read）：读权限（4）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;w&lt;/code&gt;（write）：写权限（2）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt;（execute）：执行权限（1）.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;权限值通过 3 位八进制数表示&lt;/strong&gt;，对应三组权限的数值之和：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;xxx&lt;/span&gt;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 首位 0 表示八进制数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;文件系统&#34;&gt;文件系统&lt;/h2&gt;
+&lt;p&gt;Linux 文件系统的核心内容有：超级块（Superblock）、inode（索引节点）、数据块（Data Block）和目录项（Dentry），接下来我们将对这些内容进行说明。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1、超级块（Super block）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;存储文件系统的元数据：块大小、inode 总数、挂载时间等等。&lt;/li&gt;
+&lt;li&gt;文件系统挂载时会加载到内存。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;2、inode （索引节点）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每个文件对应一个 inode（128/256 字节）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.Stat(filePath)&lt;/code&gt; 就是在读取 inode 信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;inode&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;mode_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;mode&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 权限
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;uid_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;uid&lt;/span&gt;;			&lt;span style=&#34;color:#7f848e&#34;&gt;// 所有者
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;gid_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;gid&lt;/span&gt;;			&lt;span style=&#34;color:#7f848e&#34;&gt;// 所属组
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;loff_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;size&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 文件大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;time_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;atime&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 最后访问的时间（如日志读取）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;time_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;mtime&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// 最后修改的时间（如日志写入）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;time_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;ctime&lt;/span&gt;;		&lt;span style=&#34;color:#7f848e&#34;&gt;// inode 变更的时间
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;blkcnt_t&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;blocks&lt;/span&gt;;	&lt;span style=&#34;color:#7f848e&#34;&gt;// 占用块数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#7f848e&#34;&gt;// 数据块指针（直接/间接）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;3、数据块（Data Block）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实际存储文件内容（4KB 典型大小）。&lt;/li&gt;
+&lt;li&gt;日志文件追加写入时，会设计块分配的策略。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;4、目录项（Dentry）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内存中的目录缓存结构。&lt;/li&gt;
+&lt;li&gt;包含文件名到 inode 的映射。&lt;/li&gt;
+&lt;li&gt;文件打开的路径解析依赖 dentry 缓存。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;文件流程&#34;&gt;文件流程&lt;/h2&gt;
+&lt;p&gt;假设，我的日志文件存储在 &lt;code&gt;runtime/logs/log2024-10-01.log&lt;/code&gt; 中，&lt;strong&gt;打开日志&lt;/strong&gt; &lt;code&gt;**open()**&lt;/code&gt; 时就会经过以下过程：&lt;/p&gt;
+&lt;p&gt;1、【路径解析】逐级查找 dentry 缓存（&lt;code&gt;runtime/&lt;/code&gt; -&amp;gt; &lt;code&gt;logs/&lt;/code&gt; -&amp;gt; 目标文件）；&lt;/p&gt;
+&lt;p&gt;2、【权限检查】对比进程的 &lt;code&gt;uid/gid&lt;/code&gt; 与 inode 的权限位置；&lt;/p&gt;
+&lt;p&gt;3、【分配文件描述符】内核创建 &lt;code&gt;file&lt;/code&gt; 结构体，关联 inode，返回文件的描述符 &lt;code&gt;fd&lt;/code&gt;；&lt;/p&gt;
+&lt;p&gt;4、【预先分配资源】更新 inode 的访问时间，将 &lt;code&gt;O_APPEND&lt;/code&gt; 的写指针初始化到文件末尾。&lt;/p&gt;
+&lt;p&gt;接下来我们到 &lt;strong&gt;写入日志&lt;/strong&gt; &lt;code&gt;**write()**&lt;/code&gt; 的流程：&lt;/p&gt;
+&lt;p&gt;1、【块分配】根据文件当前大小计算需要的块数，然后从块位图中查找空闲块。&lt;/p&gt;
+&lt;p&gt;2、【数据写入】从&lt;strong&gt;用户缓冲区&lt;/strong&gt;写入到内核的&lt;strong&gt;页缓存&lt;/strong&gt;然后再写入&lt;strong&gt;磁盘块&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;3、【更新元数据】更新 inode 的 mtime 和 size。&lt;/p&gt;
+&lt;p&gt;最后，我们将 &lt;strong&gt;文件关闭&lt;/strong&gt; &lt;code&gt;**close()**&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;1、【刷新缓存】确保延迟写入的数据落盘。&lt;/p&gt;
+&lt;p&gt;2、【释放资源】递减 inode 的引用数，并释放文件描述符。&lt;/p&gt;
+&lt;p&gt;3、【日志轮转】根据时间生成文件名，关闭旧文件后需要立即释放 inode。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;操作&lt;/th&gt;
+&lt;th&gt;耗时比例&lt;/th&gt;
+&lt;th&gt;影响因素&lt;/th&gt;
+&lt;th&gt;优化建议&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;路径解析&lt;/td&gt;
+&lt;td&gt;15%&lt;/td&gt;
+&lt;td&gt;dentry 缓存命中率&lt;/td&gt;
+&lt;td&gt;保持文件路径简洁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;权限检查&lt;/td&gt;
+&lt;td&gt;5%&lt;/td&gt;
+&lt;td&gt;ACL 复杂程度&lt;/td&gt;
+&lt;td&gt;使用简单权限模式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;数据写入&lt;/td&gt;
+&lt;td&gt;60%&lt;/td&gt;
+&lt;td&gt;块分配策略/磁盘速度&lt;/td&gt;
+&lt;td&gt;使用追加写入模式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;元数据更新&lt;/td&gt;
+&lt;td&gt;20%&lt;/td&gt;
+&lt;td&gt;文件大小变化频率&lt;/td&gt;
+&lt;td&gt;避免频繁的小文件写入&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+        </item>
+        <item>
+        <title>Flexbox 弹性盒布局</title>
+        <link>https://yikuanzz.github.io/2024/flexbox-%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/</link>
+        <pubDate>Sat, 21 Sep 2024 16:25:42 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/flexbox-%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/flexbox-%E5%BC%B9%E6%80%A7%E7%9B%92%E5%B8%83%E5%B1%80/cover.png" alt="Featured image of post Flexbox 弹性盒布局" /&gt;&lt;p&gt;Flexbox（弹性盒布局）是一种用于布局的 CSS 模型，这也是最常使用的模型。我们通过 &lt;code&gt;display: flex&lt;/code&gt; 来将其容器设置为 flex 布局，那么它的子元素就会根据布局进行对齐。&lt;/p&gt;
+&lt;h1 id=&#34;布局基础&#34;&gt;布局基础&lt;/h1&gt;
+&lt;p&gt;flex 布局中有 &lt;strong&gt;主轴&lt;/strong&gt; 和 &lt;strong&gt;交叉抽&lt;/strong&gt; ，交叉轴是垂直于主轴的。&lt;/p&gt;
+&lt;h2 id=&#34;主轴flex-direction&#34;&gt;主轴：&lt;code&gt;flex-direction&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;（1）&lt;code&gt;flex-direction: row&lt;/code&gt; 主轴会沿着行方向进行延伸，如果想从右到左，可以设置为 &lt;code&gt;row-reverse&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732577587953-b7642d14-8806-4744-8961-3b5d7401e6b2.svg&#34; &gt;
+		&lt;img src=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732577587953-b7642d14-8806-4744-8961-3b5d7401e6b2.svg&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;img&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;img&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;（2）&lt;code&gt;flex-direction: column&lt;/code&gt; 主轴会沿着列方向进行延伸，如果想从下到上，可以设置为 &lt;code&gt;column-reverse&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732577678961-16f02b73-0e93-4224-90f9-9ef0eadd8149.svg&#34; &gt;
+		&lt;img src=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732577678961-16f02b73-0e93-4224-90f9-9ef0eadd8149.svg&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;img&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;img&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;起始线和终点线&#34;&gt;起始线和终点线&lt;/h2&gt;
+&lt;p&gt;这里要说明的是，flexbox 和 书写模式的关系，也是为什么不用上下左右来进行描述的原因。&lt;/p&gt;
+&lt;p&gt;假设在 &lt;code&gt;flex-direction: row&lt;/code&gt; 的情况下，书写英文，因为英文默认的书写方式是从左到右的，所以主轴的起始线为左，终止线为右。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732578092749-9b2b8135-4b03-49c9-a946-2abf2e102808.svg&#34; &gt;
+		&lt;img src=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732578092749-9b2b8135-4b03-49c9-a946-2abf2e102808.svg&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;img&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;img&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;如果书写阿拉伯文，因为阿拉伯文的书写模式是从右到左的，所以主轴的起始线为右，终止线为左。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732578155756-1ceed4b9-28f2-49ec-bdf2-3fcbeefe83c6.svg&#34; &gt;
+		&lt;img src=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732578155756-1ceed4b9-28f2-49ec-bdf2-3fcbeefe83c6.svg&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;img&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;img&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;多行-flex-容器&#34;&gt;多行 flex 容器&lt;/h2&gt;
+&lt;p&gt;如果运行容器进行换行，那么可以使用 &lt;code&gt;flex-wrap&lt;/code&gt; 属性。我们设置 &lt;code&gt;flex-wrap: wrap&lt;/code&gt; 后，子项目会换行显示；设置 &lt;code&gt;flex-wrap: nowarp&lt;/code&gt; 时，会缩小以适应容器。&lt;/p&gt;
+&lt;h1 id=&#34;flex-元素上的属性&#34;&gt;flex 元素上的属性&lt;/h1&gt;
+&lt;p&gt;为了更好地控制 flex 元素，有三个属性可用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;flex-grow&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;flex-shrink&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;flex-basis&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这三个属性其实就是改变了 flex  容器的 &lt;strong&gt;可用空间（available space）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732581701833-79964738-8a87-4afd-95e8-61e0e39db82a.svg&#34; &gt;
+		&lt;img src=&#34;https://cdn.nlark.com/yuque/0/2024/svg/23157682/1732581701833-79964738-8a87-4afd-95e8-61e0e39db82a.svg&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;img&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;img&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;flex-basis&#34;&gt;&lt;code&gt;flex-basis&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;定义元素的空间大小，默认值为 &lt;code&gt;auto&lt;/code&gt; 。&lt;/p&gt;
+&lt;h2 id=&#34;flex-grow&#34;&gt;&lt;code&gt;flex-grow&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;flex-grow: 1&lt;/code&gt; 表示启用 grow，此时 flex 元素以 &lt;code&gt;flex-basis&lt;/code&gt; 为基础，沿主轴方向增长元素。此外，也可用用于按比例分配：第一个元素为 &lt;code&gt;flex-grow: 2&lt;/code&gt; 第二个元素和第三个元素为 &lt;code&gt;flex-grow: 1&lt;/code&gt;，那么会把剩余空间的 &lt;code&gt;2/4&lt;/code&gt; 分给第一个元素，其余元素获得剩余空间的 &lt;code&gt;1/4&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;flex-shirnk&#34;&gt;&lt;code&gt;flex-shirnk&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;与 &lt;code&gt;flex-grow&lt;/code&gt; 相反，这个属性用来处理缩小。如果我们的容器中没有足够排列 flex 元素的空间，那么可以把 flex 元素 &lt;code&gt;flex-shrink&lt;/code&gt; 属性设置为正整数来缩小它所占空间到 &lt;code&gt;flex-basis&lt;/code&gt; 以下。&lt;/p&gt;
+&lt;h1 id=&#34;元素间的对齐和空间分配&#34;&gt;元素间的对齐和空间分配&lt;/h1&gt;
+&lt;p&gt;Flexbox 的一个关键特性是能够设置 flex 元素沿主轴方向和交叉轴方向的对齐方式，以及它们之间的空间分配。&lt;/p&gt;
+&lt;h2 id=&#34;align-items&#34;&gt;&lt;code&gt;align-items&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;用于使元素在交叉轴方向对齐。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#e5c07b&#34;&gt;container&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-items&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;stretch&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 默认值，项目被拉伸以填满容器 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-items&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;flex-start&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 对齐到交叉轴的起点 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-items&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;flex-end&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 对齐到交叉轴的终点 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-items&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;center&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 交叉轴上居中对齐 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-items&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;baseline&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 项目基线对齐 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;align-content&#34;&gt;&lt;code&gt;align-content&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;用于定义多行项目在交叉轴的对齐方式。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#e5c07b&#34;&gt;container&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;flex-start&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 对齐到交叉轴的起点 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;flex-end&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 对齐到交叉轴的终点 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;center&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 交叉轴上居中对齐 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;space-between&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 项目之间等间距分布 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;space-around&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 项目周围等间距分布 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;align-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;stretch&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 项目被拉伸以填满容器 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;justify-content&#34;&gt;&lt;code&gt;justify-content&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;定义项目在主轴上的对齐方式。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#e5c07b&#34;&gt;container&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;justify-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;flex-start&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 默认值，对齐到主轴的起点 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;justify-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;flex-end&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 对齐到主轴的终点 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;justify-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;center&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 主轴上居中对齐 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;justify-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;space-between&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 项目之间等间距分布 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;justify-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;space-around&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 项目周围等间距分布 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c678dd&#34;&gt;justify-content&lt;/span&gt;: &lt;span style=&#34;color:#e5c07b&#34;&gt;space&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;evenly&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;/* 项目之间及边缘等间距分布 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        <item>
         <title>RSS简明教程</title>
         <link>https://yikuanzz.github.io/2024/rss%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/</link>
         <pubDate>Thu, 19 Sep 2024 13:26:44 +0800</pubDate>
@@ -342,6 +720,899 @@
 	&lt;/a&gt;
 	
 &lt;/figure&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>IO多路复用机制</title>
+        <link>https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/</link>
+        <pubDate>Mon, 26 Aug 2024 20:12:34 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%9C%BA%E5%88%B6/cover.png" alt="Featured image of post IO多路复用机制" /&gt;&lt;h1 id=&#34;io-多路复用详解&#34;&gt;IO 多路复用详解&lt;/h1&gt;
+&lt;p&gt;IO多路复用是一种高效的IO处理机制，允许单个线程同时监听和处理多个文件描述符（如网络连接、管道等）的IO事件。它是现代操作系统中实现高性能网络服务器的核心技术之一。以下是IO多路复用的详细解析。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;1-io多路复用的基本概念&#34;&gt;&lt;strong&gt;1. IO多路复用的基本概念&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1什么是io多路复用&#34;&gt;（1）&lt;strong&gt;什么是IO多路复用？&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;IO多路复用是指通过一个阻塞调用（如&lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt;、&lt;code&gt;epoll&lt;/code&gt;），让单个线程能够同时监控多个文件描述符的状态变化（如可读、可写或异常）。一旦某个文件描述符准备好进行IO操作，系统会通知应用程序，从而避免了传统轮询方式的低效问题。&lt;/p&gt;
+&lt;h4 id=&#34;2为什么需要io多路复用&#34;&gt;（2）&lt;strong&gt;为什么需要IO多路复用？&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;在高并发场景下，传统的阻塞IO模型会导致大量线程被阻塞，浪费资源。&lt;/li&gt;
+&lt;li&gt;使用非阻塞IO模型虽然可以避免阻塞，但频繁轮询会增加CPU开销。&lt;/li&gt;
+&lt;li&gt;IO多路复用结合了两者的优点：高效且不浪费资源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-常见的io多路复用机制&#34;&gt;&lt;strong&gt;2. 常见的IO多路复用机制&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1select&#34;&gt;（1）&lt;strong&gt;select&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;最早的IO多路复用机制，支持跨平台（Unix/Linux/Windows）。&lt;/li&gt;
+&lt;li&gt;支持监听多个文件描述符的状态变化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;限制&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;文件描述符数量有限制（通常为1024，可以通过宏定义扩展）。&lt;/li&gt;
+&lt;li&gt;需要手动维护文件描述符集合，效率较低。&lt;/li&gt;
+&lt;li&gt;每次调用&lt;code&gt;select&lt;/code&gt;都会复制文件描述符集合到内核空间，性能较差。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;示例代码&#34;&gt;示例代码&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;sys/select.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fd_set&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 标准输入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;FD_ZERO&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;);        &lt;span style=&#34;color:#7f848e&#34;&gt;// 清空文件描述符集合
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;FD_SET&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;);     &lt;span style=&#34;color:#7f848e&#34;&gt;// 添加文件描述符到集合
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Waiting for input...&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;select&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;NULL&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;NULL&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;NULL&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;FD_ISSET&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1024&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Input: %s&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h4 id=&#34;2poll&#34;&gt;（2）&lt;strong&gt;poll&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;类似于&lt;code&gt;select&lt;/code&gt;，但没有文件描述符数量限制。&lt;/li&gt;
+&lt;li&gt;支持更多类型的文件描述符（如管道、套接字等）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;限制&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;性能与&lt;code&gt;select&lt;/code&gt;类似，每次调用都需要遍历所有文件描述符，效率较低。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;示例代码-1&#34;&gt;示例代码&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;poll.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pollfd&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 标准输入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;POLLIN&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Waiting for input...&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;poll&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;revents&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;POLLIN&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1024&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Input: %s&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h4 id=&#34;3epolllinux特有&#34;&gt;（3）&lt;strong&gt;epoll（Linux特有）&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;高效的IO多路复用机制，专为Linux设计。&lt;/li&gt;
+&lt;li&gt;基于事件驱动模型，只有就绪的文件描述符才会触发回调。&lt;/li&gt;
+&lt;li&gt;支持大量文件描述符（理论上仅受限于系统内存）。&lt;/li&gt;
+&lt;li&gt;内核态与用户态之间的数据交换较少，性能优越。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;核心函数&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;epoll_create&lt;/code&gt;：创建一个&lt;code&gt;epoll&lt;/code&gt;实例。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;epoll_ctl&lt;/code&gt;：注册、修改或删除文件描述符。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;epoll_wait&lt;/code&gt;：等待事件发生。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;示例代码-2&#34;&gt;示例代码&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;sys/epoll.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#define MAX_EVENTS 10
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_create1&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;); &lt;span style=&#34;color:#7f848e&#34;&gt;// 创建epoll实例
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_event&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLLIN&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 标准输入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_ctl&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLL_CTL_ADD&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;); &lt;span style=&#34;color:#7f848e&#34;&gt;// 注册标准输入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_event&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;MAX_EVENTS&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Waiting for input...&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nfds&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_wait&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;MAX_EVENTS&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;nfds&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nfds&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLLIN&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1024&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Input: %s&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;close&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id=&#34;3-io多路复用的工作原理&#34;&gt;&lt;strong&gt;3. IO多路复用的工作原理&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1事件驱动模型&#34;&gt;（1）&lt;strong&gt;事件驱动模型&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;IO多路复用的核心思想是基于事件驱动模型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序注册感兴趣的事件（如可读、可写）。&lt;/li&gt;
+&lt;li&gt;内核负责监控这些事件，并在事件发生时通知应用程序。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2阻塞与非阻塞&#34;&gt;（2）&lt;strong&gt;阻塞与非阻塞&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;调用&lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt;或&lt;code&gt;epoll_wait&lt;/code&gt;时，线程会被阻塞，直到至少一个文件描述符准备就绪。&lt;/li&gt;
+&lt;li&gt;这种阻塞是非忙等待的，不会消耗CPU资源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3性能优化&#34;&gt;（3）&lt;strong&gt;性能优化&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;select&lt;/code&gt;和&lt;code&gt;poll&lt;/code&gt;需要遍历所有文件描述符，效率较低。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;epoll&lt;/code&gt;只处理就绪的文件描述符，因此性能更高。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;4-io多路复用的应用场景&#34;&gt;&lt;strong&gt;4. IO多路复用的应用场景&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Web服务器&lt;/strong&gt;：如Nginx、Apache使用&lt;code&gt;epoll&lt;/code&gt;实现高并发连接处理。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;聊天应用&lt;/strong&gt;：实时监听多个客户端的连接状态。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;游戏服务器&lt;/strong&gt;：同时处理大量玩家的请求。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;日志系统&lt;/strong&gt;：监控多个日志文件的变化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;5-io多路复用与异步io的区别&#34;&gt;&lt;strong&gt;5. IO多路复用与异步IO的区别&lt;/strong&gt;&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;特性&lt;/th&gt;
+&lt;th&gt;IO多路复用&lt;/th&gt;
+&lt;th&gt;异步IO&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;是否阻塞&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;阻塞（等待事件发生）&lt;/td&gt;
+&lt;td&gt;非阻塞（提交任务后立即返回）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;适用场景&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;高并发、少量大流量&lt;/td&gt;
+&lt;td&gt;高延迟、大量小流量&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;实现复杂度&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;较低&lt;/td&gt;
+&lt;td&gt;较高&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;性能&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;高效（尤其是&lt;code&gt;epoll&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;更高效，但依赖底层支持&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;heading&#34;&gt;&lt;/h3&gt;
+&lt;h1 id=&#34;io-多路复用细节&#34;&gt;IO 多路复用细节&lt;/h1&gt;
+&lt;p&gt;多路复用的核心在于通过操作系统提供的系统调用（如 &lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 或 &lt;code&gt;epoll&lt;/code&gt;），让单个线程能够同时监听多个文件描述符的状态变化。以下是详细解释多路复用如何实现监听多个文件描述符的机制。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;1-文件描述符与事件&#34;&gt;&lt;strong&gt;1. 文件描述符与事件&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;在操作系统中，文件描述符（File Descriptor, FD）是用于标识文件、套接字、管道等资源的整数。每个文件描述符可以触发不同的事件，例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;可读事件&lt;/strong&gt;：数据到达，可以被读取。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可写事件&lt;/strong&gt;：缓冲区有空间，可以写入数据。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;异常事件&lt;/strong&gt;：发生错误或带外数据到达。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;多路复用通过注册感兴趣的文件描述符及其对应的事件类型，让内核负责监控这些文件描述符的状态。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-多路复用的工作原理&#34;&gt;&lt;strong&gt;2. 多路复用的工作原理&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1注册文件描述符和事件&#34;&gt;（1）&lt;strong&gt;注册文件描述符和事件&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;应用程序通过系统调用将需要监听的文件描述符及其感兴趣的事件类型注册到内核中。例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在 &lt;code&gt;select&lt;/code&gt; 中，使用一个位图（bitmap）来表示文件描述符集合。&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;poll&lt;/code&gt; 中，使用一个数组来存储每个文件描述符及其事件类型。&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;epoll&lt;/code&gt; 中，通过 &lt;code&gt;epoll_ctl&lt;/code&gt; 将文件描述符及其事件类型添加到 &lt;code&gt;epoll&lt;/code&gt; 实例中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2内核监控&#34;&gt;（2）&lt;strong&gt;内核监控&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;注册完成后，内核会持续监控这些文件描述符的状态变化。具体来说：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内核维护了一个文件描述符表，记录每个文件描述符的状态（如是否有数据可读、是否可写等）。&lt;/li&gt;
+&lt;li&gt;当某个文件描述符的状态发生变化时，内核会标记该文件描述符为“就绪”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3等待事件&#34;&gt;（3）&lt;strong&gt;等待事件&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;应用程序调用多路复用函数（如 &lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 或 &lt;code&gt;epoll_wait&lt;/code&gt;），进入阻塞状态，等待内核通知有文件描述符就绪。此时：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;线程不会消耗CPU资源，因为它是阻塞等待。&lt;/li&gt;
+&lt;li&gt;内核会在后台持续检查所有注册的文件描述符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;4通知应用程序&#34;&gt;（4）&lt;strong&gt;通知应用程序&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;当至少一个文件描述符变为就绪状态时，内核会唤醒阻塞的线程，并返回就绪的文件描述符列表。应用程序可以根据返回的结果，处理对应的文件描述符。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;3-不同多路复用机制的具体实现&#34;&gt;&lt;strong&gt;3. 不同多路复用机制的具体实现&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1select-1&#34;&gt;（1）&lt;strong&gt;select&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;工作方式&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序将感兴趣的文件描述符集合（可读、可写、异常）传递给 &lt;code&gt;select&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;select&lt;/code&gt; 调用后，内核会复制这些集合到内核空间，并开始监控。&lt;/li&gt;
+&lt;li&gt;当有文件描述符就绪时，内核修改集合并返回。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;每次调用都需要复制整个集合，效率较低。&lt;/li&gt;
+&lt;li&gt;文件描述符数量有限制（通常为1024）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2poll-1&#34;&gt;（2）&lt;strong&gt;poll&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;工作方式&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序将一个 &lt;code&gt;struct pollfd&lt;/code&gt; 数组传递给 &lt;code&gt;poll&lt;/code&gt;，数组中的每个元素包含一个文件描述符及其感兴趣的事件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;poll&lt;/code&gt; 调用后，内核开始监控这些文件描述符。&lt;/li&gt;
+&lt;li&gt;当有文件描述符就绪时，内核更新数组中的 &lt;code&gt;revents&lt;/code&gt; 字段并返回。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;没有文件描述符数量限制。&lt;/li&gt;
+&lt;li&gt;性能与 &lt;code&gt;select&lt;/code&gt; 类似，每次调用都需要遍历所有文件描述符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3epoll&#34;&gt;（3）&lt;strong&gt;epoll&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;工作方式&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序通过 &lt;code&gt;epoll_create&lt;/code&gt; 创建一个 &lt;code&gt;epoll&lt;/code&gt; 实例。&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;epoll_ctl&lt;/code&gt; 注册、修改或删除文件描述符及其事件。&lt;/li&gt;
+&lt;li&gt;调用 &lt;code&gt;epoll_wait&lt;/code&gt; 阻塞等待事件发生。&lt;/li&gt;
+&lt;li&gt;当有文件描述符就绪时，内核只返回就绪的文件描述符列表。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;只处理就绪的文件描述符，避免了遍历所有文件描述符的开销。&lt;/li&gt;
+&lt;li&gt;支持大量文件描述符（理论上仅受限于系统内存）。&lt;/li&gt;
+&lt;li&gt;性能优越，特别适合高并发场景。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;4-具体流程示例&#34;&gt;&lt;strong&gt;4. 具体流程示例&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;以下是一个基于 &lt;code&gt;epoll&lt;/code&gt; 的监听多个文件描述符的流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;创建&lt;/strong&gt; &lt;code&gt;epoll&lt;/code&gt; &lt;strong&gt;实例&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_create1&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;注册文件描述符&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_event&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLLIN&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 监听可读事件
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;socket_fd&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 添加套接字文件描述符
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_ctl&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLL_CTL_ADD&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;socket_fd&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;等待事件发生&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_event&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;MAX_EVENTS&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nfds&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_wait&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;MAX_EVENTS&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;处理就绪的文件描述符&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nfds&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLLIN&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#7f848e&#34;&gt;// 处理可读事件
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1024&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Received data: %s&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id=&#34;5-总结&#34;&gt;&lt;strong&gt;5. 总结&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;多路复用通过操作系统提供的系统调用（如 &lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 或 &lt;code&gt;epoll&lt;/code&gt;），让单个线程能够高效地监听多个文件描述符的状态变化。其核心步骤包括：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;注册感兴趣的文件描述符及其事件类型。&lt;/li&gt;
+&lt;li&gt;内核负责监控这些文件描述符的状态。&lt;/li&gt;
+&lt;li&gt;应用程序阻塞等待事件发生。&lt;/li&gt;
+&lt;li&gt;内核通知应用程序哪些文件描述符已经就绪。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;不同多路复用机制（如 &lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 和 &lt;code&gt;epoll&lt;/code&gt;）在实现细节和性能上有所差异，但它们的基本原理是相同的。其中，&lt;code&gt;epoll&lt;/code&gt; 因其高效的事件驱动模型，成为现代高并发服务器的首选方案。&lt;/p&gt;
+&lt;h1 id=&#34;内核与文件描述符&#34;&gt;内核与文件描述符&lt;/h1&gt;
+&lt;p&gt;内核监控文件描述符的过程涉及到操作系统底层的资源管理机制和事件驱动模型。以下是详细解释内核如何监控文件描述符的原理和具体实现。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;1-文件描述符与内核对象&#34;&gt;&lt;strong&gt;1. 文件描述符与内核对象&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;在操作系统中，文件描述符（File Descriptor, FD）是一个整数，用于标识打开的文件、套接字、管道等资源。每个文件描述符都对应一个内核中的文件对象（file object），该对象包含以下信息：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文件类型（如普通文件、套接字、设备等）。&lt;/li&gt;
+&lt;li&gt;当前文件的偏移量。&lt;/li&gt;
+&lt;li&gt;文件状态标志（如只读、可写等）。&lt;/li&gt;
+&lt;li&gt;文件操作方法表（如 &lt;code&gt;read&lt;/code&gt;、&lt;code&gt;write&lt;/code&gt; 等函数指针）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当应用程序通过系统调用（如 &lt;code&gt;open&lt;/code&gt; 或 &lt;code&gt;socket&lt;/code&gt;）创建文件描述符时，内核会为其分配一个对应的文件对象，并将其加入进程的文件描述符表中。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-内核如何监控文件描述符&#34;&gt;&lt;strong&gt;2. 内核如何监控文件描述符？&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1注册感兴趣的事件&#34;&gt;（1）&lt;strong&gt;注册感兴趣的事件&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;应用程序通过多路复用系统调用（如 &lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 或 &lt;code&gt;epoll&lt;/code&gt;）将需要监听的文件描述符及其感兴趣的事件类型（如可读、可写或异常）注册到内核中。例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在 &lt;code&gt;select&lt;/code&gt; 中，使用位图（bitmap）表示文件描述符集合。&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;poll&lt;/code&gt; 中，使用数组存储每个文件描述符及其事件类型。&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;epoll&lt;/code&gt; 中，通过 &lt;code&gt;epoll_ctl&lt;/code&gt; 将文件描述符及其事件类型添加到 &lt;code&gt;epoll&lt;/code&gt; 实例中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2内核维护文件描述符的状态&#34;&gt;（2）&lt;strong&gt;内核维护文件描述符的状态&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;内核为每个文件对象维护其当前状态，包括但不限于以下信息：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;数据缓冲区&lt;/strong&gt;：对于网络套接字，内核维护接收缓冲区和发送缓冲区。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件位置&lt;/strong&gt;：对于普通文件，内核记录当前读写位置。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;事件标志&lt;/strong&gt;：内核记录文件描述符是否处于“就绪”状态（如是否有数据可读、是否可写等）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3事件检测机制&#34;&gt;（3）&lt;strong&gt;事件检测机制&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;内核通过不同的机制检测文件描述符的状态变化：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;网络套接字&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;对于 TCP 套接字，内核会在接收缓冲区中有数据到达时标记为“可读”。&lt;/li&gt;
+&lt;li&gt;对于 UDP 套接字，内核在收到数据包时标记为“可读”。&lt;/li&gt;
+&lt;li&gt;当发送缓冲区有空间时，标记为“可写”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;普通文件&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;对于磁盘文件，内核在文件被修改或达到 EOF 时触发事件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;管道和 FIFO&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;内核在管道中有数据可读或有空间可写时触发事件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;4通知机制&#34;&gt;（4）&lt;strong&gt;通知机制&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;当文件描述符的状态发生变化时，内核会更新其事件标志，并通知等待的线程。具体通知方式因多路复用机制而异：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;select 和 poll&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;内核定期检查所有注册的文件描述符状态。&lt;/li&gt;
+&lt;li&gt;如果有文件描述符变为“就绪”，则唤醒阻塞的线程并返回结果。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;epoll&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;内核使用红黑树或哈希表高效地管理文件描述符及其事件。&lt;/li&gt;
+&lt;li&gt;只有当某个文件描述符变为“就绪”时，内核才会将其加入就绪队列。&lt;/li&gt;
+&lt;li&gt;调用 &lt;code&gt;epoll_wait&lt;/code&gt; 时，内核直接返回就绪队列中的文件描述符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;3-具体实现细节&#34;&gt;&lt;strong&gt;3. 具体实现细节&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1文件对象的操作方法表&#34;&gt;（1）&lt;strong&gt;文件对象的操作方法表&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;每个文件对象都有一个操作方法表（file operations table），定义了该文件支持的操作（如 &lt;code&gt;read&lt;/code&gt;、&lt;code&gt;write&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 等）。其中，&lt;code&gt;poll&lt;/code&gt; 方法用于检测文件描述符的状态。例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;file_operations&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;my_file_ops&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .&lt;span style=&#34;color:#e06c75&#34;&gt;read&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;my_read&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .&lt;span style=&#34;color:#e06c75&#34;&gt;write&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;my_write&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .&lt;span style=&#34;color:#e06c75&#34;&gt;poll&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;my_poll&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当应用程序调用 &lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 或 &lt;code&gt;epoll&lt;/code&gt; 时，内核会调用文件对象的 &lt;code&gt;poll&lt;/code&gt; 方法来检查其状态。&lt;/p&gt;
+&lt;h4 id=&#34;2等待队列&#34;&gt;（2）&lt;strong&gt;等待队列&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;为了实现高效的事件通知，内核使用等待队列（wait queue）机制。每个文件对象都有一个等待队列，用于记录等待该文件描述符事件的线程。例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当线程调用 &lt;code&gt;select&lt;/code&gt; 或 &lt;code&gt;poll&lt;/code&gt; 时，内核将其加入文件对象的等待队列。&lt;/li&gt;
+&lt;li&gt;当文件描述符的状态发生变化时，内核遍历等待队列并唤醒相关的线程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3中断与回调&#34;&gt;（3）&lt;strong&gt;中断与回调&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;对于某些硬件设备（如网卡），内核通过中断处理程序捕获事件。例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当网卡接收到数据包时，会产生硬件中断。&lt;/li&gt;
+&lt;li&gt;中断处理程序将数据包放入接收缓冲区，并标记套接字为“可读”。&lt;/li&gt;
+&lt;li&gt;内核随后通知等待的线程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;4-不同多路复用机制的对比&#34;&gt;&lt;strong&gt;4. 不同多路复用机制的对比&lt;/strong&gt;&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;特性&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;select&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;poll&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;epoll&lt;/code&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;文件描述符管理&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;使用位图，固定大小&lt;/td&gt;
+&lt;td&gt;使用数组，动态扩展&lt;/td&gt;
+&lt;td&gt;使用红黑树/哈希表，高效管理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;事件检测&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;遍历所有文件描述符&lt;/td&gt;
+&lt;td&gt;遍历所有文件描述符&lt;/td&gt;
+&lt;td&gt;只检测就绪的文件描述符&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;性能&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;较低（O(n)复杂度）&lt;/td&gt;
+&lt;td&gt;较低（O(n)复杂度）&lt;/td&gt;
+&lt;td&gt;高效（O(1)复杂度）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;适用场景&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;小规模文件描述符&lt;/td&gt;
+&lt;td&gt;中等规模文件描述符&lt;/td&gt;
+&lt;td&gt;大规模高并发场景&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;5-示例内核如何处理套接字的可读事件&#34;&gt;&lt;strong&gt;5. 示例：内核如何处理套接字的可读事件&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;假设有一个 TCP 套接字，以下是内核如何监控其可读事件的流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;注册事件&lt;/strong&gt;：
+应用程序通过 &lt;code&gt;epoll_ctl&lt;/code&gt; 将套接字文件描述符及其“可读”事件注册到 &lt;code&gt;epoll&lt;/code&gt; 实例中。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;接收数据&lt;/strong&gt;：
+当远程主机发送数据时，网卡产生硬件中断，内核的中断处理程序将数据包复制到套接字的接收缓冲区。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;标记事件&lt;/strong&gt;：
+内核检查接收缓冲区的状态，发现有数据可读，于是标记该套接字为“可读”。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;通知线程&lt;/strong&gt;：
+内核将该套接字加入 &lt;code&gt;epoll&lt;/code&gt; 的就绪队列，并唤醒等待的线程。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;处理事件&lt;/strong&gt;：
+应用程序调用 &lt;code&gt;epoll_wait&lt;/code&gt;，内核返回就绪的套接字列表。应用程序可以调用 &lt;code&gt;read&lt;/code&gt; 读取数据。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;6-总结&#34;&gt;&lt;strong&gt;6. 总结&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;内核通过以下方式监控文件描述符：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;为每个文件描述符维护一个文件对象，记录其状态和操作方法。&lt;/li&gt;
+&lt;li&gt;使用事件检测机制（如缓冲区状态、硬件中断）监控文件描述符的状态变化。&lt;/li&gt;
+&lt;li&gt;使用等待队列机制通知等待的线程。&lt;/li&gt;
+&lt;li&gt;不同多路复用机制（如 &lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 和 &lt;code&gt;epoll&lt;/code&gt;）以不同的方式管理和通知文件描述符事件。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这种机制使得内核能够高效地处理大量文件描述符的状态变化，从而支持高并发的IO操作。&lt;/p&gt;
+&lt;h1 id=&#34;io-多路复用的事件检测机制&#34;&gt;IO 多路复用的事件检测机制&lt;/h1&gt;
+&lt;p&gt;&lt;code&gt;select&lt;/code&gt;、&lt;code&gt;poll&lt;/code&gt; 和 &lt;code&gt;epoll&lt;/code&gt; 是三种常见的 IO 多路复用机制，它们用于监听多个文件描述符的事件（如可读、可写或异常）。尽管它们的目标相似，但在实现细节和性能上存在显著差异。以下是这三种机制在事件检测方面的详细对比和分析。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;1-select-的事件检测&#34;&gt;&lt;strong&gt;1. select 的事件检测&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1工作原理&#34;&gt;（1）&lt;strong&gt;工作原理&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;select&lt;/code&gt; 使用位图（bitmap）来表示需要监听的文件描述符集合。&lt;/li&gt;
+&lt;li&gt;应用程序将三个位图（分别表示可读、可写和异常事件）传递给内核。&lt;/li&gt;
+&lt;li&gt;内核复制这些位图到内核空间，并开始监控对应的文件描述符。&lt;/li&gt;
+&lt;li&gt;当有文件描述符就绪时，内核修改位图并返回。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2事件检测流程&#34;&gt;（2）&lt;strong&gt;事件检测流程&lt;/strong&gt;&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;注册文件描述符&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序通过设置 &lt;code&gt;fd_set&lt;/code&gt; 位图中的相应位来指定需要监听的文件描述符。&lt;/li&gt;
+&lt;li&gt;调用 &lt;code&gt;select&lt;/code&gt; 时，内核会接收这些位图。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;内核监控&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;内核遍历所有注册的文件描述符，检查每个文件描述符的状态。&lt;/li&gt;
+&lt;li&gt;如果某个文件描述符满足条件（如接收缓冲区有数据、发送缓冲区有空间等），内核将其标记为“就绪”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;通知应用程序&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;内核修改传入的位图，将就绪的文件描述符标记为“已就绪”。&lt;/li&gt;
+&lt;li&gt;返回就绪文件描述符的数量。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3优缺点&#34;&gt;（3）&lt;strong&gt;优缺点&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;简单易用，跨平台支持良好。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;文件描述符数量受限（通常为 1024）。&lt;/li&gt;
+&lt;li&gt;每次调用都需要复制整个位图到内核空间，效率较低。&lt;/li&gt;
+&lt;li&gt;遍历所有文件描述符以检测事件，性能随文件描述符数量线性下降。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-poll-的事件检测&#34;&gt;&lt;strong&gt;2. poll 的事件检测&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1工作原理-1&#34;&gt;（1）&lt;strong&gt;工作原理&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;poll&lt;/code&gt; 使用一个数组（&lt;code&gt;struct pollfd&lt;/code&gt;）来表示需要监听的文件描述符及其事件类型。&lt;/li&gt;
+&lt;li&gt;每个数组元素包含文件描述符、感兴趣的事件（&lt;code&gt;events&lt;/code&gt;）和实际发生的事件（&lt;code&gt;revents&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;内核接收该数组并开始监控对应的文件描述符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2事件检测流程-1&#34;&gt;（2）&lt;strong&gt;事件检测流程&lt;/strong&gt;&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;注册文件描述符&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序创建一个 &lt;code&gt;struct pollfd&lt;/code&gt; 数组，每个元素指定一个文件描述符及其感兴趣的事件。&lt;/li&gt;
+&lt;li&gt;调用 &lt;code&gt;poll&lt;/code&gt; 时，内核会接收这个数组。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;内核监控&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;内核遍历数组中的每个文件描述符，检查其状态。&lt;/li&gt;
+&lt;li&gt;如果某个文件描述符满足条件，内核更新其对应的 &lt;code&gt;revents&lt;/code&gt; 字段。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;通知应用程序&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;内核返回就绪文件描述符的数量。&lt;/li&gt;
+&lt;li&gt;应用程序可以通过检查 &lt;code&gt;revents&lt;/code&gt; 字段来确定具体哪些文件描述符发生了事件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3优缺点-1&#34;&gt;（3）&lt;strong&gt;优缺点&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;没有文件描述符数量限制。&lt;/li&gt;
+&lt;li&gt;更灵活，支持更多类型的文件描述符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;每次调用仍然需要遍历所有文件描述符，性能随文件描述符数量线性下降。&lt;/li&gt;
+&lt;li&gt;性能与 &lt;code&gt;select&lt;/code&gt; 类似，适用于中小规模场景。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;3-epoll-的事件检测&#34;&gt;&lt;strong&gt;3. epoll 的事件检测&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1工作原理-2&#34;&gt;（1）&lt;strong&gt;工作原理&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;epoll&lt;/code&gt; 是 Linux 特有的高效 IO 多路复用机制。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;它使用红黑树或哈希表来管理文件描述符，并通过事件队列通知就绪的文件描述符。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;epoll&lt;/code&gt; 提供了三个核心函数：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;epoll_create&lt;/code&gt;：创建一个 &lt;code&gt;epoll&lt;/code&gt; 实例。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;epoll_ctl&lt;/code&gt;：注册、修改或删除文件描述符。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;epoll_wait&lt;/code&gt;：等待事件发生。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2事件检测流程-2&#34;&gt;（2）&lt;strong&gt;事件检测流程&lt;/strong&gt;&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;创建 epoll 实例&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序调用 &lt;code&gt;epoll_create&lt;/code&gt; 创建一个 &lt;code&gt;epoll&lt;/code&gt; 实例。&lt;/li&gt;
+&lt;li&gt;内核为该实例分配一个红黑树或哈希表，用于存储文件描述符及其事件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;注册文件描述符&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序通过 &lt;code&gt;epoll_ctl&lt;/code&gt; 将文件描述符及其感兴趣的事件添加到 &lt;code&gt;epoll&lt;/code&gt; 实例中。&lt;/li&gt;
+&lt;li&gt;内核将文件描述符插入红黑树或哈希表中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;内核监控&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;内核持续监控所有注册的文件描述符。&lt;/li&gt;
+&lt;li&gt;当某个文件描述符的状态发生变化时，内核将其加入就绪队列。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;通知应用程序&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;应用程序调用 &lt;code&gt;epoll_wait&lt;/code&gt;，内核直接返回就绪队列中的文件描述符列表。&lt;/li&gt;
+&lt;li&gt;应用程序只需处理这些就绪的文件描述符，无需遍历所有文件描述符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;3优缺点-2&#34;&gt;（3）&lt;strong&gt;优缺点&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;支持大量文件描述符（理论上仅受限于系统内存）。&lt;/li&gt;
+&lt;li&gt;只处理就绪的文件描述符，避免了遍历所有文件描述符的开销。&lt;/li&gt;
+&lt;li&gt;高效的事件驱动模型，特别适合高并发场景。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;仅限于 Linux 平台。&lt;/li&gt;
+&lt;li&gt;相对复杂，需要额外管理 &lt;code&gt;epoll&lt;/code&gt; 实例。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;4-对比总结&#34;&gt;&lt;strong&gt;4. 对比总结&lt;/strong&gt;&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;特性&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;select&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;poll&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;epoll&lt;/code&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;文件描述符管理&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;使用位图，固定大小&lt;/td&gt;
+&lt;td&gt;使用数组，动态扩展&lt;/td&gt;
+&lt;td&gt;使用红黑树/哈希表，高效管理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;事件检测方式&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;遍历所有文件描述符&lt;/td&gt;
+&lt;td&gt;遍历所有文件描述符&lt;/td&gt;
+&lt;td&gt;只检测就绪的文件描述符&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;文件描述符数量限制&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;有限（通常为 1024）&lt;/td&gt;
+&lt;td&gt;无限制&lt;/td&gt;
+&lt;td&gt;无限制&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;性能复杂度&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;O(n)&lt;/td&gt;
+&lt;td&gt;O(n)&lt;/td&gt;
+&lt;td&gt;O(1)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;适用场景&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;小规模文件描述符&lt;/td&gt;
+&lt;td&gt;中等规模文件描述符&lt;/td&gt;
+&lt;td&gt;大规模高并发场景&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;平台支持&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;跨平台&lt;/td&gt;
+&lt;td&gt;跨平台&lt;/td&gt;
+&lt;td&gt;仅限 Linux&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;5-示例代码对比&#34;&gt;&lt;strong&gt;5. 示例代码对比&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1select-2&#34;&gt;（1）&lt;code&gt;select&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;sys/select.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fd_set&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;FD_ZERO&lt;/span&gt;(&lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;FD_SET&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;); &lt;span style=&#34;color:#7f848e&#34;&gt;// 标准输入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Waiting for input...&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;select&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;NULL&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;NULL&lt;/span&gt;, &lt;span style=&#34;color:#e5c07b&#34;&gt;NULL&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;FD_ISSET&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;readfds&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1024&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Input: %s&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;2poll-2&#34;&gt;（2）&lt;code&gt;poll&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;poll.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;pollfd&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 标准输入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;POLLIN&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Waiting for input...&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;poll&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;fds&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;revents&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;POLLIN&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1024&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Input: %s&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;3epoll-1&#34;&gt;（3）&lt;code&gt;epoll&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;sys/epoll.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#7f848e&#34;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;#define MAX_EVENTS 10
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_create1&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_event&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLLIN&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#7f848e&#34;&gt;// 标准输入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_ctl&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLL_CTL_ADD&lt;/span&gt;, &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;event&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;epoll_event&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;MAX_EVENTS&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Waiting for input...&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nfds&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;epoll_wait&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;MAX_EVENTS&lt;/span&gt;, &lt;span style=&#34;color:#56b6c2&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;nfds&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#e5c07b&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;nfds&lt;/span&gt;; &lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#56b6c2&#34;&gt;++&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;fd&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#e06c75&#34;&gt;i&lt;/span&gt;].&lt;span style=&#34;color:#e06c75&#34;&gt;events&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;EPOLLIN&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#e5c07b&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;[&lt;span style=&#34;color:#d19a66&#34;&gt;1024&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;read&lt;/span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;, &lt;span style=&#34;color:#c678dd&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;printf&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Input: %s&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;buffer&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#61afef;font-weight:bold&#34;&gt;close&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;epoll_fd&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id=&#34;6-总结-1&#34;&gt;&lt;strong&gt;6. 总结&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;select&lt;/code&gt; 和 &lt;code&gt;poll&lt;/code&gt; 的事件检测方式类似，都是通过遍历所有文件描述符来检查事件，性能较差。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;epoll&lt;/code&gt; 通过只处理就绪的文件描述符，显著提高了性能，特别适合高并发场景。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在选择多路复用机制时，应根据具体的场景和需求进行权衡：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;小规模文件描述符：&lt;code&gt;select&lt;/code&gt; 或 &lt;code&gt;poll&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;大规模高并发场景：&lt;code&gt;epoll&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         <item>
@@ -701,6 +1972,148 @@
     &gt;VMware 虚拟机三种网络模式 桥接模式、NAT模式、仅主机模式&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;​&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>JavaScript的异步处理机制</title>
+        <link>https://yikuanzz.github.io/2024/javascript%E7%9A%84%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</link>
+        <pubDate>Tue, 13 Aug 2024 11:28:49 +0800</pubDate>
+        
+        <guid>https://yikuanzz.github.io/2024/javascript%E7%9A%84%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</guid>
+        <description>&lt;img src="https://yikuanzz.github.io/2024/javascript%E7%9A%84%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/cover.png" alt="Featured image of post JavaScript的异步处理机制" /&gt;&lt;p&gt;JavaScript 是一种单线程语言，但通过其独特的运行机制和异步编程模型，能够高效地处理非阻塞任务。以下是 JavaScript 实现异步的核心原理及其相关技术细节。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;1-javascript-的单线程特性&#34;&gt;&lt;strong&gt;1. JavaScript 的单线程特性&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;JavaScript 的执行是基于单线程模型的，这意味着在同一时间只能执行一个任务。这种设计简化了开发者的编程逻辑，避免了多线程环境下的复杂性（如死锁、竞争条件等）。&lt;/p&gt;
+&lt;p&gt;然而，单线程并不意味着 JavaScript 无法处理并发任务。通过事件循环（Event Loop）、回调函数（Callback）、Promise 和 Async/Await 等机制，JavaScript 能够实现高效的异步操作。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-javascript-异步的核心机制&#34;&gt;&lt;strong&gt;2. JavaScript 异步的核心机制&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1事件循环event-loop&#34;&gt;（1）&lt;strong&gt;事件循环（Event Loop）&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;事件循环是 JavaScript 异步编程的基础，负责协调任务的执行顺序。其核心概念包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;调用栈（Call Stack）&lt;/strong&gt;：用于存储当前正在执行的函数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;任务队列（Task Queue / Callback Queue）&lt;/strong&gt;：存放待执行的异步任务。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;微任务队列（Microtask Queue）&lt;/strong&gt;：存放更高优先级的微任务（如 Promise 回调）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;工作流程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当 JavaScript 执行代码时，同步任务直接进入调用栈。&lt;/li&gt;
+&lt;li&gt;异步任务被挂起，并注册到事件监听器中。&lt;/li&gt;
+&lt;li&gt;当异步任务完成时，对应的回调函数被放入任务队列或微任务队列。&lt;/li&gt;
+&lt;li&gt;调用栈为空时，事件循环会先检查微任务队列，再检查任务队列，依次执行其中的任务。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;2web-api&#34;&gt;（2）&lt;strong&gt;Web API&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;浏览器或 Node.js 提供了一组 Web API（如 &lt;code&gt;setTimeout&lt;/code&gt;、&lt;code&gt;fetch&lt;/code&gt;、&lt;code&gt;XMLHttpRequest&lt;/code&gt;），用于处理异步任务。这些 API 在后台使用独立的线程池或系统资源来执行任务，并在任务完成后将回调函数推入任务队列。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;3-常见的异步编程方式&#34;&gt;&lt;strong&gt;3. 常见的异步编程方式&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;1回调函数callback&#34;&gt;（1）&lt;strong&gt;回调函数（Callback）&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;回调函数是最基础的异步编程方式，通常作为参数传递给异步方法，在任务完成后执行。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fetchData&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;callback&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;setTimeout&lt;/span&gt;(() =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;callback&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Data loaded&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }, &lt;span style=&#34;color:#d19a66&#34;&gt;1000&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;fetchData&lt;/span&gt;((&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;); &lt;span style=&#34;color:#7f848e&#34;&gt;// 输出: Data loaded
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：简单直观。
+&lt;strong&gt;缺点&lt;/strong&gt;：容易导致“回调地狱”（Callback Hell），代码可读性和维护性较差。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;2promise&#34;&gt;（2）&lt;strong&gt;Promise&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Promise 是一种更优雅的异步编程方式，表示一个异步操作的最终完成（或失败）及其结果。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心方法&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.then()&lt;/code&gt;：处理成功的结果。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.catch()&lt;/code&gt;：处理错误。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.finally()&lt;/code&gt;：无论成功或失败都会执行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fetchData&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;Promise&lt;/span&gt;((&lt;span style=&#34;color:#e06c75&#34;&gt;resolve&lt;/span&gt;, &lt;span style=&#34;color:#e06c75&#34;&gt;reject&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;setTimeout&lt;/span&gt;(() =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;resolve&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Data loaded&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }, &lt;span style=&#34;color:#d19a66&#34;&gt;1000&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    });
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;fetchData&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .&lt;span style=&#34;color:#e06c75&#34;&gt;then&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;)) &lt;span style=&#34;color:#7f848e&#34;&gt;// 输出: Data loaded
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    .&lt;span style=&#34;color:#c678dd&#34;&gt;catch&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：避免了回调嵌套，代码结构更清晰。
+&lt;strong&gt;缺点&lt;/strong&gt;：仍然需要链式调用，对于复杂的异步流程可能不够直观。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;3asyncawait&#34;&gt;（3）&lt;strong&gt;Async/Await&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Async/Await 是基于 Promise 的语法糖，使得异步代码看起来像同步代码，大大提高了代码的可读性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心语法&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;async&lt;/code&gt;：声明一个异步函数。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;await&lt;/code&gt;：等待 Promise 完成。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fetchData&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#e5c07b&#34;&gt;Promise&lt;/span&gt;((&lt;span style=&#34;color:#e06c75&#34;&gt;resolve&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;setTimeout&lt;/span&gt;(() =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e06c75&#34;&gt;resolve&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Data loaded&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }, &lt;span style=&#34;color:#d19a66&#34;&gt;1000&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    });
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#c678dd&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c678dd&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;await&lt;/span&gt; &lt;span style=&#34;color:#e06c75&#34;&gt;fetchData&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;data&lt;/span&gt;); &lt;span style=&#34;color:#7f848e&#34;&gt;// 输出: Data loaded
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#7f848e&#34;&gt;&lt;/span&gt;    } &lt;span style=&#34;color:#c678dd&#34;&gt;catch&lt;/span&gt; (&lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt;(&lt;span style=&#34;color:#e06c75&#34;&gt;error&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;main&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：代码结构清晰，易于理解和维护。
+&lt;strong&gt;缺点&lt;/strong&gt;：仍然依赖 Promise，不能完全替代所有场景。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;4-微任务与宏任务的区别&#34;&gt;&lt;strong&gt;4. 微任务与宏任务的区别&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;JavaScript 的异步任务分为两种类型：微任务（Microtask）和宏任务（Macrotask）。它们的执行优先级不同，影响了代码的执行顺序。&lt;/p&gt;
+&lt;h4 id=&#34;1微任务microtask&#34;&gt;（1）&lt;strong&gt;微任务（Microtask）&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;包括：Promise 回调、&lt;code&gt;MutationObserver&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;特点：优先级高于宏任务，每次事件循环中会先清空微任务队列。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2宏任务macrotask&#34;&gt;（2）&lt;strong&gt;宏任务（Macrotask）&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;包括：&lt;code&gt;setTimeout&lt;/code&gt;、&lt;code&gt;setInterval&lt;/code&gt;、&lt;code&gt;DOM 渲染&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;特点：优先级较低，只有在微任务队列清空后才会执行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Script start&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;setTimeout&lt;/span&gt;(() =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Timeout&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}, &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e5c07b&#34;&gt;Promise&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;resolve&lt;/span&gt;().&lt;span style=&#34;color:#e06c75&#34;&gt;then&lt;/span&gt;(() =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Promise&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e06c75&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#e06c75&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Script end&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;输出顺序&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-plain&#34; data-lang=&#34;plain&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Script start
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Script end
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Promise
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Timeout
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id=&#34;5-javascript-异步的应用场景&#34;&gt;&lt;strong&gt;5. JavaScript 异步的应用场景&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;网络请求&lt;/strong&gt;：如 &lt;code&gt;fetch&lt;/code&gt; 或 &lt;code&gt;XMLHttpRequest&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;定时器&lt;/strong&gt;：如 &lt;code&gt;setTimeout&lt;/code&gt; 和 &lt;code&gt;setInterval&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;事件监听&lt;/strong&gt;：如鼠标点击、键盘输入。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件操作&lt;/strong&gt;：如读写文件（Node.js 中）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;动画&lt;/strong&gt;：如 &lt;code&gt;requestAnimationFrame&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;6-总结&#34;&gt;&lt;strong&gt;6. 总结&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;JavaScript 的异步编程通过事件循环、回调函数、Promise 和 Async/Await 等机制实现了高效的非阻塞任务处理。尽管 JavaScript 是单线程语言，但其异步模型使其能够在高并发场景下表现优异。&lt;/p&gt;
+&lt;p&gt;如果你对某个具体部分有疑问，或者希望了解更深入的内容，请随时提出！&lt;/p&gt;
 </description>
         </item>
         <item>
